@@ -11,8 +11,22 @@
 
 ## 运行
 
+如果你的 PowerShell 能直接识别 `node`：
+
 ```powershell
 node server.mjs 4173
+```
+
+如果提示 `node` 无法识别，直接运行启动脚本：
+
+```powershell
+.\start.bat
+```
+
+或者：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start.ps1
 ```
 
 然后打开：
