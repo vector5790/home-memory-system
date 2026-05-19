@@ -1,0 +1,173 @@
+{
+  "version": "20260519-grounded-sam",
+  "items": [
+    {
+      "id": "television",
+      "name": "电视",
+      "category": "appliance",
+      "labels": ["television", "tv", "flat screen tv", "black television screen"],
+      "searchQueries": ["flat screen tv"]
+    },
+    {
+      "id": "pendant-light",
+      "name": "吊灯",
+      "category": "daily",
+      "labels": ["pendant light", "ceiling lamp", "hanging light"],
+      "searchQueries": ["pendant light"]
+    },
+    {
+      "id": "wall-ornament",
+      "name": "挂饰",
+      "category": "daily",
+      "labels": ["wall ornament", "hanging decoration", "wall decoration"],
+      "searchQueries": ["wall ornament"]
+    },
+    {
+      "id": "speaker",
+      "name": "音响",
+      "category": "appliance",
+      "labels": ["speaker", "audio speaker", "bookshelf speaker", "floor standing speaker", "floor speaker", "left speaker", "right speaker", "speaker with orange grille"],
+      "searchQueries": ["bookshelf speaker", "home audio speaker"]
+    },
+    {
+      "id": "speaker-grille",
+      "name": "音箱面罩",
+      "category": "appliance",
+      "labels": ["speaker grille", "speaker cover", "orange speaker grille"],
+      "searchQueries": ["speaker grille"]
+    },
+    {
+      "id": "amplifier",
+      "name": "功放",
+      "category": "appliance",
+      "labels": ["amplifier", "audio amplifier", "stereo receiver", "stereo amplifier", "silver amplifier", "silver stereo receiver", "audio receiver"],
+      "searchQueries": ["stereo amplifier", "audio receiver"]
+    },
+    {
+      "id": "turntable",
+      "name": "唱片机",
+      "category": "appliance",
+      "labels": ["turntable", "record player", "black turntable", "record player on shelf"],
+      "searchQueries": ["turntable record player"]
+    },
+    {
+      "id": "remote-control",
+      "name": "遥控器",
+      "category": "tool",
+      "labels": ["remote control", "tv remote", "black remote control", "small black remote", "remote control on shelf"],
+      "searchQueries": ["tv remote control"]
+    },
+    {
+      "id": "media-player",
+      "name": "播放器",
+      "category": "appliance",
+      "labels": ["media player", "audio player", "dvd player", "black media player", "black electronic device", "audio component"],
+      "searchQueries": ["media player", "audio player"]
+    },
+    {
+      "id": "tv-cabinet",
+      "name": "电视柜",
+      "category": "daily",
+      "labels": ["tv cabinet", "television cabinet", "white tv stand", "media cabinet", "media console", "tv console", "entertainment center", "drawer under tv", "cabinet drawer front"],
+      "searchQueries": ["tv cabinet"]
+    },
+    {
+      "id": "cabinet",
+      "name": "柜子",
+      "category": "daily",
+      "labels": ["cabinet", "storage cabinet", "cupboard", "side cabinet", "wooden cabinet"],
+      "searchQueries": ["storage cabinet", "cupboard"]
+    },
+    {
+      "id": "drawer",
+      "name": "抽屉",
+      "category": "daily",
+      "labels": ["drawer", "open drawer", "drawer front", "cabinet drawer", "dresser drawer"],
+      "searchQueries": ["cabinet drawer", "drawer"]
+    },
+    {
+      "id": "cabinet-door",
+      "name": "柜门",
+      "category": "daily",
+      "labels": ["cabinet door", "cupboard door", "storage door", "drawer handle"],
+      "searchQueries": ["cabinet door"]
+    },
+    {
+      "id": "storage-compartment",
+      "name": "储物格",
+      "category": "daily",
+      "labels": ["storage compartment", "shelf compartment", "cubby", "cabinet compartment", "open shelf"],
+      "searchQueries": ["storage compartment"]
+    },
+    {
+      "id": "small-speaker",
+      "name": "小音箱",
+      "category": "appliance",
+      "labels": ["small speaker", "mini speaker", "small audio speaker"],
+      "searchQueries": ["small speaker"]
+    },
+    {
+      "id": "small-device",
+      "name": "小设备",
+      "category": "appliance",
+      "labels": ["small device", "small electronic device", "black device"],
+      "searchQueries": ["small electronic device"]
+    },
+    {
+      "id": "pillow",
+      "name": "抱枕",
+      "category": "daily",
+      "labels": ["pillow", "cushion", "throw pillow"],
+      "searchQueries": ["throw pillow"]
+    },
+    {
+      "id": "air-conditioner",
+      "name": "空调",
+      "category": "appliance",
+      "labels": ["air conditioner", "floor air conditioner", "standing air conditioner"],
+      "searchQueries": ["floor air conditioner"]
+    },
+    {
+      "id": "data-cable",
+      "name": "数据线",
+      "category": "tool",
+      "labels": ["cable", "usb cable", "charging cable"],
+      "searchQueries": ["usb cable", "type c cable"]
+    },
+    {
+      "id": "charger",
+      "name": "充电器",
+      "category": "tool",
+      "labels": ["charger", "power adapter", "phone charger"],
+      "searchQueries": ["phone charger", "usb power adapter"]
+    },
+    {
+      "id": "battery",
+      "name": "电池",
+      "category": "tool",
+      "labels": ["battery", "aa battery", "aaa battery"],
+      "searchQueries": ["aa battery", "aaa battery"]
+    },
+    {
+      "id": "medicine-box",
+      "name": "药盒",
+      "category": "medicine",
+      "labels": ["medicine box", "pill box", "pill bottle"],
+      "searchQueries": ["medicine box", "pill bottle"]
+    },
+    {
+      "id": "storage-box",
+      "name": "收纳盒",
+      "category": "daily",
+      "labels": ["storage box", "storage basket", "plastic bin"],
+      "searchQueries": ["storage box", "plastic storage bin"]
+    },
+    {
+      "id": "key",
+      "name": "钥匙",
+      "category": "tool",
+      "labels": ["key", "keys", "keychain"],
+      "searchQueries": ["house keys", "keychain"]
+    }
+  ]
+}

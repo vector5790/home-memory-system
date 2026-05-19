@@ -1,0 +1,7 @@
+{
+  "version": "20260518-local-index",
+  "algorithm": "flat-cosine",
+  "embeddingModel": "Xenova/clip-vit-base-patch32",
+  "threshold": 0.26,
+  "entries": []
+}
