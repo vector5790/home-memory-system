@@ -26,7 +26,7 @@ python3 scripts/download-vision-assets.py
 这会把 Transformers.js、Grounding DINO Tiny、OWL-ViT、SlimSAM 和 CLIP 目录匹配模型放到 `vendor/`。之后启动服务：
 
 ```text
-http://localhost:4173/?v=20260520-upload-regression
+http://localhost:4173/?v=20260520-upload-feedback
 ```
 
 默认不需要任何付费 API。上传照片后，浏览器会优先调用 `vendor/` 里的本地 Grounding DINO 做开放词表主体检测，并在 SlimSAM 资产存在时细化候选区域；主体点和连线标签会先出现，名称会以“识别中”状态异步补全。如果 Grounding DINO 还没下载，会退回 OWL-ViT；如果小模型不可用，再明确降级到本地 Canvas 图片分析生成候选区域，用户再手动确认和改名。

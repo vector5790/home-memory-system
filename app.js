@@ -27,7 +27,7 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260520-upload-regression",
+  appVersion: "20260520-upload-feedback",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
@@ -44,8 +44,9 @@ const visionConfig = {
   catalogThreshold: 0.26,
   maxDetectedObjects: 28,
   maxUploadDimension: 1600,
-  maxUploadDataUrlLength: 950000,
+  maxUploadDataUrlLength: 850000,
   uploadJpegQuality: 0.82,
+  uploadDecodeTimeoutMs: 18000,
   maxSamRefinements: 8,
   groundingPromptBatchSize: 20,
   owlVitLabelLimit: 48,
@@ -1557,6 +1558,19 @@ function loadImage(src) {
   });
 }
 
+function withTimeout(promise, timeoutMs, message) {
+  let timer = null;
+  const timeout = new Promise((_, reject) => {
+    timer = window.setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  return Promise.race([promise, timeout]).finally(() => window.clearTimeout(timer));
+}
+
+function isImageFile(file) {
+  if (file?.type?.startsWith("image/")) return true;
+  return /\.(avif|bmp|gif|heic|heif|jpe?g|png|webp)$/i.test(file?.name || "");
+}
+
 function getDrawableSize(source) {
   return {
     width: source.videoWidth || source.naturalWidth || source.width || 1,
@@ -1604,27 +1618,34 @@ async function resizeImageSourceToDataUrl(source, options = {}) {
 }
 
 async function prepareUploadedImage(file) {
-  if (!file?.type?.startsWith("image/")) {
+  if (!isImageFile(file)) {
     throw new Error("请选择图片文件。");
-  }
-  if (window.createImageBitmap) {
-    try {
-      const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
-      try {
-        return await resizeImageSourceToDataUrl(bitmap);
-      } finally {
-        bitmap.close?.();
-      }
-    } catch (error) {
-      console.info("createImageBitmap decode failed, falling back to object URL.", error);
-    }
   }
   const url = URL.createObjectURL(file);
   try {
-    const image = await loadImage(url).catch(() => {
-      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，请先导出为 JPEG/PNG 后再上传。");
+    const image = await withTimeout(
+      loadImage(url),
+      visionConfig.uploadDecodeTimeoutMs,
+      "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
+    ).catch(async (error) => {
+      if (!window.createImageBitmap) throw error;
+      const bitmap = await withTimeout(
+        createImageBitmap(file, { imageOrientation: "from-image" }),
+        visionConfig.uploadDecodeTimeoutMs,
+        "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
+      );
+      return bitmap;
     });
-    return await resizeImageSourceToDataUrl(image);
+    try {
+      return await resizeImageSourceToDataUrl(image);
+    } finally {
+      image.close?.();
+    }
+  } catch (error) {
+    if (/decode|解码|图片无法读取|source image/i.test(error.message || "")) {
+      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，请先导出为 JPEG/PNG 后再上传。");
+    }
+    throw error;
   } finally {
     URL.revokeObjectURL(url);
   }
@@ -2504,7 +2525,7 @@ function getRecognitionStatusMeta() {
   const hasImage = Boolean(state.capture.image);
   if (status === "detecting") return { label: "识别主体", cls: "warn", body: "正在检测照片里的主体区域" };
   if (status === "naming") return { label: "命名中", cls: "warn", body: "主体框已生成，正在匹配物品名称" };
-  if (status === "loading") return { label: "分析中", cls: "warn", body: "正在本地分析上传照片" };
+  if (status === "loading") return { label: hasImage ? "分析中" : "处理照片", cls: "warn", body: hasImage ? "正在本地分析上传照片" : "正在解码并压缩上传照片" };
   if (status === "done") return { label: "已生成候选", cls: "good", body: `${candidates.length} 个候选，${candidates.filter((candidate) => candidate.selected).length} 个待入库` };
   if (status === "empty") return { label: "未发现候选", cls: "warn", body: "没有识别到可入库物品" };
   if (status === "error") return { label: "分析失败", cls: "danger", body: state.capture.recognitionError || "请稍后重试" };
@@ -3364,6 +3385,15 @@ document.addEventListener("change", async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
     const input = event.target;
+    state.capture = {
+      ...state.capture,
+      candidates: [],
+      activeCandidateId: null,
+      recognitionStatus: "loading",
+      recognitionError: "",
+      provider: "local-image",
+    };
+    render();
     showToast("正在处理高清照片");
     try {
       const image = await prepareUploadedImage(file);
@@ -3373,6 +3403,16 @@ document.addEventListener("change", async (event) => {
       render();
       showToast("照片已载入");
     } catch (error) {
+      state.capture = {
+        ...state.capture,
+        candidates: [],
+        activeCandidateId: null,
+        recognitionStatus: "error",
+        recognitionError: error.message || "照片处理失败",
+        provider: "local-image",
+      };
+      persist();
+      render();
       showToast(error.message || "照片处理失败");
     } finally {
       input.value = "";
