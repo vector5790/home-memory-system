@@ -6,6 +6,13 @@ const platform = createHomeMemoryPlatform({
   schemaVersion: HOME_DATA_SCHEMA_VERSION,
 });
 const today = new Date();
+const repeatLabels = {
+  none: "无",
+  daily: "每天",
+  weekly: "每周",
+  monthly: "每月",
+  yearly: "每年",
+};
 
 const icons = {
   home: '<svg class="icon" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
@@ -33,7 +40,7 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260522-small-crop-preview",
+  appVersion: "20260522-select-frame-calendar",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
@@ -382,6 +389,7 @@ let state = loadState();
 let cameraStream = null;
 let toastTimer = null;
 let candidateDrag = null;
+let candidateDatePickerState = null;
 let recognitionRunId = 0;
 let candidateCropHydrationKey = "";
 let visionAssetModePromise = null;
@@ -918,6 +926,8 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     qty,
     expireAt: candidate.expireAt || "",
     nextAt: candidate.nextAt || "",
+    nextTime: candidate.nextTime || "09:00",
+    nextRepeat: repeatLabels[candidate.nextRepeat] ? candidate.nextRepeat : "none",
     nextLabel: candidate.nextLabel || "",
     container: candidate.container || "",
     box: clampBox(candidate.box),
@@ -1078,6 +1088,8 @@ function mergeCandidateWithUserState(incoming, existing = null) {
       qty: existing.qty,
       expireAt: existing.expireAt,
       nextAt: existing.nextAt,
+      nextTime: existing.nextTime,
+      nextRepeat: existing.nextRepeat,
       nextLabel: existing.nextLabel,
       container: existing.container,
       box: existing.box,
@@ -2419,6 +2431,14 @@ function formatDate(dateText) {
   return `${date.getMonth() + 1}月${date.getDate()}日`;
 }
 
+function formatReminderTime(timeText) {
+  return /^\d{2}:\d{2}$/.test(String(timeText || "")) ? timeText : "09:00";
+}
+
+function formatReminderRepeat(repeat) {
+  return repeatLabels[repeat] || repeatLabels.none;
+}
+
 function dueStatus(dateText) {
   const days = daysUntil(dateText);
   if (days === null) return { label: "未设置", cls: "" };
@@ -2426,6 +2446,52 @@ function dueStatus(dateText) {
   if (days <= 7) return { label: `${days} 天后`, cls: "danger" };
   if (days <= 30) return { label: `${days} 天后`, cls: "warn" };
   return { label: `${days} 天后`, cls: "good" };
+}
+
+function dateToIso(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function addDaysIso(days) {
+  const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days);
+  return dateToIso(date);
+}
+
+function nextMondayIso() {
+  const day = today.getDay();
+  const offset = day === 1 ? 7 : ((8 - day) % 7 || 7);
+  return addDaysIso(offset);
+}
+
+function monthKeyFromIso(dateText) {
+  const date = dateText ? new Date(`${dateText}T00:00:00`) : today;
+  if (Number.isNaN(date.getTime())) return dateToIso(today).slice(0, 7);
+  return dateToIso(new Date(date.getFullYear(), date.getMonth(), 1)).slice(0, 7);
+}
+
+function moveMonthKey(monthKey, delta) {
+  const [year, month] = String(monthKey || dateToIso(today).slice(0, 7)).split("-").map(Number);
+  const date = new Date(year || today.getFullYear(), (month || today.getMonth() + 1) - 1 + delta, 1);
+  return dateToIso(date).slice(0, 7);
+}
+
+function getCalendarDays(monthKey) {
+  const [year, month] = monthKey.split("-").map(Number);
+  const first = new Date(year, month - 1, 1);
+  const start = new Date(first);
+  start.setDate(first.getDate() - first.getDay());
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = new Date(start);
+    date.setDate(start.getDate() + index);
+    return {
+      iso: dateToIso(date),
+      day: date.getDate(),
+      inMonth: date.getMonth() === month - 1,
+    };
+  });
 }
 
 function normalizeText(text) {
@@ -2605,20 +2671,16 @@ function layoutCandidatePins(candidates, stageWidth = 420, stageHeight = 410) {
   return layouts;
 }
 
-function styleCandidatePin(box, layoutOrIndex = 0) {
+function styleCandidatePin(box) {
   const centerX = clampNumber(box.x + box.w / 2, 2, 98);
   const centerY = clampNumber(box.y + box.h / 2, 2, 98);
-  const layout = typeof layoutOrIndex === "object" && layoutOrIndex
-    ? layoutOrIndex
-    : null;
-  if (!layout) {
-    const fallbackRight = centerX < 62;
-    const fallbackX = fallbackRight ? 46 : -124;
-    const fallbackY = centerY < 50 ? 18 : -44;
-    const metrics = getPinLineMetrics({ x: fallbackX, y: fallbackY }, { width: 96, height: 30 });
-    return `left:${centerX}%;top:${centerY}%;--label-x:${fallbackX}px;--label-y:${fallbackY}px;--line-angle:${metrics.angle}deg;--line-length:${metrics.length}px`;
-  }
-  return `left:${layout.x}%;top:${layout.y}%;--label-x:${layout.labelX}px;--label-y:${layout.labelY}px;--line-angle:${layout.lineAngle}deg;--line-length:${layout.lineLength}px`;
+  return `left:${centerX}%;top:${centerY}%`;
+}
+
+function styleActiveCandidateLabel(box) {
+  const centerX = clampNumber(box.x + box.w / 2, 8, 92);
+  const top = clampNumber(box.y - 2, 8, 92);
+  return `left:${centerX}%;top:${top}%`;
 }
 
 function render() {
@@ -2633,6 +2695,7 @@ function render() {
         ${renderInsights()}
       </div>
       <div class="toast" id="toast"></div>
+      ${renderCandidateDateModal()}
     </div>
   `;
   hydrateCamera();
@@ -3013,7 +3076,11 @@ function renderAnswer(answer) {
   if (!place) return renderAnswer({ type: "not-found", query: item.name });
   const placePath = getPlacePath(place.id);
   const [rootPlace, ...insidePlaces] = placePath;
-  const timeText = item.expireAt ? `有效期至 ${formatDate(item.expireAt)}` : item.nextAt ? `${item.nextLabel || "下次处理"}：${formatDate(item.nextAt)}` : `上次确认 ${formatDate(item.updatedAt)}`;
+  const timeText = item.expireAt
+    ? `有效期至 ${formatDate(item.expireAt)}`
+    : item.nextAt
+      ? `${item.nextLabel || "下次处理"}：${formatDate(item.nextAt)} ${formatReminderTime(item.nextTime)} · ${formatReminderRepeat(item.nextRepeat)}`
+      : `上次确认 ${formatDate(item.updatedAt)}`;
   return `
     <section class="answer-panel">
       <div class="answer-head">
@@ -3081,6 +3148,23 @@ function renderRecognitionDiagnostics() {
   return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${cacheText} · 主体 ${detection}ms · 命名 ${naming}ms · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
 }
 
+function renderCaptureControls(room, placeRows) {
+  return `
+    <div class="capture-controls">
+      <select class="select-field" data-capture-room aria-label="选择空间">
+        ${state.rooms.map((roomOption) => `<option value="${roomOption.id}" ${state.capture.roomId === roomOption.id ? "selected" : ""}>${escapeHtml(roomOption.name)}</option>`).join("")}
+      </select>
+      <select class="select-field" data-capture-place ${room.places.length ? "" : "disabled"} aria-label="选择储物点">
+        ${placeRows.length ? placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("") : `<option>识别后自动生成照片点</option>`}
+      </select>
+      ${platform.photos.canUseNativePhotoLibrary()
+        ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
+        : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
+      <button class="secondary-btn" data-camera-start>${icons.camera}<span>摄像头</span></button>
+    </div>
+  `;
+}
+
 function renderCaptureView() {
   const room = getCaptureRoom();
   const place = getCapturePlace() || makeVirtualPlace(room);
@@ -3104,20 +3188,9 @@ function renderCaptureView() {
         </div>
       </div>
       <div class="capture-grid">
-        <div>
+        <div class="capture-workspace">
+          ${renderCaptureControls(room, placeRows)}
           ${renderCaptureStage()}
-          <div class="capture-controls">
-            <select class="select-field" data-capture-room>
-              ${state.rooms.map((room) => `<option value="${room.id}" ${state.capture.roomId === room.id ? "selected" : ""}>${escapeHtml(room.name)}</option>`).join("")}
-            </select>
-            <select class="select-field" data-capture-place ${room.places.length ? "" : "disabled"}>
-              ${placeRows.length ? placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("") : `<option>识别后自动生成照片点</option>`}
-            </select>
-            ${platform.photos.canUseNativePhotoLibrary()
-              ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
-              : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
-            <button class="secondary-btn" data-camera-start>${icons.camera}<span>摄像头</span></button>
-          </div>
         </div>
         <div class="panel">
           <div class="panel-head">
@@ -3141,28 +3214,34 @@ function renderCaptureView() {
 function renderCaptureStage() {
   const candidates = state.capture.candidates || [];
   const activeCandidate = candidates.find((candidate) => candidate.id === state.capture.activeCandidateId);
-  const pinLayouts = layoutCandidatePins(candidates);
   const hasImage = Boolean(state.capture.image) && !state.cameraOn;
   return `
     <div class="capture-stage ${hasImage ? "has-image" : ""}" data-capture-stage ${hasImage ? imageAspectStyle(state.capture.imageMeta) : ""}>
       ${state.cameraOn ? `<video id="cameraVideo" autoplay playsinline muted></video>` : state.capture.image ? `<img alt="上传的储物点照片" src="${state.capture.image}" />` : renderCapturePlaceholder()}
       ${state.cameraOn ? `<button class="primary-btn" data-camera-shot style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3">${icons.camera}<span>拍照</span></button>` : ""}
       ${activeCandidate ? `
-        <span class="candidate-outline ${activeCandidate.selected ? "selected" : "unselected"}" style="${styleBox(activeCandidate.box)}"></span>
+        <span class="candidate-active-frame ${activeCandidate.selected ? "selected" : "unselected"}" style="${styleBox(activeCandidate.box)}" aria-hidden="true">
+          <span class="frame-corner tl"></span>
+          <span class="frame-corner tr"></span>
+          <span class="frame-corner bl"></span>
+          <span class="frame-corner br"></span>
+        </span>
+        <span class="candidate-active-label" style="${styleActiveCandidateLabel(activeCandidate.box)}">
+          ${escapeHtml(activeCandidate.namingStatus === "loading" ? "识别中" : activeCandidate.name)} <b>›</b>
+        </span>
       ` : ""}
-      ${candidates.map((candidate, index) => {
+      ${candidates.map((candidate) => {
         const isActive = state.capture.activeCandidateId === candidate.id;
         const isNaming = candidate.namingStatus === "loading";
         return `
         <button
           class="candidate-pin ${candidate.selected ? "selected" : "unselected"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}"
-          style="${styleCandidatePin(candidate.box, pinLayouts.get(candidate.id) || index)}"
+          style="${styleCandidatePin(candidate.box)}"
           data-candidate-select="${candidate.id}"
           data-candidate-drag="${candidate.id}"
           aria-label="查看 ${escapeHtml(candidate.name)} 的主体框"
         >
           <span class="pin-dot"></span>
-          <span class="pin-label">${isNaming ? "识别中" : escapeHtml(candidate.name)}</span>
         </button>
       `;
       }).join("")}
@@ -3188,7 +3267,7 @@ function hasCandidateOptionalDetails(candidate) {
 function renderCandidateMetaChips(candidate) {
   const chips = [];
   if (candidate.expireAt) chips.push(`保质期 ${formatDate(candidate.expireAt)}`);
-  if (candidate.nextAt) chips.push(`${candidate.nextLabel || "提醒"} ${formatDate(candidate.nextAt)}`);
+  if (candidate.nextAt) chips.push(`${candidate.nextLabel || "提醒"} ${formatDate(candidate.nextAt)} ${formatReminderTime(candidate.nextTime)} · ${formatReminderRepeat(candidate.nextRepeat)}`);
   if (candidate.container) chips.push(`位置 ${candidate.container}`);
   if (!chips.length) return "";
   return `<div class="candidate-meta-chips">${chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>`;
@@ -3196,14 +3275,102 @@ function renderCandidateMetaChips(candidate) {
 
 function renderCandidateDatePicker(candidate, field, label) {
   const value = candidate[field] || "";
+  const detail = field === "nextAt" && value
+    ? `${formatReminderTime(candidate.nextTime)} · ${formatReminderRepeat(candidate.nextRepeat)}`
+    : "";
   return `
     <div class="date-picker-block">
       <span>${escapeHtml(label)}</span>
       <button class="secondary-btn compact-btn date-choice" type="button" data-open-date-picker="${candidate.id}" data-field="${field}">
         <strong>${value ? escapeHtml(formatDate(value)) : "选择日期"}</strong>
+        ${detail ? `<small>${escapeHtml(detail)}</small>` : ""}
       </button>
-      ${value ? `<button class="ghost-btn compact-btn" type="button" data-clear-candidate-field="${candidate.id}" data-field="${field}">清除</button>` : ""}
-      <input class="native-date-input" type="date" value="${escapeHtml(value)}" data-candidate-date-input="${candidate.id}" data-candidate-field="${candidate.id}" data-field="${field}" aria-label="${escapeHtml(label)}" />
+      ${value ? `<button class="ghost-btn compact-btn" type="button" data-clear-candidate-date="${candidate.id}" data-field="${field}">清除</button>` : ""}
+    </div>
+  `;
+}
+
+function renderCandidateDateModal() {
+  if (!candidateDatePickerState) return "";
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateDatePickerState.candidateId);
+  if (!candidate) return "";
+  const isReminder = candidateDatePickerState.field === "nextAt";
+  const title = isReminder ? "提醒日期" : "保质期";
+  const monthKey = candidateDatePickerState.month || monthKeyFromIso(candidateDatePickerState.date);
+  const [year, month] = monthKey.split("-").map(Number);
+  const monthTitle = `${year}年${month}月`;
+  const selected = candidateDatePickerState.date || dateToIso(today);
+  const quickOptions = isReminder
+    ? [
+      ["今天", addDaysIso(0)],
+      ["明天", addDaysIso(1)],
+      ["下周一", nextMondayIso()],
+      ["明天上午", addDaysIso(1), "09:00"],
+    ]
+    : [
+      ["今天", addDaysIso(0)],
+      ["1个月", addDaysIso(30)],
+      ["3个月", addDaysIso(90)],
+      ["半年", addDaysIso(180)],
+    ];
+  const [hour, minute] = formatReminderTime(candidateDatePickerState.time).split(":");
+  return `
+    <div class="date-modal-backdrop" data-date-modal-dismiss>
+      <section class="date-modal" role="dialog" aria-modal="true" aria-label="${escapeHtml(title)}" data-date-modal>
+        <div class="date-modal-head">
+          <button class="round-btn" type="button" data-close-date-modal aria-label="关闭">×</button>
+          <div class="date-mode-tabs">
+            <span class="active">日期</span>
+            ${isReminder ? "<span>时间段</span>" : ""}
+          </div>
+          <button class="round-btn confirm" type="button" data-confirm-date-modal aria-label="确认">✓</button>
+        </div>
+        <div class="date-quick-grid">
+          ${quickOptions.map(([label, date, time]) => `
+            <button type="button" data-date-quick="${date}" ${time ? `data-time-quick="${time}"` : ""}>
+              <strong>${escapeHtml(label)}</strong>
+              <span>${escapeHtml(formatDate(date))}</span>
+            </button>
+          `).join("")}
+        </div>
+        <div class="calendar-title-row">
+          <button type="button" data-calendar-month="-1" aria-label="上个月">‹</button>
+          <strong>${escapeHtml(monthTitle)}</strong>
+          <button type="button" data-calendar-month="1" aria-label="下个月">›</button>
+        </div>
+        <div class="calendar-grid" aria-label="选择日期">
+          ${["日", "一", "二", "三", "四", "五", "六"].map((day) => `<span>${day}</span>`).join("")}
+          ${getCalendarDays(monthKey).map((day) => `
+            <button
+              type="button"
+              class="${day.inMonth ? "" : "muted"} ${day.iso === selected ? "selected" : ""} ${day.iso === dateToIso(today) ? "today" : ""}"
+              data-calendar-day="${day.iso}"
+            >${day.day}</button>
+          `).join("")}
+        </div>
+        ${isReminder ? `
+          <div class="reminder-options">
+            <label>
+              <span>时间</span>
+              <div class="time-select-row">
+                <select class="select-field" data-date-time-hour>
+                  ${Array.from({ length: 24 }, (_, value) => String(value).padStart(2, "0")).map((value) => `<option value="${value}" ${hour === value ? "selected" : ""}>${value}</option>`).join("")}
+                </select>
+                <b>:</b>
+                <select class="select-field" data-date-time-minute>
+                  ${["00", "15", "30", "45"].map((value) => `<option value="${value}" ${minute === value ? "selected" : ""}>${value}</option>`).join("")}
+                </select>
+              </div>
+            </label>
+            <label>
+              <span>重复</span>
+              <select class="select-field" data-date-repeat>
+                ${Object.entries(repeatLabels).map(([key, label]) => `<option value="${key}" ${candidateDatePickerState.repeat === key ? "selected" : ""}>${label}</option>`).join("")}
+              </select>
+            </label>
+          </div>
+        ` : ""}
+      </section>
     </div>
   `;
 }
@@ -3232,7 +3399,7 @@ function renderCandidate(candidate) {
           <strong>${isNaming ? `${escapeHtml(candidate.name)} · 识别中` : escapeHtml(candidate.name)}</strong>
         </label>
         <div class="candidate-actions">
-          <span class="status-pill good">${Math.round(candidate.confidence * 100)}%</span>
+          <span class="status-pill good">置信度 ${Math.round(candidate.confidence * 100)}%</span>
           <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
         </div>
       </div>
@@ -3319,13 +3486,16 @@ function renderReminder(item) {
   const dateText = item.expireAt || item.nextAt;
   const due = dueStatus(dateText);
   const label = item.expireAt ? "有效期" : item.nextLabel || "下次处理";
+  const scheduleText = item.expireAt
+    ? formatDate(dateText)
+    : `${formatDate(dateText)} ${formatReminderTime(item.nextTime)} · ${formatReminderRepeat(item.nextRepeat)}`;
   return `
     <article class="reminder-row">
       <div>
         <strong>${escapeHtml(item.name)}</strong>
         <div class="meta-line">
           <span class="badge ${item.category}">${categoryLabels[item.category]}</span>
-          <span>${escapeHtml(label)}：${formatDate(dateText)}</span>
+          <span>${escapeHtml(label)}：${escapeHtml(scheduleText)}</span>
           <span>${escapeHtml(buildTrail(item))}</span>
         </div>
       </div>
@@ -3630,6 +3800,8 @@ function confirmCandidates() {
       box: candidate.box,
       expireAt: candidate.expireAt || null,
       nextAt: candidate.nextAt || null,
+      nextTime: candidate.nextAt ? formatReminderTime(candidate.nextTime) : null,
+      nextRepeat: candidate.nextAt ? candidate.nextRepeat || "none" : null,
       nextLabel: candidate.nextLabel || null,
       updatedAt: nowText,
       confidence: candidate.confidence,
@@ -3728,16 +3900,70 @@ function toggleCandidatePanel(id, panel) {
 }
 
 function openCandidateDatePicker(id, field) {
-  const input = [...document.querySelectorAll("[data-candidate-date-input]")]
-    .find((entry) => entry.dataset.candidateDateInput === id && entry.dataset.field === field);
-  if (!input) return;
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  if (!candidate) return;
+  const currentDate = candidate[field] || dateToIso(today);
+  candidateDatePickerState = {
+    candidateId: id,
+    field,
+    date: currentDate,
+    month: monthKeyFromIso(currentDate),
+    time: formatReminderTime(candidate.nextTime),
+    repeat: candidate.nextRepeat || "none",
+  };
   state.capture.activeCandidateId = id;
-  try {
-    input.showPicker?.();
-  } catch {
-    input.focus();
-    input.click();
-  }
+  render();
+}
+
+function closeCandidateDatePicker() {
+  candidateDatePickerState = null;
+  render();
+}
+
+function updateCandidateDateDraft(patch) {
+  if (!candidateDatePickerState) return;
+  candidateDatePickerState = {
+    ...candidateDatePickerState,
+    ...patch,
+  };
+  render();
+}
+
+function confirmCandidateDatePicker() {
+  if (!candidateDatePickerState?.candidateId || !candidateDatePickerState.field) return;
+  const { candidateId, field, date, time, repeat } = candidateDatePickerState;
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== candidateId) return candidate;
+    const next = {
+      ...candidate,
+      [field]: date || dateToIso(today),
+      edited: true,
+    };
+    if (field === "nextAt") {
+      next.nextTime = formatReminderTime(time);
+      next.nextRepeat = repeatLabels[repeat] ? repeat : "none";
+    }
+    return next;
+  });
+  state.capture.activeCandidateId = candidateId;
+  candidateDatePickerState = null;
+  persist();
+  render();
+}
+
+function clearCandidateDate(id, field) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== id) return candidate;
+    const next = { ...candidate, [field]: "", edited: true };
+    if (field === "nextAt") {
+      next.nextTime = "09:00";
+      next.nextRepeat = "none";
+    }
+    return next;
+  });
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
 }
 
 function toggleCandidate(id) {
@@ -3809,8 +4035,7 @@ function moveCandidateDrag(event) {
     y: candidateDrag.startBox.y + deltaY,
   });
   setCandidateBoxWithoutRender(candidateDrag.id, box);
-  const index = (state.capture.candidates || []).findIndex((candidate) => candidate.id === candidateDrag.id);
-  candidateDrag.boxButton.style.cssText = styleCandidatePin(box, Math.max(0, index));
+  candidateDrag.boxButton.style.cssText = styleCandidatePin(box);
 }
 
 function finishCandidateDrag() {
@@ -3900,14 +4125,10 @@ function hydrateCandidatePins() {
   const stage = document.querySelector("[data-capture-stage]");
   const candidates = state.capture.candidates || [];
   if (!stage || !candidates.length) return;
-  const rect = stage.getBoundingClientRect();
-  if (!rect.width || !rect.height) return;
-  const layouts = layoutCandidatePins(candidates, rect.width, rect.height);
   const pins = [...stage.querySelectorAll("[data-candidate-select]")];
   for (const candidate of candidates) {
     const pin = pins.find((entry) => entry.dataset.candidateSelect === candidate.id);
-    const layout = layouts.get(candidate.id);
-    if (pin && layout) pin.style.cssText = styleCandidatePin(candidate.box, layout);
+    if (pin) pin.style.cssText = styleCandidatePin(candidate.box);
   }
 }
 
@@ -4054,6 +4275,50 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  if (event.target.closest("[data-close-date-modal]")) {
+    closeCandidateDatePicker();
+    return;
+  }
+
+  if (event.target.closest("[data-confirm-date-modal]")) {
+    confirmCandidateDatePicker();
+    return;
+  }
+
+  const dateBackdrop = event.target.closest("[data-date-modal-dismiss]");
+  if (dateBackdrop && !event.target.closest("[data-date-modal]")) {
+    closeCandidateDatePicker();
+    return;
+  }
+
+  const monthButton = event.target.closest("[data-calendar-month]");
+  if (monthButton && candidateDatePickerState) {
+    updateCandidateDateDraft({ month: moveMonthKey(candidateDatePickerState.month, Number(monthButton.dataset.calendarMonth) || 0) });
+    return;
+  }
+
+  const dayButton = event.target.closest("[data-calendar-day]");
+  if (dayButton) {
+    updateCandidateDateDraft({ date: dayButton.dataset.calendarDay, month: monthKeyFromIso(dayButton.dataset.calendarDay) });
+    return;
+  }
+
+  const quickDateButton = event.target.closest("[data-date-quick]");
+  if (quickDateButton) {
+    updateCandidateDateDraft({
+      date: quickDateButton.dataset.dateQuick,
+      month: monthKeyFromIso(quickDateButton.dataset.dateQuick),
+      ...(quickDateButton.dataset.timeQuick ? { time: quickDateButton.dataset.timeQuick } : {}),
+    });
+    return;
+  }
+
+  const clearCandidateDateButton = event.target.closest("[data-clear-candidate-date]");
+  if (clearCandidateDateButton) {
+    clearCandidateDate(clearCandidateDateButton.dataset.clearCandidateDate, clearCandidateDateButton.dataset.field);
+    return;
+  }
+
   const clearCandidateFieldButton = event.target.closest("[data-clear-candidate-field]");
   if (clearCandidateFieldButton) {
     updateCandidate(clearCandidateFieldButton.dataset.clearCandidateField, clearCandidateFieldButton.dataset.field, "");
@@ -4085,7 +4350,7 @@ document.addEventListener("click", (event) => {
   }
 
   const candidateSelect = event.target.closest("[data-candidate-select]");
-  if (candidateSelect && !event.target.closest("input, select, button")) {
+  if (candidateSelect && (candidateSelect.classList.contains("candidate-pin") || !event.target.closest("input, select, button"))) {
     selectCandidate(candidateSelect.dataset.candidateSelect);
     return;
   }
@@ -4159,6 +4424,18 @@ document.addEventListener("input", (event) => {
 });
 
 document.addEventListener("change", async (event) => {
+  if (event.target.matches("[data-date-time-hour], [data-date-time-minute]")) {
+    const hour = document.querySelector("[data-date-time-hour]")?.value || "09";
+    const minute = document.querySelector("[data-date-time-minute]")?.value || "00";
+    updateCandidateDateDraft({ time: `${hour}:${minute}` });
+    return;
+  }
+
+  if (event.target.matches("[data-date-repeat]")) {
+    updateCandidateDateDraft({ repeat: event.target.value });
+    return;
+  }
+
   const candidateBoxField = event.target.closest("[data-candidate-box-field]");
   if (candidateBoxField) {
     updateCandidateBox(candidateBoxField.dataset.candidateBoxField, candidateBoxField.dataset.field, candidateBoxField.value);

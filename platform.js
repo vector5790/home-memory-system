@@ -158,8 +158,31 @@ function makePhotoAdapter(runtime) {
     quality: 88,
     allowEditing: false,
     correctOrientation: true,
-    resultType: "DATAURL",
+    resultType: "dataUrl",
   };
+
+  async function photoToDataUrl(photo) {
+    if (photo?.dataUrl) return photo.dataUrl;
+    if (photo?.base64String) {
+      const format = photo.format || "jpeg";
+      return `data:image/${format};base64,${photo.base64String}`;
+    }
+
+    const sourceUrl = photo?.webPath || photo?.path;
+    if (!sourceUrl) return "";
+    const readableUrl = getCapacitor()?.convertFileSrc?.(sourceUrl) || sourceUrl;
+    const response = await fetch(readableUrl);
+    if (!response.ok) {
+      throw new Error("照片数据读取失败，请重试。");
+    }
+    const blob = await response.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("照片数据读取失败，请重试。"));
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.readAsDataURL(blob);
+    });
+  }
 
   async function getNativePhoto(source) {
     const Camera = getPlugin("Camera");
@@ -170,11 +193,12 @@ function makePhotoAdapter(runtime) {
       ...cameraOptions,
       source,
     });
-    if (!photo?.dataUrl) {
+    const dataUrl = await photoToDataUrl(photo);
+    if (!dataUrl) {
       throw new Error("没有拿到可用照片，请重试。");
     }
     return {
-      dataUrl: photo.dataUrl,
+      dataUrl,
       format: photo.format || "jpeg",
       source,
     };
