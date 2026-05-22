@@ -1,0 +1,17 @@
+{
+  "appId": "com.guzeyu.homememory",
+  "appName": "家忆 Home Memory",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "ios": {
+    "scheme": "HomeMemory",
+    "contentInset": "automatic"
+  },
+  "plugins": {
+    "Camera": {
+      "ios": {
+        "allowEditing": false
+      }
+    }
+  }
+}

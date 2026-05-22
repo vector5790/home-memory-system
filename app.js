@@ -1,4 +1,10 @@
+import { HOME_DATA_SCHEMA_VERSION, createHomeMemoryPlatform } from "./platform.js";
+
 const STORAGE_KEY = "home-memory-system:v3";
+const platform = createHomeMemoryPlatform({
+  storageKey: STORAGE_KEY,
+  schemaVersion: HOME_DATA_SCHEMA_VERSION,
+});
 const today = new Date();
 
 const icons = {
@@ -27,10 +33,11 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260520-upload-feedback",
+  appVersion: "20260522-small-crop-preview",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
+  localHeicConverterScript: "/vendor/heic2any/heic2any.min.js",
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
   catalogIndex: "/data/vision-index.seed.json",
@@ -44,12 +51,21 @@ const visionConfig = {
   catalogThreshold: 0.26,
   maxDetectedObjects: 28,
   maxUploadDimension: 1600,
+  detectionMaxDimension: 1280,
   maxUploadDataUrlLength: 850000,
   uploadJpegQuality: 0.82,
   uploadDecodeTimeoutMs: 18000,
-  maxSamRefinements: 8,
-  groundingPromptBatchSize: 20,
+  heicConversionTimeoutMs: 45000,
+  maxSamRefinements: 0,
+  samMinBoxArea: 0.42,
+  groundingPromptBatchSize: 48,
   owlVitLabelLimit: 48,
+  maxWasmThreads: 4,
+  recognitionCacheSize: 6,
+  candidateCropVersion: "crop-640-v2",
+  candidateCropMaxDimension: 640,
+  candidateCropQuality: 0.9,
+  cloudRecognitionEndpoint: "",
 };
 
 const unknownObjectNames = ["物品A", "物品B", "物品C", "物品D", "物品E", "物品F", "物品G", "物品H", "物品I", "物品J", "物品K", "物品L"];
@@ -322,10 +338,14 @@ const seedState = {
     roomId: "living",
     placeId: null,
     image: null,
+    imageRef: null,
     candidates: [],
     activeCandidateId: null,
     recognitionStatus: "idle",
     recognitionError: "",
+    recognitionDiagnostics: null,
+    preprocessingMs: null,
+    imageMeta: null,
     provider: "none",
   },
   cameraOn: false,
@@ -363,6 +383,7 @@ let cameraStream = null;
 let toastTimer = null;
 let candidateDrag = null;
 let recognitionRunId = 0;
+let candidateCropHydrationKey = "";
 let visionAssetModePromise = null;
 let transformersModulePromise = null;
 let groundingDinoDetectorPromise = null;
@@ -371,13 +392,15 @@ let samSegmenterPromise = null;
 let catalogClassifierPromise = null;
 let catalogFeatureExtractorPromise = null;
 let catalogIndexPromise = null;
+let heicConverterPromise = null;
+const recognitionResultCache = new Map();
 let persistWarningShown = false;
 
 const app = document.querySelector("#app");
 
 function loadState() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = platform.storage.readSnapshotSync();
     if (!raw) return structuredClone(seedState);
     const parsed = JSON.parse(raw);
     const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
@@ -390,32 +413,64 @@ function loadState() {
   }
 }
 
+async function hydratePlatformState() {
+  if (!platform.isNative) return;
+  try {
+    const raw = await platform.storage.readSnapshotAsync();
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+    loaded.rooms = normalizeRooms(loaded.rooms);
+    loaded.items = Array.isArray(loaded.items) ? loaded.items : [];
+    loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
+    state = loaded;
+    render();
+    performSearch();
+  } catch (error) {
+    console.warn("Native state migration failed.", error);
+    showToast("旧本地数据无法迁移，已使用空白状态");
+  }
+}
+
 function createPersistSnapshot(options = {}) {
   const snapshot = structuredClone(state);
+  snapshot.schemaVersion = HOME_DATA_SCHEMA_VERSION;
+  snapshot.savedAt = new Date().toISOString();
   snapshot.cameraOn = false;
   if (options.omitCaptureImage && snapshot.capture) {
     snapshot.capture.image = null;
+  }
+  if (options.usePhotoReferences && snapshot.capture) {
+    snapshot.capture.image = getDurableImageValue(snapshot.capture.image, snapshot.capture.imageRef);
   }
   if (options.omitPlaceImages) {
     snapshot.rooms = snapshot.rooms.map((room) => ({
       ...room,
       places: (room.places || []).map((place) => ({ ...place, image: null })),
     }));
+  } else if (options.usePhotoReferences) {
+    snapshot.rooms = snapshot.rooms.map((room) => ({
+      ...room,
+      places: (room.places || []).map((place) => ({
+        ...place,
+        image: getDurableImageValue(place.image, place.imageRef),
+      })),
+    }));
   }
   return snapshot;
 }
 
 function persist() {
+  const usePhotoReferences = Boolean(platform.isNative);
   const attempts = [
-    createPersistSnapshot(),
-    createPersistSnapshot({ omitCaptureImage: true }),
-    createPersistSnapshot({ omitCaptureImage: true, omitPlaceImages: true }),
+    createPersistSnapshot({ usePhotoReferences }),
+    createPersistSnapshot({ usePhotoReferences, omitCaptureImage: true }),
+    createPersistSnapshot({ usePhotoReferences, omitCaptureImage: true, omitPlaceImages: true }),
   ];
   let lastError = null;
   for (const snapshot of attempts) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
-      return true;
+      if (platform.storage.writeSnapshot(JSON.stringify(snapshot))) return true;
     } catch (error) {
       lastError = error;
     }
@@ -425,6 +480,13 @@ function persist() {
     console.warn("Local persistence skipped; current session state remains available.", lastError);
   }
   return false;
+}
+
+function getDurableImageValue(image, imageRef) {
+  if (imageRef?.webPath) return imageRef.webPath;
+  if (imageRef?.uri) return platform.convertFileSrc(imageRef.uri);
+  if (typeof image === "string" && image.startsWith("data:image/")) return null;
+  return image || null;
 }
 
 function setState(patch) {
@@ -464,6 +526,8 @@ function normalizePlace(place = {}) {
     sourceItemId: place.sourceItemId || null,
     box: clampBox(place.box || { x: 16, y: 18, w: 36, h: 24 }),
     image: place.image || null,
+    imageRef: place.imageRef || null,
+    imageMeta: normalizeImageMeta(place.imageMeta),
     note: place.note || "储物点",
   };
 }
@@ -567,6 +631,20 @@ function createId(prefix, name = "") {
   return `${prefix}-${slug}-${Date.now().toString(36)}-${Math.random().toString(16).slice(2, 6)}`;
 }
 
+async function persistPhotoDataUrl(dataUrl, source = "capture") {
+  if (!platform.isNative || !platform.files.isAvailable() || !String(dataUrl || "").startsWith("data:image/")) {
+    return null;
+  }
+  const extension = dataUrl.startsWith("data:image/png") ? "png" : "jpg";
+  const id = createId("photo", source);
+  const saved = await platform.files.writeDataUrl(`photos/${id}.${extension}`, dataUrl);
+  return {
+    id,
+    source,
+    ...saved,
+  };
+}
+
 function roomTypeForName(name) {
   if (/厨/.test(name)) return "kitchen";
   if (/阳台|露台/.test(name)) return "balcony";
@@ -617,6 +695,7 @@ function ensureCapturePlace() {
     sourceItemId: null,
     box: { x: 8, y: 12, w: 84, h: 72 },
     image: state.capture.image || null,
+    imageRef: state.capture.imageRef || null,
     note: "由上传照片自动生成",
   };
   state.rooms = state.rooms.map((entry) => (
@@ -681,6 +760,7 @@ function addPlace(roomId, name, parentId = null, options = {}) {
       h: normalizedParentId ? 16 : 24,
     }),
     image: options.image || null,
+    imageRef: options.imageRef || null,
     note: options.note || (parent ? `隶属于 ${parent.name}` : "手动新增储物点"),
   };
   state.rooms = state.rooms.map((entry) => (
@@ -695,12 +775,15 @@ function addPlace(roomId, name, parentId = null, options = {}) {
   return { ...place, roomId: room.id, roomName: room.name, roomType: room.type };
 }
 
-function updatePlaceImage(placeId, image) {
+function updatePlaceImage(placeId, image, imageRef = null, imageMeta = null) {
   if (!placeId || !image) return;
+  const normalizedMeta = normalizeImageMeta(imageMeta);
   state.rooms = state.rooms.map((room) => ({
     ...room,
     places: room.places.map((place) => (
-      place.id === placeId ? { ...place, image } : place
+      place.id === placeId
+        ? { ...place, image, imageRef: imageRef || place.imageRef || null, imageMeta: normalizedMeta }
+        : place
     )),
   }));
 }
@@ -731,7 +814,11 @@ function normalizeCaptureState(capture) {
     ...capture,
     candidates,
     activeCandidateId,
-    recognitionStatus: capture.recognitionStatus || "idle",
+      imageRef: capture.imageRef || null,
+      imageMeta: normalizeImageMeta(capture.imageMeta),
+      recognitionDiagnostics: capture.recognitionDiagnostics || null,
+      preprocessingMs: capture.preprocessingMs || null,
+      recognitionStatus: capture.recognitionStatus || "idle",
     recognitionError: capture.recognitionError || "",
     provider,
   };
@@ -739,14 +826,22 @@ function normalizeCaptureState(capture) {
 
 function resetCaptureRecognition(overrides = {}) {
   recognitionRunId += 1;
+  const hasImageOverride = Object.prototype.hasOwnProperty.call(overrides, "image");
+  const nextImageMeta = hasImageOverride
+    ? (overrides.image ? normalizeImageMeta(overrides.imageMeta) : null)
+    : normalizeImageMeta(overrides.imageMeta || state.capture.imageMeta);
   state.capture = {
     ...state.capture,
     candidates: [],
     activeCandidateId: null,
     recognitionStatus: "idle",
     recognitionError: "",
+    recognitionDiagnostics: null,
+    preprocessingMs: null,
+    imageMeta: nextImageMeta,
     provider: "none",
     ...overrides,
+    imageMeta: normalizeImageMeta(overrides.imageMeta || nextImageMeta),
   };
 }
 
@@ -754,6 +849,48 @@ function clampNumber(value, min, max) {
   const number = Number(value);
   if (!Number.isFinite(number)) return min;
   return Math.min(max, Math.max(min, number));
+}
+
+function normalizeImageMeta(meta) {
+  const width = Math.round(Number(meta?.width || meta?.naturalWidth || meta?.videoWidth || 0));
+  const height = Math.round(Number(meta?.height || meta?.naturalHeight || meta?.videoHeight || 0));
+  if (!width || !height) return null;
+  return { width, height };
+}
+
+function normalizeCropMeta(meta) {
+  const width = Math.round(Number(meta?.width || 0));
+  const height = Math.round(Number(meta?.height || 0));
+  if (!width || !height) return null;
+  return { width, height };
+}
+
+async function imageMetaFromDataUrl(image) {
+  return getImageDimensions(image)
+    .then((dimensions) => normalizeImageMeta(dimensions))
+    .catch(() => null);
+}
+
+function imageAspectStyle(imageMeta) {
+  const meta = normalizeImageMeta(imageMeta);
+  if (!meta) return "";
+  return `style="--image-aspect:${meta.width} / ${meta.height}"`;
+}
+
+function cropAspectStyle(cropMeta) {
+  const meta = normalizeCropMeta(cropMeta);
+  if (!meta) return "";
+  const maxWidth = 108;
+  const maxHeight = 132;
+  const ratio = meta.width / meta.height;
+  let width = maxWidth;
+  let height = width / ratio;
+  if (height > maxHeight) {
+    height = maxHeight;
+    width = height * ratio;
+  }
+  const frameHeight = Math.max(44, Math.round(height));
+  return `style="--crop-aspect:${meta.width} / ${meta.height};--crop-preview-width:${Math.max(54, Math.round(width))}px;--crop-preview-height:${frameHeight}px"`;
 }
 
 function clampBox(box = {}) {
@@ -791,7 +928,12 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     detectionLabel: candidate.detectionLabel || "",
     suggestedName: candidate.suggestedName || "",
     catalogId: candidate.catalogId || "",
+    cropImage: candidate.cropImage || "",
+    cropMeta: normalizeCropMeta(candidate.cropMeta),
+    cropVersion: candidate.cropVersion || "",
     edited: Boolean(candidate.edited),
+    detailsOpen: Boolean(candidate.detailsOpen),
+    boxOpen: Boolean(candidate.boxOpen),
   };
 }
 
@@ -852,6 +994,45 @@ function getDetectionLabelEntries() {
   return [...getCatalogLabelEntries(), ...genericDetectionLabels.map((entry) => ({ ...entry, isCatalogItem: false }))];
 }
 
+function uniqueLabelEntries(entries) {
+  const seen = new Set();
+  return entries.filter((entry) => {
+    const label = normalizeDetectionLabel(entry.label);
+    if (!label || seen.has(label)) return false;
+    seen.add(label);
+    return true;
+  });
+}
+
+function getFastGroundingLabelEntries() {
+  const primaryCatalogLabels = visionCatalog.flatMap((item) => {
+    if (["speaker", "amplifier", "turntable", "remote-control", "media-player", "tv-cabinet", "drawer", "cabinet", "cabinet-door", "storage-compartment"].includes(item.id)) {
+      return item.labels.slice(0, 2).map((label) => ({ ...item, label, isCatalogItem: true }));
+    }
+    return item.labels.slice(0, 1).map((label) => ({ ...item, label, isCatalogItem: true }));
+  });
+  const genericKeep = new Set([
+    "television cabinet drawer",
+    "tv stand drawer",
+    "white drawer front",
+    "cabinet drawer",
+    "cabinet door",
+    "shelf",
+    "storage compartment",
+    "box",
+    "bag",
+    "bottle",
+    "food package",
+    "document",
+    "book",
+    "cable",
+  ]);
+  const primaryGenericLabels = genericDetectionLabels
+    .filter((entry) => genericKeep.has(entry.label))
+    .map((entry) => ({ ...entry, isCatalogItem: false }));
+  return uniqueLabelEntries([...primaryCatalogLabels, ...primaryGenericLabels]);
+}
+
 function normalizeDetectionLabel(label) {
   return normalizeText(label)
     .replace(/^(a|an|the)\s+/, "")
@@ -908,6 +1089,11 @@ function mergeCandidateWithUserState(incoming, existing = null) {
     ...preserveUserFields,
     id: existing.id,
     selected: existing.selected,
+    cropImage: incoming.cropImage || existing.cropImage || "",
+    cropMeta: normalizeCropMeta(incoming.cropMeta || existing.cropMeta),
+    cropVersion: incoming.cropVersion || existing.cropVersion || "",
+    detailsOpen: existing.detailsOpen,
+    boxOpen: existing.boxOpen,
     confidence: Math.max(existing.confidence || 0, incoming.confidence || 0),
   };
 }
@@ -997,11 +1183,29 @@ async function loadTransformersRuntime() {
       module.env.allowRemoteModels = true;
       module.env.localModelPath = visionConfig.localModelPath;
       module.env.useBrowserCache = true;
+      configureTransformersRuntime(module);
 
       return { ...module, runtimeMode };
     })();
   }
   return transformersModulePromise;
+}
+
+function getVisionWasmThreadCount() {
+  if (!window.crossOriginIsolated || typeof SharedArrayBuffer === "undefined") return 1;
+  const cores = Number(navigator.hardwareConcurrency) || 2;
+  return Math.max(1, Math.min(visionConfig.maxWasmThreads, Math.max(1, cores - 1)));
+}
+
+function configureTransformersRuntime(module) {
+  try {
+    const wasmBackend = module.env?.backends?.onnx?.wasm;
+    if (!wasmBackend) return;
+    wasmBackend.numThreads = getVisionWasmThreadCount();
+    wasmBackend.wasmPaths = "/vendor/transformers/";
+  } catch (error) {
+    console.info("Vision runtime thread tuning skipped.", error);
+  }
 }
 
 async function getGroundingDinoDetector() {
@@ -1069,10 +1273,20 @@ function warmVisionModels() {
   window.setTimeout(async () => {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.hasLocalRuntime) return;
-    loadTransformersRuntime().catch((error) => {
+    loadTransformersRuntime().then(() => {
+      warmCaptureDetectionModel();
+      window.setTimeout(() => {
+        getCatalogEmbeddingIndex().catch(() => null);
+        if (assetMode.catalogReady) {
+          getCatalogFeatureExtractor().catch((error) => {
+            console.info("Catalog naming prewarm skipped.", error);
+          });
+        }
+      }, 1000);
+    }).catch((error) => {
       console.info("Vision runtime prewarm skipped.", error);
     });
-  }, 900);
+  }, 250);
 }
 
 function warmCaptureDetectionModel() {
@@ -1090,7 +1304,7 @@ function warmCaptureDetectionModel() {
         console.info("Vision model prewarm skipped.", error);
       });
     }
-  }, 120);
+  }, 80);
 }
 
 async function getCatalogClassifier() {
@@ -1226,7 +1440,8 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
 }
 
 async function runZeroShotDetector({ image, source, detector, provider, threshold }) {
-  const labels = getDetectionLabelEntries().map((entry) => entry.label);
+  const labelEntries = detector?.kind === "grounding-dino" ? getFastGroundingLabelEntries() : getDetectionLabelEntries();
+  const labels = labelEntries.map((entry) => entry.label);
   const detections = detector?.kind === "grounding-dino"
     ? await runGroundingDinoDetector({ image, source, detector, labels, threshold })
     : await runPipelineObjectDetector({ image, detector, labels: labels.slice(0, visionConfig.owlVitLabelLimit), threshold });
@@ -1310,6 +1525,80 @@ async function runGroundingDinoDetector({ image, source, detector, labels, thres
     }
   }
   return detections;
+}
+
+function hashStringFast(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `${value.length}-${(hash >>> 0).toString(36)}`;
+}
+
+function getRecognitionCacheKey(image) {
+  const labelSignature = getFastGroundingLabelEntries()
+    .map((entry) => normalizeDetectionLabel(entry.label))
+    .join(",");
+  return [
+    visionConfig.assetVersion,
+    visionConfig.detectionMaxDimension,
+    visionConfig.groundingThreshold,
+    visionConfig.detectionThreshold,
+    visionConfig.maxDetectedObjects,
+    labelSignature,
+    hashStringFast(image),
+  ].join("|");
+}
+
+function cloneRecognitionResult(result, extra = {}) {
+  return {
+    provider: result.provider,
+    candidates: (result.candidates || []).map((candidate) => ({
+      ...candidate,
+      box: { ...(candidate.box || {}) },
+      cropMeta: normalizeCropMeta(candidate.cropMeta),
+      aliases: Array.isArray(candidate.aliases) ? [...candidate.aliases] : [],
+    })),
+    ...extra,
+  };
+}
+
+function getCachedRecognitionResult(image) {
+  const key = getRecognitionCacheKey(image);
+  const cached = recognitionResultCache.get(key);
+  if (cached) {
+    recognitionResultCache.delete(key);
+    recognitionResultCache.set(key, cached);
+    return cloneRecognitionResult(cached, { cacheHit: true });
+  }
+
+  try {
+    const stored = sessionStorage.getItem(`home-memory-recognition:${key}`);
+    if (!stored) return null;
+    const parsed = JSON.parse(stored);
+    if (!parsed?.provider || !Array.isArray(parsed.candidates)) return null;
+    recognitionResultCache.set(key, cloneRecognitionResult(parsed));
+    return cloneRecognitionResult(parsed, { cacheHit: true });
+  } catch {
+    return null;
+  }
+}
+
+function setCachedRecognitionResult(image, result) {
+  if (!result?.candidates?.length) return;
+  const key = getRecognitionCacheKey(image);
+  const cached = cloneRecognitionResult(result);
+  recognitionResultCache.set(key, cached);
+  while (recognitionResultCache.size > visionConfig.recognitionCacheSize) {
+    const oldestKey = recognitionResultCache.keys().next().value;
+    recognitionResultCache.delete(oldestKey);
+  }
+  try {
+    sessionStorage.setItem(`home-memory-recognition:${key}`, JSON.stringify(cached));
+  } catch {
+    // Browser storage may be full or unavailable; memory cache still covers the current session.
+  }
 }
 
 function percentBoxToPixels(box, source) {
@@ -1412,6 +1701,9 @@ async function refineCandidateWithSam(segmenter, rawImage, source, candidate) {
 }
 
 async function refineCandidatesWithSam(image, source, candidates, provider) {
+  if (visionConfig.maxSamRefinements <= 0) {
+    return { provider, candidates };
+  }
   const segmenter = await getSamSegmenter();
   if (!segmenter || !candidates.length) {
     return { provider, candidates };
@@ -1421,18 +1713,24 @@ async function refineCandidatesWithSam(image, source, candidates, provider) {
     const rawImage = segmenter.RawImage.fromURL
       ? await segmenter.RawImage.fromURL(image)
       : await segmenter.RawImage.read(image);
-    const refined = [];
-    for (const [index, candidate] of candidates.entries()) {
-      if (index >= visionConfig.maxSamRefinements) {
-        refined.push(candidate);
-        continue;
-      }
+    const refineTargets = candidates
+      .filter((candidate) => boxArea(candidate.box) >= visionConfig.samMinBoxArea)
+      .map((candidate, index) => ({
+        candidate,
+        index,
+        priority: (isStorageDetectionLabel(candidate.detectionLabel) ? 1 : 0) + clampNumber(candidate.confidence, 0, 1),
+      }))
+      .sort((a, b) => b.priority - a.priority)
+      .slice(0, visionConfig.maxSamRefinements);
+    const refinedById = new Map();
+    for (const { candidate } of refineTargets) {
       // SAM runs after detection and only tightens regions; a failure must not replace detector geometry.
-      refined.push(await refineCandidateWithSam(segmenter, rawImage, source, candidate).catch(() => candidate));
+      const refined = await refineCandidateWithSam(segmenter, rawImage, source, candidate).catch(() => candidate);
+      refinedById.set(candidate.id, refined);
     }
     return {
       provider: `${provider}+sam`,
-      candidates: refined,
+      candidates: candidates.map((candidate) => refinedById.get(candidate.id) || candidate),
     };
   } catch (error) {
     console.info("SAM refinement skipped.", error);
@@ -1440,17 +1738,64 @@ async function refineCandidatesWithSam(image, source, candidates, provider) {
   }
 }
 
-function cropImageToDataUrl(source, box) {
-  const x = Math.max(0, Math.round((box.x / 100) * source.naturalWidth));
-  const y = Math.max(0, Math.round((box.y / 100) * source.naturalHeight));
-  const width = Math.max(1, Math.round((box.w / 100) * source.naturalWidth));
-  const height = Math.max(1, Math.round((box.h / 100) * source.naturalHeight));
+function getSourcePixelSize(source) {
+  const sourceWidth = source.naturalWidth || source.width || 1;
+  const sourceHeight = source.naturalHeight || source.height || 1;
+  return { sourceWidth, sourceHeight };
+}
+
+function getCropPixelRect(source, box) {
+  const { sourceWidth, sourceHeight } = getSourcePixelSize(source);
+  const x = Math.max(0, Math.round((box.x / 100) * sourceWidth));
+  const y = Math.max(0, Math.round((box.y / 100) * sourceHeight));
+  const width = Math.max(1, Math.round((box.w / 100) * sourceWidth));
+  const height = Math.max(1, Math.round((box.h / 100) * sourceHeight));
+  return {
+    x,
+    y,
+    width: Math.max(1, Math.min(width, sourceWidth - x)),
+    height: Math.max(1, Math.min(height, sourceHeight - y)),
+  };
+}
+
+function cropImageToDataUrl(source, box, options = {}) {
+  const rect = getCropPixelRect(source, box);
+  const maxDimension = Number(options.maxDimension) || Math.max(rect.width, rect.height);
+  const scale = Math.min(1, maxDimension / Math.max(rect.width, rect.height));
   const canvas = document.createElement("canvas");
-  canvas.width = Math.min(width, source.naturalWidth - x);
-  canvas.height = Math.min(height, source.naturalHeight - y);
+  canvas.width = Math.max(1, Math.round(rect.width * scale));
+  canvas.height = Math.max(1, Math.round(rect.height * scale));
   const context = canvas.getContext("2d");
-  context.drawImage(source, x, y, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg", 0.86);
+  context.drawImage(source, rect.x, rect.y, rect.width, rect.height, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", options.quality || 0.86);
+}
+
+function createCandidateCropSnapshot(source, box) {
+  if (!source || !box) return null;
+  try {
+    const rect = getCropPixelRect(source, box);
+    return {
+      cropImage: cropImageToDataUrl(source, box, {
+        maxDimension: visionConfig.candidateCropMaxDimension,
+        quality: visionConfig.candidateCropQuality,
+      }),
+      cropMeta: { width: rect.width, height: rect.height },
+      cropVersion: visionConfig.candidateCropVersion,
+    };
+  } catch (error) {
+    console.info("Candidate crop thumbnail skipped.", error);
+    return null;
+  }
+}
+
+function createCandidateCropImage(source, box) {
+  return createCandidateCropSnapshot(source, box)?.cropImage || "";
+}
+
+function shouldRefreshCandidateCrop(candidate) {
+  return !candidate.cropImage
+    || !normalizeCropMeta(candidate.cropMeta)
+    || candidate.cropVersion !== visionConfig.candidateCropVersion;
 }
 
 async function matchCatalogForCrop(source, box) {
@@ -1523,8 +1868,20 @@ async function recognizeWithSmallModel(image) {
   throw lastError || new Error("本地主体识别暂不可用");
 }
 
+async function recognizeWithSmallModelCached(image) {
+  const cached = getCachedRecognitionResult(image);
+  if (cached) return cached;
+  const result = await recognizeWithSmallModel(image);
+  setCachedRecognitionResult(image, result);
+  return result;
+}
+
 async function recognizeWithCloudApi(context) {
-  const response = await fetch("/api/recognize", {
+  const endpoint = visionConfig.cloudRecognitionEndpoint || (platform.isNative ? "" : "/api/recognize");
+  if (!endpoint) {
+    throw new Error("iOS 未配置云端识别端点，默认只使用本地识别。");
+  }
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -1569,6 +1926,133 @@ function withTimeout(promise, timeoutMs, message) {
 function isImageFile(file) {
   if (file?.type?.startsWith("image/")) return true;
   return /\.(avif|bmp|gif|heic|heif|jpe?g|png|webp)$/i.test(file?.name || "");
+}
+
+function isLikelyImageDecodeError(error) {
+  return /decode|解码|图片无法读取|source image|unsupported|invalid image/i.test(error?.message || String(error || ""));
+}
+
+async function readFileSignature(file, length = 32) {
+  const buffer = await file.slice(0, length).arrayBuffer();
+  return new Uint8Array(buffer);
+}
+
+function asciiFromBytes(bytes, start, end) {
+  return Array.from(bytes.slice(start, end), (byte) => String.fromCharCode(byte)).join("");
+}
+
+async function isHeicHeifFile(file) {
+  const mime = String(file?.type || "").toLowerCase();
+  if (/image\/hei[cf]|image\/heif-sequence|image\/heic-sequence/.test(mime)) return true;
+  if (/\.(heic|heif|heics|heifs)$/i.test(file?.name || "")) return true;
+
+  try {
+    const bytes = await readFileSignature(file, 32);
+    if (bytes.length < 12 || asciiFromBytes(bytes, 4, 8) !== "ftyp") return false;
+    const brands = new Set(["heic", "heix", "hevc", "hevx", "heim", "heis", "hevm", "hevs", "mif1", "msf1"]);
+    for (let index = 8; index + 4 <= bytes.length; index += 4) {
+      if (brands.has(asciiFromBytes(bytes, index, index + 4))) return true;
+    }
+  } catch (error) {
+    console.warn("HEIC signature check failed.", error);
+  }
+  return false;
+}
+
+async function loadHeicConverter() {
+  if (typeof window.heic2any === "function") return window.heic2any;
+  if (!heicConverterPromise) {
+    heicConverterPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = `${visionConfig.localHeicConverterScript}?v=${visionConfig.appVersion}`;
+      script.async = true;
+      script.onload = () => {
+        if (typeof window.heic2any === "function") {
+          resolve(window.heic2any);
+          return;
+        }
+        reject(new Error("HEIC 转换器加载失败。"));
+      };
+      script.onerror = () => reject(new Error("HEIC 转换器加载失败。"));
+      document.head.appendChild(script);
+    }).catch((error) => {
+      heicConverterPromise = null;
+      throw error;
+    });
+  }
+  return heicConverterPromise;
+}
+
+function canUseLocalImageConversionApi() {
+  return ["http:", "https:"].includes(window.location.protocol);
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("图片数据读取失败。"));
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function convertHeicFileWithLocalServer(file) {
+  const image = await blobToDataUrl(file);
+  const response = await fetch("/api/convert-image", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      image,
+      filename: file.name || "upload.heic",
+      quality: Math.round(visionConfig.uploadJpegQuality * 100),
+    }),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.error || "本地 HEIC/HEIF 转换失败。");
+  }
+  if (!String(payload.image || "").startsWith("data:image/jpeg;base64,")) {
+    throw new Error("本地 HEIC/HEIF 转换没有返回 JPEG。");
+  }
+  return fetch(payload.image).then((convertedResponse) => convertedResponse.blob());
+}
+
+async function convertHeicFileInBrowser(file) {
+  const heic2any = await loadHeicConverter();
+  const converted = await withTimeout(
+    heic2any({
+      blob: file,
+      toType: "image/jpeg",
+      quality: Math.min(0.92, Math.max(0.72, visionConfig.uploadJpegQuality)),
+      multiple: false,
+    }),
+    visionConfig.heicConversionTimeoutMs,
+    "HEIC/HEIF 转 JPEG 超时，请稍后重试或先裁剪照片。",
+  );
+  const blob = Array.isArray(converted) ? converted[0] : converted;
+  if (!(blob instanceof Blob)) {
+    throw new Error("HEIC/HEIF 转 JPEG 失败。");
+  }
+  return blob;
+}
+
+async function convertHeicFileToJpegBlob(file) {
+  const errors = [];
+  if (canUseLocalImageConversionApi()) {
+    try {
+      return await convertHeicFileWithLocalServer(file);
+    } catch (error) {
+      errors.push(error);
+      console.warn("Local HEIC conversion failed, falling back to browser converter.", error);
+    }
+  }
+  try {
+    return await convertHeicFileInBrowser(file);
+  } catch (error) {
+    errors.push(error);
+  }
+  console.warn("HEIC conversion failed.", errors);
+  throw new Error("HEIC/HEIF 自动转换失败，请换一张照片或先在相册导出为 JPEG/PNG。");
 }
 
 function getDrawableSize(source) {
@@ -1617,11 +2101,19 @@ async function resizeImageSourceToDataUrl(source, options = {}) {
   return dataUrl;
 }
 
-async function prepareUploadedImage(file) {
-  if (!isImageFile(file)) {
-    throw new Error("请选择图片文件。");
-  }
-  const url = URL.createObjectURL(file);
+async function prepareImageForDetection(image) {
+  const source = await loadImage(image);
+  const size = getDrawableSize(source);
+  if (Math.max(size.width, size.height) <= visionConfig.detectionMaxDimension) return image;
+  return resizeImageSourceToDataUrl(source, {
+    maxDimension: visionConfig.detectionMaxDimension,
+    maxLength: Math.min(visionConfig.maxUploadDataUrlLength, 520000),
+    quality: 0.78,
+  });
+}
+
+async function decodeImageBlobToDataUrl(blob) {
+  const url = URL.createObjectURL(blob);
   try {
     const image = await withTimeout(
       loadImage(url),
@@ -1630,7 +2122,7 @@ async function prepareUploadedImage(file) {
     ).catch(async (error) => {
       if (!window.createImageBitmap) throw error;
       const bitmap = await withTimeout(
-        createImageBitmap(file, { imageOrientation: "from-image" }),
+        createImageBitmap(blob, { imageOrientation: "from-image" }),
         visionConfig.uploadDecodeTimeoutMs,
         "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
       );
@@ -1641,14 +2133,41 @@ async function prepareUploadedImage(file) {
     } finally {
       image.close?.();
     }
-  } catch (error) {
-    if (/decode|解码|图片无法读取|source image/i.test(error.message || "")) {
-      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，请先导出为 JPEG/PNG 后再上传。");
-    }
-    throw error;
   } finally {
     URL.revokeObjectURL(url);
   }
+}
+
+async function prepareUploadedImage(file) {
+  const isHeif = await isHeicHeifFile(file);
+  if (!isImageFile(file) && !isHeif) {
+    throw new Error("请选择图片文件。");
+  }
+
+  try {
+    return await decodeImageBlobToDataUrl(file);
+  } catch (error) {
+    if (isHeif && isLikelyImageDecodeError(error)) {
+      try {
+        const jpegBlob = await convertHeicFileToJpegBlob(file);
+        return await decodeImageBlobToDataUrl(jpegBlob);
+      } catch (conversionError) {
+        throw new Error(conversionError.message || "HEIC/HEIF 自动转换失败，请换一张照片。");
+      }
+    }
+    if (isLikelyImageDecodeError(error)) {
+      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，系统会自动转换，请确认文件没有损坏。");
+    }
+    throw error;
+  }
+}
+
+async function getImageDimensions(image) {
+  const source = await loadImage(image);
+  return {
+    width: source.naturalWidth || source.width || 0,
+    height: source.naturalHeight || source.height || 0,
+  };
 }
 
 function buildIntegralScores(cellScores) {
@@ -1808,7 +2327,7 @@ function refineNameByPosition(name, box) {
   return name;
 }
 
-async function resolveCandidateName(candidate, index, sourceImage) {
+async function resolveCandidateName(candidate, index, source) {
   if (candidate.edited) return { ...candidate, namingStatus: "done" };
 
   if (candidate.suggestedName) {
@@ -1821,8 +2340,7 @@ async function resolveCandidateName(candidate, index, sourceImage) {
 
   const embeddingIndex = await getCatalogEmbeddingIndex();
   if (embeddingIndex.entries?.length) {
-    const source = await loadImage(sourceImage);
-    const catalogMatch = await matchCatalogFromEmbeddingIndex(source, candidate.box).catch(() => null);
+    const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, candidate.box).catch(() => null) : null;
     if (catalogMatch) {
       return {
         ...candidate,
@@ -1847,12 +2365,22 @@ async function resolveCandidateName(candidate, index, sourceImage) {
 
 async function nameDetectedCandidates(image, candidates, onProgress) {
   const minimumAnimation = new Promise((resolve) => setTimeout(resolve, 360));
+  const sourcePromise = loadImage(image).catch(() => null);
+  const source = await sourcePromise;
   await minimumAnimation;
+  const preparedCandidates = source
+    ? candidates.map((candidate) => (
+      shouldRefreshCandidateCrop(candidate)
+        ? { ...candidate, ...(createCandidateCropSnapshot(source, candidate.box) || {}) }
+        : candidate
+    ))
+    : candidates;
   const named = [];
-  for (let index = 0; index < candidates.length; index += 1) {
-    const resolved = await resolveCandidateName(candidates[index], index, image);
+  onProgress?.(preparedCandidates);
+  for (let index = 0; index < preparedCandidates.length; index += 1) {
+    const resolved = await resolveCandidateName(preparedCandidates[index], index, source);
     named.push(resolved);
-    onProgress?.([...named, ...candidates.slice(index + 1)]);
+    onProgress?.([...named, ...preparedCandidates.slice(index + 1)]);
   }
   return named;
 }
@@ -1872,6 +2400,8 @@ function providerLabel(provider) {
   if (name.startsWith("local-small-model")) return "本地小模型";
   if (name.startsWith("browser-small-model")) return "在线小模型";
   if (name === "local-image") return "本地候选区域";
+  if (name === "ios-camera") return "iOS 相机";
+  if (name === "ios-photo-library") return "iOS 相册";
   if (name === "cloud-vlm" || name.startsWith("openai:")) return "云端大模型";
   return name;
 }
@@ -2107,6 +2637,7 @@ function render() {
   `;
   hydrateCamera();
   hydrateCandidatePins();
+  hydrateCandidateCrops();
 }
 
 function renderTopbar() {
@@ -2360,7 +2891,7 @@ function renderStorageStage(place, highlightItemId = null, compact = false) {
   const childPlaces = getChildPlaces(place.id, place.roomId);
   const hasPhoto = Boolean(place.image);
   return `
-    <div class="storage-stage ${place.kind} ${hasPhoto ? "has-photo" : ""}">
+    <div class="storage-stage ${place.kind} ${hasPhoto ? "has-photo" : ""}" ${hasPhoto ? imageAspectStyle(place.imageMeta) : ""}>
       ${hasPhoto ? `<img class="storage-photo" alt="${escapeHtml(place.name)}照片" src="${place.image}" />` : `
         <span class="storage-rail"></span>
         <span class="storage-rail"></span>
@@ -2536,6 +3067,20 @@ function getRecognitionStatusMeta() {
   };
 }
 
+function renderRecognitionDiagnostics() {
+  const diagnostics = state.capture.recognitionDiagnostics;
+  if (!diagnostics) return "";
+  const total = Math.round(diagnostics.totalMs || 0);
+  const detection = Math.round(diagnostics.detectionMs || 0);
+  const naming = Math.round(diagnostics.namingMs || 0);
+  const dimensions = diagnostics.imageDimensions
+    ? `${diagnostics.imageDimensions.width}x${diagnostics.imageDimensions.height}`
+    : "未知尺寸";
+  const cacheText = diagnostics.cacheHit ? " · 缓存命中" : "";
+  const threadText = diagnostics.wasmThreads ? ` · WASM ${diagnostics.wasmThreads}线程` : "";
+  return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${cacheText} · 主体 ${detection}ms · 命名 ${naming}ms · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
+}
+
 function renderCaptureView() {
   const room = getCaptureRoom();
   const place = getCapturePlace() || makeVirtualPlace(room);
@@ -2568,7 +3113,9 @@ function renderCaptureView() {
             <select class="select-field" data-capture-place ${room.places.length ? "" : "disabled"}>
               ${placeRows.length ? placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("") : `<option>识别后自动生成照片点</option>`}
             </select>
-            <button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>
+            ${platform.photos.canUseNativePhotoLibrary()
+              ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
+              : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
             <button class="secondary-btn" data-camera-start>${icons.camera}<span>摄像头</span></button>
           </div>
         </div>
@@ -2577,6 +3124,7 @@ function renderCaptureView() {
             <div>
               <h3 class="panel-title">候选物品</h3>
               <p class="panel-subtitle">${escapeHtml(place.shortName)} · ${escapeHtml(providerLabel(state.capture.provider))}</p>
+              ${renderRecognitionDiagnostics()}
             </div>
             <span class="count-pill">${selectedCount}/${candidates.length}</span>
           </div>
@@ -2594,8 +3142,9 @@ function renderCaptureStage() {
   const candidates = state.capture.candidates || [];
   const activeCandidate = candidates.find((candidate) => candidate.id === state.capture.activeCandidateId);
   const pinLayouts = layoutCandidatePins(candidates);
+  const hasImage = Boolean(state.capture.image) && !state.cameraOn;
   return `
-    <div class="capture-stage" data-capture-stage>
+    <div class="capture-stage ${hasImage ? "has-image" : ""}" data-capture-stage ${hasImage ? imageAspectStyle(state.capture.imageMeta) : ""}>
       ${state.cameraOn ? `<video id="cameraVideo" autoplay playsinline muted></video>` : state.capture.image ? `<img alt="上传的储物点照片" src="${state.capture.image}" />` : renderCapturePlaceholder()}
       ${state.cameraOn ? `<button class="primary-btn" data-camera-shot style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3">${icons.camera}<span>拍照</span></button>` : ""}
       ${activeCandidate ? `
@@ -2632,9 +3181,49 @@ function renderCapturePlaceholder() {
   `;
 }
 
+function hasCandidateOptionalDetails(candidate) {
+  return Boolean(candidate.expireAt || candidate.nextAt || candidate.nextLabel || candidate.container);
+}
+
+function renderCandidateMetaChips(candidate) {
+  const chips = [];
+  if (candidate.expireAt) chips.push(`保质期 ${formatDate(candidate.expireAt)}`);
+  if (candidate.nextAt) chips.push(`${candidate.nextLabel || "提醒"} ${formatDate(candidate.nextAt)}`);
+  if (candidate.container) chips.push(`位置 ${candidate.container}`);
+  if (!chips.length) return "";
+  return `<div class="candidate-meta-chips">${chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>`;
+}
+
+function renderCandidateDatePicker(candidate, field, label) {
+  const value = candidate[field] || "";
+  return `
+    <div class="date-picker-block">
+      <span>${escapeHtml(label)}</span>
+      <button class="secondary-btn compact-btn date-choice" type="button" data-open-date-picker="${candidate.id}" data-field="${field}">
+        <strong>${value ? escapeHtml(formatDate(value)) : "选择日期"}</strong>
+      </button>
+      ${value ? `<button class="ghost-btn compact-btn" type="button" data-clear-candidate-field="${candidate.id}" data-field="${field}">清除</button>` : ""}
+      <input class="native-date-input" type="date" value="${escapeHtml(value)}" data-candidate-date-input="${candidate.id}" data-candidate-field="${candidate.id}" data-field="${field}" aria-label="${escapeHtml(label)}" />
+    </div>
+  `;
+}
+
+function renderCandidateCrop(candidate) {
+  const label = candidate.cropImage ? "主体裁切图" : "裁切图生成中";
+  return `
+    <div class="candidate-crop ${candidate.cropImage ? "" : "empty"}" aria-label="${escapeHtml(label)}" ${cropAspectStyle(candidate.cropMeta)}>
+      ${candidate.cropImage
+        ? `<img src="${candidate.cropImage}" alt="${escapeHtml(candidate.name)}主体裁切图" />`
+        : `<span>${escapeHtml(label)}</span>`}
+    </div>
+  `;
+}
+
 function renderCandidate(candidate) {
   const isActive = state.capture.activeCandidateId === candidate.id;
   const isNaming = candidate.namingStatus === "loading";
+  const showDetails = candidate.detailsOpen || hasCandidateOptionalDetails(candidate);
+  const showBox = candidate.boxOpen;
   return `
     <article class="candidate-row ${candidate.selected ? "" : "muted"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}" data-candidate-select="${candidate.id}">
       <div class="candidate-head">
@@ -2647,27 +3236,63 @@ function renderCandidate(candidate) {
           <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
         </div>
       </div>
-      <div class="candidate-form">
-        <input class="field" value="${escapeHtml(candidate.name)}" data-candidate-field="${candidate.id}" data-field="name" aria-label="物品名称" />
-        <select class="select-field" data-candidate-field="${candidate.id}" data-field="category" aria-label="分类">
-          ${Object.entries(categoryLabels).map(([key, label]) => `<option value="${key}" ${candidate.category === key ? "selected" : ""}>${label}</option>`).join("")}
-        </select>
-        <input class="field" type="number" min="1" value="${escapeHtml(candidate.qty || 1)}" data-candidate-field="${candidate.id}" data-field="qty" aria-label="数量" />
+      ${renderCandidateMetaChips(candidate)}
+      <div class="candidate-body">
+        ${renderCandidateCrop(candidate)}
+        <div class="candidate-info">
+          <div class="candidate-form">
+            <label class="candidate-field">
+              <span>物品名</span>
+              <input class="field" value="${escapeHtml(candidate.name)}" data-candidate-field="${candidate.id}" data-field="name" aria-label="物品名称" />
+            </label>
+            <label class="candidate-field">
+              <span>分类</span>
+              <select class="select-field" data-candidate-field="${candidate.id}" data-field="category" aria-label="分类">
+                ${Object.entries(categoryLabels).map(([key, label]) => `<option value="${key}" ${candidate.category === key ? "selected" : ""}>${label}</option>`).join("")}
+              </select>
+            </label>
+            <label class="candidate-field">
+              <span>数量（件）</span>
+              <input class="field" type="number" min="1" value="${escapeHtml(candidate.qty || 1)}" data-candidate-field="${candidate.id}" data-field="qty" aria-label="数量，按件数统计" />
+              <small>默认按 1 件入库</small>
+            </label>
+          </div>
+          <div class="candidate-option-bar">
+            <button class="ghost-btn compact-btn" type="button" data-toggle-candidate-details="${candidate.id}">
+              ${icons.bell}<span>${showDetails ? "收起提醒" : "保质期/提醒"}</span>
+            </button>
+            <button class="ghost-btn compact-btn" type="button" data-toggle-candidate-box="${candidate.id}">
+              ${icons.scan}<span>${showBox ? "收起定位" : "调整定位"}</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="candidate-form secondary">
-        <input class="field" type="date" value="${escapeHtml(candidate.expireAt || "")}" data-candidate-field="${candidate.id}" data-field="expireAt" aria-label="有效期" />
-        <input class="field" type="date" value="${escapeHtml(candidate.nextAt || "")}" data-candidate-field="${candidate.id}" data-field="nextAt" aria-label="维护日期" />
-        <input class="field" value="${escapeHtml(candidate.nextLabel || "")}" data-candidate-field="${candidate.id}" data-field="nextLabel" aria-label="维护事项" placeholder="维护事项" />
-      </div>
-      <input class="field" value="${escapeHtml(candidate.container || "")}" data-candidate-field="${candidate.id}" data-field="container" aria-label="容器" />
-      <div class="box-control-grid" aria-label="定位框数值">
-        ${["x", "y", "w", "h"].map((field) => `
-          <label>
-            <span>${field.toUpperCase()}</span>
-            <input class="field" type="number" min="0" max="100" step="1" value="${Math.round(candidate.box[field])}" data-candidate-box-field="${candidate.id}" data-field="${field}" aria-label="${field.toUpperCase()} 坐标" />
+      ${showDetails ? `
+        <div class="candidate-extra-panel">
+          <div class="date-picker-grid">
+            ${renderCandidateDatePicker(candidate, "expireAt", "保质期")}
+            ${renderCandidateDatePicker(candidate, "nextAt", "提醒日期")}
+          </div>
+          <label class="candidate-field">
+            <span>提醒事项</span>
+            <input class="field" value="${escapeHtml(candidate.nextLabel || "")}" data-candidate-field="${candidate.id}" data-field="nextLabel" aria-label="维护事项" placeholder="例如：换滤芯、补货、复查" />
           </label>
-        `).join("")}
-      </div>
+          <label class="candidate-field">
+            <span>具体位置</span>
+            <input class="field" value="${escapeHtml(candidate.container || "")}" data-candidate-field="${candidate.id}" data-field="container" aria-label="具体位置" placeholder="例如：左侧抽屉、白色药箱" />
+          </label>
+        </div>
+      ` : ""}
+      ${showBox ? `
+        <div class="box-control-grid" aria-label="定位框数值">
+          ${["x", "y", "w", "h"].map((field) => `
+            <label>
+              <span>${field.toUpperCase()}</span>
+              <input class="field" type="number" min="0" max="100" step="1" value="${Math.round(candidate.box[field])}" data-candidate-box-field="${candidate.id}" data-field="${field}" aria-label="${field.toUpperCase()} 坐标" />
+            </label>
+          `).join("")}
+        </div>
+      ` : ""}
     </article>
   `;
 }
@@ -2827,10 +3452,13 @@ async function scanCurrentPlace() {
   const runId = recognitionRunId + 1;
   recognitionRunId = runId;
   const scanImage = state.capture.image;
+  const scanStartedAt = performance.now();
+  const imageDimensionsPromise = getImageDimensions(scanImage).catch(() => null);
   state.capture = {
     ...state.capture,
     recognitionStatus: "detecting",
     recognitionError: "",
+    recognitionDiagnostics: null,
     candidates: [],
     activeCandidateId: null,
     provider: requestedProvider,
@@ -2840,7 +3468,13 @@ async function scanCurrentPlace() {
 
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   try {
-    const smallRecognition = await recognizeWithSmallModel(scanImage)
+    const detectionImage = await prepareImageForDetection(scanImage).catch((error) => {
+      console.info("Detection resize skipped.", error);
+      return scanImage;
+    });
+    if (!stillCurrent()) return;
+
+    const smallRecognition = await recognizeWithSmallModelCached(detectionImage)
       .catch((error) => {
         console.info("Small model unavailable, falling back to local image proposals.", error);
         return null;
@@ -2848,12 +3482,13 @@ async function scanCurrentPlace() {
     if (!stillCurrent()) return;
 
     let provider = smallRecognition?.provider || requestedProvider;
+    const cacheHit = Boolean(smallRecognition?.cacheHit);
     let detected = smallRecognition?.candidates?.length
       ? normalizeRecognitionResults(smallRecognition.candidates, provider)
       : [];
 
     if (!detected.length) {
-      const fallbackRecognition = await recognizeWithHeuristicRegions(scanImage)
+      const fallbackRecognition = await recognizeWithHeuristicRegions(detectionImage)
         .catch((error) => {
           console.info("Local proposal fallback failed.", error);
           return { provider: "local-image", candidates: [] };
@@ -2862,6 +3497,7 @@ async function scanCurrentPlace() {
       provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
       detected = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
     }
+    const detectionMs = performance.now() - scanStartedAt;
 
     if (!detected.length) {
       state.capture = {
@@ -2870,6 +3506,18 @@ async function scanCurrentPlace() {
         activeCandidateId: null,
         recognitionStatus: "empty",
         recognitionError: "",
+        recognitionDiagnostics: {
+          provider,
+          assetMode: await getVisionAssetMode().catch(() => null),
+          imageDimensions: await imageDimensionsPromise,
+          preprocessingMs: state.capture.preprocessingMs || null,
+          detectionMs,
+          namingMs: 0,
+          totalMs: performance.now() - scanStartedAt,
+          resultCount: 0,
+          cacheHit,
+          wasmThreads: getVisionWasmThreadCount(),
+        },
         provider,
       };
       persist();
@@ -2879,7 +3527,7 @@ async function scanCurrentPlace() {
     }
 
     const place = ensureCapturePlace();
-    updatePlaceImage(place.id, scanImage);
+    updatePlaceImage(place.id, scanImage, state.capture.imageRef, state.capture.imageMeta);
     detected = renumberUnknownCandidates(detected);
     state.capture = {
       ...state.capture,
@@ -2889,12 +3537,14 @@ async function scanCurrentPlace() {
       activeCandidateId: null,
       recognitionStatus: "naming",
       recognitionError: "",
+      recognitionDiagnostics: null,
       provider,
     };
     persist();
     render();
     showToast(`已生成 ${detected.length} 个主体框，正在命名`);
 
+    const namingStartedAt = performance.now();
     const namedCandidates = await nameDetectedCandidates(scanImage, detected, (partialCandidates) => {
       if (!stillCurrent()) return;
       state.capture = {
@@ -2905,12 +3555,25 @@ async function scanCurrentPlace() {
       render();
     });
     if (!stillCurrent()) return;
+    const namingMs = performance.now() - namingStartedAt;
     state.capture = {
       ...state.capture,
       candidates: applyCandidateProgressUpdates(state.capture.candidates || [], namedCandidates, provider),
       activeCandidateId: state.capture.activeCandidateId || null,
       recognitionStatus: "done",
       recognitionError: "",
+      recognitionDiagnostics: {
+        provider,
+        assetMode: await getVisionAssetMode().catch(() => null),
+        imageDimensions: await imageDimensionsPromise,
+        preprocessingMs: state.capture.preprocessingMs || null,
+        detectionMs,
+        namingMs,
+        totalMs: performance.now() - scanStartedAt,
+        resultCount: namedCandidates.length,
+        cacheHit,
+        wasmThreads: getVisionWasmThreadCount(),
+      },
       provider,
     };
     persist();
@@ -2923,6 +3586,18 @@ async function scanCurrentPlace() {
       activeCandidateId: null,
       recognitionStatus: "error",
       recognitionError: error.message || "分析失败，请保留照片后重试",
+      recognitionDiagnostics: {
+        provider: state.capture.provider || requestedProvider,
+        assetMode: await getVisionAssetMode().catch(() => null),
+        imageDimensions: await imageDimensionsPromise,
+        preprocessingMs: state.capture.preprocessingMs || null,
+        detectionMs: performance.now() - scanStartedAt,
+        namingMs: 0,
+        totalMs: performance.now() - scanStartedAt,
+        resultCount: 0,
+        cacheHit: false,
+        wasmThreads: getVisionWasmThreadCount(),
+      },
     };
     persist();
     render();
@@ -2939,7 +3614,7 @@ function confirmCandidates() {
   const roomId = state.capture.roomId;
   const placeId = state.capture.placeId;
   const nowText = new Date().toISOString().slice(0, 10);
-  updatePlaceImage(placeId, state.capture.image);
+  updatePlaceImage(placeId, state.capture.image, state.capture.imageRef, state.capture.imageMeta);
   const existingNames = new Set(state.items.map((item) => `${item.placeId}:${normalizeText(item.name)}`));
   const incoming = selected
     .filter((candidate) => !existingNames.has(`${placeId}:${normalizeText(candidate.name)}`))
@@ -2960,6 +3635,7 @@ function confirmCandidates() {
       confidence: candidate.confidence,
       source: candidate.source || state.capture.provider || "local-image",
       recognitionProvider: state.capture.provider || "local-image",
+      imageRef: state.capture.imageRef || null,
       boxEdited: Boolean(candidate.edited),
     }));
 
@@ -3039,6 +3715,29 @@ function updateCandidate(id, field, value) {
   state.capture.activeCandidateId = id;
   persist();
   render();
+}
+
+function toggleCandidatePanel(id, panel) {
+  const key = panel === "box" ? "boxOpen" : "detailsOpen";
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
+    candidate.id === id ? { ...candidate, [key]: !candidate[key] } : candidate
+  ));
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
+}
+
+function openCandidateDatePicker(id, field) {
+  const input = [...document.querySelectorAll("[data-candidate-date-input]")]
+    .find((entry) => entry.dataset.candidateDateInput === id && entry.dataset.field === field);
+  if (!input) return;
+  state.capture.activeCandidateId = id;
+  try {
+    input.showPicker?.();
+  } catch {
+    input.focus();
+    input.click();
+  }
 }
 
 function toggleCandidate(id) {
@@ -3122,6 +3821,10 @@ function finishCandidateDrag() {
 }
 
 async function startCamera() {
+  if (platform.photos.canUseNativeCamera()) {
+    await importNativePhoto("camera");
+    return;
+  }
   if (!navigator.mediaDevices?.getUserMedia) {
     showToast("当前浏览器不支持摄像头");
     return;
@@ -3133,6 +3836,56 @@ async function startCamera() {
     hydrateCamera();
   } catch {
     showToast("摄像头未授权");
+  }
+}
+
+async function importNativePhoto(source) {
+  const isCamera = source === "camera";
+  const canUse = isCamera ? platform.photos.canUseNativeCamera() : platform.photos.canUseNativePhotoLibrary();
+  if (!canUse) {
+    showToast("当前环境暂不支持原生照片导入");
+    return;
+  }
+  state.capture = {
+    ...state.capture,
+    candidates: [],
+    activeCandidateId: null,
+    recognitionStatus: "loading",
+    recognitionError: "",
+    provider: isCamera ? "ios-camera" : "ios-photo-library",
+  };
+  render();
+  showToast(isCamera ? "正在打开相机" : "正在打开相册");
+  try {
+    const preprocessStartedAt = performance.now();
+    const photo = isCamera ? await platform.photos.captureFromCamera() : await platform.photos.pickFromLibrary();
+    const loaded = await loadImage(photo.dataUrl);
+    const image = await resizeImageSourceToDataUrl(loaded);
+    const imageMeta = normalizeImageMeta(loaded) || await imageMetaFromDataUrl(image);
+    const imageRef = await persistPhotoDataUrl(image, isCamera ? "ios-camera" : "ios-photo-library");
+    resetCaptureRecognition({
+      image,
+      imageRef,
+      imageMeta,
+      preprocessingMs: performance.now() - preprocessStartedAt,
+      provider: isCamera ? "ios-camera" : "ios-photo-library",
+    });
+    warmCaptureDetectionModel();
+    persist();
+    render();
+    showToast(isCamera ? "照片已拍摄" : "照片已导入");
+  } catch (error) {
+    state.capture = {
+      ...state.capture,
+      candidates: [],
+      activeCandidateId: null,
+      recognitionStatus: "error",
+      recognitionError: error.message || "照片导入失败",
+      provider: isCamera ? "ios-camera" : "ios-photo-library",
+    };
+    persist();
+    render();
+    showToast(error.message || "照片导入失败");
   }
 }
 
@@ -3158,6 +3911,28 @@ function hydrateCandidatePins() {
   }
 }
 
+async function hydrateCandidateCrops() {
+  const candidates = state.capture.candidates || [];
+  const image = state.capture.image;
+  if (!image || !candidates.some(shouldRefreshCandidateCrop)) return;
+  const key = `${hashStringFast(image)}:${visionConfig.candidateCropVersion}:${candidates.map((candidate) => `${candidate.id}:${candidate.cropVersion || "none"}:${candidate.cropMeta?.width || 0}x${candidate.cropMeta?.height || 0}`).join(",")}`;
+  if (candidateCropHydrationKey === key) return;
+  candidateCropHydrationKey = key;
+  const source = await loadImage(image).catch(() => null);
+  if (!source || state.capture.image !== image) return;
+  let changed = false;
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (!shouldRefreshCandidateCrop(candidate)) return candidate;
+    const crop = createCandidateCropSnapshot(source, candidate.box);
+    if (!crop?.cropImage) return candidate;
+    changed = true;
+    return { ...candidate, ...crop };
+  });
+  if (!changed) return;
+  persist();
+  render();
+}
+
 async function captureCameraFrame() {
   const video = document.querySelector("#cameraVideo");
   if (!video) return;
@@ -3168,8 +3943,11 @@ async function captureCameraFrame() {
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
   stopCamera();
   try {
+    const preprocessStartedAt = performance.now();
     const image = await resizeImageSourceToDataUrl(canvas);
-    resetCaptureRecognition({ image, provider: "local-image" });
+    const imageMeta = normalizeImageMeta(canvas) || await imageMetaFromDataUrl(image);
+    const imageRef = await persistPhotoDataUrl(image, "browser-camera");
+    resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
     warmCaptureDetectionModel();
     state.cameraOn = false;
     persist();
@@ -3258,6 +4036,30 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const toggleCandidateDetailsButton = event.target.closest("[data-toggle-candidate-details]");
+  if (toggleCandidateDetailsButton) {
+    toggleCandidatePanel(toggleCandidateDetailsButton.dataset.toggleCandidateDetails, "details");
+    return;
+  }
+
+  const toggleCandidateBoxButton = event.target.closest("[data-toggle-candidate-box]");
+  if (toggleCandidateBoxButton) {
+    toggleCandidatePanel(toggleCandidateBoxButton.dataset.toggleCandidateBox, "box");
+    return;
+  }
+
+  const datePickerButton = event.target.closest("[data-open-date-picker]");
+  if (datePickerButton) {
+    openCandidateDatePicker(datePickerButton.dataset.openDatePicker, datePickerButton.dataset.field);
+    return;
+  }
+
+  const clearCandidateFieldButton = event.target.closest("[data-clear-candidate-field]");
+  if (clearCandidateFieldButton) {
+    updateCandidate(clearCandidateFieldButton.dataset.clearCandidateField, clearCandidateFieldButton.dataset.field, "");
+    return;
+  }
+
   const example = event.target.closest("[data-example]");
   if (example) {
     state.query = example.dataset.example;
@@ -3283,7 +4085,7 @@ document.addEventListener("click", (event) => {
   }
 
   const candidateSelect = event.target.closest("[data-candidate-select]");
-  if (candidateSelect && !event.target.closest("input, select")) {
+  if (candidateSelect && !event.target.closest("input, select, button")) {
     selectCandidate(candidateSelect.dataset.candidateSelect);
     return;
   }
@@ -3318,6 +4120,11 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  if (event.target.closest("[data-native-photo-library]")) {
+    importNativePhoto("library");
+    return;
+  }
+
   if (event.target.closest("[data-camera-shot]")) {
     captureCameraFrame();
     return;
@@ -3325,7 +4132,7 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-reset]")) {
     stopCamera();
-    localStorage.removeItem(STORAGE_KEY);
+    platform.storage.removeSnapshot();
     state = structuredClone(seedState);
     render();
     showToast("已清空本地数据");
@@ -3396,8 +4203,11 @@ document.addEventListener("change", async (event) => {
     render();
     showToast("正在处理高清照片");
     try {
+      const preprocessStartedAt = performance.now();
       const image = await prepareUploadedImage(file);
-      resetCaptureRecognition({ image, provider: "local-image" });
+      const imageMeta = await imageMetaFromDataUrl(image);
+      const imageRef = await persistPhotoDataUrl(image, "file-input");
+      resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
       warmCaptureDetectionModel();
       persist();
       render();
@@ -3440,4 +4250,5 @@ window.addEventListener("beforeunload", stopCamera);
 
 render();
 performSearch();
+hydratePlatformState();
 warmVisionModels();

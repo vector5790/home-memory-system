@@ -29,6 +29,24 @@ python3 scripts/download-vision-assets.py
 http://localhost:4173/?v=20260520-upload-feedback
 ```
 
+如果要走 iOS App 开发，先安装 Node.js 20+ 和完整 Xcode，然后运行：
+
+```bash
+npm install
+npm run build:web
+npx cap add ios # 只在首次生成 ios/ 工程时需要
+npm run ios:sync
+npm run ios:open
+```
+
+`npm run dev` 仍然等价于本地浏览器开发服务，会启动 `python3 server.py 4173`。`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `python3 scripts/download-vision-assets.py`，否则本地模型资产校验会失败。
+
+如果 `xcodebuild` 提示 active developer directory 是 `/Library/Developer/CommandLineTools`，说明当前只安装或只选中了 Command Line Tools，需要安装完整 Xcode，并执行：
+
+```bash
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+```
+
 默认不需要任何付费 API。上传照片后，浏览器会优先调用 `vendor/` 里的本地 Grounding DINO 做开放词表主体检测，并在 SlimSAM 资产存在时细化候选区域；主体点和连线标签会先出现，名称会以“识别中”状态异步补全。如果 Grounding DINO 还没下载，会退回 OWL-ViT；如果小模型不可用，再明确降级到本地 Canvas 图片分析生成候选区域，用户再手动确认和改名。
 
 如果你的 PowerShell 能直接识别 `node`，也可以使用 Node 服务：
@@ -60,6 +78,15 @@ powershell -ExecutionPolicy Bypass -File .\start.ps1
 5. 上传照片后，优先用 Grounding DINO/OWL-ViT 输出主体区域；Canvas 只在小模型不可用或无结果时兜底。
 6. 候选命名先匹配家庭常见物品目录和可选 embedding 索引，低于阈值时显示 `物品A/B/C` 等待用户填写。
 7. 云端大模型识别只作为后续可选兜底 provider，不是默认路径。
+
+## iOS 当前实现范围
+
+- 已添加 Capacitor iOS 工程，bundle id 为 `com.guzeyu.homememory`。
+- Web 端通过 `platform.js` 统一访问运行环境、存储、文件、相机/相册和通知能力。
+- iOS 相机/相册入口会优先走 Capacitor Camera，桌面浏览器仍保留文件上传和 `getUserMedia`。
+- iOS 侧会尝试把处理后的照片保存到 App Data 下的 `photos/`，并在持久化快照中保留 `imageRef`。
+- 云端识别不会作为 iOS 默认路径，也不会把 API key 打进 App 包。
+- iOS 真机/模拟器验证清单见 `docs/ios-smoke-test.md`。
 
 真实产品中还可以继续替换或增强为：
 
