@@ -1,0 +1,122 @@
+{
+  "kind": "vision-taxonomy-source",
+  "version": "20260522-household-seed-source",
+  "taxonomy": {
+    "primarySource": "GS1 GPC seed fixture",
+    "primaryVersion": "2026-household-demo",
+    "auxiliarySources": [
+      {
+        "source": "Google Product Taxonomy",
+        "version": "2021-09-21"
+      }
+    ]
+  },
+  "subset": {
+    "id": "household-seed",
+    "name": "Household seed slice"
+  },
+  "records": [
+    {
+      "id": "storage-box",
+      "sourceId": "GPC-SEED-0001",
+      "levels": ["Home & Storage", "Storage & Organization", "Household Storage Containers", "Storage Boxes"],
+      "displayPath": ["居家收纳", "收纳整理", "家庭收纳容器", "收纳盒"],
+      "aliases": ["storage box", "storage bin", "plastic bin", "organizer box", "收纳箱"],
+      "detectorLabels": ["storage box", "storage basket", "plastic bin", "organizer box"],
+      "searchQueries": ["storage box", "plastic storage bin", "home organizer box"],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:storage-boxes",
+        "path": ["Home & Garden", "Household Supplies", "Storage & Organization"]
+      }
+    },
+    {
+      "id": "charging-cable",
+      "sourceId": "GPC-SEED-0002",
+      "levels": ["Electronics", "Electronic Accessories", "Cables & Adapters", "Charging Cables"],
+      "displayPath": ["电子电器", "电子配件", "线缆与转接", "数据线"],
+      "aliases": ["charging cable", "usb cable", "data cable", "phone cable", "type c cable"],
+      "detectorLabels": ["usb cable", "charging cable", "data cable", "phone cable"],
+      "searchQueries": ["usb charging cable", "type c cable", "phone data cable"],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "500035",
+        "path": ["Electronics", "Electronics Accessories", "Cables", "Storage & Data Transfer Cables"]
+      }
+    },
+    {
+      "id": "charger",
+      "sourceId": "GPC-SEED-0003",
+      "levels": ["Electronics", "Electronic Accessories", "Power Accessories", "Power Adapters & Chargers"],
+      "displayPath": ["电子电器", "电子配件", "电源配件", "充电器"],
+      "aliases": ["charger", "power adapter", "phone charger", "usb charger", "charging brick"],
+      "detectorLabels": ["charger", "power adapter", "phone charger", "usb power adapter"],
+      "searchQueries": ["phone charger", "usb power adapter", "charging brick"],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:power-adapters-chargers",
+        "path": ["Electronics", "Electronics Accessories", "Power", "Power Adapters & Chargers"]
+      }
+    },
+    {
+      "id": "remote-control",
+      "sourceId": "GPC-SEED-0004",
+      "levels": ["Electronics", "Audio & Video Accessories", "Remote Controls", "Remote Controls"],
+      "displayPath": ["电子电器", "影音配件", "遥控设备", "遥控器"],
+      "aliases": ["remote control", "tv remote", "media remote", "black remote"],
+      "detectorLabels": ["remote control", "tv remote", "black remote control", "small black remote"],
+      "searchQueries": ["tv remote control", "media player remote", "black remote control"],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:remote-controls",
+        "path": ["Electronics", "Electronics Accessories", "Remote Controls"]
+      }
+    },
+    {
+      "id": "medicine-box",
+      "sourceId": "GPC-SEED-0005",
+      "levels": ["Healthcare", "Medicine Storage", "Pill & Medicine Containers", "Medicine Boxes"],
+      "displayPath": ["健康护理", "药品收纳", "药品容器", "药盒"],
+      "aliases": ["medicine box", "pill box", "pill organizer", "medicine container"],
+      "detectorLabels": ["medicine box", "pill box", "pill organizer", "pill bottle"],
+      "searchQueries": ["medicine box", "pill organizer", "pill container"],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:medicine-boxes",
+        "path": ["Health & Beauty", "Health Care", "Medicine & Drugs", "Pill Boxes"]
+      }
+    },
+    {
+      "id": "battery",
+      "sourceId": "GPC-SEED-0006",
+      "levels": ["Electronics", "Electronic Accessories", "Power Storage", "Household Batteries"],
+      "displayPath": ["电子电器", "电子配件", "电力存储", "电池"],
+      "aliases": ["battery", "aa battery", "aaa battery", "household battery"],
+      "detectorLabels": ["battery", "aa battery", "aaa battery", "alkaline battery"],
+      "searchQueries": ["aa battery", "aaa battery", "household battery"],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:batteries",
+        "path": ["Electronics", "Electronics Accessories", "Power", "Batteries"]
+      }
+    },
+    {
+      "id": "cat-teaser-toy",
+      "sourceId": "GPC-SEED-9001",
+      "levels": ["Pets", "Pet Toys", "Cat Toys", "Cat Teaser Toys"],
+      "displayPath": ["宠物用品", "宠物玩具", "猫玩具", "逗猫棒"],
+      "aliases": ["cat teaser", "cat wand", "cat toy"],
+      "detectorLabels": ["cat toy", "cat wand toy", "cat teaser"],
+      "searchQueries": ["cat teaser toy", "cat wand toy"],
+      "appCategory": "pet",
+      "active": false,
+      "exclusionReason": "Held out as an unknown-category negative for the seed evaluation."
+    }
+  ]
+}

@@ -1,0 +1,1086 @@
+{
+  "kind": "vision-local-model-provider-output",
+  "version": "20260523-transformersjs-local",
+  "provider": {
+    "id": "clip-naming",
+    "displayName": "clip-naming",
+    "providerClass": "real-local-model",
+    "status": "ok",
+    "modelIds": [
+      "Xenova/clip-vit-base-patch32"
+    ],
+    "requiredModels": [
+      "Xenova/clip-vit-base-patch32"
+    ],
+    "timings": {
+      "clipModelLoadMs": 167.707,
+      "galleryEmbeddingMs": 0,
+      "galleryCacheHit": true,
+      "modelLoadMs": 167.707
+    }
+  },
+  "images": [
+    {
+      "imageId": "storage-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "predictions": [
+        {
+          "id": "clip-naming-pred-storage-box-real-query-1",
+          "providerId": "clip-naming",
+          "providerClass": "real-local-model",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "confidence": 0.5,
+          "detectionLabel": "",
+          "detectionCategoryId": "",
+          "detectionScore": 0,
+          "matches": [
+            {
+              "entryId": "storage-box:storage-box-real-gallery-3",
+              "sampleId": "storage-box-real-gallery-3",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+              "sourceTitle": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 32,
+                "y": 0,
+                "w": 49,
+                "h": 100
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 32,
+                  "y": 0,
+                  "w": 49,
+                  "h": 100
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.751253,
+              "margin": 0.751253
+            },
+            {
+              "entryId": "storage-box:storage-box-real-gallery-2",
+              "sampleId": "storage-box-real-gallery-2",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg",
+              "sourceTitle": "Gratnells Extra Deep Storage Tray.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 16,
+                "w": 97,
+                "h": 73
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 16,
+                  "w": 97,
+                  "h": 73
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.749714
+            },
+            {
+              "entryId": "storage-box:storage-box-real-gallery-1",
+              "sampleId": "storage-box-real-gallery-1",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg",
+              "sourceTitle": "Blue plastic storage organizer boxes for screws.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 2,
+                "w": 100,
+                "h": 94
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 2,
+                  "w": 100,
+                  "h": 94
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.704585
+            }
+          ],
+          "source": "clip-naming",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": 0.13,
+            "embeddingMs": 23.438,
+            "retrievalMs": 0.403,
+            "namingMs": 24.031,
+            "modelLoadMs": 167.707,
+            "endToEndMs": 35.144
+          },
+          "modelIds": [
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": ""
+        }
+      ]
+    },
+    {
+      "imageId": "charging-cable-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "predictions": [
+        {
+          "id": "clip-naming-pred-charging-cable-real-query-1",
+          "providerId": "clip-naming",
+          "providerClass": "real-local-model",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电源配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "confidence": 0.5,
+          "detectionLabel": "",
+          "detectionCategoryId": "",
+          "detectionScore": 0,
+          "matches": [
+            {
+              "entryId": "charger:charger-real-gallery-3",
+              "sampleId": "charger-real-gallery-3",
+              "categoryId": "charger",
+              "displayName": "充电器",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电源配件",
+                "充电器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg",
+              "sourceTitle": "Mobile phone charger plugs.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 17,
+                "w": 100,
+                "h": 61
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 17,
+                  "w": 100,
+                  "h": 61
+                }
+              },
+              "matchedSampleIds": [
+                "charger-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.860802,
+              "margin": 0.007334
+            },
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-1",
+              "sampleId": "charging-cable-real-gallery-1",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG",
+              "sourceTitle": "Universal Serial Bus, USB.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 2,
+                "w": 100,
+                "h": 88
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 2,
+                  "w": 100,
+                  "h": 88
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.853468
+            },
+            {
+              "entryId": "charger:charger-real-gallery-2",
+              "sampleId": "charger-real-gallery-2",
+              "categoryId": "charger",
+              "displayName": "充电器",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电源配件",
+                "充电器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg",
+              "sourceTitle": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 30,
+                "y": 11,
+                "w": 48,
+                "h": 82
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 30,
+                  "y": 11,
+                  "w": 48,
+                  "h": 82
+                }
+              },
+              "matchedSampleIds": [
+                "charger-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.816003
+            }
+          ],
+          "source": "clip-naming",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": 0.014,
+            "embeddingMs": 19.23,
+            "retrievalMs": 0.034,
+            "namingMs": 19.304,
+            "modelLoadMs": 167.707,
+            "endToEndMs": 28.764
+          },
+          "modelIds": [
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": ""
+        }
+      ]
+    },
+    {
+      "imageId": "charger-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "predictions": [
+        {
+          "id": "clip-naming-pred-charger-real-query-1",
+          "providerId": "clip-naming",
+          "providerClass": "real-local-model",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "线缆与转接",
+            "数据线"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "confidence": 0.5,
+          "detectionLabel": "",
+          "detectionCategoryId": "",
+          "detectionScore": 0,
+          "matches": [
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-3",
+              "sampleId": "charging-cable-real-gallery-3",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg",
+              "sourceTitle": "Cavo USB-C = USB-C della Samsung.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 18,
+                "y": 7,
+                "w": 63,
+                "h": 87
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 18,
+                  "y": 7,
+                  "w": 63,
+                  "h": 87
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.845991,
+              "margin": 0.047979
+            },
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-1",
+              "sampleId": "charging-cable-real-gallery-1",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG",
+              "sourceTitle": "Universal Serial Bus, USB.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 2,
+                "w": 100,
+                "h": 88
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 2,
+                  "w": 100,
+                  "h": 88
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.845987
+            },
+            {
+              "entryId": "charger:charger-real-gallery-3",
+              "sampleId": "charger-real-gallery-3",
+              "categoryId": "charger",
+              "displayName": "充电器",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电源配件",
+                "充电器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg",
+              "sourceTitle": "Mobile phone charger plugs.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 17,
+                "w": 100,
+                "h": 61
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 17,
+                  "w": 100,
+                  "h": 61
+                }
+              },
+              "matchedSampleIds": [
+                "charger-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.798012
+            }
+          ],
+          "source": "clip-naming",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": 0.012,
+            "embeddingMs": 22.981,
+            "retrievalMs": 0.033,
+            "namingMs": 23.04,
+            "modelLoadMs": 167.707,
+            "endToEndMs": 31.935
+          },
+          "modelIds": [
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": ""
+        }
+      ]
+    },
+    {
+      "imageId": "remote-control-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "predictions": [
+        {
+          "id": "clip-naming-pred-remote-control-real-query-1",
+          "providerId": "clip-naming",
+          "providerClass": "real-local-model",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "电子电器",
+            "影音配件",
+            "遥控设备",
+            "遥控器"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "confidence": 0.5,
+          "detectionLabel": "",
+          "detectionCategoryId": "",
+          "detectionScore": 0,
+          "matches": [
+            {
+              "entryId": "remote-control:remote-control-real-gallery-3",
+              "sampleId": "remote-control-real-gallery-3",
+              "categoryId": "remote-control",
+              "displayName": "遥控器",
+              "categoryPath": [
+                "电子电器",
+                "影音配件",
+                "遥控设备",
+                "遥控器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg",
+              "sourceTitle": "Remote control for Hisense TV.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 41,
+                "y": 8,
+                "w": 19,
+                "h": 80
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 41,
+                  "y": 8,
+                  "w": 19,
+                  "h": 80
+                }
+              },
+              "matchedSampleIds": [
+                "remote-control-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.821604,
+              "margin": 0.821604
+            },
+            {
+              "entryId": "remote-control:remote-control-real-gallery-2",
+              "sampleId": "remote-control-real-gallery-2",
+              "categoryId": "remote-control",
+              "displayName": "遥控器",
+              "categoryPath": [
+                "电子电器",
+                "影音配件",
+                "遥控设备",
+                "遥控器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+              "sourceTitle": "AverMedia RM-RH Remote control (white background) edit.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 15,
+                "y": 13,
+                "w": 75,
+                "h": 72
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 15,
+                  "y": 13,
+                  "w": 75,
+                  "h": 72
+                }
+              },
+              "matchedSampleIds": [
+                "remote-control-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.778982
+            },
+            {
+              "entryId": "remote-control:remote-control-real-gallery-1",
+              "sampleId": "remote-control-real-gallery-1",
+              "categoryId": "remote-control",
+              "displayName": "遥控器",
+              "categoryPath": [
+                "电子电器",
+                "影音配件",
+                "遥控设备",
+                "遥控器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg",
+              "sourceTitle": "Television remote control - black colour.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 29,
+                "y": 2,
+                "w": 37,
+                "h": 95
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 29,
+                  "y": 2,
+                  "w": 37,
+                  "h": 95
+                }
+              },
+              "matchedSampleIds": [
+                "remote-control-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.726747
+            }
+          ],
+          "source": "clip-naming",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": 0.012,
+            "embeddingMs": 19.841,
+            "retrievalMs": 0.036,
+            "namingMs": 19.903,
+            "modelLoadMs": 167.707,
+            "endToEndMs": 48.267
+          },
+          "modelIds": [
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": ""
+        }
+      ]
+    },
+    {
+      "imageId": "medicine-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "predictions": [
+        {
+          "id": "clip-naming-pred-medicine-box-real-query-1",
+          "providerId": "clip-naming",
+          "providerClass": "real-local-model",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "confidence": 0.5,
+          "detectionLabel": "",
+          "detectionCategoryId": "",
+          "detectionScore": 0,
+          "matches": [
+            {
+              "entryId": "storage-box:storage-box-real-gallery-2",
+              "sampleId": "storage-box-real-gallery-2",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg",
+              "sourceTitle": "Gratnells Extra Deep Storage Tray.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 16,
+                "w": 97,
+                "h": 73
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 16,
+                  "w": 97,
+                  "h": 73
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.747158,
+              "margin": 0.024498
+            },
+            {
+              "entryId": "medicine-box:medicine-box-real-gallery-1",
+              "sampleId": "medicine-box-real-gallery-1",
+              "categoryId": "medicine-box",
+              "displayName": "药盒",
+              "categoryPath": [
+                "健康护理",
+                "药品收纳",
+                "药品容器",
+                "药盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG",
+              "sourceTitle": "Pill box with pills.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 10,
+                "w": 99,
+                "h": 67
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 10,
+                  "w": 99,
+                  "h": 67
+                }
+              },
+              "matchedSampleIds": [
+                "medicine-box-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.72266
+            },
+            {
+              "entryId": "storage-box:storage-box-real-gallery-3",
+              "sampleId": "storage-box-real-gallery-3",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+              "sourceTitle": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 32,
+                "y": 0,
+                "w": 49,
+                "h": 100
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 32,
+                  "y": 0,
+                  "w": 49,
+                  "h": 100
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.696044
+            }
+          ],
+          "source": "clip-naming",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": 0.013,
+            "embeddingMs": 17.502,
+            "retrievalMs": 0.033,
+            "namingMs": 17.56,
+            "modelLoadMs": 167.707,
+            "endToEndMs": 30.552
+          },
+          "modelIds": [
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": ""
+        }
+      ]
+    },
+    {
+      "imageId": "battery-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "predictions": [
+        {
+          "id": "clip-naming-pred-battery-real-query-1",
+          "providerId": "clip-naming",
+          "providerClass": "real-local-model",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电力存储",
+            "电池"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 100,
+            "h": 100
+          },
+          "confidence": 0.5,
+          "detectionLabel": "",
+          "detectionCategoryId": "",
+          "detectionScore": 0,
+          "matches": [
+            {
+              "entryId": "battery:battery-real-gallery-2",
+              "sampleId": "battery-real-gallery-2",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_batteries.JPG",
+              "sourceTitle": "AA batteries.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 15,
+                "y": 18,
+                "w": 74,
+                "h": 58
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 15,
+                  "y": 18,
+                  "w": 74,
+                  "h": 58
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.725503,
+              "margin": 0.725503
+            },
+            {
+              "entryId": "battery:battery-real-gallery-3",
+              "sampleId": "battery-real-gallery-3",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg",
+              "sourceTitle": "AA Batteries (51825378856).jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 6,
+                "y": 22,
+                "w": 88,
+                "h": 36
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 6,
+                  "y": 22,
+                  "w": 88,
+                  "h": 36
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.697357
+            },
+            {
+              "entryId": "battery:battery-real-gallery-1",
+              "sampleId": "battery-real-gallery-1",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg",
+              "sourceTitle": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 25,
+                "y": 4,
+                "w": 46,
+                "h": 90
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 25,
+                  "y": 4,
+                  "w": 46,
+                  "h": 90
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.654204
+            }
+          ],
+          "source": "clip-naming",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": 0.014,
+            "embeddingMs": 16.37,
+            "retrievalMs": 0.068,
+            "namingMs": 16.466,
+            "modelLoadMs": 167.707,
+            "endToEndMs": 26.421
+          },
+          "modelIds": [
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": ""
+        }
+      ]
+    }
+  ]
+}

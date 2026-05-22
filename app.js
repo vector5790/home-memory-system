@@ -27,13 +27,15 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260520-upload-feedback",
+  appVersion: "20260523-owlvit-default",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
-  catalogIndex: "/data/vision-index.seed.json",
+  allowRemoteVisionModels: false,
+  catalogIndex: "/data/vision-index.generated.json",
+  catalogIndexFallback: "/data/vision-index.seed.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
   samModel: "Xenova/slimsam-77-uniform",
@@ -42,6 +44,8 @@ const visionConfig = {
   groundingThreshold: 0.08,
   detectionNameThreshold: 0.11,
   catalogThreshold: 0.26,
+  catalogMarginThreshold: 0.03,
+  catalogTopK: 5,
   maxDetectedObjects: 28,
   maxUploadDimension: 1600,
   maxUploadDataUrlLength: 850000,
@@ -371,6 +375,7 @@ let samSegmenterPromise = null;
 let catalogClassifierPromise = null;
 let catalogFeatureExtractorPromise = null;
 let catalogIndexPromise = null;
+let catalogIndexWarningShown = false;
 let persistWarningShown = false;
 
 const app = document.querySelector("#app");
@@ -791,6 +796,18 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     detectionLabel: candidate.detectionLabel || "",
     suggestedName: candidate.suggestedName || "",
     catalogId: candidate.catalogId || "",
+    categoryId: candidate.categoryId || candidate.catalogId || "",
+    categoryPath: Array.isArray(candidate.categoryPath) ? candidate.categoryPath : [],
+    categoryScore: Number.isFinite(Number(candidate.categoryScore)) ? Number(candidate.categoryScore) : null,
+    categoryMargin: Number.isFinite(Number(candidate.categoryMargin)) ? Number(candidate.categoryMargin) : null,
+    categoryIndexVersion: candidate.categoryIndexVersion || "",
+    matchedSampleIds: Array.isArray(candidate.matchedSampleIds) ? candidate.matchedSampleIds : [],
+    providerId: candidate.providerId || candidate.source || provider,
+    providerClass: candidate.providerClass || "",
+    modelId: candidate.modelId || "",
+    assetVersion: candidate.assetVersion || "",
+    fallbackReason: candidate.fallbackReason || "",
+    timings: candidate.timings && typeof candidate.timings === "object" ? candidate.timings : {},
     edited: Boolean(candidate.edited),
   };
 }
@@ -802,11 +819,6 @@ function normalizeRecognitionResults(results, provider = "local-image") {
   return results
     .map((candidate, index) => normalizeCandidate(candidate, index, provider))
     .filter((candidate) => candidate.name);
-}
-
-async function recognizeStorageImage(context) {
-  if (context.image) return recognizeWithLocalImage(context);
-  throw new Error("请先上传或拍摄储物点照片。");
 }
 
 function getUnknownObjectName(index) {
@@ -991,10 +1003,15 @@ async function loadTransformersRuntime() {
           };
         }
       }
-      if (!module) module = await import(visionConfig.remoteTransformersModule);
+      if (!module) {
+        if (!visionConfig.allowRemoteVisionModels) {
+          throw new Error("本地视觉模型资产未安装，请先运行 python3 scripts/download-vision-assets.py");
+        }
+        module = await import(visionConfig.remoteTransformersModule);
+      }
 
       module.env.allowLocalModels = runtimeMode.hasLocalRuntime;
-      module.env.allowRemoteModels = true;
+      module.env.allowRemoteModels = Boolean(visionConfig.allowRemoteVisionModels);
       module.env.localModelPath = visionConfig.localModelPath;
       module.env.useBrowserCache = true;
 
@@ -1032,7 +1049,7 @@ async function getGroundingDinoDetector() {
 async function getSmallModelDetector() {
   if (!smallModelDetectorPromise) {
     smallModelDetectorPromise = loadTransformersRuntime()
-      .then(({ pipeline }) => pipeline("zero-shot-object-detection", visionConfig.detectionModel, { quantized: true }))
+      .then(({ pipeline }) => pipeline("zero-shot-object-detection", visionConfig.detectionModel, { dtype: "q8" }))
       .catch((error) => {
         smallModelDetectorPromise = null;
         throw error;
@@ -1048,8 +1065,8 @@ async function getSamSegmenter() {
       if (!assetMode.samReady) return null;
       const { AutoProcessor, RawImage, SamModel, runtimeMode } = await loadTransformersRuntime();
       if (!AutoProcessor || !RawImage || !SamModel) return null;
-      const processor = await AutoProcessor.from_pretrained(visionConfig.samModel, { quantized: true });
-      const model = await SamModel.from_pretrained(visionConfig.samModel, { quantized: true });
+      const processor = await AutoProcessor.from_pretrained(visionConfig.samModel);
+      const model = await SamModel.from_pretrained(visionConfig.samModel, { dtype: "q8" });
       return {
         processor,
         model,
@@ -1079,15 +1096,15 @@ function warmCaptureDetectionModel() {
   window.setTimeout(async () => {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.local) return;
-    if (assetMode.groundingReady) {
-      getGroundingDinoDetector().catch((error) => {
-        console.info("Grounding DINO prewarm skipped.", error);
+    if (assetMode.owlReady) {
+      getSmallModelDetector().catch((error) => {
+        console.info("OWL-ViT prewarm skipped.", error);
       });
       return;
     }
-    if (assetMode.owlReady) {
-      getSmallModelDetector().catch((error) => {
-        console.info("Vision model prewarm skipped.", error);
+    if (assetMode.groundingReady) {
+      getGroundingDinoDetector().catch((error) => {
+        console.info("Grounding DINO prewarm skipped.", error);
       });
     }
   }, 120);
@@ -1098,7 +1115,7 @@ async function getCatalogClassifier() {
     catalogClassifierPromise = loadTransformersRuntime()
       .then(async ({ pipeline, runtimeMode }) => {
         if (!runtimeMode.catalogReady) return null;
-        return pipeline("zero-shot-image-classification", visionConfig.catalogModel, { quantized: true });
+        return pipeline("zero-shot-image-classification", visionConfig.catalogModel, { dtype: "q8" });
       })
       .catch((error) => {
         console.info("Catalog embedding classifier unavailable.", error);
@@ -1113,7 +1130,7 @@ async function getCatalogFeatureExtractor() {
     catalogFeatureExtractorPromise = loadTransformersRuntime()
       .then(async ({ pipeline, runtimeMode }) => {
         if (!runtimeMode.catalogReady) return null;
-        return pipeline("image-feature-extraction", visionConfig.catalogModel, { quantized: true });
+        return pipeline("image-feature-extraction", visionConfig.catalogModel, { dtype: "q8" });
       })
       .catch((error) => {
         console.info("Catalog embedding extractor unavailable.", error);
@@ -1125,17 +1142,77 @@ async function getCatalogFeatureExtractor() {
 
 async function getCatalogEmbeddingIndex() {
   if (!catalogIndexPromise) {
-    catalogIndexPromise = fetch(`${visionConfig.catalogIndex}?v=${visionConfig.assetVersion}`, { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((index) => {
-        const entries = Array.isArray(index?.entries)
-          ? index.entries.filter((entry) => Array.isArray(entry.embedding) && entry.embedding.length)
-          : [];
-        return { ...(index || {}), entries };
-      })
+    catalogIndexPromise = loadCatalogEmbeddingIndex()
       .catch(() => ({ entries: [] }));
   }
   return catalogIndexPromise;
+}
+
+async function fetchJsonIndex(url) {
+  if (!url) return null;
+  const response = await fetch(`${url}?v=${visionConfig.assetVersion}`, { cache: "no-store" });
+  return response.ok ? response.json() : null;
+}
+
+async function loadCatalogEmbeddingIndex() {
+  const primary = await fetchJsonIndex(visionConfig.catalogIndex).catch(() => null);
+  const normalizedPrimary = normalizeCatalogEmbeddingIndex(primary, visionConfig.catalogIndex);
+  if (normalizedPrimary.entries.length) return normalizedPrimary;
+
+  const fallback = await fetchJsonIndex(visionConfig.catalogIndexFallback).catch(() => null);
+  return normalizeCatalogEmbeddingIndex(fallback, visionConfig.catalogIndexFallback);
+}
+
+function getCatalogIndexMetric(index) {
+  if (index?.metric === "max-inner-product" || index?.metric === "cosine") return index.metric;
+  if (index?.algorithm === "flat-cosine") return "cosine";
+  if (index?.algorithm === "flat-inner-product") return "max-inner-product";
+  return "cosine";
+}
+
+function normalizeCatalogEmbeddingIndex(index, url = "") {
+  const metric = getCatalogIndexMetric(index);
+  const embeddingConfig = index?.embedding || {};
+  const dimension = Number(embeddingConfig.dimension || index?.dimension || 0);
+  const entries = Array.isArray(index?.entries)
+    ? index.entries
+      .filter((entry) => Array.isArray(entry.embedding) && entry.embedding.length)
+      .map((entry) => normalizeCatalogIndexEntry(entry, index))
+      .filter(Boolean)
+    : [];
+  return {
+    ...(index || {}),
+    sourceUrl: url,
+    metric,
+    dimension,
+    threshold: Number(index?.threshold ?? index?.thresholds?.acceptScore ?? visionConfig.catalogThreshold),
+    marginThreshold: Number(index?.marginThreshold ?? index?.thresholds?.acceptMargin ?? visionConfig.catalogMarginThreshold),
+    topK: Math.max(1, Math.round(Number(index?.topK || visionConfig.catalogTopK))),
+    entries,
+  };
+}
+
+function normalizeCatalogIndexEntry(entry, index) {
+  const legacyItem = entry.itemId ? visionCatalog.find((catalogItem) => catalogItem.id === entry.itemId) : null;
+  const categoryId = entry.categoryId || entry.itemId || legacyItem?.id || "";
+  const name = entry.displayName || entry.name || legacyItem?.name || "";
+  if (!categoryId || !name) return null;
+  return {
+    ...entry,
+    categoryId,
+    itemId: entry.itemId || categoryId,
+    displayName: name,
+    name,
+    appCategory: entry.appCategory || entry.category || legacyItem?.category || "daily",
+    categoryPath: Array.isArray(entry.categoryPath) ? entry.categoryPath : [],
+    metric: entry.metric || index?.metric || getCatalogIndexMetric(index),
+    dimension: Array.isArray(entry.embedding) ? entry.embedding.length : 0,
+    sampleId: entry.sampleId || "",
+    matchedSampleIds: Array.isArray(entry.matchedSampleIds)
+      ? entry.matchedSampleIds
+      : (entry.sampleId ? [entry.sampleId] : []),
+    indexVersion: index?.version || "",
+  };
 }
 
 function cosineSimilarity(left, right) {
@@ -1150,10 +1227,22 @@ function cosineSimilarity(left, right) {
   return leftNorm && rightNorm ? dot / (Math.sqrt(leftNorm) * Math.sqrt(rightNorm)) : 0;
 }
 
+function innerProduct(left, right) {
+  let score = 0;
+  for (let index = 0; index < Math.min(left.length, right.length); index += 1) {
+    score += left[index] * right[index];
+  }
+  return score;
+}
+
+function vectorSimilarity(left, right, metric = "cosine") {
+  return metric === "max-inner-product" ? innerProduct(left, right) : cosineSimilarity(left, right);
+}
+
 async function embedImageDataUrl(dataUrl) {
   const extractor = await getCatalogFeatureExtractor();
   if (!extractor) return null;
-  const output = await extractor(dataUrl, { pooling: "mean", normalize: true });
+  const output = await extractor(dataUrl);
   const values = output?.data || output?.[0]?.data;
   return values ? Array.from(values) : null;
 }
@@ -1164,19 +1253,65 @@ async function matchCatalogFromEmbeddingIndex(source, box) {
   const embedding = await embedImageDataUrl(cropImageToDataUrl(source, box));
   if (!embedding) return null;
 
-  const best = index.entries
-    .map((entry) => ({ ...entry, score: cosineSimilarity(embedding, entry.embedding) }))
-    .sort((a, b) => b.score - a.score)[0];
+  const expectedDimension = Number(index.dimension || embedding.length);
+  const compatibleEntries = index.entries.filter((entry) => {
+    const isCompatible = entry.dimension === embedding.length
+      && (!expectedDimension || entry.dimension === expectedDimension)
+      && (entry.metric === index.metric || !entry.metric);
+    return isCompatible;
+  });
+  const ignoredCount = index.entries.length - compatibleEntries.length;
+  if (ignoredCount > 0 && !catalogIndexWarningShown) {
+    catalogIndexWarningShown = true;
+    console.info(`Vision category index ignored ${ignoredCount} entries with mismatched dimension or metric.`);
+  }
+  if (!compatibleEntries.length) return null;
+
+  const rankedEntries = compatibleEntries
+    .map((entry) => ({ ...entry, score: vectorSimilarity(embedding, entry.embedding, index.metric) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, Math.max(index.topK || visionConfig.catalogTopK, 1));
+  const rankedLeaves = aggregateCatalogMatchesByLeaf(rankedEntries);
+  const best = rankedLeaves[0];
+  const runnerUp = rankedLeaves.find((entry) => entry.categoryId !== best?.categoryId);
+  const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
   const threshold = Number(index.threshold) || visionConfig.catalogThreshold;
-  if (!best || best.score < threshold) return null;
-  const item = visionCatalog.find((catalogItem) => catalogItem.id === best.itemId);
-  if (!item) return null;
+  const marginThreshold = Number(index.marginThreshold) || visionConfig.catalogMarginThreshold;
+  if (!best || best.score < threshold || margin < marginThreshold) return null;
   return {
-    name: item.name,
-    category: item.category,
+    name: best.displayName,
+    category: best.appCategory,
     confidence: clampNumber(best.score, 0, 1),
-    catalogId: item.id,
+    catalogId: best.categoryId,
+    categoryId: best.categoryId,
+    categoryPath: best.categoryPath,
+    categoryScore: best.score,
+    categoryMargin: margin,
+    categoryIndexVersion: index.version || "",
+    matchedSampleIds: best.matchedSampleIds,
   };
+}
+
+function aggregateCatalogMatchesByLeaf(entries) {
+  const leaves = new Map();
+  for (const entry of entries) {
+    const current = leaves.get(entry.categoryId);
+    if (!current || entry.score > current.score) {
+      leaves.set(entry.categoryId, {
+        categoryId: entry.categoryId,
+        displayName: entry.displayName,
+        appCategory: entry.appCategory,
+        categoryPath: entry.categoryPath,
+        score: entry.score,
+        matchedSampleIds: entry.matchedSampleIds?.length ? entry.matchedSampleIds : [entry.sampleId].filter(Boolean),
+      });
+    } else if (current) {
+      for (const sampleId of entry.matchedSampleIds || [entry.sampleId]) {
+        if (sampleId && !current.matchedSampleIds.includes(sampleId)) current.matchedSampleIds.push(sampleId);
+      }
+    }
+  }
+  return [...leaves.values()].sort((a, b) => b.score - a.score);
 }
 
 function detectionBoxToPercent(box, imageWidth, imageHeight) {
@@ -1222,19 +1357,29 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
     catalogId: canUseLabelName && meta.id ? meta.id : "",
     namingStatus: "loading",
     source: provider,
+    providerId: provider,
+    providerClass: provider.startsWith("local-") ? "real-local-model" : "fallback",
+    modelId: provider.startsWith("local-grounding-dino") ? visionConfig.groundingDinoModel : visionConfig.detectionModel,
+    assetVersion: visionConfig.assetVersion,
+    timings: detection.timings || {},
   };
 }
 
 async function runZeroShotDetector({ image, source, detector, provider, threshold }) {
   const labels = getDetectionLabelEntries().map((entry) => entry.label);
+  const detectionStart = performance.now();
   const detections = detector?.kind === "grounding-dino"
     ? await runGroundingDinoDetector({ image, source, detector, labels, threshold })
     : await runPipelineObjectDetector({ image, detector, labels: labels.slice(0, visionConfig.owlVitLabelLimit), threshold });
+  const detectionMs = Math.round((performance.now() - detectionStart) * 1000) / 1000;
   return (Array.isArray(detections) ? detections : [])
     .filter((detection) => detection?.box && Number(detection.score) >= threshold)
     .sort((a, b) => Number(b.score) - Number(a.score))
     .slice(0, 48)
-    .map((detection, index) => detectionToCandidate(detection, index, source, provider, threshold));
+    .map((detection, index) => detectionToCandidate({
+      ...detection,
+      timings: { detectionMs },
+    }, index, source, provider, threshold));
 }
 
 function chunkArray(values, chunkSize) {
@@ -1483,18 +1628,23 @@ async function recognizeWithSmallModel(image) {
   const source = await loadImage(image);
   const assetMode = await getVisionAssetMode();
   const detectorAttempts = [];
-  if (assetMode.groundingReady || !assetMode.owlReady) {
+  if (assetMode.owlReady) {
+    detectorAttempts.push({
+      getDetector: getSmallModelDetector,
+      provider: "local-owlvit",
+      threshold: visionConfig.detectionThreshold,
+    });
+  }
+  if (assetMode.groundingReady) {
     detectorAttempts.push({
       getDetector: getGroundingDinoDetector,
-      provider: assetMode.groundingReady ? "local-grounding-dino" : "browser-grounding-dino",
+      provider: "local-grounding-dino",
       threshold: visionConfig.groundingThreshold,
     });
   }
-  detectorAttempts.push({
-    getDetector: getSmallModelDetector,
-    provider: assetMode.owlReady ? "local-owlvit" : "browser-owlvit",
-    threshold: visionConfig.detectionThreshold,
-  });
+  if (!detectorAttempts.length) {
+    throw new Error("本地 OWL-ViT/Grounding DINO 模型未安装");
+  }
 
   let lastError = null;
   for (const attempt of detectorAttempts) {
@@ -1777,22 +1927,37 @@ async function recognizeWithHeuristicRegions(image) {
   };
 }
 
+async function detectCandidatesFromLocalImage(image, requestedProvider = "local-small-model") {
+  const smallRecognition = await recognizeWithSmallModel(image)
+    .catch((error) => {
+      console.info("Small model unavailable, falling back to local image proposals.", error);
+      return null;
+    });
+
+  let provider = smallRecognition?.provider || requestedProvider;
+  let candidates = smallRecognition?.candidates?.length
+    ? normalizeRecognitionResults(smallRecognition.candidates, provider)
+    : [];
+
+  if (!candidates.length) {
+    const fallbackRecognition = await recognizeWithHeuristicRegions(image)
+      .catch((error) => {
+        console.info("Local proposal fallback failed.", error);
+        return { provider: "local-image", candidates: [] };
+      });
+    provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
+    candidates = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
+  }
+
+  return { provider, candidates };
+}
+
 async function recognizeWithLocalImage({ image }) {
-  let smallModelResult = null;
-  try {
-    smallModelResult = await recognizeWithSmallModel(image);
-  } catch (error) {
-    console.info("Small model unavailable, falling back to local image analysis.", error);
-  }
-
-  if (smallModelResult?.candidates.length) {
-    return smallModelResult;
-  }
-
-  const regionResult = await recognizeWithHeuristicRegions(image);
+  if (!image) throw new Error("请先上传或拍摄储物点照片。");
+  const recognition = await detectCandidatesFromLocalImage(image);
   return {
-    ...regionResult,
-    candidates: regionResult.candidates.map((candidate) => ({ ...candidate, namingStatus: "loading" })),
+    ...recognition,
+    candidates: renumberUnknownCandidates(recognition.candidates),
   };
 }
 
@@ -1830,6 +1995,12 @@ async function resolveCandidateName(candidate, index, sourceImage) {
         category: catalogMatch.category,
         confidence: Math.max(candidate.confidence, catalogMatch.confidence),
         catalogId: catalogMatch.catalogId,
+        categoryId: catalogMatch.categoryId || catalogMatch.catalogId,
+        categoryPath: catalogMatch.categoryPath || [],
+        categoryScore: catalogMatch.categoryScore,
+        categoryMargin: catalogMatch.categoryMargin,
+        categoryIndexVersion: catalogMatch.categoryIndexVersion,
+        matchedSampleIds: catalogMatch.matchedSampleIds || [],
         source: `${candidate.source}+embedding`,
         namingStatus: "done",
       };
@@ -1866,11 +2037,9 @@ function providerLabel(provider) {
   if (name.endsWith("+sam")) return `${providerLabel(name.replace("+sam", ""))} + SAM`;
   if (name.includes("+regions")) return `${providerLabel(name.split("+")[0])} + 区域补全`;
   if (name.startsWith("local-grounding-dino")) return "本地 Grounding DINO";
-  if (name.startsWith("browser-grounding-dino")) return "在线 Grounding DINO";
   if (name.startsWith("local-owlvit")) return "本地 OWL-ViT";
-  if (name.startsWith("browser-owlvit")) return "在线 OWL-ViT";
   if (name.startsWith("local-small-model")) return "本地小模型";
-  if (name.startsWith("browser-small-model")) return "在线小模型";
+  if (name.startsWith("browser-grounding-dino") || name.startsWith("browser-owlvit") || name.startsWith("browser-small-model")) return "远程视觉模型已禁用";
   if (name === "local-image") return "本地候选区域";
   if (name === "cloud-vlm" || name.startsWith("openai:")) return "云端大模型";
   return name;
@@ -2840,28 +3009,11 @@ async function scanCurrentPlace() {
 
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   try {
-    const smallRecognition = await recognizeWithSmallModel(scanImage)
-      .catch((error) => {
-        console.info("Small model unavailable, falling back to local image proposals.", error);
-        return null;
-      });
+    const recognition = await detectCandidatesFromLocalImage(scanImage, requestedProvider);
     if (!stillCurrent()) return;
 
-    let provider = smallRecognition?.provider || requestedProvider;
-    let detected = smallRecognition?.candidates?.length
-      ? normalizeRecognitionResults(smallRecognition.candidates, provider)
-      : [];
-
-    if (!detected.length) {
-      const fallbackRecognition = await recognizeWithHeuristicRegions(scanImage)
-        .catch((error) => {
-          console.info("Local proposal fallback failed.", error);
-          return { provider: "local-image", candidates: [] };
-        });
-      if (!stillCurrent()) return;
-      provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
-      detected = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
-    }
+    const provider = recognition.provider;
+    let detected = recognition.candidates;
 
     if (!detected.length) {
       state.capture = {
@@ -2960,6 +3112,12 @@ function confirmCandidates() {
       confidence: candidate.confidence,
       source: candidate.source || state.capture.provider || "local-image",
       recognitionProvider: state.capture.provider || "local-image",
+      categoryId: candidate.categoryId || candidate.catalogId || "",
+      categoryPath: candidate.categoryPath || [],
+      categoryScore: candidate.categoryScore,
+      categoryMargin: candidate.categoryMargin,
+      categoryIndexVersion: candidate.categoryIndexVersion || "",
+      matchedSampleIds: candidate.matchedSampleIds || [],
       boxEdited: Boolean(candidate.edited),
     }));
 

@@ -1,0 +1,200 @@
+{
+  "kind": "vision-real-photo-sources",
+  "version": "20260522-commons-household-real-photos",
+  "description": "Real household-object photos selected from Wikimedia Commons for the local vision evaluation report. Query images have manually annotated ground-truth boxes in percentage coordinates.",
+  "sourceProvider": "Wikimedia Commons",
+  "images": [
+    {
+      "id": "storage-box-real-query-1",
+      "categoryId": "storage-box",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "fileTitle": "Orange plastic storage container on top of a stack.jpg",
+      "box": { "x": 6.0, "y": 8.0, "w": 89.0, "h": 84.0 }
+    },
+    {
+      "id": "storage-box-real-gallery-1",
+      "categoryId": "storage-box",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-1.jpg",
+      "fileTitle": "Blue plastic storage organizer boxes for screws.jpg",
+      "box": { "x": 0.0, "y": 2.0, "w": 100.0, "h": 94.0 }
+    },
+    {
+      "id": "storage-box-real-gallery-2",
+      "categoryId": "storage-box",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+      "fileTitle": "Gratnells Extra Deep Storage Tray.jpg",
+      "box": { "x": 0.0, "y": 16.0, "w": 97.0, "h": 73.0 }
+    },
+    {
+      "id": "storage-box-real-gallery-3",
+      "categoryId": "storage-box",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+      "fileTitle": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "box": { "x": 32.0, "y": 0.0, "w": 49.0, "h": 100.0 }
+    },
+    {
+      "id": "charging-cable-real-query-1",
+      "categoryId": "charging-cable",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "fileTitle": "USB cable.jpg",
+      "box": { "x": 5.0, "y": 28.0, "w": 91.0, "h": 45.0 }
+    },
+    {
+      "id": "charging-cable-real-gallery-1",
+      "categoryId": "charging-cable",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+      "fileTitle": "Universal Serial Bus, USB.JPG",
+      "box": { "x": 0.0, "y": 2.0, "w": 100.0, "h": 88.0 }
+    },
+    {
+      "id": "charging-cable-real-gallery-2",
+      "categoryId": "charging-cable",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+      "fileTitle": "Apple usb extension cable.JPG",
+      "box": { "x": 16.0, "y": 3.0, "w": 78.0, "h": 63.0 }
+    },
+    {
+      "id": "charging-cable-real-gallery-3",
+      "categoryId": "charging-cable",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+      "fileTitle": "Cavo USB-C = USB-C della Samsung.jpg",
+      "box": { "x": 18.0, "y": 7.0, "w": 63.0, "h": 87.0 }
+    },
+    {
+      "id": "charger-real-query-1",
+      "categoryId": "charger",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "fileTitle": "Apple USB Charger 1 2017-02-02.jpg",
+      "box": { "x": 37.0, "y": 30.0, "w": 60.0, "h": 36.0 }
+    },
+    {
+      "id": "charger-real-gallery-1",
+      "categoryId": "charger",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-1.jpg",
+      "fileTitle": "USB wall charger.JPG",
+      "box": { "x": 12.0, "y": 4.0, "w": 73.0, "h": 86.0 }
+    },
+    {
+      "id": "charger-real-gallery-2",
+      "categoryId": "charger",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+      "fileTitle": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+      "box": { "x": 30.0, "y": 11.0, "w": 48.0, "h": 82.0 }
+    },
+    {
+      "id": "charger-real-gallery-3",
+      "categoryId": "charger",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+      "fileTitle": "Mobile phone charger plugs.jpg",
+      "box": { "x": 0.0, "y": 17.0, "w": 100.0, "h": 61.0 }
+    },
+    {
+      "id": "remote-control-real-query-1",
+      "categoryId": "remote-control",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "fileTitle": "Television remote control - black 01.jpg",
+      "box": { "x": 30.0, "y": 0.5, "w": 41.0, "h": 98.0 }
+    },
+    {
+      "id": "remote-control-real-gallery-1",
+      "categoryId": "remote-control",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+      "fileTitle": "Television remote control - black colour.jpg",
+      "box": { "x": 29.0, "y": 2.0, "w": 37.0, "h": 95.0 }
+    },
+    {
+      "id": "remote-control-real-gallery-2",
+      "categoryId": "remote-control",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+      "fileTitle": "AverMedia RM-RH Remote control (white background) edit.jpg",
+      "box": { "x": 15.0, "y": 13.0, "w": 75.0, "h": 72.0 }
+    },
+    {
+      "id": "remote-control-real-gallery-3",
+      "categoryId": "remote-control",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+      "fileTitle": "Remote control for Hisense TV.jpg",
+      "box": { "x": 41.0, "y": 8.0, "w": 19.0, "h": 80.0 }
+    },
+    {
+      "id": "medicine-box-real-query-1",
+      "categoryId": "medicine-box",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "fileTitle": "2023 Kasetka z lekami.jpg",
+      "box": { "x": 4.0, "y": 5.0, "w": 92.0, "h": 86.0 }
+    },
+    {
+      "id": "medicine-box-real-gallery-1",
+      "categoryId": "medicine-box",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+      "fileTitle": "Pill box with pills.JPG",
+      "box": { "x": 0.0, "y": 10.0, "w": 99.0, "h": 67.0 }
+    },
+    {
+      "id": "medicine-box-real-gallery-2",
+      "categoryId": "medicine-box",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-2.jpg",
+      "fileTitle": "Pill Box (32636946385).jpg",
+      "box": { "x": 8.0, "y": 11.0, "w": 87.0, "h": 67.0 }
+    },
+    {
+      "id": "medicine-box-real-gallery-3",
+      "categoryId": "medicine-box",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-3.jpg",
+      "fileTitle": "Pill Dispenser (daily).jpg",
+      "box": { "x": 1.0, "y": 24.0, "w": 94.0, "h": 50.0 }
+    },
+    {
+      "id": "battery-real-query-1",
+      "categoryId": "battery",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "fileTitle": "02 - Single Energizer Battery.jpg",
+      "box": { "x": 13.0, "y": 15.0, "w": 73.0, "h": 53.0 }
+    },
+    {
+      "id": "battery-real-gallery-1",
+      "categoryId": "battery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+      "fileTitle": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+      "box": { "x": 25.0, "y": 4.0, "w": 46.0, "h": 90.0 }
+    },
+    {
+      "id": "battery-real-gallery-2",
+      "categoryId": "battery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+      "fileTitle": "AA batteries.JPG",
+      "box": { "x": 15.0, "y": 18.0, "w": 74.0, "h": 58.0 }
+    },
+    {
+      "id": "battery-real-gallery-3",
+      "categoryId": "battery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+      "fileTitle": "AA Batteries (51825378856).jpg",
+      "box": { "x": 6.0, "y": 22.0, "w": 88.0, "h": 36.0 }
+    }
+  ]
+}

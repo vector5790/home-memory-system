@@ -1,0 +1,10 @@
+{
+  "kind": "vision-model-eval-simulator-checks",
+  "status": "ok",
+  "checks": [
+    "missing assets skip real providers",
+    "canvas baseline metadata",
+    "timing aggregation",
+    "legacy single-provider evaluation"
+  ]
+}

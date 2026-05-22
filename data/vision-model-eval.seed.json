@@ -1,0 +1,415 @@
+{
+  "kind": "vision-model-eval-dataset",
+  "version": "20260522-household-seed-model-eval",
+  "description": "Seed household object images for evaluating local subject boxes, names, and top-3 local index retrieval.",
+  "images": [
+    {
+      "id": "storage-box-eval-1",
+      "imagePath": "fixtures/vision/storage-box-eval-1.jpg",
+      "sourceSampleId": "storage-box-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-eval-1",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 15.0,
+            "y": 18.0,
+            "w": 65.0,
+            "h": 52.0
+          },
+          "aliases": [
+            "storage box",
+            "storage bin",
+            "plastic bin",
+            "organizer box",
+            "收纳箱"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "storage-box-eval-2",
+      "imagePath": "fixtures/vision/storage-box-eval-2.jpg",
+      "sourceSampleId": "storage-box-eval-2",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-eval-2",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 20.0,
+            "y": 24.0,
+            "w": 58.0,
+            "h": 47.0
+          },
+          "aliases": [
+            "storage box",
+            "storage bin",
+            "plastic bin",
+            "organizer box",
+            "收纳箱"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-eval-1",
+      "imagePath": "fixtures/vision/charging-cable-eval-1.jpg",
+      "sourceSampleId": "charging-cable-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-eval-1",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "线缆与转接",
+            "数据线"
+          ],
+          "box": {
+            "x": 12.0,
+            "y": 38.0,
+            "w": 78.0,
+            "h": 20.0
+          },
+          "aliases": [
+            "charging cable",
+            "usb cable",
+            "data cable",
+            "phone cable",
+            "type c cable"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-eval-2",
+      "imagePath": "fixtures/vision/charging-cable-eval-2.jpg",
+      "sourceSampleId": "charging-cable-eval-2",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-eval-2",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "线缆与转接",
+            "数据线"
+          ],
+          "box": {
+            "x": 10.0,
+            "y": 41.0,
+            "w": 76.0,
+            "h": 19.0
+          },
+          "aliases": [
+            "charging cable",
+            "usb cable",
+            "data cable",
+            "phone cable",
+            "type c cable"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "charger-eval-1",
+      "imagePath": "fixtures/vision/charger-eval-1.jpg",
+      "sourceSampleId": "charger-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-charger-eval-1",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电源配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 35.0,
+            "y": 26.0,
+            "w": 30.0,
+            "h": 42.0
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "phone charger",
+            "usb charger",
+            "charging brick"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "charger-eval-2",
+      "imagePath": "fixtures/vision/charger-eval-2.jpg",
+      "sourceSampleId": "charger-eval-2",
+      "groundTruth": [
+        {
+          "id": "gt-charger-eval-2",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电源配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 31.0,
+            "y": 23.0,
+            "w": 35.0,
+            "h": 44.0
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "phone charger",
+            "usb charger",
+            "charging brick"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "remote-control-eval-1",
+      "imagePath": "fixtures/vision/remote-control-eval-1.jpg",
+      "sourceSampleId": "remote-control-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-eval-1",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "电子电器",
+            "影音配件",
+            "遥控设备",
+            "遥控器"
+          ],
+          "box": {
+            "x": 36.0,
+            "y": 14.0,
+            "w": 18.0,
+            "h": 72.0
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "media remote",
+            "black remote"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "remote-control-eval-2",
+      "imagePath": "fixtures/vision/remote-control-eval-2.jpg",
+      "sourceSampleId": "remote-control-eval-2",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-eval-2",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "电子电器",
+            "影音配件",
+            "遥控设备",
+            "遥控器"
+          ],
+          "box": {
+            "x": 40.0,
+            "y": 13.0,
+            "w": 16.0,
+            "h": 73.0
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "media remote",
+            "black remote"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-eval-1",
+      "imagePath": "fixtures/vision/medicine-box-eval-1.jpg",
+      "sourceSampleId": "medicine-box-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-eval-1",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "健康护理",
+            "药品收纳",
+            "药品容器",
+            "药盒"
+          ],
+          "box": {
+            "x": 21.0,
+            "y": 17.0,
+            "w": 51.0,
+            "h": 46.0
+          },
+          "aliases": [
+            "medicine box",
+            "pill box",
+            "pill organizer",
+            "medicine container"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-eval-2",
+      "imagePath": "fixtures/vision/medicine-box-eval-2.jpg",
+      "sourceSampleId": "medicine-box-eval-2",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-eval-2",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "健康护理",
+            "药品收纳",
+            "药品容器",
+            "药盒"
+          ],
+          "box": {
+            "x": 24.0,
+            "y": 18.0,
+            "w": 49.0,
+            "h": 45.0
+          },
+          "aliases": [
+            "medicine box",
+            "pill box",
+            "pill organizer",
+            "medicine container"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "battery-eval-1",
+      "imagePath": "fixtures/vision/battery-eval-1.jpg",
+      "sourceSampleId": "battery-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-battery-eval-1",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电力存储",
+            "电池"
+          ],
+          "box": {
+            "x": 33.0,
+            "y": 21.0,
+            "w": 15.0,
+            "h": 56.0
+          },
+          "aliases": [
+            "battery",
+            "aa battery",
+            "aaa battery",
+            "household battery"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "battery-eval-2",
+      "imagePath": "fixtures/vision/battery-eval-2.jpg",
+      "sourceSampleId": "battery-eval-2",
+      "groundTruth": [
+        {
+          "id": "gt-battery-eval-2",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电力存储",
+            "电池"
+          ],
+          "box": {
+            "x": 48.0,
+            "y": 20.0,
+            "w": 15.0,
+            "h": 57.0
+          },
+          "aliases": [
+            "battery",
+            "aa battery",
+            "aaa battery",
+            "household battery"
+          ],
+          "activeCategory": true
+        }
+      ]
+    },
+    {
+      "id": "cat-teaser-eval-1",
+      "imagePath": "fixtures/vision/cat-teaser-eval-1.jpg",
+      "sourceSampleId": "cat-teaser-eval-1",
+      "groundTruth": [
+        {
+          "id": "gt-cat-teaser-eval-1",
+          "name": "逗猫棒",
+          "categoryId": "cat-teaser-toy",
+          "categoryPath": [
+            "宠物用品",
+            "宠物玩具",
+            "猫玩具",
+            "逗猫棒"
+          ],
+          "box": {
+            "x": 15.0,
+            "y": 35.0,
+            "w": 70.0,
+            "h": 14.0
+          },
+          "aliases": [
+            "cat teaser",
+            "cat wand",
+            "cat toy"
+          ],
+          "activeCategory": false
+        }
+      ]
+    }
+  ]
+}

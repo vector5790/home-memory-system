@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://home-memory.local/schemas/vision-category-index.schemas.json",
+  "title": "Home Memory Vision Category Index Schemas",
+  "description": "Shared schemas for taxonomy, household subset, representative samples, evaluation reports, and generated embedding indexes.",
+  "$defs": {
+    "box": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 100 },
+        "y": { "type": "number", "minimum": 0, "maximum": 100 },
+        "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 100 },
+        "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 100 }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level1", "level2", "level3", "level4"],
+      "properties": {
+        "level1": { "type": "string", "minLength": 1 },
+        "level2": { "type": "string", "minLength": 1 },
+        "level3": { "type": "string", "minLength": 1 },
+        "level4": { "type": "string", "minLength": 1 }
+      }
+    },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "sourceVersion",
+        "sourceId",
+        "lineage",
+        "displayPath",
+        "displayName",
+        "aliases",
+        "detectorLabels",
+        "searchQueries",
+        "appCategory",
+        "active"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "source": { "type": "string", "minLength": 1 },
+        "sourceVersion": { "type": "string", "minLength": 1 },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "lineage": { "$ref": "#/$defs/lineage" },
+        "displayPath": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "displayName": { "type": "string", "minLength": 1 },
+        "aliases": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "detectorLabels": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "searchQueries": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "googleProductTaxonomy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "path"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "path": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+          }
+        },
+        "appCategory": {
+          "type": "string",
+          "enum": ["food", "medicine", "pet", "document", "tool", "daily", "appliance"]
+        },
+        "active": { "type": "boolean" },
+        "exclusionReason": { "type": "string" }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "version", "taxonomy", "subset", "categories"],
+      "properties": {
+        "kind": { "const": "vision-categories" },
+        "version": { "type": "string", "minLength": 1 },
+        "taxonomy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primarySource", "primaryVersion"],
+          "properties": {
+            "primarySource": { "type": "string", "minLength": 1 },
+            "primaryVersion": { "type": "string", "minLength": 1 },
+            "auxiliarySources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["source", "version"],
+                "properties": {
+                  "source": { "type": "string", "minLength": 1 },
+                  "version": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        },
+        "subset": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "name", "includedCategoryIds", "exclusions"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "name": { "type": "string", "minLength": 1 },
+            "includedCategoryIds": { "type": "array", "items": { "type": "string" } },
+            "exclusions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["categoryId", "reason"],
+                "properties": {
+                  "categoryId": { "type": "string", "minLength": 1 },
+                  "reason": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        },
+        "categories": { "type": "array", "items": { "$ref": "#/$defs/category" } }
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "categoryId",
+        "sourceType",
+        "license",
+        "imagePath",
+        "sha256",
+        "split",
+        "reviewStatus"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "categoryId": { "type": "string", "minLength": 1 },
+        "sourceType": { "type": "string", "enum": ["fixture", "local", "open-dataset", "user-curated"] },
+        "sourceUrl": { "type": "string" },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "usage"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "spdx": { "type": "string" },
+            "usage": { "type": "string", "minLength": 1 }
+          }
+        },
+        "imagePath": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "split": { "type": "string", "enum": ["gallery", "eval", "holdout"] },
+        "reviewStatus": { "type": "string", "enum": ["reviewed", "pending", "rejected"] },
+        "humanBox": { "$ref": "#/$defs/box" },
+        "notes": { "type": "string" }
+      }
+    },
+    "sampleManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "version", "taxonomyVersion", "samples"],
+      "properties": {
+        "kind": { "const": "vision-samples" },
+        "version": { "type": "string", "minLength": 1 },
+        "taxonomyVersion": { "type": "string", "minLength": 1 },
+        "samples": { "type": "array", "items": { "$ref": "#/$defs/sample" } }
+      }
+    },
+    "evaluationReport": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "version", "passed", "metrics", "thresholds", "confusions"],
+      "properties": {
+        "kind": { "const": "vision-embedding-evaluation" },
+        "version": { "type": "string", "minLength": 1 },
+        "passed": { "type": "boolean" },
+        "metrics": { "type": "object" },
+        "thresholds": { "type": "object" },
+        "confusions": { "type": "array" }
+      }
+    },
+    "indexEntry": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "categoryId", "displayName", "categoryPath", "sampleId", "sourceImagePath", "box", "embedding"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "categoryId": { "type": "string", "minLength": 1 },
+        "displayName": { "type": "string", "minLength": 1 },
+        "categoryPath": { "type": "array", "minItems": 4, "items": { "type": "string" } },
+        "sampleId": { "type": "string", "minLength": 1 },
+        "sourceImagePath": { "type": "string", "minLength": 1 },
+        "box": { "$ref": "#/$defs/box" },
+        "embedding": { "type": "array", "items": { "type": "number" } }
+      }
+    },
+    "embeddingIndex": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "version", "algorithm", "metric", "embedding", "thresholds", "entries"],
+      "properties": {
+        "kind": { "const": "vision-category-index" },
+        "version": { "type": "string", "minLength": 1 },
+        "algorithm": { "type": "string", "enum": ["flat-inner-product", "flat-cosine"] },
+        "metric": { "type": "string", "enum": ["max-inner-product", "cosine"] },
+        "embedding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["modelId", "dimension", "normalized"],
+          "properties": {
+            "modelId": { "type": "string", "minLength": 1 },
+            "dimension": { "type": "integer", "minimum": 1 },
+            "normalized": { "type": "boolean" },
+            "adapter": { "type": "string" }
+          }
+        },
+        "thresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["acceptScore", "acceptMargin"],
+          "properties": {
+            "acceptScore": { "type": "number" },
+            "acceptMargin": { "type": "number" }
+          }
+        },
+        "entries": { "type": "array", "items": { "$ref": "#/$defs/indexEntry" } }
+      }
+    }
+  }
+}

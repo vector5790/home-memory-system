@@ -1,0 +1,11 @@
+{
+  "kind": "vision-validation-report",
+  "version": "20260522-household-seed-validation",
+  "passed": true,
+  "taxonomy": "data/vision-categories.seed.json",
+  "samples": "data/vision-samples.seed.json",
+  "errors": [],
+  "warnings": [
+    "cat-teaser-eval-1 references inactive category cat-teaser-toy; it will only be used as an unknown sample"
+  ]
+}

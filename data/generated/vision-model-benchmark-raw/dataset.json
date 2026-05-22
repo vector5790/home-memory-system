@@ -1,0 +1,225 @@
+{
+  "kind": "vision-model-eval-dataset",
+  "version": "20260522-commons-household-real-eval",
+  "description": "Real household object photos with manually annotated GT boxes for evaluating subject detection, item naming, and top-3 local index retrieval display.",
+  "sourceProvider": "Wikimedia Commons",
+  "notes": [
+    "The photos are real downloaded Commons media, not synthetic drawing fixtures.",
+    "Ground-truth boxes are manual percentage-coordinate annotations over the main household object."
+  ],
+  "images": [
+    {
+      "id": "storage-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "sourceTitle": "Orange plastic storage container on top of a stack.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-real-query-1",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 6.0,
+            "y": 8.0,
+            "w": 89.0,
+            "h": 84.0
+          },
+          "aliases": [
+            "storage box",
+            "storage bin",
+            "plastic bin",
+            "organizer box",
+            "收纳箱"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "Orange plastic storage container on top of a stack.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "sourceTitle": "USB cable.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_cable.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-real-query-1",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "线缆与转接",
+            "数据线"
+          ],
+          "box": {
+            "x": 5.0,
+            "y": 28.0,
+            "w": 91.0,
+            "h": 45.0
+          },
+          "aliases": [
+            "charging cable",
+            "usb cable",
+            "data cable",
+            "phone cable",
+            "type c cable"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "USB cable.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_cable.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "sourceTitle": "Apple USB Charger 1 2017-02-02.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-real-query-1",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电源配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 37.0,
+            "y": 30.0,
+            "w": 60.0,
+            "h": 36.0
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "phone charger",
+            "usb charger",
+            "charging brick"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "Apple USB Charger 1 2017-02-02.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "sourceTitle": "Television remote control - black 01.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-real-query-1",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "电子电器",
+            "影音配件",
+            "遥控设备",
+            "遥控器"
+          ],
+          "box": {
+            "x": 30.0,
+            "y": 0.5,
+            "w": 41.0,
+            "h": 98.0
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "media remote",
+            "black remote"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "Television remote control - black 01.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "sourceTitle": "2023 Kasetka z lekami.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-real-query-1",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "健康护理",
+            "药品收纳",
+            "药品容器",
+            "药盒"
+          ],
+          "box": {
+            "x": 4.0,
+            "y": 5.0,
+            "w": 92.0,
+            "h": 86.0
+          },
+          "aliases": [
+            "medicine box",
+            "pill box",
+            "pill organizer",
+            "medicine container"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "2023 Kasetka z lekami.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg"
+        }
+      ]
+    },
+    {
+      "id": "battery-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "sourceTitle": "02 - Single Energizer Battery.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-battery-real-query-1",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电力存储",
+            "电池"
+          ],
+          "box": {
+            "x": 13.0,
+            "y": 15.0,
+            "w": 73.0,
+            "h": 53.0
+          },
+          "aliases": [
+            "battery",
+            "aa battery",
+            "aaa battery",
+            "household battery"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "02 - Single Energizer Battery.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg"
+        }
+      ]
+    }
+  ]
+}

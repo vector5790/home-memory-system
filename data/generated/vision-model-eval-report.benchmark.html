@@ -1,0 +1,2642 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vision Model Evaluation Report</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f2ec; color: #1f2528; }
+    header { padding: 28px 36px; background: #172126; color: white; }
+    h1 { margin: 0 0 12px; font-size: 28px; }
+    .summary { display: flex; gap: 12px; flex-wrap: wrap; }
+    .metric { background: rgba(255,255,255,.12); padding: 10px 14px; border-radius: 8px; min-width: 130px; }
+    .metric b { display: block; font-size: 20px; }
+    .note { margin-top: 14px; max-width: 980px; color: #d7e2e7; line-height: 1.45; font-size: 13px; }
+    main { padding: 24px 36px 48px; display: grid; gap: 18px; }
+    .provider-panel { background:#fff; border:1px solid #ded8cd; border-radius:10px; padding:16px; overflow:auto; }
+    .provider-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .provider-table th, .provider-table td { border-bottom:1px solid #ebe6dc; padding:7px 8px; text-align:left; white-space:nowrap; }
+    .provider-table th { color:#415055; }
+    .provider-cases { display: grid; gap: 14px; }
+    .provider-heading { position: sticky; top: 0; z-index: 2; background: #243137; color: #fff; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+    .provider-heading h2 { margin: 0 0 4px; font-size: 18px; }
+    .provider-heading div { color: #d7e2e7; font-size: 12px; line-height: 1.35; }
+    .case { display: grid; grid-template-columns: minmax(280px, 360px) minmax(220px, 320px) 1fr; gap: 18px; background: #fff; border: 1px solid #ded8cd; border-radius: 10px; padding: 16px; }
+    .image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: #ebe6dc; overflow: hidden; border-radius: 8px; }
+    .image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .box { position: absolute; border: 3px solid; box-sizing: border-box; font-size: 11px; font-weight: 700; padding: 2px 4px; }
+    .box.gt { border-color: #239a5b; color: #165c38; background: rgba(35,154,91,.12); }
+    .box.pred { border-color: #d88718; color: #7a4600; background: rgba(216,135,24,.12); transform: translate(2px, 2px); }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    .kv { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin: 8px 0; font-size: 14px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge { border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 700; }
+    .badge.ok { background: #e2f4e8; color: #17633b; }
+    .badge.fail { background: #ffe8df; color: #9a351f; }
+    .match-grid { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 10px; }
+    .match-card { border: 1px solid #ded8cd; border-radius: 8px; padding: 8px; background: #fbfaf7; }
+    .match-card.same { border-color: #70b88f; }
+    .match-card.diff { border-color: #e2a56f; }
+    .match-card img { width: 100%; aspect-ratio: 4/3; object-fit: contain; border-radius: 6px; background: #eee; display: block; }
+    .rank { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .match-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .match-id { font-size: 11px; color: #687174; }
+    .match-path { margin-top: 4px; font-size: 11px; color: #415055; line-height: 1.35; }
+    .empty { color: #7d8588; font-size: 13px; }
+    a { color: inherit; }
+    @media (max-width: 980px) { .case { grid-template-columns: 1fr; } .match-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>本地视觉模型评测报告</h1>
+    <div class="summary">
+      <div class="metric"><b>6</b>图片</div>
+      <div class="metric"><b>67%</b>框召回 @ IoU 0.5</div>
+      <div class="metric"><b>83%</b>类目准确</div>
+      <div class="metric"><b>83%</b>名称准确</div>
+      <div class="metric"><b>50%</b>框+名同时正确</div>
+    </div>
+    <div class="note">Model: provider-benchmark · Provider benchmark predictions. Real local providers require valid vendor assets and --run-local-models; baselines are explicitly labeled.</div>
+  </header>
+  <main>
+    
+    <section class="provider-panel">
+      <h2>Provider 对比</h2>
+      <table class="provider-table">
+        <thead><tr><th>Provider</th><th>Model IDs</th><th>Class</th><th>Status</th><th>Box</th><th>Category</th><th>Name</th><th>Combined</th><th>Top3</th><th>P95 ms</th><th>Gate</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Local OWL-ViT + CLIP naming</td>
+            <td>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</td>
+            <td>real-local-model</td>
+            <td>ok</td>
+            <td>67%</td>
+            <td>83%</td>
+            <td>83%</td>
+            <td>50%</td>
+            <td>100%</td>
+            <td>317.167</td>
+            <td>go</td>
+          </tr>
+        
+          <tr>
+            <td>Local OWL-ViT + SlimSAM + CLIP naming</td>
+            <td>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</td>
+            <td>real-local-model</td>
+            <td>ok</td>
+            <td>67%</td>
+            <td>83%</td>
+            <td>83%</td>
+            <td>50%</td>
+            <td>100%</td>
+            <td>1860.555</td>
+            <td>go</td>
+          </tr>
+        
+          <tr>
+            <td>Local Grounding DINO + CLIP naming</td>
+            <td>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</td>
+            <td>real-local-model</td>
+            <td>ok</td>
+            <td>50%</td>
+            <td>67%</td>
+            <td>67%</td>
+            <td>33%</td>
+            <td>100%</td>
+            <td>1793.066</td>
+            <td>no-go</td>
+          </tr>
+        
+          <tr>
+            <td>Local Grounding DINO + SlimSAM + CLIP naming</td>
+            <td>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</td>
+            <td>real-local-model</td>
+            <td>ok</td>
+            <td>33%</td>
+            <td>67%</td>
+            <td>67%</td>
+            <td>33%</td>
+            <td>100%</td>
+            <td>4114.078</td>
+            <td>no-go</td>
+          </tr>
+        
+          <tr>
+            <td>Local CLIP naming</td>
+            <td>Xenova/clip-vit-base-patch32</td>
+            <td>real-local-model</td>
+            <td>ok</td>
+            <td>33%</td>
+            <td>50%</td>
+            <td>50%</td>
+            <td>17%</td>
+            <td>100%</td>
+            <td>44.986</td>
+            <td>no-go</td>
+          </tr>
+        
+          <tr>
+            <td>Canvas proposal baseline</td>
+            <td>n/a</td>
+            <td>canvas-baseline</td>
+            <td>ok</td>
+            <td>67%</td>
+            <td>0%</td>
+            <td>0%</td>
+            <td>0%</td>
+            <td>0%</td>
+            <td>44.109</td>
+            <td>not-applicable</td>
+          </tr>
+        
+          <tr>
+            <td>GT-assisted report fixture</td>
+            <td>n/a</td>
+            <td>gt-assisted-fixture</td>
+            <td>ok</td>
+            <td>100%</td>
+            <td>100%</td>
+            <td>100%</td>
+            <td>100%</td>
+            <td>100%</td>
+            <td>4.12</td>
+            <td>not-applicable</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local OWL-ViT + CLIP naming</h2>
+        <div>real-local-model · Gate go · Models: Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:14.2969%;top:21.5625%;width:84.9219%;height:78.4375%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6725</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.7182 · margin 0.7182</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.714738</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.7143</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:22.0697%;width:95.3125%;height:42.5554%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6829</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.797692 · margin 0.043437</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.754255</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.743431</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:28.6719%;top:40.658%;width:71.0938%;height:46.0635%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.3885</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.847971 · margin 0.011079</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.836892</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.805917</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:2.2196%;top:0.4242%;width:93.6916%;height:99.0606%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.4329</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.8492 · margin 0.8492</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.780871</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.747947</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:5.5469%;top:7.2316%;width:85.2344%;height:82.0339%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.8837</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.771356 · margin 0.142532</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.628824</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.622454</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:12.8125%;top:10.9685%;width:68.9063%;height:70.5951%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7153</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.698607 · margin 0.698607</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.68079</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.644391</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local OWL-ViT + SlimSAM + CLIP naming</h2>
+        <div>real-local-model · Gate go · Models: Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:14.8438%;top:24.2708%;width:76.4063%;height:75.2083%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6431</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.750561 · margin 0.750561</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.72357</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.704972</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:22.0697%;width:95.3125%;height:42.5554%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6829</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.797692 · margin 0.043437</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.754255</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.743431</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:28.6719%;top:40.658%;width:71.0938%;height:46.0635%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.3885</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.847971 · margin 0.011079</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.836892</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.805917</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:5.4907%;top:0.0%;width:90.771%;height:99.1212%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.4466</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.829152 · margin 0.829152</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.782978</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.727509</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:5.5469%;top:7.2316%;width:85.2344%;height:82.0339%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.8837</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.771356 · margin 0.142532</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.628824</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.622454</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:12.8125%;top:10.9685%;width:68.9063%;height:70.5951%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7153</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.698607 · margin 0.698607</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.68079</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.644391</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local Grounding DINO + CLIP naming</h2>
+        <div>real-local-model · Gate no-go · Models: onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:79.2933%;top:46.8992%;width:20.6597%;height:50.1644%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0908</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.725688 · margin 0.018676</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.719587</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.707012</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:0.1356%;top:23.4868%;width:89.6889%;height:35.7427%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.5695</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.815957 · margin 0.059268</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.756689</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.756623</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:28.157%;top:42.5398%;width:70.9954%;height:40.3053%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.3895</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.852291 · margin 0.009556</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.842735</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.822635</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:15.2264%;top:75.3569%;width:75.3783%;height:17.1981%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.153</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.735342 · margin 0.735342</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.717321</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.702921</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:7.3859%;top:11.6776%;width:83.4229%;height:78.7815%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.8307</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.826291 · margin 0.18102</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.645271</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.64327</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:13.1852%;top:15.0511%;width:67.8975%;height:68.8745%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7262</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.708965 · margin 0.708965</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.704888</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.691942</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local Grounding DINO + SlimSAM + CLIP naming</h2>
+        <div>real-local-model · Gate no-go · Models: onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:79.2969%;top:68.5417%;width:15.3125%;height:27.9167%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0476</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.765613 · margin 0.02881</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.760426</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.736803</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:40.5469%;top:27.5607%;width:24.2188%;height:18.057%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.1039</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.782671 · margin 0.027645</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.755026</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.731425</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:28.157%;top:42.5398%;width:70.9954%;height:40.3053%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.3895</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.852291 · margin 0.009556</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.842735</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.822635</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:11.7991%;top:63.3939%;width:81.4252%;height:35.697%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.2624</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.736951 · margin 0.736951</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.731578</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.652277</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:7.3859%;top:11.6776%;width:83.4229%;height:78.7815%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.8307</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.826291 · margin 0.18102</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.645271</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.64327</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:13.1852%;top:15.0511%;width:67.8975%;height:68.8745%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + SlimSAM + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32, Xenova/slimsam-77-uniform</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7262</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.708965 · margin 0.708965</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.704888</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.691942</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local CLIP naming</h2>
+        <div>real-local-model · Gate no-go · Models: Xenova/clip-vit-base-patch32</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7476</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.751253 · margin 0.751253</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.749714</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.704585</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.4095</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.860802 · margin 0.007334</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.853468</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.816003</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.216</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.845991 · margin 0.047979</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.845987</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.798012</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.4018</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.821604 · margin 0.821604</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.778982</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.726747</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7912</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.747158 · margin 0.024498</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.72266</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.696044</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.3869</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.725503 · margin 0.725503</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.697357</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.654204</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Canvas proposal baseline</h2>
+        <div>canvas-baseline · Gate not-applicable · Models: n/a</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Canvas proposal baseline · canvas-baseline · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>物品A · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7476</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:20.3008%;width:98.8889%;height:60.1504%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Canvas proposal baseline · canvas-baseline · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>物品A · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6884</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Canvas proposal baseline · canvas-baseline · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>物品A · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.216</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:100.0%;height:100.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Canvas proposal baseline · canvas-baseline · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>物品A · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.4018</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:5.0%;top:8.0645%;width:88.8889%;height:83.871%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Canvas proposal baseline · canvas-baseline · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>物品A · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9221</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:10.5556%;top:11.5702%;width:72.7778%;height:76.8595%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Canvas proposal baseline · canvas-baseline · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>物品A · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.65</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>GT-assisted report fixture</h2>
+        <div>gt-assisted-fixture · Gate not-applicable · Models: n/a</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:6.8%;top:7.4%;width:89.89%;height:84.84%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>GT-assisted report fixture · gt-assisted-fixture · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.963</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.995972 · margin 0.995972</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.995892</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.995852</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:5.8%;top:27.4%;width:91.91%;height:45.45%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>GT-assisted report fixture · gt-assisted-fixture · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9571</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.995874 · margin 0.995874</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.995822</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.995709</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:37.8%;top:29.4%;width:60.6%;height:36.36%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>GT-assisted report fixture · gt-assisted-fixture · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9424</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.995933 · margin 0.995933</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.995848</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.995694</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:30.8%;top:0.0%;width:41.41%;height:98.98%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>GT-assisted report fixture · gt-assisted-fixture · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9431</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.99593 · margin 0.99593</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.995795</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.995599</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:4.8%;top:4.4%;width:92.92%;height:86.86%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>GT-assisted report fixture · gt-assisted-fixture · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9636</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.995753 · margin 0.995753</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.995715</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-3.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-3</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_Dispenser_(daily).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.995651</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-2.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-2</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:Pill_Box_(32636946385).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:13.8%;top:14.4%;width:73.73%;height:53.53%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>GT-assisted report fixture · gt-assisted-fixture · ok</span></div>
+        <div class="kv"><b>Models</b><span>n/a</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9568</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.995864 · margin 0.995864</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.995774</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.995722</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-commons-real-photo-index <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+  </main>
+</body>
+</html>

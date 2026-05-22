@@ -1,0 +1,183 @@
+{
+  "kind": "vision-embedding-evaluation",
+  "version": "20260522-household-seed-evaluation",
+  "id": "eval-20260522-household-seed",
+  "passed": true,
+  "taxonomyVersion": "20260522-household-seed",
+  "sampleManifestVersion": "20260522-household-seed-samples",
+  "embedding": {
+    "modelId": "Xenova/clip-vit-base-patch32",
+    "dimension": 512,
+    "normalized": true,
+    "adapter": "deterministic-fixture"
+  },
+  "metric": "max-inner-product",
+  "thresholds": {
+    "acceptScore": 0.82,
+    "acceptMargin": 0.03,
+    "leafTop1Min": 0.7,
+    "leafTop3Min": 0.85,
+    "level3ParentAccuracyMin": 0.9,
+    "falseAcceptRateMax": 0.05
+  },
+  "metrics": {
+    "knownEvalCount": 12,
+    "unknownEvalCount": 1,
+    "galleryEntryCount": 12,
+    "leafTop1": 1.0,
+    "leafTop3": 1.0,
+    "level3ParentAccuracy": 1.0,
+    "coverage": 1.0,
+    "falseAcceptRate": 0.0,
+    "unknownRejectionRate": 1.0,
+    "scoreDistribution": {
+      "min": 0.028391,
+      "p50": 0.998709,
+      "p95": 0.998781,
+      "max": 0.998788
+    },
+    "marginDistribution": {
+      "min": 0.006826,
+      "p50": 0.96907,
+      "p95": 0.999693,
+      "max": 0.999752
+    },
+    "latencyMs": {
+      "mean": 0.753824,
+      "p95": 0.788417
+    }
+  },
+  "confusions": [],
+  "perSample": [
+    {
+      "sampleId": "storage-box-eval-1",
+      "expectedCategoryId": "storage-box",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "storage-box",
+      "score": 0.998745,
+      "margin": 0.934988,
+      "latencyMs": 0.7609
+    },
+    {
+      "sampleId": "storage-box-eval-2",
+      "expectedCategoryId": "storage-box",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "storage-box",
+      "score": 0.99866,
+      "margin": 0.93689,
+      "latencyMs": 0.7884
+    },
+    {
+      "sampleId": "charging-cable-eval-1",
+      "expectedCategoryId": "charging-cable",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "charging-cable",
+      "score": 0.998781,
+      "margin": 0.968107,
+      "latencyMs": 0.7302
+    },
+    {
+      "sampleId": "charging-cable-eval-2",
+      "expectedCategoryId": "charging-cable",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "charging-cable",
+      "score": 0.998728,
+      "margin": 0.97067,
+      "latencyMs": 0.7303
+    },
+    {
+      "sampleId": "charger-eval-1",
+      "expectedCategoryId": "charger",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "charger",
+      "score": 0.998665,
+      "margin": 0.994419,
+      "latencyMs": 0.7303
+    },
+    {
+      "sampleId": "charger-eval-2",
+      "expectedCategoryId": "charger",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "charger",
+      "score": 0.998788,
+      "margin": 0.993023,
+      "latencyMs": 0.7184
+    },
+    {
+      "sampleId": "remote-control-eval-1",
+      "expectedCategoryId": "remote-control",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "remote-control",
+      "score": 0.998709,
+      "margin": 0.934559,
+      "latencyMs": 0.7156
+    },
+    {
+      "sampleId": "remote-control-eval-2",
+      "expectedCategoryId": "remote-control",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "remote-control",
+      "score": 0.998634,
+      "margin": 0.933201,
+      "latencyMs": 0.716
+    },
+    {
+      "sampleId": "medicine-box-eval-1",
+      "expectedCategoryId": "medicine-box",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "medicine-box",
+      "score": 0.998721,
+      "margin": 0.999752,
+      "latencyMs": 0.7843
+    },
+    {
+      "sampleId": "medicine-box-eval-2",
+      "expectedCategoryId": "medicine-box",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "medicine-box",
+      "score": 0.998642,
+      "margin": 0.999693,
+      "latencyMs": 0.8617
+    },
+    {
+      "sampleId": "battery-eval-1",
+      "expectedCategoryId": "battery",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "battery",
+      "score": 0.998742,
+      "margin": 0.970254,
+      "latencyMs": 0.776
+    },
+    {
+      "sampleId": "battery-eval-2",
+      "expectedCategoryId": "battery",
+      "knownCategory": true,
+      "accepted": true,
+      "topCategoryId": "battery",
+      "score": 0.998706,
+      "margin": 0.96907,
+      "latencyMs": 0.7212
+    },
+    {
+      "sampleId": "cat-teaser-eval-1",
+      "expectedCategoryId": "cat-teaser-toy",
+      "knownCategory": false,
+      "accepted": false,
+      "topCategoryId": "storage-box",
+      "score": 0.028391,
+      "margin": 0.006826,
+      "latencyMs": 0.7666
+    }
+  ]
+}

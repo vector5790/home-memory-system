@@ -1,0 +1,1108 @@
+{
+  "kind": "vision-local-model-provider-output",
+  "version": "20260523-transformersjs-local",
+  "provider": {
+    "id": "grounding-dino",
+    "displayName": "grounding-dino",
+    "providerClass": "real-local-model",
+    "status": "ok",
+    "modelIds": [
+      "onnx-community/grounding-dino-tiny-ONNX",
+      "Xenova/clip-vit-base-patch32"
+    ],
+    "requiredModels": [
+      "onnx-community/grounding-dino-tiny-ONNX",
+      "Xenova/clip-vit-base-patch32"
+    ],
+    "timings": {
+      "detectorModelLoadMs": 858.39,
+      "clipModelLoadMs": 133.47,
+      "samModelLoadMs": null,
+      "galleryEmbeddingMs": 0,
+      "galleryCacheHit": true,
+      "modelLoadMs": 991.86
+    }
+  },
+  "images": [
+    {
+      "imageId": "storage-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-pred-storage-box-real-query-1",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 79.2933,
+            "y": 46.8992,
+            "w": 20.6597,
+            "h": 50.1644
+          },
+          "confidence": 0.4344,
+          "detectionLabel": "storage box bin organizer box bin usb usb usb box box organizer container",
+          "detectionCategoryId": "storage-box",
+          "detectionScore": 0.434417,
+          "matches": [
+            {
+              "entryId": "storage-box:storage-box-real-gallery-2",
+              "sampleId": "storage-box-real-gallery-2",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg",
+              "sourceTitle": "Gratnells Extra Deep Storage Tray.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 16,
+                "w": 97,
+                "h": 73
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 16,
+                  "w": 97,
+                  "h": 73
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.725688,
+              "margin": 0.018676
+            },
+            {
+              "entryId": "storage-box:storage-box-real-gallery-3",
+              "sampleId": "storage-box-real-gallery-3",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+              "sourceTitle": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 32,
+                "y": 0,
+                "w": 49,
+                "h": 100
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 32,
+                  "y": 0,
+                  "w": 49,
+                  "h": 100
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.719587
+            },
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-2",
+              "sampleId": "charging-cable-real-gallery-2",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG",
+              "sourceTitle": "Apple usb extension cable.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 16,
+                "y": 3,
+                "w": 78,
+                "h": 63
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 16,
+                  "y": 3,
+                  "w": 78,
+                  "h": 63
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.707012
+            }
+          ],
+          "source": "grounding-dino",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": 1767.081,
+            "segmentationMs": null,
+            "cropMs": 1.426,
+            "embeddingMs": 22.483,
+            "retrievalMs": 0.356,
+            "namingMs": 24.323,
+            "modelLoadMs": 991.86,
+            "endToEndMs": 1807.924
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": "",
+          "segmentationStatus": "not-requested",
+          "detectionCount": 129
+        }
+      ]
+    },
+    {
+      "imageId": "charging-cable-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-pred-charging-cable-real-query-1",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电源配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 0.1356,
+            "y": 23.4868,
+            "w": 89.6889,
+            "h": 35.7427
+          },
+          "confidence": 0.3277,
+          "detectionLabel": "usb phone cr adapt phoner usb adapt usbr remote tv remote black remote small black remote remote black remotene",
+          "detectionCategoryId": "remote-control",
+          "detectionScore": 0.327703,
+          "matches": [
+            {
+              "entryId": "charger:charger-real-gallery-2",
+              "sampleId": "charger-real-gallery-2",
+              "categoryId": "charger",
+              "displayName": "充电器",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电源配件",
+                "充电器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg",
+              "sourceTitle": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 30,
+                "y": 11,
+                "w": 48,
+                "h": 82
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 30,
+                  "y": 11,
+                  "w": 48,
+                  "h": 82
+                }
+              },
+              "matchedSampleIds": [
+                "charger-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.815957,
+              "margin": 0.059268
+            },
+            {
+              "entryId": "battery:battery-real-gallery-1",
+              "sampleId": "battery-real-gallery-1",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg",
+              "sourceTitle": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 25,
+                "y": 4,
+                "w": 46,
+                "h": 90
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 25,
+                  "y": 4,
+                  "w": 46,
+                  "h": 90
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.756689
+            },
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-2",
+              "sampleId": "charging-cable-real-gallery-2",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG",
+              "sourceTitle": "Apple usb extension cable.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 16,
+                "y": 3,
+                "w": 78,
+                "h": 63
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 16,
+                  "y": 3,
+                  "w": 78,
+                  "h": 63
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.756623
+            }
+          ],
+          "source": "grounding-dino",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": 1707.783,
+            "segmentationMs": null,
+            "cropMs": 1.944,
+            "embeddingMs": 18.748,
+            "retrievalMs": 0.041,
+            "namingMs": 20.75,
+            "modelLoadMs": 991.86,
+            "endToEndMs": 1736.396
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": "",
+          "segmentationStatus": "not-requested",
+          "detectionCount": 53
+        }
+      ]
+    },
+    {
+      "imageId": "charger-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-pred-charger-real-query-1",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "线缆与转接",
+            "数据线"
+          ],
+          "box": {
+            "x": 28.157,
+            "y": 42.5398,
+            "w": 70.9954,
+            "h": 40.3053
+          },
+          "confidence": 0.2594,
+          "detectionLabel": ". plastic..... usb. charging.. phone. c..r. adapter. phoner. usb adapter. usbr. charging.. remote control. tv remote. black remote control. small black remote. media remote. black remote... pill. pill. pill......ne...",
+          "detectionCategoryId": "remote-control",
+          "detectionScore": 0.259418,
+          "matches": [
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-1",
+              "sampleId": "charging-cable-real-gallery-1",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG",
+              "sourceTitle": "Universal Serial Bus, USB.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 2,
+                "w": 100,
+                "h": 88
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 2,
+                  "w": 100,
+                  "h": 88
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.852291,
+              "margin": 0.009556
+            },
+            {
+              "entryId": "charger:charger-real-gallery-3",
+              "sampleId": "charger-real-gallery-3",
+              "categoryId": "charger",
+              "displayName": "充电器",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电源配件",
+                "充电器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg",
+              "sourceTitle": "Mobile phone charger plugs.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 17,
+                "w": 100,
+                "h": 61
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 17,
+                  "w": 100,
+                  "h": 61
+                }
+              },
+              "matchedSampleIds": [
+                "charger-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.842735
+            },
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-3",
+              "sampleId": "charging-cable-real-gallery-3",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg",
+              "sourceTitle": "Cavo USB-C = USB-C della Samsung.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 18,
+                "y": 7,
+                "w": 63,
+                "h": 87
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 18,
+                  "y": 7,
+                  "w": 63,
+                  "h": 87
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.822635
+            }
+          ],
+          "source": "grounding-dino",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": 1682.925,
+            "segmentationMs": null,
+            "cropMs": 1.795,
+            "embeddingMs": 20.034,
+            "retrievalMs": 0.035,
+            "namingMs": 21.881,
+            "modelLoadMs": 991.86,
+            "endToEndMs": 1714.844
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": "",
+          "segmentationStatus": "not-requested",
+          "detectionCount": 40
+        }
+      ]
+    },
+    {
+      "imageId": "remote-control-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-pred-remote-control-real-query-1",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "电子电器",
+            "影音配件",
+            "遥控设备",
+            "遥控器"
+          ],
+          "box": {
+            "x": 15.2264,
+            "y": 75.3569,
+            "w": 75.3783,
+            "h": 17.1981
+          },
+          "confidence": 0.2281,
+          "detectionLabel": "basket plastic usb charging phone crer phoner usber usbr charging remote control remote black remote control black remote remote black remote",
+          "detectionCategoryId": "remote-control",
+          "detectionScore": 0.228114,
+          "matches": [
+            {
+              "entryId": "remote-control:remote-control-real-gallery-3",
+              "sampleId": "remote-control-real-gallery-3",
+              "categoryId": "remote-control",
+              "displayName": "遥控器",
+              "categoryPath": [
+                "电子电器",
+                "影音配件",
+                "遥控设备",
+                "遥控器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg",
+              "sourceTitle": "Remote control for Hisense TV.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 41,
+                "y": 8,
+                "w": 19,
+                "h": 80
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 41,
+                  "y": 8,
+                  "w": 19,
+                  "h": 80
+                }
+              },
+              "matchedSampleIds": [
+                "remote-control-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.735342,
+              "margin": 0.735342
+            },
+            {
+              "entryId": "remote-control:remote-control-real-gallery-2",
+              "sampleId": "remote-control-real-gallery-2",
+              "categoryId": "remote-control",
+              "displayName": "遥控器",
+              "categoryPath": [
+                "电子电器",
+                "影音配件",
+                "遥控设备",
+                "遥控器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+              "sourceTitle": "AverMedia RM-RH Remote control (white background) edit.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 15,
+                "y": 13,
+                "w": 75,
+                "h": 72
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 15,
+                  "y": 13,
+                  "w": 75,
+                  "h": 72
+                }
+              },
+              "matchedSampleIds": [
+                "remote-control-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.717321
+            },
+            {
+              "entryId": "remote-control:remote-control-real-gallery-1",
+              "sampleId": "remote-control-real-gallery-1",
+              "categoryId": "remote-control",
+              "displayName": "遥控器",
+              "categoryPath": [
+                "电子电器",
+                "影音配件",
+                "遥控设备",
+                "遥控器"
+              ],
+              "imagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg",
+              "sourceTitle": "Television remote control - black colour.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 29,
+                "y": 2,
+                "w": 37,
+                "h": 95
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 29,
+                  "y": 2,
+                  "w": 37,
+                  "h": 95
+                }
+              },
+              "matchedSampleIds": [
+                "remote-control-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.702921
+            }
+          ],
+          "source": "grounding-dino",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": 1697.535,
+            "segmentationMs": null,
+            "cropMs": 2.197,
+            "embeddingMs": 17.705,
+            "retrievalMs": 0.043,
+            "namingMs": 19.962,
+            "modelLoadMs": 991.86,
+            "endToEndMs": 1748.494
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": "",
+          "segmentationStatus": "not-requested",
+          "detectionCount": 65
+        }
+      ]
+    },
+    {
+      "imageId": "medicine-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-pred-medicine-box-real-query-1",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "健康护理",
+            "药品收纳",
+            "药品容器",
+            "药盒"
+          ],
+          "box": {
+            "x": 7.3859,
+            "y": 11.6776,
+            "w": 83.4229,
+            "h": 78.7815
+          },
+          "confidence": 0.3136,
+          "detectionLabel": "storage box storage basket plastic bin organizer box storage bin usb charging phone type crer phoner usber usbr charging brick remote control tv remote black remote control black remote media remote black remote medicine box box organizer bottle medicine container battery battery batterykaline battery battery",
+          "detectionCategoryId": "storage-box",
+          "detectionScore": 0.313577,
+          "matches": [
+            {
+              "entryId": "medicine-box:medicine-box-real-gallery-1",
+              "sampleId": "medicine-box-real-gallery-1",
+              "categoryId": "medicine-box",
+              "displayName": "药盒",
+              "categoryPath": [
+                "健康护理",
+                "药品收纳",
+                "药品容器",
+                "药盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG",
+              "sourceTitle": "Pill box with pills.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 10,
+                "w": 99,
+                "h": 67
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 10,
+                  "w": 99,
+                  "h": 67
+                }
+              },
+              "matchedSampleIds": [
+                "medicine-box-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.826291,
+              "margin": 0.18102
+            },
+            {
+              "entryId": "charging-cable:charging-cable-real-gallery-2",
+              "sampleId": "charging-cable-real-gallery-2",
+              "categoryId": "charging-cable",
+              "displayName": "数据线",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "线缆与转接",
+                "数据线"
+              ],
+              "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG",
+              "sourceTitle": "Apple usb extension cable.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 16,
+                "y": 3,
+                "w": 78,
+                "h": 63
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 16,
+                  "y": 3,
+                  "w": 78,
+                  "h": 63
+                }
+              },
+              "matchedSampleIds": [
+                "charging-cable-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.645271
+            },
+            {
+              "entryId": "storage-box:storage-box-real-gallery-2",
+              "sampleId": "storage-box-real-gallery-2",
+              "categoryId": "storage-box",
+              "displayName": "收纳盒",
+              "categoryPath": [
+                "居家收纳",
+                "收纳整理",
+                "家庭收纳容器",
+                "收纳盒"
+              ],
+              "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg",
+              "sourceTitle": "Gratnells Extra Deep Storage Tray.jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 0,
+                "y": 16,
+                "w": 97,
+                "h": 73
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 0,
+                  "y": 16,
+                  "w": 97,
+                  "h": 73
+                }
+              },
+              "matchedSampleIds": [
+                "storage-box-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.64327
+            }
+          ],
+          "source": "grounding-dino",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": 1637.199,
+            "segmentationMs": null,
+            "cropMs": 3.019,
+            "embeddingMs": 33.012,
+            "retrievalMs": 0.041,
+            "namingMs": 36.091,
+            "modelLoadMs": 991.86,
+            "endToEndMs": 1688.527
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": "",
+          "segmentationStatus": "not-requested",
+          "detectionCount": 92
+        }
+      ]
+    },
+    {
+      "imageId": "battery-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-pred-battery-real-query-1",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子电器",
+            "电子配件",
+            "电力存储",
+            "电池"
+          ],
+          "box": {
+            "x": 13.1852,
+            "y": 15.0511,
+            "w": 67.8975,
+            "h": 68.8745
+          },
+          "confidence": 0.315,
+          "detectionLabel": "basket plastic bin box bin usb phone crer phoner usber usbr remote control remote black remote control small black remote remote black remote box box bottlene",
+          "detectionCategoryId": "storage-box",
+          "detectionScore": 0.315001,
+          "matches": [
+            {
+              "entryId": "battery:battery-real-gallery-2",
+              "sampleId": "battery-real-gallery-2",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_batteries.JPG",
+              "sourceTitle": "AA batteries.JPG",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 15,
+                "y": 18,
+                "w": 74,
+                "h": 58
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 15,
+                  "y": 18,
+                  "w": 74,
+                  "h": 58
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-2"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.708965,
+              "margin": 0.708965
+            },
+            {
+              "entryId": "battery:battery-real-gallery-1",
+              "sampleId": "battery-real-gallery-1",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg",
+              "sourceTitle": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 25,
+                "y": 4,
+                "w": 46,
+                "h": 90
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 25,
+                  "y": 4,
+                  "w": 46,
+                  "h": 90
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-1"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.704888
+            },
+            {
+              "entryId": "battery:battery-real-gallery-3",
+              "sampleId": "battery-real-gallery-3",
+              "categoryId": "battery",
+              "displayName": "电池",
+              "categoryPath": [
+                "电子电器",
+                "电子配件",
+                "电力存储",
+                "电池"
+              ],
+              "imagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+              "sourceImagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+              "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg",
+              "sourceTitle": "AA Batteries (51825378856).jpg",
+              "license": {
+                "name": "Wikimedia Commons media",
+                "usage": "See the source file page for exact license and attribution requirements."
+              },
+              "box": {
+                "x": 6,
+                "y": 22,
+                "w": 88,
+                "h": 36
+              },
+              "crop": {
+                "type": "manual-box",
+                "paddingPct": 4,
+                "box": {
+                  "x": 6,
+                  "y": 22,
+                  "w": 88,
+                  "h": 36
+                }
+              },
+              "matchedSampleIds": [
+                "battery-real-gallery-3"
+              ],
+              "categoryIndexVersion": "20260522-commons-real-photo-index",
+              "embeddingModel": "Xenova/clip-vit-base-patch32",
+              "metric": "cosine",
+              "score": 0.691942
+            }
+          ],
+          "source": "grounding-dino",
+          "failureReason": "",
+          "timings": {
+            "detectionMs": 1664.763,
+            "segmentationMs": null,
+            "cropMs": 2.421,
+            "embeddingMs": 16.712,
+            "retrievalMs": 0.063,
+            "namingMs": 19.213,
+            "modelLoadMs": 991.86,
+            "endToEndMs": 1695.597
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ],
+          "assetVersion": "",
+          "segmentationStatus": "not-requested",
+          "detectionCount": 38
+        }
+      ]
+    }
+  ]
+}

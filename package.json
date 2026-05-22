@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@huggingface/transformers": "^3.7.2"
+  }
+}

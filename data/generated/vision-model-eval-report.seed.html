@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vision Model Evaluation Report</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f2ec; color: #1f2528; }
+    header { padding: 28px 36px; background: #172126; color: white; }
+    h1 { margin: 0 0 12px; font-size: 28px; }
+    .summary { display: flex; gap: 12px; flex-wrap: wrap; }
+    .metric { background: rgba(255,255,255,.12); padding: 10px 14px; border-radius: 8px; min-width: 130px; }
+    .metric b { display: block; font-size: 20px; }
+    .note { margin-top: 14px; max-width: 980px; color: #d7e2e7; line-height: 1.45; font-size: 13px; }
+    main { padding: 24px 36px 48px; display: grid; gap: 18px; }
+    .case { display: grid; grid-template-columns: minmax(280px, 360px) minmax(220px, 320px) 1fr; gap: 18px; background: #fff; border: 1px solid #ded8cd; border-radius: 10px; padding: 16px; }
+    .image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: #ebe6dc; overflow: hidden; border-radius: 8px; }
+    .image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .box { position: absolute; border: 3px solid; box-sizing: border-box; font-size: 11px; font-weight: 700; padding: 2px 4px; }
+    .box.gt { border-color: #239a5b; color: #165c38; background: rgba(35,154,91,.12); }
+    .box.pred { border-color: #d88718; color: #7a4600; background: rgba(216,135,24,.12); transform: translate(2px, 2px); }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    .kv { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin: 8px 0; font-size: 14px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge { border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 700; }
+    .badge.ok { background: #e2f4e8; color: #17633b; }
+    .badge.fail { background: #ffe8df; color: #9a351f; }
+    .match-grid { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 10px; }
+    .match-card { border: 1px solid #ded8cd; border-radius: 8px; padding: 8px; background: #fbfaf7; }
+    .match-card.same { border-color: #70b88f; }
+    .match-card.diff { border-color: #e2a56f; }
+    .match-card img { width: 100%; aspect-ratio: 4/3; object-fit: contain; border-radius: 6px; background: #eee; display: block; }
+    .rank { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .match-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .match-id { font-size: 11px; color: #687174; }
+    .match-path { margin-top: 4px; font-size: 11px; color: #415055; line-height: 1.35; }
+    .empty { color: #7d8588; font-size: 13px; }
+    a { color: inherit; }
+    @media (max-width: 980px) { .case { grid-template-columns: 1fr; } .match-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>本地视觉模型评测报告</h1>
+    <div class="summary">
+      <div class="metric"><b>13</b>图片</div>
+      <div class="metric"><b>100%</b>框召回 @ IoU 0.5</div>
+      <div class="metric"><b>77%</b>名称准确</div>
+      <div class="metric"><b>77%</b>框+名同时正确</div>
+    </div>
+    <div class="note">Model: fixture-local-model · Deterministic local-output fixture for validating the evaluation system.</div>
+  </header>
+  <main>
+    
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/storage-box-eval-1.jpg" alt="storage-box-eval-1" />
+                  <span class="box gt" style="left:15.0%;top:18.0%;width:65.0%;height:52.0%;">GT</span>
+<span class="box pred" style="left:16.5%;top:17.0%;width:66.3%;height:53.04%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>storage-box-eval-1</h2>
+                <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+                <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.9186</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.936079</div>
+          <img src="../../fixtures/vision/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998714</div>
+          <img src="../../fixtures/vision/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.063921</div>
+          <img src="../../fixtures/vision/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/storage-box-eval-2.jpg" alt="storage-box-eval-2" />
+                  <span class="box gt" style="left:20.0%;top:24.0%;width:58.0%;height:47.0%;">GT</span>
+<span class="box pred" style="left:21.5%;top:23.0%;width:59.16%;height:47.94%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>storage-box-eval-2</h2>
+                <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+                <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.9114</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.936079</div>
+          <img src="../../fixtures/vision/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998714</div>
+          <img src="../../fixtures/vision/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.063921</div>
+          <img src="../../fixtures/vision/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/charging-cable-eval-1.jpg" alt="charging-cable-eval-1" />
+                  <span class="box gt" style="left:12.0%;top:38.0%;width:78.0%;height:20.0%;">GT</span>
+<span class="box pred" style="left:13.5%;top:37.0%;width:79.56%;height:20.4%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>charging-cable-eval-1</h2>
+                <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+                <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.8736</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.971471</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998791</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.028529</div>
+          <img src="../../fixtures/vision/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/charging-cable-eval-2.jpg" alt="charging-cable-eval-2" />
+                  <span class="box gt" style="left:10.0%;top:41.0%;width:76.0%;height:19.0%;">GT</span>
+<span class="box pred" style="left:32.0%;top:41.0%;width:60.8%;height:15.2%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>charging-cable-eval-2</h2>
+                <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+                <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.5305</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.971471</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998791</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.028529</div>
+          <img src="../../fixtures/vision/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/charger-eval-1.jpg" alt="charger-eval-1" />
+                  <span class="box gt" style="left:35.0%;top:26.0%;width:30.0%;height:42.0%;">GT</span>
+<span class="box pred" style="left:36.5%;top:25.0%;width:30.6%;height:42.84%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>charger-eval-1</h2>
+                <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+                <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.865</span>
+                  <span class="badge fail">Name mismatch</span>
+                  <span class="badge fail">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card diff">
+          <div class="rank">#1 · score 1.0 · margin 0.971471</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.998791</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.028529</div>
+          <img src="../../fixtures/vision/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/charger-eval-2.jpg" alt="charger-eval-2" />
+                  <span class="box gt" style="left:31.0%;top:23.0%;width:35.0%;height:44.0%;">GT</span>
+<span class="box pred" style="left:32.5%;top:22.0%;width:35.7%;height:44.88%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>charger-eval-2</h2>
+                <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+                <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.8791</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.990598</div>
+          <img src="../../fixtures/vision/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998703</div>
+          <img src="../../fixtures/vision/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.009402</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/remote-control-eval-1.jpg" alt="remote-control-eval-1" />
+                  <span class="box gt" style="left:36.0%;top:14.0%;width:18.0%;height:72.0%;">GT</span>
+<span class="box pred" style="left:37.5%;top:13.0%;width:18.36%;height:73.44%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>remote-control-eval-1</h2>
+                <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+                <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.8157</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.936079</div>
+          <img src="../../fixtures/vision/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998712</div>
+          <img src="../../fixtures/vision/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.063921</div>
+          <img src="../../fixtures/vision/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/remote-control-eval-2.jpg" alt="remote-control-eval-2" />
+                  <span class="box gt" style="left:40.0%;top:13.0%;width:16.0%;height:73.0%;">GT</span>
+<span class="box pred" style="left:41.5%;top:12.0%;width:16.32%;height:74.46%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>remote-control-eval-2</h2>
+                <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+                <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.7991</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.936079</div>
+          <img src="../../fixtures/vision/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998712</div>
+          <img src="../../fixtures/vision/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.063921</div>
+          <img src="../../fixtures/vision/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/medicine-box-eval-1.jpg" alt="medicine-box-eval-1" />
+                  <span class="box gt" style="left:21.0%;top:17.0%;width:51.0%;height:46.0%;">GT</span>
+<span class="box pred" style="left:22.5%;top:16.0%;width:52.02%;height:46.92%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>medicine-box-eval-1</h2>
+                <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+                <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.9042</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 1.001066</div>
+          <img src="../../fixtures/vision/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998718</div>
+          <img src="../../fixtures/vision/medicine-box-gallery-2.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-gallery-2</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score -0.001066</div>
+          <img src="../../fixtures/vision/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/medicine-box-eval-2.jpg" alt="medicine-box-eval-2" />
+                  <span class="box gt" style="left:24.0%;top:18.0%;width:49.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:25.5%;top:17.0%;width:49.98%;height:45.9%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>medicine-box-eval-2</h2>
+                <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+                <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.9013</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 1.001066</div>
+          <img src="../../fixtures/vision/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-gallery-1</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998718</div>
+          <img src="../../fixtures/vision/medicine-box-gallery-2.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-gallery-2</div>
+          <div class="match-path">健康护理 &gt; 药品收纳 &gt; 药品容器 &gt; 药盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score -0.001066</div>
+          <img src="../../fixtures/vision/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/battery-eval-1.jpg" alt="battery-eval-1" />
+                  <span class="box gt" style="left:33.0%;top:21.0%;width:15.0%;height:56.0%;">GT</span>
+<span class="box pred" style="left:34.5%;top:20.0%;width:15.3%;height:57.12%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>battery-eval-1</h2>
+                <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+                <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.7892</span>
+                  <span class="badge ok">Name category-id</span>
+                  <span class="badge ok">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card same">
+          <div class="rank">#1 · score 1.0 · margin 0.970863</div>
+          <img src="../../fixtures/vision/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.998728</div>
+          <img src="../../fixtures/vision/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电力存储 &gt; 电池</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.029137</div>
+          <img src="../../fixtures/vision/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/battery-eval-2.jpg" alt="battery-eval-2" />
+                  <span class="box gt" style="left:48.0%;top:20.0%;width:15.0%;height:57.0%;">GT</span>
+<span class="box pred" style="left:49.5%;top:19.0%;width:15.3%;height:58.14%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>battery-eval-2</h2>
+                <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+                <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.7892</span>
+                  <span class="badge fail">Name mismatch</span>
+                  <span class="badge fail">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card diff">
+          <div class="rank">#1 · score 1.0 · margin 0.990598</div>
+          <img src="../../fixtures/vision/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.998703</div>
+          <img src="../../fixtures/vision/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 电源配件 &gt; 充电器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.009402</div>
+          <img src="../../fixtures/vision/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-gallery-2</div>
+          <div class="match-path">电子电器 &gt; 电子配件 &gt; 线缆与转接 &gt; 数据线</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+            <section class="case">
+              <div class="input-card">
+                <div class="image-wrap" style="aspect-ratio:640/480;">
+                  <img src="../../fixtures/vision/cat-teaser-eval-1.jpg" alt="cat-teaser-eval-1" />
+                  <span class="box gt" style="left:15.0%;top:35.0%;width:70.0%;height:14.0%;">GT</span>
+<span class="box pred" style="left:16.5%;top:34.0%;width:71.4%;height:14.28%;">PRED</span>
+                </div>
+              </div>
+              <div class="details">
+                <h2>cat-teaser-eval-1</h2>
+                <div class="kv"><b>GT</b><span>逗猫棒 · cat-teaser-toy</span></div>
+                <div class="kv"><b>Pred</b><span>物品A · </span></div>
+                <div class="kv"><b>Source</b><span></span></div>
+                <div class="badges">
+                  <span class="badge ok">IoU 0.8346</span>
+                  <span class="badge fail">Name mismatch</span>
+                  <span class="badge fail">Combined</span>
+                </div>
+              </div>
+              <div class="matches">
+                <h3>Top 3 本地索引相似图片</h3>
+                <div class="match-grid">
+                  
+        <div class="match-card diff">
+          <div class="rank">#1 · score 1.0 · margin 0.936079</div>
+          <img src="../../fixtures/vision/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.998714</div>
+          <img src="../../fixtures/vision/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.063921</div>
+          <img src="../../fixtures/vision/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-gallery-1</div>
+          <div class="match-path">电子电器 &gt; 影音配件 &gt; 遥控设备 &gt; 遥控器</div>
+          <div class="match-id">index 20260522-household-seed-index </div>
+        </div>
+        
+                </div>
+              </div>
+            </section>
+            
+  </main>
+</body>
+</html>
