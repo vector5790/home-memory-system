@@ -53,6 +53,7 @@ const icons = {
   rotate: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>',
   box: '<svg class="icon" viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>',
   spark: '<svg class="icon" viewBox="0 0 24 24"><path d="M13 2 9 14l-7 2 7 2 4 4 2-7 7-4-7-2-2-7Z"/></svg>',
+  edit: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4 11.5-11.5Z"/></svg>',
   trash: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5"/><path d="M14 11v5"/></svg>',
 };
 
@@ -74,7 +75,8 @@ const visionConfig = {
   localHeicConverterScript: "/vendor/heic2any/heic2any.min.js",
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
-  catalogIndex: "/data/vision-index.seed.json",
+  catalogIndex: "/data/vision-index.household-cn.owlvit-clip.json",
+  catalogIndexFallback: "/data/vision-index.seed.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
   preferredDetector: "owlvit",
@@ -85,6 +87,7 @@ const visionConfig = {
   groundingThreshold: 0.08,
   detectionNameThreshold: 0.11,
   catalogThreshold: 0.26,
+  catalogMarginThreshold: 0.04,
   maxDetectedObjects: 28,
   maxUploadDimension: 1600,
   detectionMaxDimension: 1280,
@@ -421,6 +424,7 @@ let toastTimer = null;
 let candidateDrag = null;
 let candidateDatePickerState = null;
 let recognitionRunId = 0;
+let candidateEditRecognitionToken = 0;
 let candidateCropHydrationKey = "";
 let visionAssetModePromise = null;
 let transformersModulePromise = null;
@@ -435,6 +439,11 @@ const recognitionResultCache = new Map();
 let persistWarningShown = false;
 
 const app = document.querySelector("#app");
+const primaryTabIds = new Set(["map", "capture", "reminders"]);
+
+function normalizeActiveTab(tab) {
+  return primaryTabIds.has(tab) ? tab : "capture";
+}
 
 function loadState() {
   try {
@@ -442,6 +451,7 @@ function loadState() {
     if (!raw) return structuredClone(seedState);
     const parsed = JSON.parse(raw);
     const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+    loaded.activeTab = normalizeActiveTab(loaded.activeTab);
     loaded.rooms = normalizeRooms(loaded.rooms);
     loaded.items = normalizeItems(loaded.items);
     loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
@@ -458,6 +468,7 @@ async function hydratePlatformState() {
     if (!raw) return;
     const parsed = JSON.parse(raw);
     const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+    loaded.activeTab = normalizeActiveTab(loaded.activeTab);
     loaded.rooms = normalizeRooms(loaded.rooms);
     loaded.items = normalizeItems(loaded.items);
     loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
@@ -529,6 +540,7 @@ function getDurableImageValue(image, imageRef) {
 
 function setState(patch) {
   state = { ...state, ...patch };
+  state.activeTab = normalizeActiveTab(state.activeTab);
   persist();
   render();
 }
@@ -702,7 +714,7 @@ function makeVirtualPlace(room) {
     parentId: null,
     box: { x: 8, y: 12, w: 84, h: 72 },
     image: null,
-    note: "上传照片后自动生成",
+    note: "上传照片后可保存为照片点",
     virtual: true,
   };
 }
@@ -734,7 +746,7 @@ function ensureCapturePlace() {
     box: { x: 8, y: 12, w: 84, h: 72 },
     image: state.capture.image || null,
     imageRef: state.capture.imageRef || null,
-    note: "由上传照片自动生成",
+    note: "由上传照片保存",
   };
   state.rooms = state.rooms.map((entry) => (
     entry.id === room.id ? { ...entry, places: [...entry.places, place] } : entry
@@ -768,6 +780,53 @@ function addRoom(name) {
   persist();
   render();
   showToast(`已新增空间：${cleanName}`);
+}
+
+function promptAddRoom() {
+  const name = window.prompt("新增家庭空间名称", "");
+  if (name === null) return;
+  addRoom(name);
+}
+
+function renameRoom(roomId, name) {
+  const room = getRoom(roomId);
+  const cleanName = String(name || "").trim();
+  if (!room || !cleanName) {
+    showToast("请输入空间名称");
+    return;
+  }
+  if (state.rooms.some((entry) => entry.id !== room.id && normalizeText(entry.name) === normalizeText(cleanName))) {
+    showToast("这个空间已经存在");
+    return;
+  }
+  state.rooms = state.rooms.map((entry) => (
+    entry.id === room.id
+      ? { ...entry, name: cleanName, type: roomTypeForName(cleanName) }
+      : entry
+  ));
+  if (state.capture.roomId === room.id) state.capture.roomId = room.id;
+  state.activeRoomId = room.id;
+  persist();
+  render();
+  showToast(`已重命名为空间：${cleanName}`);
+}
+
+function promptRenameRoom(roomId) {
+  const room = getRoom(roomId);
+  if (!room) return;
+  const name = window.prompt("编辑空间名称", room.name);
+  if (name === null) return;
+  renameRoom(room.id, name);
+}
+
+function selectCaptureSpace(roomId) {
+  const room = getRoom(roomId);
+  const firstPlace = getRootPlaces(room.id)[0] || room.places[0] || null;
+  state.activeRoomId = room.id;
+  state.activePlaceId = firstPlace?.id || null;
+  resetCaptureRecognition({ roomId: room.id, placeId: firstPlace?.id || null });
+  persist();
+  render();
 }
 
 function addPlace(roomId, name, parentId = null, options = {}) {
@@ -882,6 +941,15 @@ function resetCaptureRecognition(overrides = {}) {
     ...overrides,
     imageMeta: normalizeImageMeta(overrides.imageMeta || nextImageMeta),
   };
+}
+
+function queueCaptureAnalysis() {
+  if (!state.capture.image) return;
+  window.setTimeout(() => {
+    scanCurrentPlace().catch((error) => {
+      console.info("Queued capture analysis failed.", error);
+    });
+  }, 0);
 }
 
 function clampNumber(value, min, max) {
@@ -1106,6 +1174,8 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     cropMeta: normalizeCropMeta(candidate.cropMeta),
     cropVersion: candidate.cropVersion || "",
     edited: Boolean(candidate.edited),
+    nameEdited: Boolean(candidate.nameEdited),
+    boxEdited: Boolean(candidate.boxEdited),
     detailsOpen: Boolean(candidate.detailsOpen),
     boxOpen: Boolean(candidate.boxOpen),
   };
@@ -1294,6 +1364,8 @@ function mergeCandidateWithUserState(incoming, existing = null) {
       container: existing.container,
       box: existing.box,
       edited: true,
+      nameEdited: existing.nameEdited,
+      boxEdited: existing.boxEdited,
     }
     : {};
   return {
@@ -1307,6 +1379,8 @@ function mergeCandidateWithUserState(incoming, existing = null) {
     cropVersion: incoming.cropVersion || existing.cropVersion || "",
     detailsOpen: existing.detailsOpen,
     boxOpen: existing.boxOpen,
+    nameEdited: existing.nameEdited || incoming.nameEdited || false,
+    boxEdited: existing.boxEdited || incoming.boxEdited || false,
     confidence: Math.max(existing.confidence || 0, incoming.confidence || 0),
   };
 }
@@ -1552,17 +1626,31 @@ async function getCatalogFeatureExtractor() {
 
 async function getCatalogEmbeddingIndex() {
   if (!catalogIndexPromise) {
-    catalogIndexPromise = fetch(`${visionConfig.catalogIndex}?v=${visionConfig.assetVersion}`, { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((index) => {
-        const entries = Array.isArray(index?.entries)
-          ? index.entries.filter((entry) => Array.isArray(entry.embedding) && entry.embedding.length)
-          : [];
-        return { ...(index || {}), entries };
-      })
-      .catch(() => ({ entries: [] }));
+    catalogIndexPromise = loadCatalogEmbeddingIndex();
   }
   return catalogIndexPromise;
+}
+
+async function loadCatalogEmbeddingIndex() {
+  const primary = await fetchCatalogEmbeddingIndex(visionConfig.catalogIndex).catch(() => null);
+  if (primary?.entries?.length) return primary;
+  const fallback = await fetchCatalogEmbeddingIndex(visionConfig.catalogIndexFallback).catch(() => null);
+  return fallback?.entries?.length ? fallback : { entries: [] };
+}
+
+async function fetchCatalogEmbeddingIndex(path) {
+  if (!path) return { entries: [] };
+  const response = await fetch(`${path}?v=${visionConfig.assetVersion}`, { cache: "no-store" });
+  if (!response.ok) return { entries: [] };
+  const index = await response.json();
+  const entries = Array.isArray(index?.entries)
+    ? index.entries.filter((entry) => Array.isArray(entry.embedding) && entry.embedding.length)
+    : [];
+  return {
+    ...(index || {}),
+    sourcePath: path,
+    entries,
+  };
 }
 
 function cosineSimilarity(left, right) {
@@ -1591,19 +1679,26 @@ async function matchCatalogFromEmbeddingIndex(source, box) {
   const embedding = await embedImageDataUrl(cropImageToDataUrl(source, box));
   if (!embedding) return null;
 
-  const best = index.entries
+  const ranked = index.entries
     .map((entry) => ({ ...entry, score: cosineSimilarity(embedding, entry.embedding) }))
-    .sort((a, b) => b.score - a.score)[0];
+    .sort((a, b) => b.score - a.score);
+  const best = ranked[0];
+  const runnerUp = ranked.find((entry) => getCatalogMatchId(entry) !== getCatalogMatchId(best));
+  const margin = best ? best.score - (runnerUp?.score || 0) : 0;
   const threshold = Number(index.threshold) || visionConfig.catalogThreshold;
-  if (!best || best.score < threshold) return null;
-  const item = visionCatalog.find((catalogItem) => catalogItem.id === best.itemId);
-  if (!item) return null;
+  const marginThreshold = Number(index.marginThreshold ?? index.thresholds?.acceptMargin ?? visionConfig.catalogMarginThreshold);
+  if (!best || best.score < threshold || margin < marginThreshold) return null;
+  const item = visionCatalog.find((catalogItem) => catalogItem.id === best.itemId || catalogItem.id === best.categoryId);
   return {
-    name: item.name,
-    category: item.category,
+    name: item?.name || best.displayName || best.name || getUnknownObjectName(0),
+    category: item?.category || (categoryLabels[best.appCategory] ? best.appCategory : "daily"),
     confidence: clampNumber(best.score, 0, 1),
-    catalogId: item.id,
+    catalogId: item?.id || best.itemId || best.categoryId || best.id || "",
   };
+}
+
+function getCatalogMatchId(entry) {
+  return entry?.categoryId || entry?.itemId || entry?.id || "";
 }
 
 function detectionBoxToPercent(box, imageWidth, imageHeight) {
@@ -1633,7 +1728,7 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
   const box = detectionBoxToPercent(detection.box, source.naturalWidth, source.naturalHeight);
   const rawScore = Number(detection.score) || threshold;
   const score = clampNumber(rawScore + (isStorageDetectionLabel(detection.label) ? 0.035 : 0), threshold, 0.99);
-  const canUseLabelName = (meta.isCatalogItem || meta.name) && score >= visionConfig.detectionNameThreshold;
+  const canUseLabelName = isStorageDetectionLabel(detection.label) && meta.name && score >= visionConfig.detectionNameThreshold;
   return {
     name: getUnknownObjectName(index),
     category: meta.category,
@@ -1646,7 +1741,7 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
     confidence: score,
     detectionLabel: detection.label,
     suggestedName: canUseLabelName ? meta.name : "",
-    catalogId: canUseLabelName && meta.id ? meta.id : "",
+    catalogId: "",
     namingStatus: "loading",
     source: provider,
   };
@@ -2562,19 +2657,11 @@ async function recognizeWithLocalImage({ image }) {
 }
 
 function refineNameByPosition(name, box) {
-  if (name === "音响") {
-    if (box.x + box.w / 2 < 42) return "左音箱";
-    if (box.x + box.w / 2 > 58) return "右音箱";
-  }
-  if (name === "音箱面罩") {
-    if (box.x + box.w / 2 < 42) return "左音箱面罩";
-    if (box.x + box.w / 2 > 58) return "右音箱面罩";
-  }
   return name;
 }
 
-async function resolveCandidateName(candidate, index, source) {
-  if (candidate.edited) return { ...candidate, namingStatus: "done" };
+async function resolveCandidateName(candidate, index, source, options = {}) {
+  if (candidate.edited && !options.force) return { ...candidate, namingStatus: "done" };
 
   if (candidate.suggestedName) {
     return {
@@ -2942,13 +3029,13 @@ function render() {
   app.innerHTML = `
     <div class="app">
       ${renderTopbar()}
-      <div class="app-grid">
-        ${renderSidebar()}
-        <main class="main-panel">
-          ${renderMain()}
-        </main>
-        ${renderInsights()}
-      </div>
+      ${renderGlobalSearch()}
+      <main class="app-main">
+        ${state.activeTab === "capture" ? renderCaptureSpaceTabs() : ""}
+        ${renderGlobalSearchAnswer()}
+        ${renderMain()}
+      </main>
+      ${renderBottomTabs()}
       <div class="toast" id="toast"></div>
       ${renderCandidateDateModal()}
     </div>
@@ -2959,12 +3046,6 @@ function render() {
 }
 
 function renderTopbar() {
-  const tabs = [
-    { id: "find", label: "查找", icon: icons.search },
-    { id: "map", label: "照片地图", icon: icons.map },
-    { id: "capture", label: "AI录入", icon: icons.scan },
-    { id: "reminders", label: "提醒", icon: icons.bell },
-  ];
   return `
     <header class="topbar">
       <div class="brand">
@@ -2974,18 +3055,45 @@ function renderTopbar() {
           <span>${state.items.length} 件物品 · ${getAllPlaces().length} 个储物点</span>
         </div>
       </div>
-      <nav class="nav-tabs" aria-label="主导航">
-        ${tabs.map((tab) => `
-          <button class="tab-btn ${state.activeTab === tab.id ? "active" : ""}" data-tab="${tab.id}">
-            ${tab.icon}<span>${tab.label}</span>
-          </button>
-        `).join("")}
-      </nav>
       <div class="top-actions">
         <button class="secondary-btn" data-tab="capture">${icons.plus}<span>新增</span></button>
         <button class="icon-btn" data-reset title="清空本地数据" aria-label="清空本地数据">${icons.rotate}</button>
       </div>
     </header>
+  `;
+}
+
+function renderGlobalSearch() {
+  return `
+    <section class="global-search-row" aria-label="查找">
+      <div class="search-box global-search-box">
+        ${icons.search}
+        <input class="search-field" data-query-input value="${escapeHtml(state.query)}" placeholder="查找物品、空间或提醒" />
+        <button class="primary-btn" data-search><span>查找</span></button>
+      </div>
+    </section>
+  `;
+}
+
+function renderGlobalSearchAnswer() {
+  if (!state.lastAnswer || !String(state.query || "").trim()) return "";
+  return `<div class="global-answer">${renderAnswer(state.lastAnswer)}</div>`;
+}
+
+function renderBottomTabs() {
+  const tabs = [
+    { id: "map", label: "照片地图", icon: icons.map },
+    { id: "capture", label: "AI录入", icon: icons.scan },
+    { id: "reminders", label: "提醒", icon: icons.bell },
+  ];
+  return `
+    <nav class="bottom-tabs" aria-label="主导航">
+      ${tabs.map((tab) => `
+        <button class="bottom-tab ${state.activeTab === tab.id ? "active" : ""}" data-tab="${tab.id}">
+          ${tab.icon}<span>${tab.label}</span>
+        </button>
+      `).join("")}
+    </nav>
   `;
 }
 
@@ -3014,10 +3122,6 @@ function renderSidebar() {
             </button>
           `;
         }).join("")}
-        <div class="quick-add-row">
-          <input class="field compact" data-new-room-name placeholder="新增空间" />
-          <button class="secondary-btn" data-add-room>${icons.plus}<span>添加</span></button>
-        </div>
       </div>
       <div class="storage-list">
         ${placeRows.length ? placeRows.map(({ place, depth }) => `
@@ -3025,7 +3129,7 @@ function renderSidebar() {
             <span>${escapeHtml(place.shortName)}</span>
             <span class="small-muted">${getItemsInPlaceTree(place.id).length} 件</span>
           </button>
-        `).join("") : `<p class="empty-state compact">还没有储物点。上传照片识别后会自动生成，也可以手动添加。</p>`}
+        `).join("") : `<p class="empty-state compact">还没有储物点。可以上传照片或手动添加。</p>`}
         <div class="quick-add-row">
           <input class="field compact" data-new-place-name placeholder="新增储物点" />
           <button class="secondary-btn" data-add-place>${icons.plus}<span>添加</span></button>
@@ -3036,10 +3140,55 @@ function renderSidebar() {
 }
 
 function renderMain() {
-  if (state.activeTab === "map") return renderMapView();
   if (state.activeTab === "capture") return renderCaptureView();
   if (state.activeTab === "reminders") return renderReminderView();
-  return renderFindView();
+  return renderMapView();
+}
+
+function renderSpaceTabs({ capture = false } = {}) {
+  const activeId = capture ? (state.capture.roomId || state.activeRoomId) : state.activeRoomId;
+  const buttonAttribute = capture ? "data-capture-space" : "data-room";
+  return `
+    <section class="space-tabs-shell" data-space-tabs-shell>
+      <div class="space-tabs" aria-label="家庭空间">
+        ${state.rooms.map((room) => `
+          <span class="space-tab-wrap ${activeId === room.id ? "active" : ""}">
+            <button class="space-tab" ${buttonAttribute}="${room.id}">
+              <span>${escapeHtml(room.name)}</span>
+              <b>${getRoomItems(room.id).length}</b>
+            </button>
+            <button class="space-edit-btn" type="button" data-edit-room="${room.id}" aria-label="编辑 ${escapeHtml(room.name)} 名称">${icons.edit}</button>
+          </span>
+        `).join("")}
+      </div>
+      <button class="space-add-tab" type="button" data-add-space-tab aria-label="新增空间">${icons.plus}</button>
+    </section>
+  `;
+}
+
+function renderCaptureSpaceTabs() {
+  return renderSpaceTabs({ capture: true });
+}
+
+function renderPhotoMapControls(room) {
+  const placeRows = getRoomPlacesInTree(room.id);
+  return `
+    <div class="photo-map-controls">
+      ${renderSpaceTabs()}
+      <div class="storage-list map-storage-list">
+        ${placeRows.length ? placeRows.map(({ place, depth }) => `
+          <button class="place-chip depth-${Math.min(depth, 3)} ${state.activePlaceId === place.id ? "active" : ""}" data-place="${place.id}" style="--place-depth:${depth}">
+            <span>${escapeHtml(place.shortName)}</span>
+            <span class="small-muted">${getItemsInPlaceTree(place.id).length} 件</span>
+          </button>
+        `).join("") : `<p class="empty-state compact">还没有储物点。可以上传照片或手动添加。</p>`}
+        <div class="quick-add-row">
+          <input class="field compact" data-new-place-name placeholder="新增储物点" />
+          <button class="secondary-btn" data-add-place>${icons.plus}<span>添加</span></button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function renderMapView() {
@@ -3048,6 +3197,7 @@ function renderMapView() {
   if (!place) {
     return `
       <section class="panel">
+        ${renderPhotoMapControls(room)}
         <div class="view-title-row">
           <div>
             <h2>${escapeHtml(room.name)}照片地图</h2>
@@ -3063,7 +3213,7 @@ function renderMapView() {
             <div class="panel-head">
               <div>
                 <h3 class="panel-title">从照片开始</h3>
-                <p class="panel-subtitle">上传当前空间照片后，系统会生成主体标注和第一个照片点。</p>
+                <p class="panel-subtitle">上传当前空间照片，或手动添加储物点后开始整理。</p>
               </div>
             </div>
             <div class="item-list">
@@ -3076,6 +3226,7 @@ function renderMapView() {
   }
   return `
     <section class="panel">
+      ${renderPhotoMapControls(room)}
       <div class="view-title-row">
         <div>
           <h2>${escapeHtml(room.name)}照片地图</h2>
@@ -3200,7 +3351,7 @@ function renderStorageStage(place, highlightItemId = null, compact = false) {
         <div class="capture-placeholder">
           <div class="placeholder-panel">
             <strong>暂无储物点</strong>
-            <span>上传照片识别后自动生成</span>
+            <span>上传照片或手动添加储物点</span>
           </div>
         </div>
       </div>
@@ -3409,12 +3560,11 @@ function renderRecognitionDiagnostics() {
 function renderCaptureControls(room, placeRows) {
   return `
     <div class="capture-controls">
-      <select class="select-field" data-capture-room aria-label="选择空间">
-        ${state.rooms.map((roomOption) => `<option value="${roomOption.id}" ${state.capture.roomId === roomOption.id ? "selected" : ""}>${escapeHtml(roomOption.name)}</option>`).join("")}
-      </select>
-      <select class="select-field" data-capture-place ${room.places.length ? "" : "disabled"} aria-label="选择储物点">
-        ${placeRows.length ? placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("") : `<option>识别后自动生成照片点</option>`}
-      </select>
+      ${placeRows.length ? `
+        <select class="select-field" data-capture-place aria-label="选择储物点">
+          ${placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("")}
+        </select>
+      ` : ""}
       ${platform.photos.canUseNativePhotoLibrary()
         ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
         : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
@@ -3431,22 +3581,8 @@ function renderCaptureView() {
   const activeCandidates = getActiveCandidates(candidates);
   const deletedCandidates = getDeletedCandidates(candidates);
   const selectedCount = getSelectedCandidateCount(candidates);
-  const status = getRecognitionStatusMeta();
-  const isLoading = ["loading", "detecting", "naming"].includes(state.capture.recognitionStatus);
-  const canAnalyze = Boolean(state.capture.image) && !isLoading;
   return `
     <section class="panel">
-      <div class="view-title-row">
-        <div>
-          <h2>AI录入</h2>
-          <p>${escapeHtml(place.name)} · ${escapeHtml(status.body)}</p>
-        </div>
-        <div class="toolbar">
-          <span class="status-pill ${status.cls}">${status.label}</span>
-          <button class="secondary-btn" data-scan ${canAnalyze ? "" : "disabled"}>${icons.spark}<span>${isLoading ? "分析中" : state.capture.image ? "开始分析" : "先上传照片"}</span></button>
-          <button class="primary-btn" data-confirm-all ${selectedCount && !isLoading ? "" : "disabled"}>${icons.check}<span>确认入库</span></button>
-        </div>
-      </div>
       <div class="capture-grid">
         <div class="capture-workspace">
           ${renderCaptureControls(room, placeRows)}
@@ -3478,11 +3614,23 @@ function renderCaptureStage() {
       ${state.cameraOn ? `<video id="cameraVideo" autoplay playsinline muted></video>` : state.capture.image ? `<img alt="上传的储物点照片" src="${state.capture.image}" />` : renderCapturePlaceholder()}
       ${state.cameraOn ? `<button class="primary-btn" data-camera-shot style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3">${icons.camera}<span>拍照</span></button>` : ""}
       ${activeCandidate ? `
-        <span class="candidate-active-frame ${activeCandidate.selected ? "selected" : "unselected"}" style="${styleBox(activeCandidate.box)}" aria-hidden="true">
-          <span class="frame-corner tl"></span>
-          <span class="frame-corner tr"></span>
-          <span class="frame-corner bl"></span>
-          <span class="frame-corner br"></span>
+        <span
+          class="candidate-active-frame ${activeCandidate.selected ? "selected" : "unselected"}"
+          style="${styleBox(activeCandidate.box)}"
+          data-candidate-drag="${activeCandidate.id}"
+          data-drag-mode="move"
+          role="button"
+          aria-label="拖拽调整 ${escapeHtml(activeCandidate.name)} 主体框"
+        >
+          <span class="candidate-active-highlight"></span>
+          ${[
+            ["tl", "nw"],
+            ["tr", "ne"],
+            ["bl", "sw"],
+            ["br", "se"],
+          ].map(([corner, handle]) => `
+            <span class="frame-corner ${corner}" data-candidate-resize="${activeCandidate.id}" data-resize-handle="${handle}" aria-hidden="true"></span>
+          `).join("")}
         </span>
         <span class="candidate-active-label" style="${styleActiveCandidateLabel(activeCandidate.box)}">
           ${escapeHtml(activeCandidate.namingStatus === "loading" ? "识别中" : activeCandidate.name)} <b>›</b>
@@ -3496,7 +3644,6 @@ function renderCaptureStage() {
           class="candidate-pin ${candidate.selected ? "selected" : "unselected"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}"
           style="${styleCandidatePin(candidate.box)}"
           data-candidate-select="${candidate.id}"
-          data-candidate-drag="${candidate.id}"
           aria-label="查看 ${escapeHtml(candidate.name)} 的主体框"
         >
           <span class="pin-dot"></span>
@@ -3557,7 +3704,7 @@ function renderCandidateReviewPanel(candidates) {
       ${state.capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(state.capture.recognitionError)}</p>` : ""}
       ${activeCandidate
         ? renderCandidate(activeCandidate, activeIndex, activeCandidates.length)
-        : `<p class="empty-state">${state.capture.recognitionStatus === "empty" ? "没有候选区域" : state.capture.image ? "点击开始分析" : "等待照片"}</p>`}
+        : `<p class="empty-state">${state.capture.recognitionStatus === "empty" ? "没有候选区域" : state.capture.image ? "正在分析照片" : "等待照片"}</p>`}
       ${renderCandidateTrash(deletedCandidates)}
     </div>
   `;
@@ -3752,6 +3899,8 @@ function renderCandidateCrop(candidate) {
 function renderCandidate(candidate, activeIndex = 0, total = 1) {
   const isActive = getFallbackActiveCandidateId(state.capture.activeCandidateId) === candidate.id;
   const isNaming = candidate.namingStatus === "loading";
+  const isLoading = ["loading", "detecting", "naming"].includes(state.capture.recognitionStatus);
+  const selectedCount = getSelectedCandidateCount();
   const showDetails = candidate.detailsOpen || hasCandidateOptionalDetails(candidate);
   const showBox = candidate.boxOpen;
   const previousId = getAdjacentCandidateId(candidate.id, -1);
@@ -3771,6 +3920,7 @@ function renderCandidate(candidate, activeIndex = 0, total = 1) {
         </label>
         <div class="candidate-actions">
           <span class="status-pill good">置信度 ${Math.round(candidate.confidence * 100)}%</span>
+          <button class="primary-btn compact-btn" type="button" data-confirm-all ${selectedCount && !isLoading ? "" : "disabled"}>${icons.check}<span>确认入库</span></button>
         </div>
       </div>
       ${renderCandidateMetaChips(candidate)}
@@ -4367,6 +4517,7 @@ function updateCandidate(id, field, value) {
         ...candidate,
         [field]: field === "qty" ? Math.max(1, Math.round(Number(value) || 1)) : value,
         edited: true,
+        ...(field === "name" ? { nameEdited: true } : {}),
       }
       : candidate
   ));
@@ -4575,6 +4726,8 @@ function updateCandidateBox(id, field, value) {
       ...candidate,
       box: clampBox({ ...candidate.box, [field]: value }),
       edited: true,
+      boxEdited: true,
+      cropVersion: "",
     };
   });
   state.capture.activeCandidateId = id;
@@ -4585,30 +4738,34 @@ function updateCandidateBox(id, field, value) {
 function setCandidateBoxWithoutRender(id, box) {
   if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
-    candidate.id === id ? { ...candidate, box: clampBox(box), edited: true } : candidate
+    candidate.id === id ? { ...candidate, box: clampBox(box), edited: true, boxEdited: true, cropVersion: "" } : candidate
   ));
   state.capture.activeCandidateId = id;
 }
 
-function startCandidateDrag(event, boxButton) {
-  const id = boxButton.dataset.candidateDrag;
+function startCandidateDrag(event, dragTarget, options = {}) {
+  const id = dragTarget.dataset.candidateResize || dragTarget.dataset.candidateDrag;
   const candidate = getActiveCandidates().find((entry) => entry.id === id);
-  const stage = boxButton.closest("[data-capture-stage]");
+  const stage = dragTarget.closest("[data-capture-stage]");
   if (!candidate || !stage) return;
+  const frameElement = dragTarget.closest("[data-candidate-drag]") || dragTarget;
 
   event.preventDefault();
   state.capture.activeCandidateId = id;
   candidateDrag = {
     id,
+    mode: options.mode || dragTarget.dataset.dragMode || "move",
+    handle: options.handle || dragTarget.dataset.resizeHandle || "",
     stage,
-    boxButton,
+    frameElement,
+    pointerTarget: dragTarget,
     pointerId: event.pointerId,
     startX: event.clientX,
     startY: event.clientY,
     startBox: { ...candidate.box },
   };
-  boxButton.classList.add("active");
-  boxButton.setPointerCapture?.(event.pointerId);
+  frameElement.classList.add("dragging");
+  dragTarget.setPointerCapture?.(event.pointerId);
 }
 
 function moveCandidateDrag(event) {
@@ -4616,18 +4773,122 @@ function moveCandidateDrag(event) {
   const rect = candidateDrag.stage.getBoundingClientRect();
   const deltaX = ((event.clientX - candidateDrag.startX) / rect.width) * 100;
   const deltaY = ((event.clientY - candidateDrag.startY) / rect.height) * 100;
-  const box = clampBox({
-    ...candidateDrag.startBox,
-    x: candidateDrag.startBox.x + deltaX,
-    y: candidateDrag.startBox.y + deltaY,
-  });
+  const box = candidateDrag.mode === "resize"
+    ? resizeCandidateBox(candidateDrag.startBox, candidateDrag.handle, deltaX, deltaY)
+    : clampBox({
+      ...candidateDrag.startBox,
+      x: candidateDrag.startBox.x + deltaX,
+      y: candidateDrag.startBox.y + deltaY,
+    });
   setCandidateBoxWithoutRender(candidateDrag.id, box);
-  candidateDrag.boxButton.style.cssText = styleCandidatePin(box);
+  updateCandidateDragElements(candidateDrag, box);
+}
+
+function updateCandidateDragElements(drag, box) {
+  if (!drag?.stage) return;
+  if (drag.frameElement) drag.frameElement.style.cssText = styleBox(box);
+  const pins = [...drag.stage.querySelectorAll("[data-candidate-select]")];
+  const pin = pins.find((entry) => entry.dataset.candidateSelect === drag.id);
+  if (pin) pin.style.cssText = styleCandidatePin(box);
+  const label = drag.stage.querySelector(".candidate-active-label");
+  if (label) label.style.cssText = styleActiveCandidateLabel(box);
+}
+
+function resizeCandidateBox(startBox, handle, deltaX, deltaY) {
+  const minSize = 6;
+  let left = startBox.x;
+  let top = startBox.y;
+  let right = startBox.x + startBox.w;
+  let bottom = startBox.y + startBox.h;
+
+  if (handle.includes("w")) left = clampNumber(startBox.x + deltaX, 0, right - minSize);
+  if (handle.includes("e")) right = clampNumber(startBox.x + startBox.w + deltaX, left + minSize, 100);
+  if (handle.includes("n")) top = clampNumber(startBox.y + deltaY, 0, bottom - minSize);
+  if (handle.includes("s")) bottom = clampNumber(startBox.y + startBox.h + deltaY, top + minSize, 100);
+
+  return clampBox({
+    x: left,
+    y: top,
+    w: right - left,
+    h: bottom - top,
+  });
+}
+
+function boxesAlmostEqual(left = {}, right = {}) {
+  return ["x", "y", "w", "h"].every((field) => Math.abs(Number(left[field]) - Number(right[field])) < 0.12);
 }
 
 function finishCandidateDrag() {
   if (!candidateDrag) return;
+  const finishedDrag = candidateDrag;
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === finishedDrag.id);
+  const changed = candidate && !boxesAlmostEqual(candidate.box, finishedDrag.startBox);
+  finishedDrag.frameElement?.classList.remove("dragging");
   candidateDrag = null;
+  persist();
+  render();
+  if (changed) rerunCandidateNamingAfterBoxEdit(finishedDrag.id).catch((error) => {
+    console.info("Candidate box re-recognition skipped.", error);
+    state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+      entry.id === finishedDrag.id ? { ...entry, namingStatus: "done" } : entry
+    ));
+    persist();
+    render();
+  });
+}
+
+async function rerunCandidateNamingAfterBoxEdit(candidateId) {
+  const image = state.capture.image;
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
+  if (!image || !candidate) return;
+
+  const token = ++candidateEditRecognitionToken;
+  state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+    entry.id === candidateId
+      ? { ...entry, namingStatus: "loading", cropImage: "", cropMeta: null, cropVersion: "" }
+      : entry
+  ));
+  persist();
+  render();
+
+  const source = await loadImage(image);
+  if (token !== candidateEditRecognitionToken || state.capture.image !== image) return;
+  const latest = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
+  if (!latest) return;
+  const crop = createCandidateCropSnapshot(source, latest.box) || {};
+  const activeCandidates = getActiveCandidates();
+  const index = Math.max(0, getCandidateIndex(activeCandidates, candidateId));
+  const resolved = latest.nameEdited
+    ? { ...latest, namingStatus: "done" }
+    : await resolveCandidateName(
+      {
+        ...latest,
+        ...crop,
+        suggestedName: "",
+        edited: false,
+        namingStatus: "loading",
+      },
+      index,
+      source,
+      { force: true },
+    );
+
+  if (token !== candidateEditRecognitionToken || state.capture.image !== image) return;
+  state.capture.candidates = (state.capture.candidates || []).map((entry) => {
+    if (entry.id !== candidateId) return entry;
+    return normalizeCandidate({
+      ...entry,
+      ...crop,
+      name: latest.nameEdited ? entry.name : resolved.name,
+      category: latest.nameEdited ? entry.category : resolved.category,
+      confidence: latest.nameEdited ? entry.confidence : Math.max(entry.confidence || 0, resolved.confidence || 0),
+      catalogId: latest.nameEdited ? entry.catalogId : resolved.catalogId,
+      source: latest.nameEdited ? entry.source : (resolved.source || entry.source),
+      namingStatus: "done",
+      edited: true,
+      boxEdited: true,
+    }, index, state.capture.provider || "local-image");
+  });
   persist();
   render();
 }
@@ -4685,7 +4946,8 @@ async function importNativePhoto(source) {
     warmCaptureDetectionModel();
     persist();
     render();
-    showToast(isCamera ? "照片已拍摄" : "照片已导入");
+    showToast(isCamera ? "照片已拍摄，正在分析" : "照片已导入，正在分析");
+    queueCaptureAnalysis();
   } catch (error) {
     state.capture = {
       ...state.capture,
@@ -4760,6 +5022,8 @@ async function captureCameraFrame() {
     state.cameraOn = false;
     persist();
     render();
+    showToast("照片已拍摄，正在分析");
+    queueCaptureAnalysis();
   } catch (error) {
     state.cameraOn = false;
     persist();
@@ -4791,6 +5055,24 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const captureSpaceButton = event.target.closest("[data-capture-space]");
+  if (captureSpaceButton) {
+    selectCaptureSpace(captureSpaceButton.dataset.captureSpace);
+    return;
+  }
+
+  const addSpaceTabButton = event.target.closest("[data-add-space-tab]");
+  if (addSpaceTabButton) {
+    promptAddRoom();
+    return;
+  }
+
+  const editRoomButton = event.target.closest("[data-edit-room]");
+  if (editRoomButton) {
+    promptRenameRoom(editRoomButton.dataset.editRoom);
+    return;
+  }
+
   const roomButton = event.target.closest("[data-room]");
   if (roomButton) {
     const room = getRoom(roomButton.dataset.room);
@@ -4813,7 +5095,9 @@ document.addEventListener("click", (event) => {
   }
 
   if (event.target.closest("[data-add-room]")) {
-    addRoom(document.querySelector("[data-new-room-name]")?.value);
+    const addRoomButton = event.target.closest("[data-add-room]");
+    const scope = addRoomButton.closest("[data-space-tabs-shell], .room-list, .topbar") || document;
+    addRoom(scope.querySelector("[data-new-room-name]")?.value);
     return;
   }
 
@@ -5157,7 +5441,8 @@ document.addEventListener("change", async (event) => {
       warmCaptureDetectionModel();
       persist();
       render();
-      showToast("照片已载入");
+      showToast("照片已载入，正在分析");
+      queueCaptureAnalysis();
     } catch (error) {
       state.capture = {
         ...state.capture,
@@ -5177,8 +5462,13 @@ document.addEventListener("change", async (event) => {
 });
 
 document.addEventListener("pointerdown", (event) => {
-  const boxButton = event.target.closest("[data-candidate-drag]");
-  if (boxButton) startCandidateDrag(event, boxButton);
+  const resizeHandle = event.target.closest("[data-candidate-resize]");
+  if (resizeHandle) {
+    startCandidateDrag(event, resizeHandle, { mode: "resize", handle: resizeHandle.dataset.resizeHandle });
+    return;
+  }
+  const boxFrame = event.target.closest("[data-candidate-drag]");
+  if (boxFrame) startCandidateDrag(event, boxFrame, { mode: "move" });
 });
 
 document.addEventListener("pointermove", moveCandidateDrag);

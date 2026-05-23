@@ -13,6 +13,7 @@ const requiredFiles = [
   "styles.css",
   "data/vision-catalog.seed.json",
   "data/vision-index.seed.json",
+  "data/vision-index.household-cn.owlvit-clip.json",
 ];
 
 const requiredVendorFiles = [
