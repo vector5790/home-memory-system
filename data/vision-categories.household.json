@@ -1,0 +1,7000 @@
+{
+  "kind": "vision-categories",
+  "version": "20260523-household-expanded",
+  "taxonomy": {
+    "primarySource": "GS1 GPC",
+    "primaryVersion": "2026-household-authoring-slice",
+    "auxiliarySources": [
+      {
+        "source": "Google Product Taxonomy",
+        "version": "2021-09-21"
+      },
+      {
+        "source": "UNSPSC",
+        "version": "reserved-only"
+      }
+    ],
+    "canonicalLineageLevels": [
+      "Segment",
+      "Family",
+      "Class",
+      "Brick"
+    ],
+    "sourceStrategy": {
+      "canonical": "GS1 GPC Segment / Family / Class / Brick is the authoritative four-level lineage.",
+      "googleProductTaxonomy": "Auxiliary open taxonomy used for aliases, search queries, detector labels, and supplemental mapping only.",
+      "unspsc": "Not used as the first canonical visual household taxonomy; optional mapping is reserved for later procurement or service scenarios."
+    },
+    "coverageTiers": [
+      "seed",
+      "mvp",
+      "common",
+      "long-tail"
+    ],
+    "coverageTargets": {
+      "minActiveLeaves": 120,
+      "minLevel1Domains": 12,
+      "domainMinimums": {
+        "居家收纳": 6,
+        "厨房器具": 6,
+        "食品与囤货": 6,
+        "药品与健康": 6,
+        "清洁与洗护": 6,
+        "电子配件": 6,
+        "家电": 6,
+        "工具五金": 6,
+        "文件与办公": 6,
+        "衣物配饰": 6,
+        "个人护理": 6,
+        "母婴儿童": 6,
+        "宠物用品": 6,
+        "运动户外": 6,
+        "旅行用品": 6,
+        "季节物品": 6,
+        "家纺": 6,
+        "卫浴用品": 6,
+        "家居装饰": 6
+      },
+      "domainExamples": {
+        "居家收纳": [
+          "收纳盒",
+          "收纳篮",
+          "抽屉分隔盒"
+        ],
+        "厨房器具": [
+          "碗",
+          "盘子",
+          "菜板"
+        ],
+        "食品与囤货": [
+          "米袋",
+          "罐头",
+          "调料瓶"
+        ],
+        "药品与健康": [
+          "药盒",
+          "体温计",
+          "急救包"
+        ],
+        "清洁与洗护": [
+          "洗衣液",
+          "清洁喷瓶",
+          "海绵"
+        ],
+        "电子配件": [
+          "数据线",
+          "充电器",
+          "电池"
+        ],
+        "家电": [
+          "电水壶",
+          "电饭煲",
+          "路由器"
+        ],
+        "工具五金": [
+          "螺丝刀",
+          "剪刀",
+          "胶带"
+        ],
+        "文件与办公": [
+          "护照",
+          "笔记本",
+          "票据"
+        ],
+        "衣物配饰": [
+          "T恤",
+          "袜子",
+          "帽子"
+        ],
+        "个人护理": [
+          "洗发水",
+          "牙膏",
+          "剃须刀"
+        ],
+        "母婴儿童": [
+          "奶瓶",
+          "纸尿裤",
+          "积木"
+        ],
+        "宠物用品": [
+          "宠物粮",
+          "宠物碗",
+          "牵引绳"
+        ],
+        "运动户外": [
+          "瑜伽垫",
+          "哑铃",
+          "跳绳"
+        ],
+        "旅行用品": [
+          "行李箱",
+          "背包",
+          "洗漱包"
+        ],
+        "季节物品": [
+          "雨伞",
+          "暖宝宝",
+          "节日灯串"
+        ],
+        "家纺": [
+          "毛巾",
+          "床单",
+          "毯子"
+        ],
+        "卫浴用品": [
+          "卷纸",
+          "纸巾盒",
+          "浴垫"
+        ],
+        "家居装饰": [
+          "相框",
+          "花瓶",
+          "香薰瓶"
+        ]
+      }
+    }
+  },
+  "subset": {
+    "id": "household-expanded",
+    "name": "Expanded household visual taxonomy",
+    "includedCategoryIds": [
+      "storage-box",
+      "storage-basket",
+      "drawer-organizer",
+      "vacuum-storage-bag",
+      "closet-organizer",
+      "cable-organizer-box",
+      "shoe-box",
+      "bowl",
+      "plate",
+      "mug",
+      "drinking-glass",
+      "saucepan",
+      "frying-pan",
+      "cutting-board",
+      "rice-bag",
+      "noodle-pack",
+      "canned-food",
+      "snack-bag",
+      "beverage-bottle",
+      "spice-jar",
+      "cereal-box",
+      "medicine-box",
+      "pill-bottle",
+      "thermometer",
+      "bandage-box",
+      "first-aid-kit",
+      "face-mask-pack",
+      "disinfectant-wipes",
+      "laundry-detergent",
+      "dish-soap",
+      "cleaning-spray-bottle",
+      "sponge",
+      "trash-bag-roll",
+      "toilet-cleaner-bottle",
+      "mop-head",
+      "charging-cable",
+      "charger",
+      "battery",
+      "power-bank",
+      "earphones",
+      "usb-flash-drive",
+      "memory-card-case",
+      "remote-control",
+      "electric-kettle",
+      "rice-cooker",
+      "air-purifier-filter",
+      "hair-dryer",
+      "vacuum-cleaner",
+      "router",
+      "screwdriver",
+      "scissors",
+      "tape-roll",
+      "hammer",
+      "wrench",
+      "measuring-tape",
+      "glue-stick",
+      "passport",
+      "id-card",
+      "bank-card",
+      "notebook",
+      "envelope",
+      "receipt",
+      "pen",
+      "t-shirt",
+      "socks",
+      "cap",
+      "scarf",
+      "belt",
+      "handbag",
+      "glasses-case",
+      "shampoo-bottle",
+      "body-wash-bottle",
+      "toothpaste",
+      "toothbrush",
+      "skincare-cream-jar",
+      "razor",
+      "comb",
+      "baby-bottle",
+      "diaper-pack",
+      "wet-wipes-pack",
+      "toy-blocks",
+      "plush-toy",
+      "pacifier",
+      "childrens-book",
+      "pet-food-bag",
+      "pet-bowl",
+      "leash",
+      "pet-toy",
+      "litter-bag",
+      "grooming-brush",
+      "waste-bag-roll",
+      "yoga-mat",
+      "dumbbell",
+      "jump-rope",
+      "sports-water-bottle",
+      "bicycle-helmet",
+      "camping-lantern",
+      "rain-poncho",
+      "suitcase",
+      "backpack",
+      "toiletry-bag",
+      "travel-adapter",
+      "luggage-tag",
+      "packing-cube",
+      "passport-holder",
+      "umbrella",
+      "christmas-ornament",
+      "hand-warmer",
+      "sunscreen-bottle",
+      "mosquito-repellent",
+      "holiday-lights",
+      "portable-fan",
+      "towel",
+      "bath-towel",
+      "bed-sheet",
+      "pillowcase",
+      "blanket",
+      "cushion-cover",
+      "tablecloth",
+      "toilet-paper-roll",
+      "tissue-box",
+      "soap-bar",
+      "hand-sanitizer",
+      "shower-cap",
+      "bath-mat",
+      "toilet-brush",
+      "photo-frame",
+      "vase",
+      "candle",
+      "wall-clock",
+      "decorative-basket",
+      "artificial-flower",
+      "diffuser-bottle"
+    ],
+    "exclusions": [
+      {
+        "categoryId": "cat-teaser-toy",
+        "reason": "Held out from the first active expanded household subset until enough reviewed cat toy images are available."
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "storage-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0001",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Storage Boxes"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "收纳盒"
+      ],
+      "displayName": "收纳盒",
+      "aliases": [
+        "storage box",
+        "plastic storage bin",
+        "收纳盒"
+      ],
+      "detectorLabels": [
+        "storage box",
+        "plastic storage bin"
+      ],
+      "searchQueries": [
+        "storage box household",
+        "plastic storage bin household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:storage-boxes",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Storage Boxes"
+        ]
+      },
+      "coverageTier": "seed",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "storage-basket",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0002",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Storage Baskets"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "收纳篮"
+      ],
+      "displayName": "收纳篮",
+      "aliases": [
+        "storage basket",
+        "woven storage basket",
+        "收纳篮"
+      ],
+      "detectorLabels": [
+        "storage basket",
+        "woven storage basket"
+      ],
+      "searchQueries": [
+        "storage basket household",
+        "woven storage basket household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:storage-baskets",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Storage Baskets"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "drawer-organizer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0003",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Drawer Organizers"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "抽屉分隔盒"
+      ],
+      "displayName": "抽屉分隔盒",
+      "aliases": [
+        "drawer organizer",
+        "drawer divider tray",
+        "抽屉分隔盒"
+      ],
+      "detectorLabels": [
+        "drawer organizer",
+        "drawer divider tray"
+      ],
+      "searchQueries": [
+        "drawer organizer household",
+        "drawer divider tray household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:drawer-organizers",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Drawer Organizers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "vacuum-storage-bag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0004",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Vacuum Storage Bags"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "真空压缩袋"
+      ],
+      "displayName": "真空压缩袋",
+      "aliases": [
+        "vacuum storage bag",
+        "space saver bag",
+        "真空压缩袋"
+      ],
+      "detectorLabels": [
+        "vacuum storage bag",
+        "space saver bag"
+      ],
+      "searchQueries": [
+        "vacuum storage bag household",
+        "space saver bag household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:vacuum-storage-bags",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Vacuum Storage Bags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "closet-organizer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0005",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Closet Organizers"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "衣柜收纳格"
+      ],
+      "displayName": "衣柜收纳格",
+      "aliases": [
+        "closet organizer",
+        "hanging closet organizer",
+        "衣柜收纳格"
+      ],
+      "detectorLabels": [
+        "closet organizer",
+        "hanging closet organizer"
+      ],
+      "searchQueries": [
+        "closet organizer household",
+        "hanging closet organizer household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:closet-organizers",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Closet Organizers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cable-organizer-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0006",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Cable Organizer Boxes"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "线缆收纳盒"
+      ],
+      "displayName": "线缆收纳盒",
+      "aliases": [
+        "cable organizer box",
+        "cord storage box",
+        "线缆收纳盒"
+      ],
+      "detectorLabels": [
+        "cable organizer box",
+        "cord storage box"
+      ],
+      "searchQueries": [
+        "cable organizer box household",
+        "cord storage box household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:cable-management",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Cable Organizer Boxes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "shoe-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-STORAGE-0007",
+      "lineage": {
+        "level1": "Home & Garden",
+        "level2": "Storage & Organization",
+        "level3": "Household Storage Containers",
+        "level4": "Shoe Storage Boxes"
+      },
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "鞋盒"
+      ],
+      "displayName": "鞋盒",
+      "aliases": [
+        "shoe storage box",
+        "clear shoe box",
+        "鞋盒"
+      ],
+      "detectorLabels": [
+        "shoe storage box",
+        "clear shoe box"
+      ],
+      "searchQueries": [
+        "shoe storage box household",
+        "clear shoe box household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:shoe-storage",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Storage & Organization",
+          "Shoe Storage Boxes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bowl",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0001",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Bowls"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "碗"
+      ],
+      "displayName": "碗",
+      "aliases": [
+        "bowl",
+        "ceramic bowl",
+        "碗"
+      ],
+      "detectorLabels": [
+        "bowl",
+        "ceramic bowl"
+      ],
+      "searchQueries": [
+        "bowl household",
+        "ceramic bowl household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bowls",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Bowls"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "plate",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0002",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Plates"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "盘子"
+      ],
+      "displayName": "盘子",
+      "aliases": [
+        "plate",
+        "dinner plate",
+        "盘子"
+      ],
+      "detectorLabels": [
+        "plate",
+        "dinner plate"
+      ],
+      "searchQueries": [
+        "plate household",
+        "dinner plate household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:plates",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Plates"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "mug",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0003",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Mugs"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "马克杯"
+      ],
+      "displayName": "马克杯",
+      "aliases": [
+        "mug",
+        "coffee mug",
+        "马克杯"
+      ],
+      "detectorLabels": [
+        "mug",
+        "coffee mug"
+      ],
+      "searchQueries": [
+        "mug household",
+        "coffee mug household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:mugs",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Mugs"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "drinking-glass",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0004",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Drinking Glasses"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "玻璃杯"
+      ],
+      "displayName": "玻璃杯",
+      "aliases": [
+        "drinking glass",
+        "water glass",
+        "玻璃杯"
+      ],
+      "detectorLabels": [
+        "drinking glass",
+        "water glass"
+      ],
+      "searchQueries": [
+        "drinking glass household",
+        "water glass household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:drinking-glasses",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Drinking Glasses"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "saucepan",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0005",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Saucepans"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "奶锅"
+      ],
+      "displayName": "奶锅",
+      "aliases": [
+        "saucepan",
+        "small cooking pot",
+        "奶锅"
+      ],
+      "detectorLabels": [
+        "saucepan",
+        "small cooking pot"
+      ],
+      "searchQueries": [
+        "saucepan household",
+        "small cooking pot household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:saucepans",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Saucepans"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "frying-pan",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0006",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Frying Pans"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "煎锅"
+      ],
+      "displayName": "煎锅",
+      "aliases": [
+        "frying pan",
+        "skillet pan",
+        "煎锅"
+      ],
+      "detectorLabels": [
+        "frying pan",
+        "skillet pan"
+      ],
+      "searchQueries": [
+        "frying pan household",
+        "skillet pan household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:frying-pans",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Frying Pans"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cutting-board",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-KITCHEN-0007",
+      "lineage": {
+        "level1": "Kitchen & Dining",
+        "level2": "Kitchenware",
+        "level3": "Food Preparation & Serving",
+        "level4": "Cutting Boards"
+      },
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "菜板"
+      ],
+      "displayName": "菜板",
+      "aliases": [
+        "cutting board",
+        "chopping board",
+        "菜板"
+      ],
+      "detectorLabels": [
+        "cutting board",
+        "chopping board"
+      ],
+      "searchQueries": [
+        "cutting board household",
+        "chopping board household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:cutting-boards",
+        "path": [
+          "Home & Garden",
+          "Kitchen & Dining",
+          "Cutting Boards"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "rice-bag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0001",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Rice Bags"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "米袋"
+      ],
+      "displayName": "米袋",
+      "aliases": [
+        "rice bag",
+        "bag of rice",
+        "米袋"
+      ],
+      "detectorLabels": [
+        "rice bag",
+        "bag of rice"
+      ],
+      "searchQueries": [
+        "rice bag household",
+        "bag of rice household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:rice",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Rice Bags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "noodle-pack",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0002",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Noodle Packs"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "面条包装"
+      ],
+      "displayName": "面条包装",
+      "aliases": [
+        "noodle pack",
+        "instant noodle package",
+        "面条包装"
+      ],
+      "detectorLabels": [
+        "noodle pack",
+        "instant noodle package"
+      ],
+      "searchQueries": [
+        "noodle pack household",
+        "instant noodle package household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:noodles",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Noodle Packs"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "canned-food",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0003",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Canned Food"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "罐头"
+      ],
+      "displayName": "罐头",
+      "aliases": [
+        "canned food",
+        "food can",
+        "罐头"
+      ],
+      "detectorLabels": [
+        "canned food",
+        "food can"
+      ],
+      "searchQueries": [
+        "canned food household",
+        "food can household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:canned-food",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Canned Food"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "snack-bag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0004",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Snack Bags"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "零食袋"
+      ],
+      "displayName": "零食袋",
+      "aliases": [
+        "snack bag",
+        "chips bag",
+        "零食袋"
+      ],
+      "detectorLabels": [
+        "snack bag",
+        "chips bag"
+      ],
+      "searchQueries": [
+        "snack bag household",
+        "chips bag household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:snack-food",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Snack Bags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "beverage-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0005",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Beverage Bottles"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "饮料瓶"
+      ],
+      "displayName": "饮料瓶",
+      "aliases": [
+        "beverage bottle",
+        "soft drink bottle",
+        "饮料瓶"
+      ],
+      "detectorLabels": [
+        "beverage bottle",
+        "soft drink bottle"
+      ],
+      "searchQueries": [
+        "beverage bottle household",
+        "soft drink bottle household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:beverages",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Beverage Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "spice-jar",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0006",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Spice Jars"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "调料瓶"
+      ],
+      "displayName": "调料瓶",
+      "aliases": [
+        "spice jar",
+        "seasoning jar",
+        "调料瓶"
+      ],
+      "detectorLabels": [
+        "spice jar",
+        "seasoning jar"
+      ],
+      "searchQueries": [
+        "spice jar household",
+        "seasoning jar household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:herbs-spices",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Spice Jars"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cereal-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-FOOD-0007",
+      "lineage": {
+        "level1": "Food & Beverage",
+        "level2": "Shelf Stable Food",
+        "level3": "Packaged Food & Pantry Staples",
+        "level4": "Cereal Boxes"
+      },
+      "displayPath": [
+        "食品与囤货",
+        "常温食品",
+        "包装食品与主食",
+        "麦片盒"
+      ],
+      "displayName": "麦片盒",
+      "aliases": [
+        "cereal box",
+        "breakfast cereal box",
+        "麦片盒"
+      ],
+      "detectorLabels": [
+        "cereal box",
+        "breakfast cereal box"
+      ],
+      "searchQueries": [
+        "cereal box household",
+        "breakfast cereal box household"
+      ],
+      "appCategory": "food",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:breakfast-cereal",
+        "path": [
+          "Food, Beverages & Tobacco",
+          "Food Items",
+          "Cereal Boxes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "medicine-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0001",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "Medicine Boxes"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "药盒"
+      ],
+      "displayName": "药盒",
+      "aliases": [
+        "medicine box",
+        "pill organizer",
+        "药盒"
+      ],
+      "detectorLabels": [
+        "medicine box",
+        "pill organizer"
+      ],
+      "searchQueries": [
+        "medicine box household",
+        "pill organizer household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:medicine-boxes",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "Medicine Boxes"
+        ]
+      },
+      "coverageTier": "seed",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pill-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0002",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "Pill Bottles"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "药瓶"
+      ],
+      "displayName": "药瓶",
+      "aliases": [
+        "pill bottle",
+        "medicine bottle",
+        "药瓶"
+      ],
+      "detectorLabels": [
+        "pill bottle",
+        "medicine bottle"
+      ],
+      "searchQueries": [
+        "pill bottle household",
+        "medicine bottle household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:medicine-bottles",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "Pill Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "thermometer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0003",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "Thermometers"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "体温计"
+      ],
+      "displayName": "体温计",
+      "aliases": [
+        "thermometer",
+        "digital thermometer",
+        "体温计"
+      ],
+      "detectorLabels": [
+        "thermometer",
+        "digital thermometer"
+      ],
+      "searchQueries": [
+        "thermometer household",
+        "digital thermometer household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:thermometers",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "Thermometers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bandage-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0004",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "Bandage Boxes"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "创可贴盒"
+      ],
+      "displayName": "创可贴盒",
+      "aliases": [
+        "bandage box",
+        "adhesive bandage box",
+        "创可贴盒"
+      ],
+      "detectorLabels": [
+        "bandage box",
+        "adhesive bandage box"
+      ],
+      "searchQueries": [
+        "bandage box household",
+        "adhesive bandage box household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bandages",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "Bandage Boxes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "first-aid-kit",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0005",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "First Aid Kits"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "急救包"
+      ],
+      "displayName": "急救包",
+      "aliases": [
+        "first aid kit",
+        "medical first aid box",
+        "急救包"
+      ],
+      "detectorLabels": [
+        "first aid kit",
+        "medical first aid box"
+      ],
+      "searchQueries": [
+        "first aid kit household",
+        "medical first aid box household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:first-aid-kits",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "First Aid Kits"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "face-mask-pack",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0006",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "Face Mask Packs"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "口罩包"
+      ],
+      "displayName": "口罩包",
+      "aliases": [
+        "face mask pack",
+        "disposable mask box",
+        "口罩包"
+      ],
+      "detectorLabels": [
+        "face mask pack",
+        "disposable mask box"
+      ],
+      "searchQueries": [
+        "face mask pack household",
+        "disposable mask box household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:face-masks",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "Face Mask Packs"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "disinfectant-wipes",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-HEALTH-0007",
+      "lineage": {
+        "level1": "Healthcare",
+        "level2": "Health Care Supplies",
+        "level3": "Medicine & First Aid Supplies",
+        "level4": "Disinfectant Wipes"
+      },
+      "displayPath": [
+        "药品与健康",
+        "健康护理",
+        "药品与急救用品",
+        "消毒湿巾"
+      ],
+      "displayName": "消毒湿巾",
+      "aliases": [
+        "disinfectant wipes",
+        "sanitizing wipes pack",
+        "消毒湿巾"
+      ],
+      "detectorLabels": [
+        "disinfectant wipes",
+        "sanitizing wipes pack"
+      ],
+      "searchQueries": [
+        "disinfectant wipes household",
+        "sanitizing wipes pack household"
+      ],
+      "appCategory": "medicine",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:disinfectant-wipes",
+        "path": [
+          "Health & Beauty",
+          "Health Care",
+          "Disinfectant Wipes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "laundry-detergent",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0001",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Laundry Detergent"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "洗衣液"
+      ],
+      "displayName": "洗衣液",
+      "aliases": [
+        "laundry detergent",
+        "detergent bottle",
+        "洗衣液"
+      ],
+      "detectorLabels": [
+        "laundry detergent",
+        "detergent bottle"
+      ],
+      "searchQueries": [
+        "laundry detergent household",
+        "detergent bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:laundry-detergent",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Laundry Detergent"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "dish-soap",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0002",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Dish Soap"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "洗洁精"
+      ],
+      "displayName": "洗洁精",
+      "aliases": [
+        "dish soap",
+        "dishwashing liquid bottle",
+        "洗洁精"
+      ],
+      "detectorLabels": [
+        "dish soap",
+        "dishwashing liquid bottle"
+      ],
+      "searchQueries": [
+        "dish soap household",
+        "dishwashing liquid bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:dish-soap",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Dish Soap"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cleaning-spray-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0003",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Cleaning Spray Bottles"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "清洁喷瓶"
+      ],
+      "displayName": "清洁喷瓶",
+      "aliases": [
+        "cleaning spray bottle",
+        "spray cleaner bottle",
+        "清洁喷瓶"
+      ],
+      "detectorLabels": [
+        "cleaning spray bottle",
+        "spray cleaner bottle"
+      ],
+      "searchQueries": [
+        "cleaning spray bottle household",
+        "spray cleaner bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:household-cleaners",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Cleaning Spray Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "sponge",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0004",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Cleaning Sponges"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "海绵"
+      ],
+      "displayName": "海绵",
+      "aliases": [
+        "cleaning sponge",
+        "dish sponge",
+        "海绵"
+      ],
+      "detectorLabels": [
+        "cleaning sponge",
+        "dish sponge"
+      ],
+      "searchQueries": [
+        "cleaning sponge household",
+        "dish sponge household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:sponges",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Cleaning Sponges"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "trash-bag-roll",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0005",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Trash Bag Rolls"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "垃圾袋卷"
+      ],
+      "displayName": "垃圾袋卷",
+      "aliases": [
+        "trash bag roll",
+        "garbage bag roll",
+        "垃圾袋卷"
+      ],
+      "detectorLabels": [
+        "trash bag roll",
+        "garbage bag roll"
+      ],
+      "searchQueries": [
+        "trash bag roll household",
+        "garbage bag roll household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:trash-bags",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Trash Bag Rolls"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toilet-cleaner-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0006",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Toilet Cleaner Bottles"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "洁厕剂"
+      ],
+      "displayName": "洁厕剂",
+      "aliases": [
+        "toilet cleaner bottle",
+        "bathroom cleaner bottle",
+        "洁厕剂"
+      ],
+      "detectorLabels": [
+        "toilet cleaner bottle",
+        "bathroom cleaner bottle"
+      ],
+      "searchQueries": [
+        "toilet cleaner bottle household",
+        "bathroom cleaner bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toilet-cleaners",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Toilet Cleaner Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "mop-head",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLEANING-0007",
+      "lineage": {
+        "level1": "Household Supplies",
+        "level2": "Cleaning & Laundry",
+        "level3": "Cleaning Products & Accessories",
+        "level4": "Mop Heads"
+      },
+      "displayPath": [
+        "清洁与洗护",
+        "清洁洗护",
+        "清洁用品与配件",
+        "拖把头"
+      ],
+      "displayName": "拖把头",
+      "aliases": [
+        "mop head",
+        "replacement mop head",
+        "拖把头"
+      ],
+      "detectorLabels": [
+        "mop head",
+        "replacement mop head"
+      ],
+      "searchQueries": [
+        "mop head household",
+        "replacement mop head household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:mop-heads",
+        "path": [
+          "Home & Garden",
+          "Household Supplies",
+          "Cleaning Supplies",
+          "Mop Heads"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "charging-cable",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0001",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "Charging Cables"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "数据线"
+      ],
+      "displayName": "数据线",
+      "aliases": [
+        "usb cable",
+        "charging cable",
+        "数据线"
+      ],
+      "detectorLabels": [
+        "usb cable",
+        "charging cable"
+      ],
+      "searchQueries": [
+        "usb cable household",
+        "charging cable household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "500035",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "Charging Cables"
+        ]
+      },
+      "coverageTier": "seed",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "charger",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0002",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "Power Adapters & Chargers"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "充电器"
+      ],
+      "displayName": "充电器",
+      "aliases": [
+        "charger",
+        "power adapter",
+        "充电器"
+      ],
+      "detectorLabels": [
+        "charger",
+        "power adapter"
+      ],
+      "searchQueries": [
+        "charger household",
+        "power adapter household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:power-adapters-chargers",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "Power Adapters & Chargers"
+        ]
+      },
+      "coverageTier": "seed",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "battery",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0003",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "Household Batteries"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "电池"
+      ],
+      "displayName": "电池",
+      "aliases": [
+        "battery",
+        "alkaline battery",
+        "电池"
+      ],
+      "detectorLabels": [
+        "battery",
+        "alkaline battery"
+      ],
+      "searchQueries": [
+        "battery household",
+        "alkaline battery household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:batteries",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "Household Batteries"
+        ]
+      },
+      "coverageTier": "seed",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "power-bank",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0004",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "Power Banks"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "充电宝"
+      ],
+      "displayName": "充电宝",
+      "aliases": [
+        "power bank",
+        "portable charger",
+        "充电宝"
+      ],
+      "detectorLabels": [
+        "power bank",
+        "portable charger"
+      ],
+      "searchQueries": [
+        "power bank household",
+        "portable charger household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:power-banks",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "Power Banks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "earphones",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0005",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "Earphones"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "耳机"
+      ],
+      "displayName": "耳机",
+      "aliases": [
+        "earphones",
+        "wired earbuds",
+        "耳机"
+      ],
+      "detectorLabels": [
+        "earphones",
+        "wired earbuds"
+      ],
+      "searchQueries": [
+        "earphones household",
+        "wired earbuds household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:headphones",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "Earphones"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "usb-flash-drive",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0006",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "USB Flash Drives"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "U盘"
+      ],
+      "displayName": "U盘",
+      "aliases": [
+        "usb flash drive",
+        "thumb drive",
+        "U盘"
+      ],
+      "detectorLabels": [
+        "usb flash drive",
+        "thumb drive"
+      ],
+      "searchQueries": [
+        "usb flash drive household",
+        "thumb drive household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:usb-flash-drives",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "USB Flash Drives"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "memory-card-case",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-ELECTRONICS-0007",
+      "lineage": {
+        "level1": "Electronics",
+        "level2": "Electronic Accessories",
+        "level3": "Cables, Power & Small Accessories",
+        "level4": "Memory Card Cases"
+      },
+      "displayPath": [
+        "电子配件",
+        "电子附件",
+        "线缆电源与小配件",
+        "存储卡盒"
+      ],
+      "displayName": "存储卡盒",
+      "aliases": [
+        "memory card case",
+        "sd card case",
+        "存储卡盒"
+      ],
+      "detectorLabels": [
+        "memory card case",
+        "sd card case"
+      ],
+      "searchQueries": [
+        "memory card case household",
+        "sd card case household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:memory-card-accessories",
+        "path": [
+          "Electronics",
+          "Electronics Accessories",
+          "Memory Card Cases"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "remote-control",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0001",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Remote Controls"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "遥控器"
+      ],
+      "displayName": "遥控器",
+      "aliases": [
+        "remote control",
+        "tv remote",
+        "遥控器"
+      ],
+      "detectorLabels": [
+        "remote control",
+        "tv remote"
+      ],
+      "searchQueries": [
+        "remote control household",
+        "tv remote household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:remote-controls",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Remote Controls"
+        ]
+      },
+      "coverageTier": "seed",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "electric-kettle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0002",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Electric Kettles"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "电水壶"
+      ],
+      "displayName": "电水壶",
+      "aliases": [
+        "electric kettle",
+        "water kettle",
+        "电水壶"
+      ],
+      "detectorLabels": [
+        "electric kettle",
+        "water kettle"
+      ],
+      "searchQueries": [
+        "electric kettle household",
+        "water kettle household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:electric-kettles",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Electric Kettles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "rice-cooker",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0003",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Rice Cookers"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "电饭煲"
+      ],
+      "displayName": "电饭煲",
+      "aliases": [
+        "rice cooker",
+        "electric rice cooker",
+        "电饭煲"
+      ],
+      "detectorLabels": [
+        "rice cooker",
+        "electric rice cooker"
+      ],
+      "searchQueries": [
+        "rice cooker household",
+        "electric rice cooker household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:rice-cookers",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Rice Cookers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "air-purifier-filter",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0004",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Air Purifier Filters"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "空气净化器滤芯"
+      ],
+      "displayName": "空气净化器滤芯",
+      "aliases": [
+        "air purifier filter",
+        "replacement air filter",
+        "空气净化器滤芯"
+      ],
+      "detectorLabels": [
+        "air purifier filter",
+        "replacement air filter"
+      ],
+      "searchQueries": [
+        "air purifier filter household",
+        "replacement air filter household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:air-purifier-filters",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Air Purifier Filters"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "hair-dryer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0005",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Hair Dryers"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "吹风机"
+      ],
+      "displayName": "吹风机",
+      "aliases": [
+        "hair dryer",
+        "blow dryer",
+        "吹风机"
+      ],
+      "detectorLabels": [
+        "hair dryer",
+        "blow dryer"
+      ],
+      "searchQueries": [
+        "hair dryer household",
+        "blow dryer household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:hair-dryers",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Hair Dryers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "vacuum-cleaner",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0006",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Vacuum Cleaners"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "吸尘器"
+      ],
+      "displayName": "吸尘器",
+      "aliases": [
+        "vacuum cleaner",
+        "stick vacuum",
+        "吸尘器"
+      ],
+      "detectorLabels": [
+        "vacuum cleaner",
+        "stick vacuum"
+      ],
+      "searchQueries": [
+        "vacuum cleaner household",
+        "stick vacuum household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:vacuum-cleaners",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Vacuum Cleaners"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "router",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-APPLIANCE-0007",
+      "lineage": {
+        "level1": "Appliances",
+        "level2": "Small Domestic Appliances",
+        "level3": "Household Electrical Appliances",
+        "level4": "Network Routers"
+      },
+      "displayPath": [
+        "家电",
+        "小家电",
+        "家庭电器",
+        "路由器"
+      ],
+      "displayName": "路由器",
+      "aliases": [
+        "wifi router",
+        "network router",
+        "路由器"
+      ],
+      "detectorLabels": [
+        "wifi router",
+        "network router"
+      ],
+      "searchQueries": [
+        "wifi router household",
+        "network router household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:routers",
+        "path": [
+          "Home & Garden",
+          "Household Appliances",
+          "Network Routers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "screwdriver",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0001",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Screwdrivers"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "螺丝刀"
+      ],
+      "displayName": "螺丝刀",
+      "aliases": [
+        "screwdriver",
+        "phillips screwdriver",
+        "螺丝刀"
+      ],
+      "detectorLabels": [
+        "screwdriver",
+        "phillips screwdriver"
+      ],
+      "searchQueries": [
+        "screwdriver household",
+        "phillips screwdriver household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:screwdrivers",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Screwdrivers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "scissors",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0002",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Scissors"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "剪刀"
+      ],
+      "displayName": "剪刀",
+      "aliases": [
+        "scissors",
+        "household scissors",
+        "剪刀"
+      ],
+      "detectorLabels": [
+        "scissors",
+        "household scissors"
+      ],
+      "searchQueries": [
+        "scissors household",
+        "household scissors household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:scissors",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Scissors"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "tape-roll",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0003",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Adhesive Tape Rolls"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "胶带"
+      ],
+      "displayName": "胶带",
+      "aliases": [
+        "tape roll",
+        "adhesive tape",
+        "胶带"
+      ],
+      "detectorLabels": [
+        "tape roll",
+        "adhesive tape"
+      ],
+      "searchQueries": [
+        "tape roll household",
+        "adhesive tape household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:tape",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Adhesive Tape Rolls"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "hammer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0004",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Hammers"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "锤子"
+      ],
+      "displayName": "锤子",
+      "aliases": [
+        "hammer",
+        "claw hammer",
+        "锤子"
+      ],
+      "detectorLabels": [
+        "hammer",
+        "claw hammer"
+      ],
+      "searchQueries": [
+        "hammer household",
+        "claw hammer household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:hammers",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Hammers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "wrench",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0005",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Wrenches"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "扳手"
+      ],
+      "displayName": "扳手",
+      "aliases": [
+        "wrench",
+        "adjustable wrench",
+        "扳手"
+      ],
+      "detectorLabels": [
+        "wrench",
+        "adjustable wrench"
+      ],
+      "searchQueries": [
+        "wrench household",
+        "adjustable wrench household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:wrenches",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Wrenches"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "measuring-tape",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0006",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Measuring Tapes"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "卷尺"
+      ],
+      "displayName": "卷尺",
+      "aliases": [
+        "measuring tape",
+        "tape measure",
+        "卷尺"
+      ],
+      "detectorLabels": [
+        "measuring tape",
+        "tape measure"
+      ],
+      "searchQueries": [
+        "measuring tape household",
+        "tape measure household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:measuring-tapes",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Measuring Tapes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "glue-stick",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TOOLS-0007",
+      "lineage": {
+        "level1": "Tools & Hardware",
+        "level2": "Hand Tools",
+        "level3": "Household Tools & Fastening",
+        "level4": "Glue Sticks"
+      },
+      "displayPath": [
+        "工具五金",
+        "手工具",
+        "家庭工具与固定用品",
+        "胶棒"
+      ],
+      "displayName": "胶棒",
+      "aliases": [
+        "glue stick",
+        "adhesive glue stick",
+        "胶棒"
+      ],
+      "detectorLabels": [
+        "glue stick",
+        "adhesive glue stick"
+      ],
+      "searchQueries": [
+        "glue stick household",
+        "adhesive glue stick household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:glues",
+        "path": [
+          "Hardware",
+          "Tools",
+          "Glue Sticks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "passport",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0001",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Passports"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "护照"
+      ],
+      "displayName": "护照",
+      "aliases": [
+        "passport",
+        "travel passport",
+        "护照"
+      ],
+      "detectorLabels": [
+        "passport",
+        "travel passport"
+      ],
+      "searchQueries": [
+        "passport household",
+        "travel passport household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:personal-documents",
+        "path": [
+          "Office Supplies",
+          "Passports"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "id-card",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0002",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Identity Cards"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "身份证"
+      ],
+      "displayName": "身份证",
+      "aliases": [
+        "id card",
+        "identity card",
+        "身份证"
+      ],
+      "detectorLabels": [
+        "id card",
+        "identity card"
+      ],
+      "searchQueries": [
+        "id card household",
+        "identity card household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:identity-documents",
+        "path": [
+          "Office Supplies",
+          "Identity Cards"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bank-card",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0003",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Bank Cards"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "银行卡"
+      ],
+      "displayName": "银行卡",
+      "aliases": [
+        "bank card",
+        "credit card",
+        "银行卡"
+      ],
+      "detectorLabels": [
+        "bank card",
+        "credit card"
+      ],
+      "searchQueries": [
+        "bank card household",
+        "credit card household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bank-cards",
+        "path": [
+          "Office Supplies",
+          "Bank Cards"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "notebook",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0004",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Notebooks"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "笔记本"
+      ],
+      "displayName": "笔记本",
+      "aliases": [
+        "notebook",
+        "paper notebook",
+        "笔记本"
+      ],
+      "detectorLabels": [
+        "notebook",
+        "paper notebook"
+      ],
+      "searchQueries": [
+        "notebook household",
+        "paper notebook household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:notebooks",
+        "path": [
+          "Office Supplies",
+          "Notebooks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "envelope",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0005",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Envelopes"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "信封"
+      ],
+      "displayName": "信封",
+      "aliases": [
+        "envelope",
+        "paper envelope",
+        "信封"
+      ],
+      "detectorLabels": [
+        "envelope",
+        "paper envelope"
+      ],
+      "searchQueries": [
+        "envelope household",
+        "paper envelope household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:envelopes",
+        "path": [
+          "Office Supplies",
+          "Envelopes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "receipt",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0006",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Receipts"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "票据"
+      ],
+      "displayName": "票据",
+      "aliases": [
+        "receipt",
+        "paper receipt",
+        "票据"
+      ],
+      "detectorLabels": [
+        "receipt",
+        "paper receipt"
+      ],
+      "searchQueries": [
+        "receipt household",
+        "paper receipt household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:receipts",
+        "path": [
+          "Office Supplies",
+          "Receipts"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pen",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DOCUMENTS-0007",
+      "lineage": {
+        "level1": "Office & Documents",
+        "level2": "Documents & Stationery",
+        "level3": "Personal Documents & Office Supplies",
+        "level4": "Pens"
+      },
+      "displayPath": [
+        "文件与办公",
+        "文件文具",
+        "证件与办公用品",
+        "笔"
+      ],
+      "displayName": "笔",
+      "aliases": [
+        "pen",
+        "ballpoint pen",
+        "笔"
+      ],
+      "detectorLabels": [
+        "pen",
+        "ballpoint pen"
+      ],
+      "searchQueries": [
+        "pen household",
+        "ballpoint pen household"
+      ],
+      "appCategory": "document",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pens",
+        "path": [
+          "Office Supplies",
+          "Pens"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "t-shirt",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0001",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "T-Shirts"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "T恤"
+      ],
+      "displayName": "T恤",
+      "aliases": [
+        "t shirt",
+        "short sleeve shirt",
+        "T恤"
+      ],
+      "detectorLabels": [
+        "t shirt",
+        "short sleeve shirt"
+      ],
+      "searchQueries": [
+        "t shirt household",
+        "short sleeve shirt household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:t-shirts",
+        "path": [
+          "Apparel & Accessories",
+          "T-Shirts"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "socks",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0002",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "Socks"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "袜子"
+      ],
+      "displayName": "袜子",
+      "aliases": [
+        "socks",
+        "pair of socks",
+        "袜子"
+      ],
+      "detectorLabels": [
+        "socks",
+        "pair of socks"
+      ],
+      "searchQueries": [
+        "socks household",
+        "pair of socks household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:socks",
+        "path": [
+          "Apparel & Accessories",
+          "Socks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cap",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0003",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "Caps"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "帽子"
+      ],
+      "displayName": "帽子",
+      "aliases": [
+        "cap",
+        "baseball cap",
+        "帽子"
+      ],
+      "detectorLabels": [
+        "cap",
+        "baseball cap"
+      ],
+      "searchQueries": [
+        "cap household",
+        "baseball cap household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:hats",
+        "path": [
+          "Apparel & Accessories",
+          "Caps"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "scarf",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0004",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "Scarves"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "围巾"
+      ],
+      "displayName": "围巾",
+      "aliases": [
+        "scarf",
+        "winter scarf",
+        "围巾"
+      ],
+      "detectorLabels": [
+        "scarf",
+        "winter scarf"
+      ],
+      "searchQueries": [
+        "scarf household",
+        "winter scarf household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:scarves",
+        "path": [
+          "Apparel & Accessories",
+          "Scarves"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "belt",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0005",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "Belts"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "腰带"
+      ],
+      "displayName": "腰带",
+      "aliases": [
+        "belt",
+        "leather belt",
+        "腰带"
+      ],
+      "detectorLabels": [
+        "belt",
+        "leather belt"
+      ],
+      "searchQueries": [
+        "belt household",
+        "leather belt household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:belts",
+        "path": [
+          "Apparel & Accessories",
+          "Belts"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "handbag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0006",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "Handbags"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "手提包"
+      ],
+      "displayName": "手提包",
+      "aliases": [
+        "handbag",
+        "purse bag",
+        "手提包"
+      ],
+      "detectorLabels": [
+        "handbag",
+        "purse bag"
+      ],
+      "searchQueries": [
+        "handbag household",
+        "purse bag household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:handbags",
+        "path": [
+          "Apparel & Accessories",
+          "Handbags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "glasses-case",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-CLOTHING-0007",
+      "lineage": {
+        "level1": "Apparel & Accessories",
+        "level2": "Clothing & Personal Accessories",
+        "level3": "Everyday Clothing & Accessories",
+        "level4": "Glasses Cases"
+      },
+      "displayPath": [
+        "衣物配饰",
+        "衣物与配件",
+        "日常衣物配饰",
+        "眼镜盒"
+      ],
+      "displayName": "眼镜盒",
+      "aliases": [
+        "glasses case",
+        "eyeglass case",
+        "眼镜盒"
+      ],
+      "detectorLabels": [
+        "glasses case",
+        "eyeglass case"
+      ],
+      "searchQueries": [
+        "glasses case household",
+        "eyeglass case household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:eyewear-cases",
+        "path": [
+          "Apparel & Accessories",
+          "Glasses Cases"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "shampoo-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0001",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Shampoo Bottles"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "洗发水"
+      ],
+      "displayName": "洗发水",
+      "aliases": [
+        "shampoo bottle",
+        "bottle of shampoo",
+        "洗发水"
+      ],
+      "detectorLabels": [
+        "shampoo bottle",
+        "bottle of shampoo"
+      ],
+      "searchQueries": [
+        "shampoo bottle household",
+        "bottle of shampoo household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:shampoo",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Shampoo Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "body-wash-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0002",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Body Wash Bottles"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "沐浴露"
+      ],
+      "displayName": "沐浴露",
+      "aliases": [
+        "body wash bottle",
+        "shower gel bottle",
+        "沐浴露"
+      ],
+      "detectorLabels": [
+        "body wash bottle",
+        "shower gel bottle"
+      ],
+      "searchQueries": [
+        "body wash bottle household",
+        "shower gel bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:body-wash",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Body Wash Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toothpaste",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0003",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Toothpaste Tubes"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "牙膏"
+      ],
+      "displayName": "牙膏",
+      "aliases": [
+        "toothpaste",
+        "toothpaste tube",
+        "牙膏"
+      ],
+      "detectorLabels": [
+        "toothpaste",
+        "toothpaste tube"
+      ],
+      "searchQueries": [
+        "toothpaste household",
+        "toothpaste tube household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toothpaste",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Toothpaste Tubes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toothbrush",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0004",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Toothbrushes"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "牙刷"
+      ],
+      "displayName": "牙刷",
+      "aliases": [
+        "toothbrush",
+        "manual toothbrush",
+        "牙刷"
+      ],
+      "detectorLabels": [
+        "toothbrush",
+        "manual toothbrush"
+      ],
+      "searchQueries": [
+        "toothbrush household",
+        "manual toothbrush household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toothbrushes",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Toothbrushes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "skincare-cream-jar",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0005",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Skin Cream Jars"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "面霜罐"
+      ],
+      "displayName": "面霜罐",
+      "aliases": [
+        "skin cream jar",
+        "face cream jar",
+        "面霜罐"
+      ],
+      "detectorLabels": [
+        "skin cream jar",
+        "face cream jar"
+      ],
+      "searchQueries": [
+        "skin cream jar household",
+        "face cream jar household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:skin-care",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Skin Cream Jars"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "razor",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0006",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Razors"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "剃须刀"
+      ],
+      "displayName": "剃须刀",
+      "aliases": [
+        "razor",
+        "shaving razor",
+        "剃须刀"
+      ],
+      "detectorLabels": [
+        "razor",
+        "shaving razor"
+      ],
+      "searchQueries": [
+        "razor household",
+        "shaving razor household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:razors",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Razors"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "comb",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PERSONAL-0007",
+      "lineage": {
+        "level1": "Health & Beauty",
+        "level2": "Personal Care",
+        "level3": "Personal Care Products",
+        "level4": "Combs"
+      },
+      "displayPath": [
+        "个人护理",
+        "个人洗护",
+        "个人护理用品",
+        "梳子"
+      ],
+      "displayName": "梳子",
+      "aliases": [
+        "comb",
+        "hair comb",
+        "梳子"
+      ],
+      "detectorLabels": [
+        "comb",
+        "hair comb"
+      ],
+      "searchQueries": [
+        "comb household",
+        "hair comb household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:combs",
+        "path": [
+          "Health & Beauty",
+          "Personal Care",
+          "Combs"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "baby-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0001",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Baby Bottles"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "奶瓶"
+      ],
+      "displayName": "奶瓶",
+      "aliases": [
+        "baby bottle",
+        "infant feeding bottle",
+        "奶瓶"
+      ],
+      "detectorLabels": [
+        "baby bottle",
+        "infant feeding bottle"
+      ],
+      "searchQueries": [
+        "baby bottle household",
+        "infant feeding bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:baby-bottles",
+        "path": [
+          "Baby & Toddler",
+          "Baby Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "diaper-pack",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0002",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Diaper Packs"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "纸尿裤"
+      ],
+      "displayName": "纸尿裤",
+      "aliases": [
+        "diaper pack",
+        "pack of diapers",
+        "纸尿裤"
+      ],
+      "detectorLabels": [
+        "diaper pack",
+        "pack of diapers"
+      ],
+      "searchQueries": [
+        "diaper pack household",
+        "pack of diapers household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:diapers",
+        "path": [
+          "Baby & Toddler",
+          "Diaper Packs"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "wet-wipes-pack",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0003",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Wet Wipes Packs"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "湿巾包"
+      ],
+      "displayName": "湿巾包",
+      "aliases": [
+        "wet wipes pack",
+        "baby wipes pack",
+        "湿巾包"
+      ],
+      "detectorLabels": [
+        "wet wipes pack",
+        "baby wipes pack"
+      ],
+      "searchQueries": [
+        "wet wipes pack household",
+        "baby wipes pack household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:baby-wipes",
+        "path": [
+          "Baby & Toddler",
+          "Wet Wipes Packs"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toy-blocks",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0004",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Toy Blocks"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "积木"
+      ],
+      "displayName": "积木",
+      "aliases": [
+        "toy blocks",
+        "building blocks",
+        "积木"
+      ],
+      "detectorLabels": [
+        "toy blocks",
+        "building blocks"
+      ],
+      "searchQueries": [
+        "toy blocks household",
+        "building blocks household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toy-blocks",
+        "path": [
+          "Baby & Toddler",
+          "Toy Blocks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "plush-toy",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0005",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Plush Toys"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "毛绒玩具"
+      ],
+      "displayName": "毛绒玩具",
+      "aliases": [
+        "plush toy",
+        "stuffed toy",
+        "毛绒玩具"
+      ],
+      "detectorLabels": [
+        "plush toy",
+        "stuffed toy"
+      ],
+      "searchQueries": [
+        "plush toy household",
+        "stuffed toy household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:plush-toys",
+        "path": [
+          "Baby & Toddler",
+          "Plush Toys"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pacifier",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0006",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Pacifiers"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "安抚奶嘴"
+      ],
+      "displayName": "安抚奶嘴",
+      "aliases": [
+        "pacifier",
+        "baby pacifier",
+        "安抚奶嘴"
+      ],
+      "detectorLabels": [
+        "pacifier",
+        "baby pacifier"
+      ],
+      "searchQueries": [
+        "pacifier household",
+        "baby pacifier household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pacifiers",
+        "path": [
+          "Baby & Toddler",
+          "Pacifiers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "childrens-book",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BABY-0007",
+      "lineage": {
+        "level1": "Baby & Children",
+        "level2": "Baby Care & Toys",
+        "level3": "Baby Supplies & Children's Toys",
+        "level4": "Children's Books"
+      },
+      "displayPath": [
+        "母婴儿童",
+        "婴童用品",
+        "婴童护理与玩具",
+        "儿童书"
+      ],
+      "displayName": "儿童书",
+      "aliases": [
+        "children's book",
+        "picture book",
+        "儿童书"
+      ],
+      "detectorLabels": [
+        "children's book",
+        "picture book"
+      ],
+      "searchQueries": [
+        "children's book household",
+        "picture book household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:childrens-books",
+        "path": [
+          "Baby & Toddler",
+          "Children's Books"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pet-food-bag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0001",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Pet Food Bags"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "宠物粮袋"
+      ],
+      "displayName": "宠物粮袋",
+      "aliases": [
+        "pet food bag",
+        "dog food bag",
+        "宠物粮袋"
+      ],
+      "detectorLabels": [
+        "pet food bag",
+        "dog food bag"
+      ],
+      "searchQueries": [
+        "pet food bag household",
+        "dog food bag household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pet-food",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Pet Food Bags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pet-bowl",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0002",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Pet Bowls"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "宠物碗"
+      ],
+      "displayName": "宠物碗",
+      "aliases": [
+        "pet bowl",
+        "dog bowl",
+        "宠物碗"
+      ],
+      "detectorLabels": [
+        "pet bowl",
+        "dog bowl"
+      ],
+      "searchQueries": [
+        "pet bowl household",
+        "dog bowl household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pet-bowls",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Pet Bowls"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "leash",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0003",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Pet Leashes"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "牵引绳"
+      ],
+      "displayName": "牵引绳",
+      "aliases": [
+        "pet leash",
+        "dog leash",
+        "牵引绳"
+      ],
+      "detectorLabels": [
+        "pet leash",
+        "dog leash"
+      ],
+      "searchQueries": [
+        "pet leash household",
+        "dog leash household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pet-leashes",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Pet Leashes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pet-toy",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0004",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Pet Toys"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "宠物玩具"
+      ],
+      "displayName": "宠物玩具",
+      "aliases": [
+        "pet toy",
+        "dog toy",
+        "宠物玩具"
+      ],
+      "detectorLabels": [
+        "pet toy",
+        "dog toy"
+      ],
+      "searchQueries": [
+        "pet toy household",
+        "dog toy household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pet-toys",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Pet Toys"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "litter-bag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0005",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Cat Litter Bags"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "猫砂袋"
+      ],
+      "displayName": "猫砂袋",
+      "aliases": [
+        "cat litter bag",
+        "bag of cat litter",
+        "猫砂袋"
+      ],
+      "detectorLabels": [
+        "cat litter bag",
+        "bag of cat litter"
+      ],
+      "searchQueries": [
+        "cat litter bag household",
+        "bag of cat litter household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:cat-litter",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Cat Litter Bags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "grooming-brush",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0006",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Pet Grooming Brushes"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "宠物梳"
+      ],
+      "displayName": "宠物梳",
+      "aliases": [
+        "pet grooming brush",
+        "dog brush",
+        "宠物梳"
+      ],
+      "detectorLabels": [
+        "pet grooming brush",
+        "dog brush"
+      ],
+      "searchQueries": [
+        "pet grooming brush household",
+        "dog brush household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pet-grooming",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Pet Grooming Brushes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "waste-bag-roll",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0007",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Pet Waste Bag Rolls"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "宠物拾便袋"
+      ],
+      "displayName": "宠物拾便袋",
+      "aliases": [
+        "pet waste bag roll",
+        "dog poop bag roll",
+        "宠物拾便袋"
+      ],
+      "detectorLabels": [
+        "pet waste bag roll",
+        "dog poop bag roll"
+      ],
+      "searchQueries": [
+        "pet waste bag roll household",
+        "dog poop bag roll household"
+      ],
+      "appCategory": "pet",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pet-waste-bags",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Pet Waste Bag Rolls"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cat-teaser-toy",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-PET-0008",
+      "lineage": {
+        "level1": "Pets",
+        "level2": "Pet Supplies",
+        "level3": "Pet Food, Care & Accessories",
+        "level4": "Cat Teaser Toys"
+      },
+      "displayPath": [
+        "宠物用品",
+        "宠物用品",
+        "宠物食品护理与配件",
+        "逗猫棒"
+      ],
+      "displayName": "逗猫棒",
+      "aliases": [
+        "cat teaser toy",
+        "cat wand toy",
+        "逗猫棒"
+      ],
+      "detectorLabels": [
+        "cat teaser toy",
+        "cat wand toy"
+      ],
+      "searchQueries": [
+        "cat teaser toy household",
+        "cat wand toy household"
+      ],
+      "appCategory": "pet",
+      "active": false,
+      "googleProductTaxonomy": {
+        "id": "google:cat-toys",
+        "path": [
+          "Animals & Pet Supplies",
+          "Pet Supplies",
+          "Cat Teaser Toys"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      },
+      "exclusionReason": "Held out from the first active expanded household subset until enough reviewed cat toy images are available."
+    },
+    {
+      "id": "yoga-mat",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0001",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Yoga Mats"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "瑜伽垫"
+      ],
+      "displayName": "瑜伽垫",
+      "aliases": [
+        "yoga mat",
+        "exercise mat",
+        "瑜伽垫"
+      ],
+      "detectorLabels": [
+        "yoga mat",
+        "exercise mat"
+      ],
+      "searchQueries": [
+        "yoga mat household",
+        "exercise mat household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:yoga-mats",
+        "path": [
+          "Sporting Goods",
+          "Yoga Mats"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "dumbbell",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0002",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Dumbbells"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "哑铃"
+      ],
+      "displayName": "哑铃",
+      "aliases": [
+        "dumbbell",
+        "hand weight",
+        "哑铃"
+      ],
+      "detectorLabels": [
+        "dumbbell",
+        "hand weight"
+      ],
+      "searchQueries": [
+        "dumbbell household",
+        "hand weight household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:dumbbells",
+        "path": [
+          "Sporting Goods",
+          "Dumbbells"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "jump-rope",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0003",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Jump Ropes"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "跳绳"
+      ],
+      "displayName": "跳绳",
+      "aliases": [
+        "jump rope",
+        "skipping rope",
+        "跳绳"
+      ],
+      "detectorLabels": [
+        "jump rope",
+        "skipping rope"
+      ],
+      "searchQueries": [
+        "jump rope household",
+        "skipping rope household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:jump-ropes",
+        "path": [
+          "Sporting Goods",
+          "Jump Ropes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "sports-water-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0004",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Sports Water Bottles"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "运动水杯"
+      ],
+      "displayName": "运动水杯",
+      "aliases": [
+        "sports water bottle",
+        "fitness water bottle",
+        "运动水杯"
+      ],
+      "detectorLabels": [
+        "sports water bottle",
+        "fitness water bottle"
+      ],
+      "searchQueries": [
+        "sports water bottle household",
+        "fitness water bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:water-bottles",
+        "path": [
+          "Sporting Goods",
+          "Sports Water Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bicycle-helmet",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0005",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Bicycle Helmets"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "骑行头盔"
+      ],
+      "displayName": "骑行头盔",
+      "aliases": [
+        "bicycle helmet",
+        "bike helmet",
+        "骑行头盔"
+      ],
+      "detectorLabels": [
+        "bicycle helmet",
+        "bike helmet"
+      ],
+      "searchQueries": [
+        "bicycle helmet household",
+        "bike helmet household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bicycle-helmets",
+        "path": [
+          "Sporting Goods",
+          "Bicycle Helmets"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "camping-lantern",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0006",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Camping Lanterns"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "露营灯"
+      ],
+      "displayName": "露营灯",
+      "aliases": [
+        "camping lantern",
+        "portable camping light",
+        "露营灯"
+      ],
+      "detectorLabels": [
+        "camping lantern",
+        "portable camping light"
+      ],
+      "searchQueries": [
+        "camping lantern household",
+        "portable camping light household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:camping-lanterns",
+        "path": [
+          "Sporting Goods",
+          "Camping Lanterns"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "rain-poncho",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SPORTS-0007",
+      "lineage": {
+        "level1": "Sports & Outdoors",
+        "level2": "Fitness & Outdoor Recreation",
+        "level3": "Fitness Equipment & Outdoor Gear",
+        "level4": "Rain Ponchos"
+      },
+      "displayPath": [
+        "运动户外",
+        "健身户外",
+        "健身器材与户外装备",
+        "雨衣"
+      ],
+      "displayName": "雨衣",
+      "aliases": [
+        "rain poncho",
+        "waterproof poncho",
+        "雨衣"
+      ],
+      "detectorLabels": [
+        "rain poncho",
+        "waterproof poncho"
+      ],
+      "searchQueries": [
+        "rain poncho household",
+        "waterproof poncho household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:rain-ponchos",
+        "path": [
+          "Sporting Goods",
+          "Rain Ponchos"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "suitcase",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0001",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Suitcases"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "行李箱"
+      ],
+      "displayName": "行李箱",
+      "aliases": [
+        "suitcase",
+        "rolling luggage",
+        "行李箱"
+      ],
+      "detectorLabels": [
+        "suitcase",
+        "rolling luggage"
+      ],
+      "searchQueries": [
+        "suitcase household",
+        "rolling luggage household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:suitcases",
+        "path": [
+          "Luggage & Bags",
+          "Suitcases"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "backpack",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0002",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Backpacks"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "背包"
+      ],
+      "displayName": "背包",
+      "aliases": [
+        "backpack",
+        "travel backpack",
+        "背包"
+      ],
+      "detectorLabels": [
+        "backpack",
+        "travel backpack"
+      ],
+      "searchQueries": [
+        "backpack household",
+        "travel backpack household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:backpacks",
+        "path": [
+          "Luggage & Bags",
+          "Backpacks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toiletry-bag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0003",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Toiletry Bags"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "洗漱包"
+      ],
+      "displayName": "洗漱包",
+      "aliases": [
+        "toiletry bag",
+        "travel toiletry pouch",
+        "洗漱包"
+      ],
+      "detectorLabels": [
+        "toiletry bag",
+        "travel toiletry pouch"
+      ],
+      "searchQueries": [
+        "toiletry bag household",
+        "travel toiletry pouch household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toiletry-bags",
+        "path": [
+          "Luggage & Bags",
+          "Toiletry Bags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "travel-adapter",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0004",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Travel Adapters"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "旅行转换插头"
+      ],
+      "displayName": "旅行转换插头",
+      "aliases": [
+        "travel adapter",
+        "universal plug adapter",
+        "旅行转换插头"
+      ],
+      "detectorLabels": [
+        "travel adapter",
+        "universal plug adapter"
+      ],
+      "searchQueries": [
+        "travel adapter household",
+        "universal plug adapter household"
+      ],
+      "appCategory": "tool",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:travel-adapters",
+        "path": [
+          "Luggage & Bags",
+          "Travel Adapters"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "luggage-tag",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0005",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Luggage Tags"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "行李牌"
+      ],
+      "displayName": "行李牌",
+      "aliases": [
+        "luggage tag",
+        "suitcase tag",
+        "行李牌"
+      ],
+      "detectorLabels": [
+        "luggage tag",
+        "suitcase tag"
+      ],
+      "searchQueries": [
+        "luggage tag household",
+        "suitcase tag household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:luggage-tags",
+        "path": [
+          "Luggage & Bags",
+          "Luggage Tags"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "packing-cube",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0006",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Packing Cubes"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "旅行收纳袋"
+      ],
+      "displayName": "旅行收纳袋",
+      "aliases": [
+        "packing cube",
+        "travel organizer cube",
+        "旅行收纳袋"
+      ],
+      "detectorLabels": [
+        "packing cube",
+        "travel organizer cube"
+      ],
+      "searchQueries": [
+        "packing cube household",
+        "travel organizer cube household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:packing-cubes",
+        "path": [
+          "Luggage & Bags",
+          "Packing Cubes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "passport-holder",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TRAVEL-0007",
+      "lineage": {
+        "level1": "Travel & Luggage",
+        "level2": "Luggage & Travel Accessories",
+        "level3": "Travel Bags & Accessories",
+        "level4": "Passport Holders"
+      },
+      "displayPath": [
+        "旅行用品",
+        "箱包旅行",
+        "旅行箱包与配件",
+        "护照夹"
+      ],
+      "displayName": "护照夹",
+      "aliases": [
+        "passport holder",
+        "passport wallet",
+        "护照夹"
+      ],
+      "detectorLabels": [
+        "passport holder",
+        "passport wallet"
+      ],
+      "searchQueries": [
+        "passport holder household",
+        "passport wallet household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:passport-holders",
+        "path": [
+          "Luggage & Bags",
+          "Passport Holders"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "umbrella",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0001",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Umbrellas"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "雨伞"
+      ],
+      "displayName": "雨伞",
+      "aliases": [
+        "umbrella",
+        "folding umbrella",
+        "雨伞"
+      ],
+      "detectorLabels": [
+        "umbrella",
+        "folding umbrella"
+      ],
+      "searchQueries": [
+        "umbrella household",
+        "folding umbrella household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:umbrellas",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Umbrellas"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "christmas-ornament",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0002",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Holiday Ornaments"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "节日挂饰"
+      ],
+      "displayName": "节日挂饰",
+      "aliases": [
+        "holiday ornament",
+        "christmas ornament",
+        "节日挂饰"
+      ],
+      "detectorLabels": [
+        "holiday ornament",
+        "christmas ornament"
+      ],
+      "searchQueries": [
+        "holiday ornament household",
+        "christmas ornament household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:holiday-ornaments",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Holiday Ornaments"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "hand-warmer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0003",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Hand Warmers"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "暖宝宝"
+      ],
+      "displayName": "暖宝宝",
+      "aliases": [
+        "hand warmer",
+        "disposable hand warmer",
+        "暖宝宝"
+      ],
+      "detectorLabels": [
+        "hand warmer",
+        "disposable hand warmer"
+      ],
+      "searchQueries": [
+        "hand warmer household",
+        "disposable hand warmer household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:hand-warmers",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Hand Warmers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "sunscreen-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0004",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Sunscreen Bottles"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "防晒霜"
+      ],
+      "displayName": "防晒霜",
+      "aliases": [
+        "sunscreen bottle",
+        "sunblock bottle",
+        "防晒霜"
+      ],
+      "detectorLabels": [
+        "sunscreen bottle",
+        "sunblock bottle"
+      ],
+      "searchQueries": [
+        "sunscreen bottle household",
+        "sunblock bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:sunscreen",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Sunscreen Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "mosquito-repellent",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0005",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Mosquito Repellent"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "驱蚊液"
+      ],
+      "displayName": "驱蚊液",
+      "aliases": [
+        "mosquito repellent",
+        "insect repellent bottle",
+        "驱蚊液"
+      ],
+      "detectorLabels": [
+        "mosquito repellent",
+        "insect repellent bottle"
+      ],
+      "searchQueries": [
+        "mosquito repellent household",
+        "insect repellent bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:insect-repellent",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Mosquito Repellent"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "holiday-lights",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0006",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Holiday Light Strings"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "节日灯串"
+      ],
+      "displayName": "节日灯串",
+      "aliases": [
+        "holiday lights",
+        "string lights",
+        "节日灯串"
+      ],
+      "detectorLabels": [
+        "holiday lights",
+        "string lights"
+      ],
+      "searchQueries": [
+        "holiday lights household",
+        "string lights household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:string-lights",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Holiday Light Strings"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "portable-fan",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-SEASONAL-0007",
+      "lineage": {
+        "level1": "Seasonal & Occasion",
+        "level2": "Seasonal Household Items",
+        "level3": "Weather, Holiday & Seasonal Supplies",
+        "level4": "Portable Fans"
+      },
+      "displayPath": [
+        "季节物品",
+        "季节用品",
+        "天气节日与季节用品",
+        "小风扇"
+      ],
+      "displayName": "小风扇",
+      "aliases": [
+        "portable fan",
+        "handheld fan",
+        "小风扇"
+      ],
+      "detectorLabels": [
+        "portable fan",
+        "handheld fan"
+      ],
+      "searchQueries": [
+        "portable fan household",
+        "handheld fan household"
+      ],
+      "appCategory": "appliance",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:portable-fans",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Seasonal & Holiday Decorations",
+          "Portable Fans"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "towel",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0001",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Towels"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "毛巾"
+      ],
+      "displayName": "毛巾",
+      "aliases": [
+        "towel",
+        "hand towel",
+        "毛巾"
+      ],
+      "detectorLabels": [
+        "towel",
+        "hand towel"
+      ],
+      "searchQueries": [
+        "towel household",
+        "hand towel household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:towels",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Towels"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bath-towel",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0002",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Bath Towels"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "浴巾"
+      ],
+      "displayName": "浴巾",
+      "aliases": [
+        "bath towel",
+        "large bath towel",
+        "浴巾"
+      ],
+      "detectorLabels": [
+        "bath towel",
+        "large bath towel"
+      ],
+      "searchQueries": [
+        "bath towel household",
+        "large bath towel household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bath-towels",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Bath Towels"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bed-sheet",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0003",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Bed Sheets"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "床单"
+      ],
+      "displayName": "床单",
+      "aliases": [
+        "bed sheet",
+        "fitted sheet",
+        "床单"
+      ],
+      "detectorLabels": [
+        "bed sheet",
+        "fitted sheet"
+      ],
+      "searchQueries": [
+        "bed sheet household",
+        "fitted sheet household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bed-sheets",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Bed Sheets"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "pillowcase",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0004",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Pillowcases"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "枕套"
+      ],
+      "displayName": "枕套",
+      "aliases": [
+        "pillowcase",
+        "pillow cover",
+        "枕套"
+      ],
+      "detectorLabels": [
+        "pillowcase",
+        "pillow cover"
+      ],
+      "searchQueries": [
+        "pillowcase household",
+        "pillow cover household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:pillowcases",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Pillowcases"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "blanket",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0005",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Blankets"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "毯子"
+      ],
+      "displayName": "毯子",
+      "aliases": [
+        "blanket",
+        "throw blanket",
+        "毯子"
+      ],
+      "detectorLabels": [
+        "blanket",
+        "throw blanket"
+      ],
+      "searchQueries": [
+        "blanket household",
+        "throw blanket household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:blankets",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Blankets"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "cushion-cover",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0006",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Cushion Covers"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "抱枕套"
+      ],
+      "displayName": "抱枕套",
+      "aliases": [
+        "cushion cover",
+        "pillow cushion cover",
+        "抱枕套"
+      ],
+      "detectorLabels": [
+        "cushion cover",
+        "pillow cushion cover"
+      ],
+      "searchQueries": [
+        "cushion cover household",
+        "pillow cushion cover household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:cushion-covers",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Cushion Covers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "tablecloth",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-TEXTILE-0007",
+      "lineage": {
+        "level1": "Home Textiles",
+        "level2": "Household Linens",
+        "level3": "Towels, Bedding & Soft Furnishings",
+        "level4": "Tablecloths"
+      },
+      "displayPath": [
+        "家纺",
+        "家庭纺织品",
+        "毛巾床品与软装",
+        "桌布"
+      ],
+      "displayName": "桌布",
+      "aliases": [
+        "tablecloth",
+        "dining tablecloth",
+        "桌布"
+      ],
+      "detectorLabels": [
+        "tablecloth",
+        "dining tablecloth"
+      ],
+      "searchQueries": [
+        "tablecloth household",
+        "dining tablecloth household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:tablecloths",
+        "path": [
+          "Home & Garden",
+          "Linens & Bedding",
+          "Tablecloths"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toilet-paper-roll",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0001",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Toilet Paper Rolls"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "卷纸"
+      ],
+      "displayName": "卷纸",
+      "aliases": [
+        "toilet paper roll",
+        "roll of toilet paper",
+        "卷纸"
+      ],
+      "detectorLabels": [
+        "toilet paper roll",
+        "roll of toilet paper"
+      ],
+      "searchQueries": [
+        "toilet paper roll household",
+        "roll of toilet paper household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toilet-paper",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Toilet Paper Rolls"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "tissue-box",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0002",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Tissue Boxes"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "纸巾盒"
+      ],
+      "displayName": "纸巾盒",
+      "aliases": [
+        "tissue box",
+        "facial tissue box",
+        "纸巾盒"
+      ],
+      "detectorLabels": [
+        "tissue box",
+        "facial tissue box"
+      ],
+      "searchQueries": [
+        "tissue box household",
+        "facial tissue box household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:tissues",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Tissue Boxes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "soap-bar",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0003",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Soap Bars"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "香皂"
+      ],
+      "displayName": "香皂",
+      "aliases": [
+        "soap bar",
+        "bar of soap",
+        "香皂"
+      ],
+      "detectorLabels": [
+        "soap bar",
+        "bar of soap"
+      ],
+      "searchQueries": [
+        "soap bar household",
+        "bar of soap household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bar-soap",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Soap Bars"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "hand-sanitizer",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0004",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Hand Sanitizer"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "免洗洗手液"
+      ],
+      "displayName": "免洗洗手液",
+      "aliases": [
+        "hand sanitizer",
+        "sanitizer bottle",
+        "免洗洗手液"
+      ],
+      "detectorLabels": [
+        "hand sanitizer",
+        "sanitizer bottle"
+      ],
+      "searchQueries": [
+        "hand sanitizer household",
+        "sanitizer bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:hand-sanitizer",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Hand Sanitizer"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "shower-cap",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0005",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Shower Caps"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "浴帽"
+      ],
+      "displayName": "浴帽",
+      "aliases": [
+        "shower cap",
+        "plastic shower cap",
+        "浴帽"
+      ],
+      "detectorLabels": [
+        "shower cap",
+        "plastic shower cap"
+      ],
+      "searchQueries": [
+        "shower cap household",
+        "plastic shower cap household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:shower-caps",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Shower Caps"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "bath-mat",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0006",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Bath Mats"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "浴垫"
+      ],
+      "displayName": "浴垫",
+      "aliases": [
+        "bath mat",
+        "bathroom floor mat",
+        "浴垫"
+      ],
+      "detectorLabels": [
+        "bath mat",
+        "bathroom floor mat"
+      ],
+      "searchQueries": [
+        "bath mat household",
+        "bathroom floor mat household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:bath-mats",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Bath Mats"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "toilet-brush",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-BATHROOM-0007",
+      "lineage": {
+        "level1": "Bathroom & Hygiene",
+        "level2": "Bathroom Supplies",
+        "level3": "Bathroom Paper, Soap & Accessories",
+        "level4": "Toilet Brushes"
+      },
+      "displayPath": [
+        "卫浴用品",
+        "浴室用品",
+        "纸品皂类与浴室配件",
+        "马桶刷"
+      ],
+      "displayName": "马桶刷",
+      "aliases": [
+        "toilet brush",
+        "bathroom toilet brush",
+        "马桶刷"
+      ],
+      "detectorLabels": [
+        "toilet brush",
+        "bathroom toilet brush"
+      ],
+      "searchQueries": [
+        "toilet brush household",
+        "bathroom toilet brush household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:toilet-brushes",
+        "path": [
+          "Home & Garden",
+          "Bathroom Accessories",
+          "Toilet Brushes"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "photo-frame",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0001",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Photo Frames"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "相框"
+      ],
+      "displayName": "相框",
+      "aliases": [
+        "photo frame",
+        "picture frame",
+        "相框"
+      ],
+      "detectorLabels": [
+        "photo frame",
+        "picture frame"
+      ],
+      "searchQueries": [
+        "photo frame household",
+        "picture frame household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:picture-frames",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Photo Frames"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "vase",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0002",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Vases"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "花瓶"
+      ],
+      "displayName": "花瓶",
+      "aliases": [
+        "vase",
+        "flower vase",
+        "花瓶"
+      ],
+      "detectorLabels": [
+        "vase",
+        "flower vase"
+      ],
+      "searchQueries": [
+        "vase household",
+        "flower vase household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:vases",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Vases"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "candle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0003",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Candles"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "蜡烛"
+      ],
+      "displayName": "蜡烛",
+      "aliases": [
+        "candle",
+        "decorative candle",
+        "蜡烛"
+      ],
+      "detectorLabels": [
+        "candle",
+        "decorative candle"
+      ],
+      "searchQueries": [
+        "candle household",
+        "decorative candle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:candles",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Candles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "wall-clock",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0004",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Wall Clocks"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "挂钟"
+      ],
+      "displayName": "挂钟",
+      "aliases": [
+        "wall clock",
+        "round wall clock",
+        "挂钟"
+      ],
+      "detectorLabels": [
+        "wall clock",
+        "round wall clock"
+      ],
+      "searchQueries": [
+        "wall clock household",
+        "round wall clock household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:clocks",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Wall Clocks"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "decorative-basket",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0005",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Decorative Baskets"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "装饰篮"
+      ],
+      "displayName": "装饰篮",
+      "aliases": [
+        "decorative basket",
+        "woven decorative basket",
+        "装饰篮"
+      ],
+      "detectorLabels": [
+        "decorative basket",
+        "woven decorative basket"
+      ],
+      "searchQueries": [
+        "decorative basket household",
+        "woven decorative basket household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:decorative-baskets",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Decorative Baskets"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "artificial-flower",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0006",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Artificial Flowers"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "仿真花"
+      ],
+      "displayName": "仿真花",
+      "aliases": [
+        "artificial flower",
+        "fake flower",
+        "仿真花"
+      ],
+      "detectorLabels": [
+        "artificial flower",
+        "fake flower"
+      ],
+      "searchQueries": [
+        "artificial flower household",
+        "fake flower household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:artificial-flora",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Artificial Flowers"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    },
+    {
+      "id": "diffuser-bottle",
+      "source": "GS1 GPC",
+      "sourceVersion": "2026-household-authoring-slice",
+      "sourceId": "GPC-HH-DECOR-0007",
+      "lineage": {
+        "level1": "Home Decor",
+        "level2": "Decorative Accessories",
+        "level3": "Household Decorative Objects",
+        "level4": "Diffuser Bottles"
+      },
+      "displayPath": [
+        "家居装饰",
+        "装饰用品",
+        "家庭装饰物",
+        "香薰瓶"
+      ],
+      "displayName": "香薰瓶",
+      "aliases": [
+        "diffuser bottle",
+        "reed diffuser bottle",
+        "香薰瓶"
+      ],
+      "detectorLabels": [
+        "diffuser bottle",
+        "reed diffuser bottle"
+      ],
+      "searchQueries": [
+        "diffuser bottle household",
+        "reed diffuser bottle household"
+      ],
+      "appCategory": "daily",
+      "active": true,
+      "googleProductTaxonomy": {
+        "id": "google:home-fragrance",
+        "path": [
+          "Home & Garden",
+          "Decor",
+          "Diffuser Bottles"
+        ]
+      },
+      "coverageTier": "mvp",
+      "indexReadiness": {
+        "reviewedGallerySamples": 0,
+        "evaluationSamples": 0,
+        "requiredGallerySamples": 3,
+        "requiredEvaluationSamples": 2,
+        "indexReady": false
+      }
+    }
+  ],
+  "build": {
+    "sourcePath": "data/vision-taxonomy-source.household.json",
+    "maxCoverageTier": "mvp",
+    "excludedByCoverageTier": {
+      "common": 3,
+      "long-tail": 1
+    },
+    "excludedByCoverageTierCount": 4
+  }
+}

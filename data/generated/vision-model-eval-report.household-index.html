@@ -1,0 +1,2912 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vision Model Evaluation Report</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f2ec; color: #1f2528; }
+    header { padding: 28px 36px; background: #172126; color: white; }
+    h1 { margin: 0 0 12px; font-size: 28px; }
+    .summary { display: flex; gap: 12px; flex-wrap: wrap; }
+    .metric { background: rgba(255,255,255,.12); padding: 10px 14px; border-radius: 8px; min-width: 130px; }
+    .metric b { display: block; font-size: 20px; }
+    .note { margin-top: 14px; max-width: 980px; color: #d7e2e7; line-height: 1.45; font-size: 13px; }
+    main { padding: 24px 36px 48px; display: grid; gap: 18px; }
+    .provider-panel { background:#fff; border:1px solid #ded8cd; border-radius:10px; padding:16px; overflow:auto; }
+    .provider-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .provider-table th, .provider-table td { border-bottom:1px solid #ebe6dc; padding:7px 8px; text-align:left; white-space:nowrap; }
+    .provider-table th { color:#415055; }
+    .provider-cases { display: grid; gap: 14px; }
+    .provider-heading { position: sticky; top: 0; z-index: 2; background: #243137; color: #fff; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+    .provider-heading h2 { margin: 0 0 4px; font-size: 18px; }
+    .provider-heading div { color: #d7e2e7; font-size: 12px; line-height: 1.35; }
+    .case { display: grid; grid-template-columns: minmax(280px, 360px) minmax(220px, 320px) 1fr; gap: 18px; background: #fff; border: 1px solid #ded8cd; border-radius: 10px; padding: 16px; }
+    .image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: #ebe6dc; overflow: hidden; border-radius: 8px; }
+    .image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .box { position: absolute; border: 3px solid; box-sizing: border-box; font-size: 11px; font-weight: 700; padding: 2px 4px; }
+    .box.gt { border-color: #239a5b; color: #165c38; background: rgba(35,154,91,.12); }
+    .box.pred { border-color: #d88718; color: #7a4600; background: rgba(216,135,24,.12); transform: translate(2px, 2px); }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    .kv { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin: 8px 0; font-size: 14px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge { border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 700; }
+    .badge.ok { background: #e2f4e8; color: #17633b; }
+    .badge.fail { background: #ffe8df; color: #9a351f; }
+    .match-grid { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 10px; }
+    .match-card { border: 1px solid #ded8cd; border-radius: 8px; padding: 8px; background: #fbfaf7; }
+    .match-card.same { border-color: #70b88f; }
+    .match-card.diff { border-color: #e2a56f; }
+    .match-card img { width: 100%; aspect-ratio: 4/3; object-fit: contain; border-radius: 6px; background: #eee; display: block; }
+    .rank { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .match-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .match-id { font-size: 11px; color: #687174; }
+    .match-path { margin-top: 4px; font-size: 11px; color: #415055; line-height: 1.35; }
+    .empty { color: #7d8588; font-size: 13px; }
+    a { color: inherit; }
+    @media (max-width: 980px) { .case { grid-template-columns: 1fr; } .match-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>本地视觉模型评测报告</h1>
+    <div class="summary">
+      <div class="metric"><b>50</b>图片</div>
+      <div class="metric"><b>70%</b>框召回 @ IoU 0.5</div>
+      <div class="metric"><b>50%</b>类目准确</div>
+      <div class="metric"><b>50%</b>名称准确</div>
+      <div class="metric"><b>42%</b>框+名同时正确</div>
+    </div>
+    <div class="note">Model: provider-benchmark · Provider benchmark predictions. Real local providers require valid vendor assets and --run-local-models; baselines are explicitly labeled.</div>
+  </header>
+  <main>
+
+
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local OWL-ViT + CLIP naming</h2>
+        <div>real-local-model · Gate go · Models: Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</div>
+      </div>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/960;">
+          <img src="../../fixtures/vision-real/raw/storage-box-query.jpg" alt="storage-box-real-query-1" />
+          <span class="box gt" style="left:6.0%;top:8.0%;width:89.0%;height:84.0%;">GT</span>
+<span class="box pred" style="left:14.2188%;top:21.9792%;width:83.3594%;height:78.0208%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg" target="_blank" rel="noreferrer">Orange plastic storage container on top of a stack.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6796</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.771597 · margin 0.771597</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.731004</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.673852</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/947;">
+          <img src="../../fixtures/vision-real/raw/charging-cable-query.jpg" alt="charging-cable-real-query-1" />
+          <span class="box gt" style="left:5.0%;top:28.0%;width:91.0%;height:45.0%;">GT</span>
+<span class="box pred" style="left:0.0%;top:22.0697%;width:95.3125%;height:42.5554%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:USB_cable.jpg" target="_blank" rel="noreferrer">USB cable.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.6829</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.822508 · margin 0.063756</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.789077</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.758752</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/851;">
+          <img src="../../fixtures/vision-real/raw/charger-query.jpg" alt="charger-real-query-1" />
+          <span class="box gt" style="left:37.0%;top:30.0%;width:60.0%;height:36.0%;">GT</span>
+<span class="box pred" style="left:28.6719%;top:40.658%;width:71.0938%;height:46.0635%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg" target="_blank" rel="noreferrer">Apple USB Charger 1 2017-02-02.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.3885</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.821868 · margin 0.020293</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.808202</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.801575</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:856/3300;">
+          <img src="../../fixtures/vision-real/raw/remote-control-query.jpg" alt="remote-control-real-query-1" />
+          <span class="box gt" style="left:30.0%;top:0.5%;width:41.0%;height:98.0%;">GT</span>
+<span class="box pred" style="left:2.2196%;top:0.4242%;width:93.6916%;height:99.0606%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg" target="_blank" rel="noreferrer">Television remote control - black 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.4329</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.913452 · margin 0.913452</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.850893</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.808842</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/885;">
+          <img src="../../fixtures/vision-real/raw/medicine-box-query.jpg" alt="medicine-box-real-query-1" />
+          <span class="box gt" style="left:4.0%;top:5.0%;width:92.0%;height:86.0%;">GT</span>
+<span class="box pred" style="left:5.5469%;top:7.2316%;width:85.2344%;height:82.0339%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg" target="_blank" rel="noreferrer">2023 Kasetka z lekami.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.8837</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.74138 · margin 0.085787</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.655593</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.638881</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/857;">
+          <img src="../../fixtures/vision-real/raw/battery-query.jpg" alt="battery-real-query-1" />
+          <span class="box gt" style="left:13.0%;top:15.0%;width:73.0%;height:53.0%;">GT</span>
+<span class="box pred" style="left:12.8125%;top:10.9685%;width:68.9063%;height:70.5951%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-real-query-1</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.7153</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.633163 · margin 0.002804</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.630359</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.628393</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-2.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AA_batteries.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1280;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-02-file-storage-containers-in-svalbard-global-seed-vault-01-jpg.jpg" alt="storage-box-commons-eval-02" />
+          <span class="box gt" style="left:0.0%;top:0.0%;width:99.7917%;height:99.2188%;">GT</span>
+<span class="box pred" style="left:0.0%;top:0.0%;width:99.7917%;height:99.2188%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-02</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AStorage_containers_in_Svalbard_Global_Seed_Vault_01.jpg" target="_blank" rel="noreferrer">File:Storage containers in Svalbard Global Seed Vault 01.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.62594 · margin 0.001148</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.624792</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.620514</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1438;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-03-file-day-of-service-2015-21253681361-jpg.jpg" alt="storage-box-commons-eval-03" />
+          <span class="box gt" style="left:16.1458%;top:72.5313%;width:35.2083%;height:26.6342%;">GT</span>
+<span class="box pred" style="left:16.1458%;top:72.5313%;width:35.2083%;height:26.6342%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-03</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681361).jpg" target="_blank" rel="noreferrer">File:Day of Service 2015 (21253681361).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.738901 · margin 0.007707</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.731194</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.719041</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1438;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-04-file-day-of-service-2015-21245680865-jpg.jpg" alt="storage-box-commons-eval-04" />
+          <span class="box gt" style="left:24.6875%;top:58.0668%;width:50.3125%;height:29.4854%;">GT</span>
+<span class="box pred" style="left:0.5208%;top:38.943%;width:24.2708%;height:59.5271%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-04</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21245680865).jpg" target="_blank" rel="noreferrer">File:Day of Service 2015 (21245680865).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.001</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.701143 · margin 0.029949</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.671194</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.66942</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1438;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-05-file-day-of-service-2015-20624556473-jpg.jpg" alt="storage-box-commons-eval-05" />
+          <span class="box gt" style="left:42.9167%;top:45.9666%;width:23.125%;height:14.6732%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-05</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(20624556473).jpg" target="_blank" rel="noreferrer">File:Day of Service 2015 (20624556473).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1438;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-06-file-day-of-service-2015-21253681701-jpg.jpg" alt="storage-box-commons-eval-06" />
+          <span class="box gt" style="left:49.375%;top:40.2643%;width:24.1667%;height:9.8053%;">GT</span>
+<span class="box pred" style="left:49.375%;top:40.2643%;width:24.1667%;height:9.8053%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-06</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681701).jpg" target="_blank" rel="noreferrer">File:Day of Service 2015 (21253681701).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.771745 · margin 0.075473</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.749899</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.696272</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1280;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-07-file-plastic-multi-drawer-storage-cabinets-1-2018-01-30-jpg.jpg" alt="storage-box-commons-eval-07" />
+          <span class="box gt" style="left:21.3542%;top:16.0938%;width:55.625%;height:76.7969%;">GT</span>
+<span class="box pred" style="left:55.5208%;top:53.3594%;width:18.0208%;height:12.2656%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-07</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APlastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">File:Plastic multi-drawer storage cabinets 1 2018-01-30.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0517</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.547145 · margin 0.547145</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-3.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-3</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.546261</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.53298</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/734;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-08-file-blue-plastic-storage-organizer-boxes-for-screws-jpg.jpg" alt="storage-box-commons-eval-08" />
+          <span class="box gt" style="left:0.0%;top:1.6349%;width:99.7917%;height:93.3243%;">GT</span>
+<span class="box pred" style="left:0.0%;top:1.6349%;width:99.7917%;height:93.3243%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-08</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ABlue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">File:Blue plastic storage organizer boxes for screws.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.689937 · margin 0.027114</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.662823</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.641981</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/640;">
+          <img src="../../fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-09-file-gratnells-school-storage-jumbo-tray-in-purple-jpg.jpg" alt="storage-box-commons-eval-09" />
+          <span class="box gt" style="left:13.5417%;top:10.1563%;width:67.2917%;height:84.0625%;">GT</span>
+<span class="box pred" style="left:13.5417%;top:10.1563%;width:67.2917%;height:84.0625%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-commons-eval-09</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AGratnells_School_Storage_Jumbo_Tray_in_Purple.jpg" target="_blank" rel="noreferrer">File:Gratnells School Storage Jumbo Tray in Purple.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.895913 · margin 0.108908</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.787005</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.778736</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-02-file-huawei-ec226-with-usb-cable-3384718751-jpg.jpg" alt="charging-cable-commons-eval-02" />
+          <span class="box gt" style="left:0.8333%;top:11.8056%;width:79.4792%;height:79.1667%;">GT</span>
+<span class="box pred" style="left:0.8333%;top:11.8056%;width:79.4792%;height:79.1667%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-02</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AHuawei_EC226_with_USB_cable_(3384718751).jpg" target="_blank" rel="noreferrer">File:Huawei EC226 with USB cable (3384718751).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.737913 · margin 0.02505</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.719393</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.712863</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-03-file-lost-found-mini-usb-ladekabel-jpg.jpg" alt="charging-cable-commons-eval-03" />
+          <span class="box gt" style="left:13.125%;top:27.5%;width:68.9583%;height:45.4167%;">GT</span>
+<span class="box pred" style="left:13.125%;top:27.5%;width:68.9583%;height:45.4167%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-03</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ALost%26Found_Mini_USB_LAdekabel.jpg" target="_blank" rel="noreferrer">File:Lost&amp;Found Mini USB LAdekabel.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.772347 · margin 0.027601</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.744746</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-3.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.733605</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:502/314;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-04-file-usb-c-png.png" alt="charging-cable-commons-eval-04" />
+          <span class="box gt" style="left:69.9203%;top:64.0127%;width:27.8884%;height:32.4841%;">GT</span>
+<span class="box pred" style="left:69.9203%;top:64.0127%;width:27.8884%;height:32.4841%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-04</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB-C.png" target="_blank" rel="noreferrer">File:USB-C.png</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.785711 · margin 0.785711</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.78535</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.782604</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:720/940;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-05-file-usb-broadband-modems-jpg.jpg" alt="charging-cable-commons-eval-05" />
+          <span class="box gt" style="left:6.9444%;top:48.7234%;width:79.5833%;height:20.2128%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-05</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB_broadband_modems.jpg" target="_blank" rel="noreferrer">File:USB broadband modems.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/576;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-06-file-usb-a-and-usb-micro-b-connectors-in-the-power-bank-jpg.jpg" alt="charging-cable-commons-eval-06" />
+          <span class="box gt" style="left:25.4167%;top:8.6806%;width:43.6458%;height:23.6111%;">GT</span>
+<span class="box pred" style="left:25.4167%;top:8.6806%;width:43.6458%;height:23.6111%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-06</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB-A_and_USB_micro_B_connectors_in_the_power_bank.jpg" target="_blank" rel="noreferrer">File:USB-A and USB micro B connectors in the power bank.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.80904 · margin 0.005478</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.803562</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.780856</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/960;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-07-file-usb-a-b-cable-agr-jpg.jpg" alt="charging-cable-commons-eval-07" />
+          <span class="box gt" style="left:16.0417%;top:0.625%;width:83.3333%;height:93.3333%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-07</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB_A_%26_B_cable.agr.jpg" target="_blank" rel="noreferrer">File:USB A &amp; B cable.agr.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:775/542;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-08-file-10base-t1s-to-usb-media-converter-png.png" alt="charging-cable-commons-eval-08" />
+          <span class="box gt" style="left:44.7742%;top:12.9151%;width:31.6129%;height:8.8561%;">GT</span>
+<span class="box pred" style="left:30.5806%;top:1.476%;width:65.8065%;height:87.6384%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-08</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3A10BASE-T1S-To-USB_Media_Converter.png" target="_blank" rel="noreferrer">File:10BASE-T1S-To-USB Media Converter.png</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0485</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.619438 · margin 0.001848</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.61759</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.607879</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1319;">
+          <img src="../../fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-09-file-five-usb-cables-with-braided-jackets-in-different-colours-jpg.jpg" alt="charging-cable-commons-eval-09" />
+          <span class="box gt" style="left:1.9792%;top:39.2722%;width:75.5208%;height:53.0705%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-commons-eval-09</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AFive_USB_cables_with_braided_jackets_in_different_colours.jpg" target="_blank" rel="noreferrer">File:Five USB cables with braided jackets in different colours.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-02-file-ladeger-t-jpg.jpg" alt="charger-commons-eval-02" />
+          <span class="box gt" style="left:8.0208%;top:0.2778%;width:82.7083%;height:94.1667%;">GT</span>
+<span class="box pred" style="left:8.0208%;top:0.2778%;width:82.7083%;height:94.1667%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-02</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ALadeger%C3%A4t.jpg" target="_blank" rel="noreferrer">File:Ladegerät.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.766435 · margin 0.045698</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.720737</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.711702</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-03-file-usb-aa-battery-charger-1-jpg.jpg" alt="charger-commons-eval-03" />
+          <span class="box gt" style="left:56.9792%;top:26.25%;width:21.3542%;height:17.6389%;">GT</span>
+<span class="box pred" style="left:10.1042%;top:21.5278%;width:77.1875%;height:55.2778%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-03</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_1.jpg" target="_blank" rel="noreferrer">File:USB AA battery charger 1.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0883</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.707525 · margin 0.061514</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.65741</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.646011</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-04-file-usb-aa-battery-charger-3-jpg.jpg" alt="charger-commons-eval-04" />
+          <span class="box gt" style="left:17.7083%;top:25.5556%;width:66.875%;height:68.3333%;">GT</span>
+<span class="box pred" style="left:17.7083%;top:25.5556%;width:66.875%;height:68.3333%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-04</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_3.jpg" target="_blank" rel="noreferrer">File:USB AA battery charger 3.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.743536 · margin 0.018506</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.72503</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.719379</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-05-file-usb-aa-battery-charger-2-jpg.jpg" alt="charger-commons-eval-05" />
+          <span class="box gt" style="left:15.7292%;top:12.0833%;width:72.8125%;height:73.8889%;">GT</span>
+<span class="box pred" style="left:15.7292%;top:12.0833%;width:72.8125%;height:73.8889%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-05</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_2.jpg" target="_blank" rel="noreferrer">File:USB AA battery charger 2.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.787868 · margin 0.005995</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.783019</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.781873</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/713;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-06-file-nikon-mh-18a-battery-charger-jpg.jpg" alt="charger-commons-eval-06" />
+          <span class="box gt" style="left:16.875%;top:11.2202%;width:67.6042%;height:80.3647%;">GT</span>
+<span class="box pred" style="left:16.875%;top:11.2202%;width:67.6042%;height:80.3647%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-06</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ANikon_MH-18a_battery_charger.jpg" target="_blank" rel="noreferrer">File:Nikon MH-18a battery charger.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.827107 · margin 0.072534</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.804052</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.754573</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:774/1032;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-07-file-universal-battery-charger-charging-jpg.jpg" alt="charger-commons-eval-07" />
+          <span class="box gt" style="left:9.8191%;top:5.2326%;width:86.8217%;height:93.9922%;">GT</span>
+<span class="box pred" style="left:9.8191%;top:5.2326%;width:86.8217%;height:93.9922%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-07</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AUniversal_battery_charger_charging.jpg" target="_blank" rel="noreferrer">File:Universal battery charger charging.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.717027 · margin 0.070989</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.664983</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.646038</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/590;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-08-file-buck-converter-stepdown-3a-usb-charger-and-supply-img-20170202-2107-jpg.jpg" alt="charger-commons-eval-08" />
+          <span class="box gt" style="left:1.0417%;top:9.661%;width:91.9792%;height:81.1864%;">GT</span>
+<span class="box pred" style="left:59.2708%;top:61.1864%;width:21.875%;height:26.4407%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-08</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ABuck_converter_stepdown_3A_USB_Charger_and_Supply_IMG_20170202_2107.jpg" target="_blank" rel="noreferrer">File:Buck converter stepdown 3A USB Charger and Supply IMG 20170202 2107.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0775</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.744532 · margin 0.05716</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.687372</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.677721</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/charger/charger-commons-eval-09-file-canon-battery-charger-cb2lte-1290-jpg.jpg" alt="charger-commons-eval-09" />
+          <span class="box gt" style="left:4.7917%;top:14.7222%;width:93.9583%;height:74.8611%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-commons-eval-09</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ACanon_battery_charger_CB2LTE-1290.jpg" target="_blank" rel="noreferrer">File:Canon battery charger CB2LTE-1290.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:768/512;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-02-file-remote-control-infrared-jpg.jpg" alt="remote-control-commons-eval-02" />
+          <span class="box gt" style="left:0.2604%;top:0.0%;width:98.1771%;height:99.4141%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-02</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ARemote-Control-Infrared.jpg" target="_blank" rel="noreferrer">File:Remote-Control-Infrared.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/710;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-03-file-remote-infrared-jpg.jpg" alt="remote-control-commons-eval-03" />
+          <span class="box gt" style="left:9.1667%;top:41.2676%;width:70.4167%;height:38.7324%;">GT</span>
+<span class="box pred" style="left:9.1667%;top:41.2676%;width:70.4167%;height:38.7324%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-03</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ARemote_infrared.jpg" target="_blank" rel="noreferrer">File:Remote infrared.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.885389 · margin 0.117757</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.821258</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.767632</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/640;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-04-file-avermedia-rm-rh-remote-control-white-background-edit-jpg.jpg" alt="remote-control-commons-eval-04" />
+          <span class="box gt" style="left:20.7292%;top:19.375%;width:63.0208%;height:64.2188%;">GT</span>
+<span class="box pred" style="left:20.7292%;top:19.375%;width:63.0208%;height:64.2188%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-04</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AAverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">File:AverMedia RM-RH Remote control (white background) edit.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.97986 · margin 0.200812</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.794218</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.779048</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-1.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/328;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-05-file-remote-controls-jpg.jpg" alt="remote-control-commons-eval-05" />
+          <span class="box gt" style="left:85.8333%;top:4.878%;width:13.8542%;height:86.8902%;">GT</span>
+<span class="box pred" style="left:85.8333%;top:4.878%;width:13.8542%;height:86.8902%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-05</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ARemote_controls.JPG" target="_blank" rel="noreferrer">File:Remote controls.JPG</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.851 · margin 0.851</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.819793</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.757097</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:148/369;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-06-file-remote-control-control-remoto-jpg.jpg" alt="remote-control-commons-eval-06" />
+          <span class="box gt" style="left:4.0541%;top:5.6911%;width:83.1081%;height:89.4309%;">GT</span>
+<span class="box pred" style="left:4.0541%;top:5.6911%;width:83.1081%;height:89.4309%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-06</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ARemote_control_-_control_remoto.jpg" target="_blank" rel="noreferrer">File:Remote control - control remoto.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.856367 · margin 0.856367</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.799163</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.777193</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/932;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-07-file-nuon-n2000-remote-control-jpg.jpg" alt="remote-control-commons-eval-07" />
+          <span class="box gt" style="left:5.1042%;top:2.6824%;width:93.75%;height:94.0987%;">GT</span>
+<span class="box pred" style="left:5.1042%;top:2.6824%;width:93.75%;height:94.0987%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-07</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ANuon-N2000-Remote-Control.jpg" target="_blank" rel="noreferrer">File:Nuon-N2000-Remote-Control.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.853774 · margin 0.853774</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.849372</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.737508</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/960;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-08-file-television-remote-control-unbranded-4028-jpg.jpg" alt="remote-control-commons-eval-08" />
+          <span class="box gt" style="left:4.7917%;top:6.0417%;width:88.9583%;height:92.2917%;">GT</span>
+<span class="box pred" style="left:4.7917%;top:6.0417%;width:88.9583%;height:92.2917%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-08</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ATelevision_remote_control_-_unbranded-4028.jpg" target="_blank" rel="noreferrer">File:Television remote control - unbranded-4028.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.815752 · margin 0.044374</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.792488</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.771378</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1707;">
+          <img src="../../fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-09-file-lg-ir-dvd-remote-control-6711r1p089k-jpg.jpg" alt="remote-control-commons-eval-09" />
+          <span class="box gt" style="left:26.0417%;top:3.6907%;width:45.8333%;height:82.5425%;">GT</span>
+<span class="box pred" style="left:26.0417%;top:3.6907%;width:45.8333%;height:82.5425%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-commons-eval-09</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3ALG_IR_DVD_Remote_Control_6711R1P089K.jpg" target="_blank" rel="noreferrer">File:LG IR DVD Remote Control 6711R1P089K.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.861404 · margin 0.861404</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-3.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-3</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.852255</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-1.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-1</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.7954</div>
+          <img src="../../fixtures/vision-real/raw/remote-control-gallery-2.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-real-gallery-2</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/720;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-02-file-pill-box-with-pills-jpg.jpg" alt="medicine-box-commons-eval-02" />
+          <span class="box gt" style="left:6.25%;top:38.0556%;width:83.5417%;height:32.0833%;">GT</span>
+<span class="box pred" style="left:6.25%;top:38.0556%;width:83.5417%;height:32.0833%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-02</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_box_with_pills.JPG" target="_blank" rel="noreferrer">File:Pill box with pills.JPG</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.938397 · margin 0.284118</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.654279</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.654158</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-3.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-3</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_Dispenser_(daily).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:620/390;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-03-file-pill-dispenser-daily-jpg.jpg" alt="medicine-box-commons-eval-03" />
+          <span class="box gt" style="left:2.2581%;top:47.9487%;width:97.7419%;height:47.9487%;">GT</span>
+<span class="box pred" style="left:2.2581%;top:47.9487%;width:97.7419%;height:47.9487%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-03</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Dispenser_(daily).jpg" target="_blank" rel="noreferrer">File:Pill Dispenser (daily).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 1 · margin 0.470216</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-3.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-3</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_Dispenser_(daily).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.657181</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-1.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-1</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.529784</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/646;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-04-file-pill-box-for-spanish-or-french-speakers-32518630336-jpg.jpg" alt="medicine-box-commons-eval-04" />
+          <span class="box gt" style="left:1.3542%;top:19.0402%;width:98.6458%;height:71.8266%;">GT</span>
+<span class="box pred" style="left:0.9375%;top:18.7307%;width:99.0625%;height:71.6718%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-04</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Box_for_Spanish_or_French_Speakers_(32518630336).jpg" target="_blank" rel="noreferrer">File:Pill Box for Spanish or French Speakers (32518630336).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 0.9851</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.749513 · margin 0.132848</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-2.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-2</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_Box_(32636946385).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.616665</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.613488</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-2.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-2</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/684;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-05-file-pill-box-32636946385-jpg.jpg" alt="medicine-box-commons-eval-05" />
+          <span class="box gt" style="left:8.3333%;top:20.9064%;width:89.7917%;height:63.5965%;">GT</span>
+<span class="box pred" style="left:8.3333%;top:20.9064%;width:89.7917%;height:63.5965%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-05</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Box_(32636946385).jpg" target="_blank" rel="noreferrer">File:Pill Box (32636946385).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.918602 · margin 0.24412</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-2.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-2</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_Box_(32636946385).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.674482</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.645844</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/585;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-06-file-pill-box-24888074919-jpg.jpg" alt="medicine-box-commons-eval-06" />
+          <span class="box gt" style="left:0.3125%;top:3.0769%;width:99.6875%;height:95.7265%;">GT</span>
+<span class="box pred" style="left:0.3125%;top:3.0769%;width:99.6875%;height:95.7265%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-06</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Box_(24888074919).jpg" target="_blank" rel="noreferrer">File:Pill Box (24888074919).jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.751676 · margin 0.024746</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.72693</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.722898</div>
+          <img src="../../fixtures/vision-real/raw/medicine-box-gallery-2.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-real-gallery-2</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Pill_Box_(32636946385).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/640;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-07-file-pill-box-warkworth-2022-03-27-3-jpg.jpg" alt="medicine-box-commons-eval-07" />
+          <span class="box gt" style="left:13.75%;top:0.0%;width:69.5833%;height:99.6875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-07</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_3.jpg" target="_blank" rel="noreferrer">File:Pill Box, Warkworth (2022-03-27) 3.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1440;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-08-file-pill-box-warkworth-2022-03-27-2-jpg.jpg" alt="medicine-box-commons-eval-08" />
+          <span class="box gt" style="left:20.0%;top:37.4306%;width:16.9792%;height:6.1111%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-08</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_2.jpg" target="_blank" rel="noreferrer">File:Pill Box, Warkworth (2022-03-27) 2.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/1440;">
+          <img src="../../fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-09-file-pill-box-warkworth-2022-03-27-5-jpg.jpg" alt="medicine-box-commons-eval-09" />
+          <span class="box gt" style="left:0.0%;top:81.8056%;width:23.5417%;height:18.1944%;">GT</span>
+<span class="box pred" style="left:0.0%;top:81.8056%;width:23.5417%;height:18.1944%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-commons-eval-09</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_5.jpg" target="_blank" rel="noreferrer">File:Pill Box, Warkworth (2022-03-27) 5.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.726803 · margin 0.018032</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.708771</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.699568</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/481;">
+          <img src="../../fixtures/vision-household/smoke-50/battery/battery-commons-eval-02-file-alkali-battery-5-jpg.jpg" alt="battery-commons-eval-02" />
+          <span class="box gt" style="left:73.0208%;top:12.8898%;width:24.0625%;height:75.052%;">GT</span>
+<span class="box pred" style="left:73.0208%;top:12.8898%;width:24.0625%;height:75.052%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-commons-eval-02</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AAlkali_battery_5.jpg" target="_blank" rel="noreferrer">File:Alkali battery 5.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.711688 · margin 0.049197</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.67358</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.662491</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/902;">
+          <img src="../../fixtures/vision-household/smoke-50/battery/battery-commons-eval-03-file-aa-battery-adapter-jpg.jpg" alt="battery-commons-eval-03" />
+          <span class="box gt" style="left:6.5625%;top:4.6563%;width:81.875%;height:85.255%;">GT</span>
+<span class="box pred" style="left:6.5625%;top:4.6563%;width:81.875%;height:85.255%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-commons-eval-03</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3AAA_battery_adapter.jpg" target="_blank" rel="noreferrer">File:AA battery adapter.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.714364 · margin 0.006373</div>
+          <img src="../../fixtures/vision-real/raw/storage-box-gallery-1.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-real-gallery-1</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.707991</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-2.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.691056</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/642;">
+          <img src="../../fixtures/vision-household/smoke-50/battery/battery-commons-eval-04-file-02-single-energizer-battery-jpg.jpg" alt="battery-commons-eval-04" />
+          <span class="box gt" style="left:13.75%;top:12.7726%;width:68.4375%;height:70.8723%;">GT</span>
+<span class="box pred" style="left:13.75%;top:12.7726%;width:68.4375%;height:70.8723%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-commons-eval-04</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3A02_-_Single_Energizer_Battery.jpg" target="_blank" rel="noreferrer">File:02 - Single Energizer Battery.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.657895 · margin 0.002566</div>
+          <img src="../../fixtures/vision-real/raw/charger-gallery-3.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.655329</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-2.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-2</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.652526</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:960/422;">
+          <img src="../../fixtures/vision-household/smoke-50/battery/battery-commons-eval-05-file-6-most-common-battery-types-1-jpg.jpg" alt="battery-commons-eval-05" />
+          <span class="box gt" style="left:62.0833%;top:34.5972%;width:6.7708%;height:64.6919%;">GT</span>
+<span class="box pred" style="left:62.0833%;top:34.5972%;width:6.7708%;height:64.6919%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-commons-eval-05</h2>
+        <div class="kv"><b>Provider</b><span>Local OWL-ViT + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/owlvit-base-patch32, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://commons.wikimedia.org/wiki/File%3A6_most_common_battery_types-1.jpg" target="_blank" rel="noreferrer">File:6 most common battery types-1.jpg</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.64161 · margin 0.066501</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-3.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-3</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.607008</div>
+          <img src="../../fixtures/vision-real/raw/battery-gallery-1.jpg" alt="电池" />
+          <div class="match-name">电池</div>
+          <div class="match-id">battery</div>
+          <div class="match-id">sample battery-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 电池</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.575109</div>
+          <img src="../../fixtures/vision-real/raw/charging-cable-gallery-1.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-real-gallery-1</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260523-household-owlvit-clip-smoke-50 <a href="https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+    </section>
+
+  </main>
+</body>
+</html>

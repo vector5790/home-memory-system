@@ -1,0 +1,1708 @@
+{
+  "kind": "vision-model-eval-dataset",
+  "version": "20260523-household-cn-index-eval",
+  "description": "Household smoke eval dataset generated from the real-photo manifest.",
+  "sourceProvider": "Wikimedia Commons",
+  "images": [
+    {
+      "id": "storage-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/storage-box/storage-box-cn-eval-004-image.jpg",
+      "sourceTitle": "桌面透明抽屉式收纳盒手账文具置物架书桌上亚克力笔筒整理小盒子_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_Jp8PXgXfRtkoBwxSXOxivta-2RmPPyFMW0eRVwRs2.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-cn-eval-004",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 41.75,
+            "y": 22.625,
+            "w": 50.25,
+            "h": 71.375
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "桌面透明抽屉式收纳盒手账文具置物架书桌上亚克力笔筒整理小盒子_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_Jp8PXgXfRtkoBwxSXOxivta-2RmPPyFMW0eRVwRs2.html"
+        }
+      ]
+    },
+    {
+      "id": "storage-basket-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/storage-basket/storage-basket-cn-eval-004-hm-home-2025.jpg",
+      "sourceTitle": "HM HOME 2025夏季新款草编收纳篮，轻松打造家居新风尚🌿-其他收纳篮-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/qitashounalan_6962/088d744c1c528cf78bfef090bff820e1.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-storage-basket-cn-eval-004",
+          "name": "收纳篮",
+          "categoryId": "storage-basket",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳篮"
+          ],
+          "box": {
+            "x": 29.0625,
+            "y": 53.5156,
+            "w": 38.9063,
+            "h": 26.875
+          },
+          "aliases": [
+            "storage basket",
+            "woven storage basket",
+            "收纳篮"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "HM HOME 2025夏季新款草编收纳篮，轻松打造家居新风尚🌿-其他收纳篮-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/qitashounalan_6962/088d744c1c528cf78bfef090bff820e1.html"
+        }
+      ]
+    },
+    {
+      "id": "drawer-organizer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-eval-004-image.jpg",
+      "sourceTitle": "♔可伸缩收纳盒分隔抽屉式长方形内置厨房餐具桌面化妆品分格整理-阿里巴巴",
+      "sourceUrl": "https://detail.1688.com/offer/890287295798.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-drawer-organizer-cn-eval-004",
+          "name": "抽屉分隔盒",
+          "categoryId": "drawer-organizer",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "抽屉分隔盒"
+          ],
+          "box": {
+            "x": 0.3797,
+            "y": 10.8677,
+            "w": 99.6203,
+            "h": 82.3083
+          },
+          "aliases": [
+            "drawer organizer",
+            "drawer divider tray",
+            "抽屉分隔盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "♔可伸缩收纳盒分隔抽屉式长方形内置厨房餐具桌面化妆品分格整理-阿里巴巴",
+          "sourceUrl": "https://detail.1688.com/offer/890287295798.html"
+        }
+      ]
+    },
+    {
+      "id": "vacuum-storage-bag-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-eval-004-image.jpg",
+      "sourceTitle": "免抽气真空压缩袋棉被被子家用衣服衣物行李箱整理加厚大号收纳袋_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_630480458209.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-vacuum-storage-bag-cn-eval-004",
+          "name": "真空压缩袋",
+          "categoryId": "vacuum-storage-bag",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "真空压缩袋"
+          ],
+          "box": {
+            "x": 14.5,
+            "y": 44.25,
+            "w": 69,
+            "h": 51.125
+          },
+          "aliases": [
+            "vacuum storage bag",
+            "space saver bag",
+            "真空压缩袋"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "免抽气真空压缩袋棉被被子家用衣服衣物行李箱整理加厚大号收纳袋_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_630480458209.html"
+        }
+      ]
+    },
+    {
+      "id": "closet-organizer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-eval-004-image.jpg",
+      "sourceTitle": "千鸟格衣服收纳盒裤子收纳家用衣柜收纳神器分格抽屉式袜子收纳盒_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_pr62jQ8Cxt7b2aNheeKSptm-mOZQQNu7a79dVnvT0.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-closet-organizer-cn-eval-004",
+          "name": "衣柜收纳格",
+          "categoryId": "closet-organizer",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "衣柜收纳格"
+          ],
+          "box": {
+            "x": 2.6496,
+            "y": 9.6886,
+            "w": 95.2991,
+            "h": 82.9585
+          },
+          "aliases": [
+            "closet organizer",
+            "hanging closet organizer",
+            "衣柜收纳格"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "千鸟格衣服收纳盒裤子收纳家用衣柜收纳神器分格抽屉式袜子收纳盒_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_pr62jQ8Cxt7b2aNheeKSptm-mOZQQNu7a79dVnvT0.html"
+        }
+      ]
+    },
+    {
+      "id": "cable-organizer-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-eval-004-image.jpg",
+      "sourceTitle": "数据线收纳盒带盖充电器电线理线盒：告别杂乱，桌面清爽大法! -插线板收纳盒-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/chaxianbanshounahe_10156/5486c95c9c78c7f07b9921b83370147e.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-cable-organizer-box-cn-eval-004",
+          "name": "线缆收纳盒",
+          "categoryId": "cable-organizer-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "线缆收纳盒"
+          ],
+          "box": {
+            "x": 25.375,
+            "y": 1.875,
+            "w": 71.375,
+            "h": 54.375
+          },
+          "aliases": [
+            "cable organizer box",
+            "cord storage box",
+            "线缆收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "数据线收纳盒带盖充电器电线理线盒：告别杂乱，桌面清爽大法! -插线板收纳盒-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/chaxianbanshounahe_10156/5486c95c9c78c7f07b9921b83370147e.html"
+        }
+      ]
+    },
+    {
+      "id": "shoe-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/shoe-box/shoe-box-cn-eval-004-aj.jpg",
+      "sourceTitle": "透明全亚克力鞋盒：AJ球鞋收纳展示神器，让你的鞋柜变身艺术品!-鞋盒-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/xiehe_15507/266e7a508212b03c27893163e5a37546.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-shoe-box-cn-eval-004",
+          "name": "鞋盒",
+          "categoryId": "shoe-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "鞋盒"
+          ],
+          "box": {
+            "x": 20.9333,
+            "y": 5.4,
+            "w": 78.2667,
+            "h": 20.5
+          },
+          "aliases": [
+            "shoe storage box",
+            "clear shoe box",
+            "鞋盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "透明全亚克力鞋盒：AJ球鞋收纳展示神器，让你的鞋柜变身艺术品!-鞋盒-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/xiehe_15507/266e7a508212b03c27893163e5a37546.html"
+        }
+      ]
+    },
+    {
+      "id": "bowl-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/bowl/bowl-cn-eval-004-image.jpg",
+      "sourceTitle": "陶瓷碗套装创意红瓷喜庆龙凤骨瓷米饭碗带勺结婚碗筷餐具礼品套装_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_567664716671.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-bowl-cn-eval-004",
+          "name": "碗",
+          "categoryId": "bowl",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "碗"
+          ],
+          "box": {
+            "x": 30.875,
+            "y": 31.375,
+            "w": 30.75,
+            "h": 21.875
+          },
+          "aliases": [
+            "bowl",
+            "ceramic bowl",
+            "碗"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "陶瓷碗套装创意红瓷喜庆龙凤骨瓷米饭碗带勺结婚碗筷餐具礼品套装_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_567664716671.html"
+        }
+      ]
+    },
+    {
+      "id": "plate-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/plate/plate-cn-eval-004-6.jpg",
+      "sourceTitle": "家用菜盘盘子套装6个菜盘方盘组合创意餐具蒸鱼盘陶瓷饭盘汤碟子_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_ZQg7dm3c6tQYJxWfBBZIVt6-rkOPPMuM7OqA0oGhJ.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-plate-cn-eval-004",
+          "name": "盘子",
+          "categoryId": "plate",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "盘子"
+          ],
+          "box": {
+            "x": 7.125,
+            "y": 27.75,
+            "w": 40.5,
+            "h": 17.875
+          },
+          "aliases": [
+            "plate",
+            "dinner plate",
+            "盘子"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "家用菜盘盘子套装6个菜盘方盘组合创意餐具蒸鱼盘陶瓷饭盘汤碟子_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_ZQg7dm3c6tQYJxWfBBZIVt6-rkOPPMuM7OqA0oGhJ.html"
+        }
+      ]
+    },
+    {
+      "id": "mug-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/mug/mug-cn-eval-004-diy-diy.jpg",
+      "sourceTitle": "陶瓷马克杯定制杯子diy活动礼品订做马克杯diy可印照片纪念定制图_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_X4PwzGDfGt9z7oyuVVruBtg-ZWRNNbuGzBJgQOKuOM.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-mug-cn-eval-004",
+          "name": "马克杯",
+          "categoryId": "mug",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "马克杯"
+          ],
+          "box": {
+            "x": 27.125,
+            "y": 21.75,
+            "w": 61.875,
+            "h": 60.75
+          },
+          "aliases": [
+            "mug",
+            "coffee mug",
+            "马克杯"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "陶瓷马克杯定制杯子diy活动礼品订做马克杯diy可印照片纪念定制图_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_X4PwzGDfGt9z7oyuVVruBtg-ZWRNNbuGzBJgQOKuOM.html"
+        }
+      ]
+    },
+    {
+      "id": "drinking-glass-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-eval-004-image.jpg",
+      "sourceTitle": "富光双层玻璃杯子，男士女士通用的高档泡茶杯-玻璃杯-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/bolibei_2224/50d66459543557316351e9df0b456223.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-drinking-glass-cn-eval-004",
+          "name": "玻璃杯",
+          "categoryId": "drinking-glass",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "玻璃杯"
+          ],
+          "box": {
+            "x": 26,
+            "y": 10.375,
+            "w": 72.625,
+            "h": 86.25
+          },
+          "aliases": [
+            "drinking glass",
+            "water glass",
+            "玻璃杯"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "富光双层玻璃杯子，男士女士通用的高档泡茶杯-玻璃杯-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/bolibei_2224/50d66459543557316351e9df0b456223.html"
+        }
+      ]
+    },
+    {
+      "id": "saucepan-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-eval-004-image.jpg",
+      "sourceTitle": "👶厨神必备!炊大皇奶锅，让宝宝辅食烹饪变得如此简单💖-奶锅-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/naiguo_1587/a5845341e0adb95eccdbd9abeaa57507.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-saucepan-cn-eval-004",
+          "name": "奶锅",
+          "categoryId": "saucepan",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "奶锅"
+          ],
+          "box": {
+            "x": 19.75,
+            "y": 30.625,
+            "w": 79.25,
+            "h": 65.5
+          },
+          "aliases": [
+            "saucepan",
+            "small cooking pot",
+            "奶锅"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "👶厨神必备!炊大皇奶锅，让宝宝辅食烹饪变得如此简单💖-奶锅-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/naiguo_1587/a5845341e0adb95eccdbd9abeaa57507.html"
+        }
+      ]
+    },
+    {
+      "id": "frying-pan-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/frying-pan/frying-pan-cn-eval-004-image.jpg",
+      "sourceTitle": "老式铸铁煎锅：复古魅力，烹饪新体验🔥-煎锅-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/jianguo_13506/1a1a1edec8bf7d912d756bfea09bf376.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-frying-pan-cn-eval-004",
+          "name": "煎锅",
+          "categoryId": "frying-pan",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "煎锅"
+          ],
+          "box": {
+            "x": 46.8,
+            "y": 26.5,
+            "w": 48.6,
+            "h": 42.2
+          },
+          "aliases": [
+            "frying pan",
+            "skillet pan",
+            "煎锅"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "老式铸铁煎锅：复古魅力，烹饪新体验🔥-煎锅-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/jianguo_13506/1a1a1edec8bf7d912d756bfea09bf376.html"
+        }
+      ]
+    },
+    {
+      "id": "cutting-board-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/cutting-board/cutting-board-cn-eval-004-image.jpg",
+      "sourceTitle": "抗菌防霉塑料菜板，厨房必备神器! -砧板-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/zhenban_4264/27701a9e6eaa2f720001aa8a752a1e29.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-cutting-board-cn-eval-004",
+          "name": "菜板",
+          "categoryId": "cutting-board",
+          "categoryPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具",
+            "菜板"
+          ],
+          "box": {
+            "x": 0.75,
+            "y": 28.125,
+            "w": 98.375,
+            "h": 53.25
+          },
+          "aliases": [
+            "cutting board",
+            "chopping board",
+            "菜板"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "抗菌防霉塑料菜板，厨房必备神器! -砧板-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/zhenban_4264/27701a9e6eaa2f720001aa8a752a1e29.html"
+        }
+      ]
+    },
+    {
+      "id": "rice-bag-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/rice-bag/rice-bag-cn-eval-004-2-5kg10.jpg",
+      "sourceTitle": "五常稻花香米袋小米大米包装袋子牛皮纸定制手提2.5kg10斤装防水_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_557623835514.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-rice-bag-cn-eval-004",
+          "name": "米袋",
+          "categoryId": "rice-bag",
+          "categoryPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食",
+            "米袋"
+          ],
+          "box": {
+            "x": 0.25,
+            "y": 1.75,
+            "w": 34.375,
+            "h": 55.625
+          },
+          "aliases": [
+            "rice bag",
+            "bag of rice",
+            "米袋"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "五常稻花香米袋小米大米包装袋子牛皮纸定制手提2.5kg10斤装防水_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_557623835514.html"
+        }
+      ]
+    },
+    {
+      "id": "noodle-pack-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/noodle-pack/noodle-pack-cn-eval-004-8.jpg",
+      "sourceTitle": "福州礼盒线面8包装盈乐长寿面福建特产手工面线糊细挂面生日面条_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_634161618276.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-noodle-pack-cn-eval-004",
+          "name": "面条包装",
+          "categoryId": "noodle-pack",
+          "categoryPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食",
+            "面条包装"
+          ],
+          "box": {
+            "x": 12.75,
+            "y": 7.5,
+            "w": 72.75,
+            "h": 54.375
+          },
+          "aliases": [
+            "noodle pack",
+            "instant noodle package",
+            "面条包装"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "福州礼盒线面8包装盈乐长寿面福建特产手工面线糊细挂面生日面条_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_634161618276.html"
+        }
+      ]
+    },
+    {
+      "id": "canned-food-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/canned-food/canned-food-cn-eval-004-312gx6.jpg",
+      "sourceTitle": "水果罐头混合装312gx6罐新鲜整箱糖水果橘子黄桃菠萝椰果什锦罐头_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_624066826188.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-canned-food-cn-eval-004",
+          "name": "罐头",
+          "categoryId": "canned-food",
+          "categoryPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食",
+            "罐头"
+          ],
+          "box": {
+            "x": 69.875,
+            "y": 7.875,
+            "w": 28.5,
+            "h": 41.75
+          },
+          "aliases": [
+            "canned food",
+            "food can",
+            "罐头"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "水果罐头混合装312gx6罐新鲜整箱糖水果橘子黄桃菠萝椰果什锦罐头_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_624066826188.html"
+        }
+      ]
+    },
+    {
+      "id": "snack-bag-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/snack-bag/snack-bag-cn-eval-004-100.jpg",
+      "sourceTitle": "休闲食品自封袋坚果自立袋糖果零食袋子批发 100个零食物语包装袋_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_624794102528.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-snack-bag-cn-eval-004",
+          "name": "零食袋",
+          "categoryId": "snack-bag",
+          "categoryPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食",
+            "零食袋"
+          ],
+          "box": {
+            "x": 45.5,
+            "y": 21.375,
+            "w": 46.125,
+            "h": 66.875
+          },
+          "aliases": [
+            "snack bag",
+            "chips bag",
+            "零食袋"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "休闲食品自封袋坚果自立袋糖果零食袋子批发 100个零食物语包装袋_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_624794102528.html"
+        }
+      ]
+    },
+    {
+      "id": "beverage-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-eval-004-33-2500ml-2-5-pet-5.jpg",
+      "sourceTitle": "33号2500ml/2.5升一次性透明塑料瓶空瓶果汁瓶pet饮料瓶子5斤带盖_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_MqVZarDtKtJ9xmWuVVmUQtA-PNzeejCnBOOW0pMhY.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-beverage-bottle-cn-eval-004",
+          "name": "饮料瓶",
+          "categoryId": "beverage-bottle",
+          "categoryPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食",
+            "饮料瓶"
+          ],
+          "box": {
+            "x": 31.125,
+            "y": 7.25,
+            "w": 33.25,
+            "h": 82
+          },
+          "aliases": [
+            "beverage bottle",
+            "soft drink bottle",
+            "饮料瓶"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "33号2500ml/2.5升一次性透明塑料瓶空瓶果汁瓶pet饮料瓶子5斤带盖_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_MqVZarDtKtJ9xmWuVVmUQtA-PNzeejCnBOOW0pMhY.html"
+        }
+      ]
+    },
+    {
+      "id": "spice-jar-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/spice-jar/spice-jar-cn-eval-004-image.jpg",
+      "sourceTitle": "定量控盐瓶调料罐密封罐防潮控盐调料瓶家用厨房调味料瓶组合套装_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_jGjKVjmyc0tJAPg2mDYtBKeUJte-wzQnnOsQO4naORwsN.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-spice-jar-cn-eval-004",
+          "name": "调料瓶",
+          "categoryId": "spice-jar",
+          "categoryPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食",
+            "调料瓶"
+          ],
+          "box": {
+            "x": 35.7333,
+            "y": 27.4,
+            "w": 31,
+            "h": 62.0667
+          },
+          "aliases": [
+            "spice jar",
+            "seasoning jar",
+            "调料瓶"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "定量控盐瓶调料罐密封罐防潮控盐调料瓶家用厨房调味料瓶组合套装_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_jGjKVjmyc0tJAPg2mDYtBKeUJte-wzQnnOsQO4naORwsN.html"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/medicine-box/medicine-box-cn-eval-004-image.jpg",
+      "sourceTitle": "日本药盒便携一周分装盒，吃药再也不手忙脚乱!💊-药盒-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/yaohe_5655/7715f52b55552fd1ce4c7716c65f1a9d.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-cn-eval-004",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 7.25,
+            "y": 34.25,
+            "w": 58.25,
+            "h": 42.875
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "日本药盒便携一周分装盒，吃药再也不手忙脚乱!💊-药盒-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/yaohe_5655/7715f52b55552fd1ce4c7716c65f1a9d.html"
+        }
+      ]
+    },
+    {
+      "id": "pill-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/pill-bottle/pill-bottle-cn-eval-004-image.jpg",
+      "sourceTitle": "便携塑料小药瓶白色避光小空瓶固体胶囊分装瓶药用片剂包装瓶带盖_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_601296008600.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-pill-bottle-cn-eval-004",
+          "name": "药瓶",
+          "categoryId": "pill-bottle",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药瓶"
+          ],
+          "box": {
+            "x": 21.625,
+            "y": 34.5,
+            "w": 18.75,
+            "h": 58.25
+          },
+          "aliases": [
+            "pill bottle",
+            "medicine bottle",
+            "药瓶"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "便携塑料小药瓶白色避光小空瓶固体胶囊分装瓶药用片剂包装瓶带盖_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_601296008600.html"
+        }
+      ]
+    },
+    {
+      "id": "thermometer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/thermometer/thermometer-cn-eval-004-image.jpg",
+      "sourceTitle": "电子体温计欧德宝：精准测量，守护家人的健康温度!-体温计-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/tiwenji_6546/6b020ce5a7bd6812a8998595ed429e9c.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-thermometer-cn-eval-004",
+          "name": "体温计",
+          "categoryId": "thermometer",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "体温计"
+          ],
+          "box": {
+            "x": 62.75,
+            "y": 9.875,
+            "w": 19.25,
+            "h": 77.875
+          },
+          "aliases": [
+            "thermometer",
+            "digital thermometer",
+            "体温计"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "电子体温计欧德宝：精准测量，守护家人的健康温度!-体温计-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/tiwenji_6546/6b020ce5a7bd6812a8998595ed429e9c.html"
+        }
+      ]
+    },
+    {
+      "id": "bandage-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/bandage-box/bandage-box-cn-eval-004-5.jpg",
+      "sourceTitle": "医疗促销礼品 可贴牌便携塑料创可贴盒含5片止血贴 创口贴邦迪盒-阿里巴巴",
+      "sourceUrl": "https://detail.1688.com/offer/41419373508.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-bandage-box-cn-eval-004",
+          "name": "创可贴盒",
+          "categoryId": "bandage-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "创可贴盒"
+          ],
+          "box": {
+            "x": 2.3333,
+            "y": 23.6667,
+            "w": 32.2222,
+            "h": 39.7778
+          },
+          "aliases": [
+            "bandage box",
+            "adhesive bandage box",
+            "创可贴盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "医疗促销礼品 可贴牌便携塑料创可贴盒含5片止血贴 创口贴邦迪盒-阿里巴巴",
+          "sourceUrl": "https://detail.1688.com/offer/41419373508.html"
+        }
+      ]
+    },
+    {
+      "id": "first-aid-kit-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/first-aid-kit/first-aid-kit-cn-eval-004-image.jpg",
+      "sourceTitle": "户外急救包全攻略：红十字会推荐便携医用箱，地震应急必备!-应急包-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/yingjibao_3523/5a38e2227090da1cd5bb3c437ef9c4bf.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-first-aid-kit-cn-eval-004",
+          "name": "急救包",
+          "categoryId": "first-aid-kit",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "急救包"
+          ],
+          "box": {
+            "x": 33.2639,
+            "y": 6.1806,
+            "w": 64.6528,
+            "h": 9.8611
+          },
+          "aliases": [
+            "first aid kit",
+            "medical first aid box",
+            "急救包"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "户外急救包全攻略：红十字会推荐便携医用箱，地震应急必备!-应急包-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/yingjibao_3523/5a38e2227090da1cd5bb3c437ef9c4bf.html"
+        }
+      ]
+    },
+    {
+      "id": "face-mask-pack-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/face-mask-pack/face-mask-pack-cn-eval-004-954vkn95-3m9041.jpg",
+      "sourceTitle": "口罩954VKN95口罩防装修甲醛粉尘异味3M9041有机气体防护口罩包邮-阿里巴巴",
+      "sourceUrl": "https://detail.1688.com/offer/690036462534.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-face-mask-pack-cn-eval-004",
+          "name": "口罩包",
+          "categoryId": "face-mask-pack",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "口罩包"
+          ],
+          "box": {
+            "x": 48.125,
+            "y": 34.1667,
+            "w": 14.6094,
+            "h": 17.9167
+          },
+          "aliases": [
+            "face mask pack",
+            "disposable mask box",
+            "口罩包"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "口罩954VKN95口罩防装修甲醛粉尘异味3M9041有机气体防护口罩包邮-阿里巴巴",
+          "sourceUrl": "https://detail.1688.com/offer/690036462534.html"
+        }
+      ]
+    },
+    {
+      "id": "disinfectant-wipes-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/disinfectant-wipes/disinfectant-wipes-cn-eval-004-60.jpg",
+      "sourceTitle": "一次性医用消毒湿巾60片装：大包消毒湿巾，随时随地杀菌消毒!-消毒棉片-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/xiaodumianpian_13445/30444cedfcd79975b148f40eaeaa12bc.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-disinfectant-wipes-cn-eval-004",
+          "name": "消毒湿巾",
+          "categoryId": "disinfectant-wipes",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "消毒湿巾"
+          ],
+          "box": {
+            "x": 0,
+            "y": 30.75,
+            "w": 99.375,
+            "h": 69.25
+          },
+          "aliases": [
+            "disinfectant wipes",
+            "sanitizing wipes pack",
+            "消毒湿巾"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "一次性医用消毒湿巾60片装：大包消毒湿巾，随时随地杀菌消毒!-消毒棉片-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/xiaodumianpian_13445/30444cedfcd79975b148f40eaeaa12bc.html"
+        }
+      ]
+    },
+    {
+      "id": "laundry-detergent-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-eval-004-3kg-4-24.jpg",
+      "sourceTitle": "蓝月亮洗衣液3Kg*4瓶薰衣草香深层洁净衣物清洁整箱家用24斤大桶_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_2nXMbGbUotwqnynFaaptDtD-xzQZZ4sO6Yp7k0etA.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-laundry-detergent-cn-eval-004",
+          "name": "洗衣液",
+          "categoryId": "laundry-detergent",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "洗衣液"
+          ],
+          "box": {
+            "x": 15.125,
+            "y": 25.25,
+            "w": 44.625,
+            "h": 67.875
+          },
+          "aliases": [
+            "laundry detergent",
+            "detergent bottle",
+            "洗衣液"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "蓝月亮洗衣液3Kg*4瓶薰衣草香深层洁净衣物清洁整箱家用24斤大桶_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_2nXMbGbUotwqnynFaaptDtD-xzQZZ4sO6Yp7k0etA.html"
+        }
+      ]
+    },
+    {
+      "id": "dish-soap-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/dish-soap/dish-soap-cn-eval-004-500g.jpg",
+      "sourceTitle": "雕牌洗洁精小瓶500g全效丝瓜清爽去油餐洗净洗碟精宿舍家用洗涤精_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_624853574427.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-dish-soap-cn-eval-004",
+          "name": "洗洁精",
+          "categoryId": "dish-soap",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "洗洁精"
+          ],
+          "box": {
+            "x": 38.375,
+            "y": 29.375,
+            "w": 23.5,
+            "h": 61.75
+          },
+          "aliases": [
+            "dish soap",
+            "dishwashing liquid bottle",
+            "洗洁精"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "雕牌洗洁精小瓶500g全效丝瓜清爽去油餐洗净洗碟精宿舍家用洗涤精_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_624853574427.html"
+        }
+      ]
+    },
+    {
+      "id": "cleaning-spray-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-eval-004-500ml.jpg",
+      "sourceTitle": "家居护理家政清洁配比瓶安利产品稀释喷瓶喷雾瓶500ml喷头大喷壶-阿里巴巴",
+      "sourceUrl": "https://detail.1688.com/offer/611229856143.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-cleaning-spray-bottle-cn-eval-004",
+          "name": "清洁喷瓶",
+          "categoryId": "cleaning-spray-bottle",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "清洁喷瓶"
+          ],
+          "box": {
+            "x": 28,
+            "y": 22.125,
+            "w": 19.125,
+            "h": 60.75
+          },
+          "aliases": [
+            "cleaning spray bottle",
+            "spray cleaner bottle",
+            "清洁喷瓶"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "家居护理家政清洁配比瓶安利产品稀释喷瓶喷雾瓶500ml喷头大喷壶-阿里巴巴",
+          "sourceUrl": "https://detail.1688.com/offer/611229856143.html"
+        }
+      ]
+    },
+    {
+      "id": "sponge-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/sponge/sponge-cn-eval-004-image.jpg",
+      "sourceTitle": "高密度海绵垫子：拯救腰背的神器!可裁剪海棉沙发垫实测太香了!-海绵-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/haimian_2272/5a020e31cf634481f51b9f34c3621b3b.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-sponge-cn-eval-004",
+          "name": "海绵",
+          "categoryId": "sponge",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "海绵"
+          ],
+          "box": {
+            "x": 51.2,
+            "y": 72.5,
+            "w": 25.4,
+            "h": 12.7
+          },
+          "aliases": [
+            "cleaning sponge",
+            "dish sponge",
+            "海绵"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "高密度海绵垫子：拯救腰背的神器!可裁剪海棉沙发垫实测太香了!-海绵-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/haimian_2272/5a020e31cf634481f51b9f34c3621b3b.html"
+        }
+      ]
+    },
+    {
+      "id": "trash-bag-roll-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-eval-004-image.jpg",
+      "sourceTitle": "白色加厚垃圾袋家用一次性点断式塑料袋透明平口大号垃圾桶袋卷装_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_571439119485.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-trash-bag-roll-cn-eval-004",
+          "name": "垃圾袋卷",
+          "categoryId": "trash-bag-roll",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "垃圾袋卷"
+          ],
+          "box": {
+            "x": 4.125,
+            "y": 56.125,
+            "w": 54.25,
+            "h": 36.625
+          },
+          "aliases": [
+            "trash bag roll",
+            "garbage bag roll",
+            "垃圾袋卷"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "白色加厚垃圾袋家用一次性点断式塑料袋透明平口大号垃圾桶袋卷装_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_571439119485.html"
+        }
+      ]
+    },
+    {
+      "id": "toilet-cleaner-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-eval-004-image.jpg",
+      "sourceTitle": "大瓶洁厕剂洁厕灵马桶便槽除臭去污护釉清洁剂清香不刺鼻洁厕液_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_604396009583.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-toilet-cleaner-bottle-cn-eval-004",
+          "name": "洁厕剂",
+          "categoryId": "toilet-cleaner-bottle",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "洁厕剂"
+          ],
+          "box": {
+            "x": 25,
+            "y": 11.125,
+            "w": 26,
+            "h": 88.125
+          },
+          "aliases": [
+            "toilet cleaner bottle",
+            "bathroom cleaner bottle",
+            "洁厕剂"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "大瓶洁厕剂洁厕灵马桶便槽除臭去污护釉清洁剂清香不刺鼻洁厕液_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_604396009583.html"
+        }
+      ]
+    },
+    {
+      "id": "mop-head-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/mop-head/mop-head-cn-eval-004-image.png",
+      "sourceTitle": "加厚吸水旋转拖把头：清洁神器，让你的家务事半功倍!💪-旋转拖把-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/xuanzhuantuoba_7060/f5eb890109848dc64d5ccc5734643968.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-mop-head-cn-eval-004",
+          "name": "拖把头",
+          "categoryId": "mop-head",
+          "categoryPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件",
+            "拖把头"
+          ],
+          "box": {
+            "x": 44.875,
+            "y": 0.25,
+            "w": 38,
+            "h": 60.75
+          },
+          "aliases": [
+            "mop head",
+            "replacement mop head",
+            "拖把头"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "加厚吸水旋转拖把头：清洁神器，让你的家务事半功倍!💪-旋转拖把-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/xuanzhuantuoba_7060/f5eb890109848dc64d5ccc5734643968.html"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/charging-cable/charging-cable-cn-eval-004-25-type-c-vivo-2.jpg",
+      "sourceTitle": "25年必买Type-C弯头数据线｜华为小米vivo快充神器，加长2米超实用!-数据线-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/shujuxian_1728/e1fb26e96b31392db7ca115f1c17db04.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-cn-eval-004",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 11.375,
+            "y": 5.375,
+            "w": 86.25,
+            "h": 94.5
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "25年必买Type-C弯头数据线｜华为小米vivo快充神器，加长2米超实用!-数据线-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/shujuxian_1728/e1fb26e96b31392db7ca115f1c17db04.html"
+        }
+      ]
+    },
+    {
+      "id": "charger-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/charger/charger-cn-eval-004-magsafe.jpg",
+      "sourceTitle": "MagSafe三合一无线充电器：苹果全家桶的终极充电解决方案!-手机充电器-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/shoujichongdianqi_4125/bd5e056cf1e0a8d89e68849eb39313c1.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-charger-cn-eval-004",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 9.9167,
+            "y": 38.3333,
+            "w": 51.9167,
+            "h": 55.25
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "MagSafe三合一无线充电器：苹果全家桶的终极充电解决方案!-手机充电器-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/shoujichongdianqi_4125/bd5e056cf1e0a8d89e68849eb39313c1.html"
+        }
+      ]
+    },
+    {
+      "id": "battery-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/battery/battery-cn-eval-004-5-7-4-ktv-aa-1-5v.jpg",
+      "sourceTitle": "倍量 5号7号充电电池大容量4节套装KTV套装可代替AA五1.5v锂电池_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_600127184801.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-battery-cn-eval-004",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "电池"
+          ],
+          "box": {
+            "x": 24.75,
+            "y": 4.875,
+            "w": 24.375,
+            "h": 38.25
+          },
+          "aliases": [
+            "battery",
+            "alkaline battery",
+            "电池"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "倍量 5号7号充电电池大容量4节套装KTV套装可代替AA五1.5v锂电池_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_600127184801.html"
+        }
+      ]
+    },
+    {
+      "id": "power-bank-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/power-bank/power-bank-cn-eval-004-22-5w-10000-wepost.jpg",
+      "sourceTitle": "品胜22.5W充电宝10000毫安超薄小巧便携式超级快充充电宝轻薄闪充迷你移动电源适用华为小米苹果专用可上飞机 - 小编推荐 - WePost ...",
+      "sourceUrl": "https://www.wepost.com.my/recommends/items/taobao-MOW2ZOfVz8adWw5IZV.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-power-bank-cn-eval-004",
+          "name": "充电宝",
+          "categoryId": "power-bank",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电宝"
+          ],
+          "box": {
+            "x": 56.5,
+            "y": 19.25,
+            "w": 29.625,
+            "h": 69.125
+          },
+          "aliases": [
+            "power bank",
+            "portable charger",
+            "充电宝"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "品胜22.5W充电宝10000毫安超薄小巧便携式超级快充充电宝轻薄闪充迷你移动电源适用华为小米苹果专用可上飞机 - 小编推荐 - WePost ...",
+          "sourceUrl": "https://www.wepost.com.my/recommends/items/taobao-MOW2ZOfVz8adWw5IZV.html"
+        }
+      ]
+    },
+    {
+      "id": "earphones-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/earphones/earphones-cn-eval-004-ikf-t1.jpg",
+      "sourceTitle": "iKF T1蓝牙耳机头戴式耳机无线新款游戏降噪耳机有线带麦超长待机_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_668818291173.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-earphones-cn-eval-004",
+          "name": "耳机",
+          "categoryId": "earphones",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "耳机"
+          ],
+          "box": {
+            "x": 27.375,
+            "y": 12.875,
+            "w": 72.625,
+            "h": 82.625
+          },
+          "aliases": [
+            "earphones",
+            "wired earbuds",
+            "耳机"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "iKF T1蓝牙耳机头戴式耳机无线新款游戏降噪耳机有线带麦超长待机_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_668818291173.html"
+        }
+      ]
+    },
+    {
+      "id": "usb-flash-drive-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-eval-004-u350-32g-type-c-u-u.jpg",
+      "sourceTitle": "爱国者U350-32G Type-C U盘：手机电脑双用，数据传输神器!-手机U盘-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/shoujiUpan_2532/649ba1c594dec5f741aa361cb9dfb1da.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-usb-flash-drive-cn-eval-004",
+          "name": "U盘",
+          "categoryId": "usb-flash-drive",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "U盘"
+          ],
+          "box": {
+            "x": 13.5,
+            "y": 13.5,
+            "w": 77,
+            "h": 56
+          },
+          "aliases": [
+            "usb flash drive",
+            "thumb drive",
+            "U盘"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "爱国者U350-32G Type-C U盘：手机电脑双用，数据传输神器!-手机U盘-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/shoujiUpan_2532/649ba1c594dec5f741aa361cb9dfb1da.html"
+        }
+      ]
+    },
+    {
+      "id": "memory-card-case-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/memory-card-case/memory-card-case-cn-eval-004-sd-tf-usb-3-0.jpg",
+      "sourceTitle": "耐影存储卡盒卡套SD卡TF卡收纳包相机手机内存卡保护盒储存卡USB 3.0高速读卡器手机读卡器：数码摄影爱好者的必备神器!-包-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/bao_14745/377457741010f16bfc8374c46319ec75.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-memory-card-case-cn-eval-004",
+          "name": "存储卡盒",
+          "categoryId": "memory-card-case",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "存储卡盒"
+          ],
+          "box": {
+            "x": 14.875,
+            "y": 48.875,
+            "w": 55.875,
+            "h": 47.75
+          },
+          "aliases": [
+            "memory card case",
+            "sd card case",
+            "存储卡盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "耐影存储卡盒卡套SD卡TF卡收纳包相机手机内存卡保护盒储存卡USB 3.0高速读卡器手机读卡器：数码摄影爱好者的必备神器!-包-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/bao_14745/377457741010f16bfc8374c46319ec75.html"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/remote-control/remote-control-cn-eval-004-optoma-h115-tw342-hb3201-hdf321b.jpg",
+      "sourceTitle": "原装全新奥图码Optoma投影仪H115 TW342 HB3201 HDF321B 遥控器_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_N7wR0gkC5tGBGZXqbmCxx9HRtB-wzQnnOsQa2gJARpIN.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-cn-eval-004",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 62.9167,
+            "y": 19.8333,
+            "w": 22.4167,
+            "h": 60.5833
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "原装全新奥图码Optoma投影仪H115 TW342 HB3201 HDF321B 遥控器_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_N7wR0gkC5tGBGZXqbmCxx9HRtB-wzQnnOsQa2gJARpIN.html"
+        }
+      ]
+    },
+    {
+      "id": "electric-kettle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-eval-004-2l3l.jpg",
+      "sourceTitle": "万利达电热水壶电水壶2L3L不锈钢一体保温自动断电开水壶家用学生_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_W7Jg6pdfotGXpQMcaresQta-XNReeAC0d5ZyQOes3.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-electric-kettle-cn-eval-004",
+          "name": "电水壶",
+          "categoryId": "electric-kettle",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "电水壶"
+          ],
+          "box": {
+            "x": 6,
+            "y": 5.625,
+            "w": 91.125,
+            "h": 89
+          },
+          "aliases": [
+            "electric kettle",
+            "water kettle",
+            "电水壶"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "万利达电热水壶电水壶2L3L不锈钢一体保温自动断电开水壶家用学生_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_W7Jg6pdfotGXpQMcaresQta-XNReeAC0d5ZyQOes3.html"
+        }
+      ]
+    },
+    {
+      "id": "rice-cooker-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-eval-004-20-30.jpg",
+      "sourceTitle": "苏电饭煲旗舰款，20-30人食堂必备神器？🔥-商用电饭煲-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/shangyongdianfanbao_3790/22cceecc30bba51ad654e8307665260d.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-rice-cooker-cn-eval-004",
+          "name": "电饭煲",
+          "categoryId": "rice-cooker",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "电饭煲"
+          ],
+          "box": {
+            "x": 17.5,
+            "y": 85.75,
+            "w": 24,
+            "h": 14.125
+          },
+          "aliases": [
+            "rice cooker",
+            "electric rice cooker",
+            "电饭煲"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "苏电饭煲旗舰款，20-30人食堂必备神器？🔥-商用电饭煲-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/shangyongdianfanbao_3790/22cceecc30bba51ad654e8307665260d.html"
+        }
+      ]
+    },
+    {
+      "id": "air-purifier-filter-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/air-purifier-filter/air-purifier-filter-cn-eval-004-352-x80-x83-x83c.jpg",
+      "sourceTitle": "352标准滤芯套装：空气净化器滤芯X80/X83/X83C，拯救呼吸的\"隐形铠甲\"!-净化-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/jinghua_11148/61ceb4c80f43f7af6447a283ee60d63f.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-air-purifier-filter-cn-eval-004",
+          "name": "空气净化器滤芯",
+          "categoryId": "air-purifier-filter",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "空气净化器滤芯"
+          ],
+          "box": {
+            "x": 0,
+            "y": 48.125,
+            "w": 36.625,
+            "h": 50.75
+          },
+          "aliases": [
+            "air purifier filter",
+            "replacement air filter",
+            "空气净化器滤芯"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "352标准滤芯套装：空气净化器滤芯X80/X83/X83C，拯救呼吸的\"隐形铠甲\"!-净化-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/jinghua_11148/61ceb4c80f43f7af6447a283ee60d63f.html"
+        }
+      ]
+    },
+    {
+      "id": "hair-dryer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/hair-dryer/hair-dryer-cn-eval-004-h101.jpg",
+      "sourceTitle": "米家吹风机H101：智能科技与高效造型的完美结合-商品-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/shangpin_1930/52e3a06f14f422d4d010bd92a12dba8a.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-hair-dryer-cn-eval-004",
+          "name": "吹风机",
+          "categoryId": "hair-dryer",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "吹风机"
+          ],
+          "box": {
+            "x": 14.25,
+            "y": 1,
+            "w": 75.625,
+            "h": 34.25
+          },
+          "aliases": [
+            "hair dryer",
+            "blow dryer",
+            "吹风机"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "米家吹风机H101：智能科技与高效造型的完美结合-商品-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/shangpin_1930/52e3a06f14f422d4d010bd92a12dba8a.html"
+        }
+      ]
+    },
+    {
+      "id": "vacuum-cleaner-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-eval-004-image.jpg",
+      "sourceTitle": "德国无线吸尘器家用小型大吸力功率强力静低音手持拖地一体洗地机_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_58moVQTxtYvA7jF77GUMtV-nMYPPWFxV7XjRKqSzb.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-vacuum-cleaner-cn-eval-004",
+          "name": "吸尘器",
+          "categoryId": "vacuum-cleaner",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "吸尘器"
+          ],
+          "box": {
+            "x": 26,
+            "y": 10.625,
+            "w": 53.875,
+            "h": 88.875
+          },
+          "aliases": [
+            "vacuum cleaner",
+            "stick vacuum",
+            "吸尘器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "德国无线吸尘器家用小型大吸力功率强力静低音手持拖地一体洗地机_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_58moVQTxtYvA7jF77GUMtV-nMYPPWFxV7XjRKqSzb.html"
+        }
+      ]
+    },
+    {
+      "id": "router-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/router/router-cn-eval-004-e2627-e2628-ax3000m-wifi6.jpg",
+      "sourceTitle": "中兴E2627/E2628，AX3000M WIFI6路由器，联通版如何选？-普通路由器-淘宝好物网",
+      "sourceUrl": "https://goods.taobao.com/t/putongluyouqi_1489/09d7941c7e9cbfda57cba94190713466.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-router-cn-eval-004",
+          "name": "路由器",
+          "categoryId": "router",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "路由器"
+          ],
+          "box": {
+            "x": 48.8889,
+            "y": 33.7963,
+            "w": 38.7037,
+            "h": 40.9259
+          },
+          "aliases": [
+            "wifi router",
+            "network router",
+            "路由器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "中兴E2627/E2628，AX3000M WIFI6路由器，联通版如何选？-普通路由器-淘宝好物网",
+          "sourceUrl": "https://goods.taobao.com/t/putongluyouqi_1489/09d7941c7e9cbfda57cba94190713466.html"
+        }
+      ]
+    },
+    {
+      "id": "screwdriver-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/screwdriver/screwdriver-cn-eval-004-202-30cm.jpg",
+      "sourceTitle": "202冲磁铬钒钢螺丝刀：解锁30CM长度的高效神器，工具控必备!-螺丝刀-淘宝百科网",
+      "sourceUrl": "https://bk.taobao.com/k/luosidao_6772/9b6f82e46fd8cb6c446ea334c3a5a461.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-screwdriver-cn-eval-004",
+          "name": "螺丝刀",
+          "categoryId": "screwdriver",
+          "categoryPath": [
+            "工具五金",
+            "手工具",
+            "家庭工具与固定用品",
+            "螺丝刀"
+          ],
+          "box": {
+            "x": 25.2,
+            "y": 29.8667,
+            "w": 69.2,
+            "h": 67.8667
+          },
+          "aliases": [
+            "screwdriver",
+            "phillips screwdriver",
+            "螺丝刀"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "202冲磁铬钒钢螺丝刀：解锁30CM长度的高效神器，工具控必备!-螺丝刀-淘宝百科网",
+          "sourceUrl": "https://bk.taobao.com/k/luosidao_6772/9b6f82e46fd8cb6c446ea334c3a5a461.html"
+        }
+      ]
+    },
+    {
+      "id": "scissors-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/scissors/scissors-cn-eval-004-0603-2.jpg",
+      "sourceTitle": "得力剪刀学生办公手工0603厨房铁皮家用园艺大美工文具剪刀2把装_虎窝淘",
+      "sourceUrl": "https://tao.hooos.com/goods_536393260433.html",
+      "sourceProvider": "DuckDuckGo Images",
+      "groundTruth": [
+        {
+          "id": "gt-scissors-cn-eval-004",
+          "name": "剪刀",
+          "categoryId": "scissors",
+          "categoryPath": [
+            "工具五金",
+            "手工具",
+            "家庭工具与固定用品",
+            "剪刀"
+          ],
+          "box": {
+            "x": 3.875,
+            "y": 10,
+            "w": 40.25,
+            "h": 83.375
+          },
+          "aliases": [
+            "scissors",
+            "household scissors",
+            "剪刀"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "得力剪刀学生办公手工0603厨房铁皮家用园艺大美工文具剪刀2把装_虎窝淘",
+          "sourceUrl": "https://tao.hooos.com/goods_536393260433.html"
+        }
+      ]
+    }
+  ]
+}

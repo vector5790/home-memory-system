@@ -1,0 +1,1298 @@
+{
+  "kind": "vision-taxonomy-coverage-report",
+  "version": "20260523-household-expanded-coverage",
+  "passed": true,
+  "taxonomyVersion": "20260523-household-expanded",
+  "sampleManifestVersion": null,
+  "summary": {
+    "categoryCount": 134,
+    "activeLeafCount": 133,
+    "mvpActiveLeafCount": 133,
+    "level1DomainCount": 19,
+    "displayDomainCount": 19,
+    "indexReadyLeafCount": 0,
+    "notIndexReadyLeafCount": 133
+  },
+  "counts": {
+    "byCoverageTier": {
+      "seed": 6,
+      "mvp": 128
+    },
+    "byLevel1": {
+      "Home & Garden": 7,
+      "Kitchen & Dining": 7,
+      "Food & Beverage": 7,
+      "Healthcare": 7,
+      "Household Supplies": 7,
+      "Electronics": 7,
+      "Appliances": 7,
+      "Tools & Hardware": 7,
+      "Office & Documents": 7,
+      "Apparel & Accessories": 7,
+      "Health & Beauty": 7,
+      "Baby & Children": 7,
+      "Pets": 8,
+      "Sports & Outdoors": 7,
+      "Travel & Luggage": 7,
+      "Seasonal & Occasion": 7,
+      "Home Textiles": 7,
+      "Bathroom & Hygiene": 7,
+      "Home Decor": 7
+    },
+    "byLevel2": {
+      "Storage & Organization": 7,
+      "Kitchenware": 7,
+      "Shelf Stable Food": 7,
+      "Health Care Supplies": 7,
+      "Cleaning & Laundry": 7,
+      "Electronic Accessories": 7,
+      "Small Domestic Appliances": 7,
+      "Hand Tools": 7,
+      "Documents & Stationery": 7,
+      "Clothing & Personal Accessories": 7,
+      "Personal Care": 7,
+      "Baby Care & Toys": 7,
+      "Pet Supplies": 8,
+      "Fitness & Outdoor Recreation": 7,
+      "Luggage & Travel Accessories": 7,
+      "Seasonal Household Items": 7,
+      "Household Linens": 7,
+      "Bathroom Supplies": 7,
+      "Decorative Accessories": 7
+    },
+    "byLevel3": {
+      "Household Storage Containers": 7,
+      "Food Preparation & Serving": 7,
+      "Packaged Food & Pantry Staples": 7,
+      "Medicine & First Aid Supplies": 7,
+      "Cleaning Products & Accessories": 7,
+      "Cables, Power & Small Accessories": 7,
+      "Household Electrical Appliances": 7,
+      "Household Tools & Fastening": 7,
+      "Personal Documents & Office Supplies": 7,
+      "Everyday Clothing & Accessories": 7,
+      "Personal Care Products": 7,
+      "Baby Supplies & Children's Toys": 7,
+      "Pet Food, Care & Accessories": 8,
+      "Fitness Equipment & Outdoor Gear": 7,
+      "Travel Bags & Accessories": 7,
+      "Weather, Holiday & Seasonal Supplies": 7,
+      "Towels, Bedding & Soft Furnishings": 7,
+      "Bathroom Paper, Soap & Accessories": 7,
+      "Household Decorative Objects": 7
+    },
+    "byAppCategory": {
+      "daily": 82,
+      "food": 7,
+      "medicine": 7,
+      "tool": 15,
+      "appliance": 8,
+      "document": 7,
+      "pet": 8
+    },
+    "byActiveStatus": {
+      "active": 133,
+      "inactive": 1
+    },
+    "byIndexReadiness": {
+      "not-index-ready": 133
+    }
+  },
+  "targets": {
+    "minActiveLeaves": 120,
+    "minLevel1Domains": 12,
+    "domainMinimums": {
+      "居家收纳": 6,
+      "厨房器具": 6,
+      "食品与囤货": 6,
+      "药品与健康": 6,
+      "清洁与洗护": 6,
+      "电子配件": 6,
+      "家电": 6,
+      "工具五金": 6,
+      "文件与办公": 6,
+      "衣物配饰": 6,
+      "个人护理": 6,
+      "母婴儿童": 6,
+      "宠物用品": 6,
+      "运动户外": 6,
+      "旅行用品": 6,
+      "季节物品": 6,
+      "家纺": 6,
+      "卫浴用品": 6,
+      "家居装饰": 6
+    },
+    "domainExamples": {
+      "居家收纳": [
+        "收纳盒",
+        "收纳篮",
+        "抽屉分隔盒"
+      ],
+      "厨房器具": [
+        "碗",
+        "盘子",
+        "菜板"
+      ],
+      "食品与囤货": [
+        "米袋",
+        "罐头",
+        "调料瓶"
+      ],
+      "药品与健康": [
+        "药盒",
+        "体温计",
+        "急救包"
+      ],
+      "清洁与洗护": [
+        "洗衣液",
+        "清洁喷瓶",
+        "海绵"
+      ],
+      "电子配件": [
+        "数据线",
+        "充电器",
+        "电池"
+      ],
+      "家电": [
+        "电水壶",
+        "电饭煲",
+        "路由器"
+      ],
+      "工具五金": [
+        "螺丝刀",
+        "剪刀",
+        "胶带"
+      ],
+      "文件与办公": [
+        "护照",
+        "笔记本",
+        "票据"
+      ],
+      "衣物配饰": [
+        "T恤",
+        "袜子",
+        "帽子"
+      ],
+      "个人护理": [
+        "洗发水",
+        "牙膏",
+        "剃须刀"
+      ],
+      "母婴儿童": [
+        "奶瓶",
+        "纸尿裤",
+        "积木"
+      ],
+      "宠物用品": [
+        "宠物粮",
+        "宠物碗",
+        "牵引绳"
+      ],
+      "运动户外": [
+        "瑜伽垫",
+        "哑铃",
+        "跳绳"
+      ],
+      "旅行用品": [
+        "行李箱",
+        "背包",
+        "洗漱包"
+      ],
+      "季节物品": [
+        "雨伞",
+        "暖宝宝",
+        "节日灯串"
+      ],
+      "家纺": [
+        "毛巾",
+        "床单",
+        "毯子"
+      ],
+      "卫浴用品": [
+        "卷纸",
+        "纸巾盒",
+        "浴垫"
+      ],
+      "家居装饰": [
+        "相框",
+        "花瓶",
+        "香薰瓶"
+      ]
+    }
+  },
+  "gaps": [],
+  "promptQualityIssues": {
+    "duplicateDetectorLabels": [],
+    "genericOnlyLabels": [],
+    "missingSearchQueries": [],
+    "singletonSiblingGroups": []
+  },
+  "indexReadiness": [
+    {
+      "categoryId": "storage-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "storage-basket",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "drawer-organizer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "vacuum-storage-bag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "closet-organizer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "cable-organizer-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "shoe-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bowl",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "plate",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "mug",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "drinking-glass",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "saucepan",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "frying-pan",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "cutting-board",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "rice-bag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "noodle-pack",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "canned-food",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "snack-bag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "beverage-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "spice-jar",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "cereal-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "medicine-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pill-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "thermometer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bandage-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "first-aid-kit",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "face-mask-pack",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "disinfectant-wipes",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "laundry-detergent",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "dish-soap",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "cleaning-spray-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "sponge",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "trash-bag-roll",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toilet-cleaner-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "mop-head",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "charging-cable",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "charger",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "battery",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "power-bank",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "earphones",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "usb-flash-drive",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "memory-card-case",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "remote-control",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "electric-kettle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "rice-cooker",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "air-purifier-filter",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "hair-dryer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "vacuum-cleaner",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "router",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "screwdriver",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "scissors",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "tape-roll",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "hammer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "wrench",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "measuring-tape",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "glue-stick",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "passport",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "id-card",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bank-card",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "notebook",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "envelope",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "receipt",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pen",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "t-shirt",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "socks",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "cap",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "scarf",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "belt",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "handbag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "glasses-case",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "shampoo-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "body-wash-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toothpaste",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toothbrush",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "skincare-cream-jar",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "razor",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "comb",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "baby-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "diaper-pack",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "wet-wipes-pack",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toy-blocks",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "plush-toy",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pacifier",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "childrens-book",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pet-food-bag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pet-bowl",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "leash",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pet-toy",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "litter-bag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "grooming-brush",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "waste-bag-roll",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "yoga-mat",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "dumbbell",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "jump-rope",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "sports-water-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bicycle-helmet",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "camping-lantern",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "rain-poncho",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "suitcase",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "backpack",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toiletry-bag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "travel-adapter",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "luggage-tag",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "packing-cube",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "passport-holder",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "umbrella",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "christmas-ornament",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "hand-warmer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "sunscreen-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "mosquito-repellent",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "holiday-lights",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "portable-fan",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "towel",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bath-towel",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bed-sheet",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "pillowcase",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "blanket",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "cushion-cover",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "tablecloth",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toilet-paper-roll",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "tissue-box",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "soap-bar",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "hand-sanitizer",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "shower-cap",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "bath-mat",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "toilet-brush",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "photo-frame",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "vase",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "candle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "wall-clock",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "decorative-basket",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "artificial-flower",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    },
+    {
+      "categoryId": "diffuser-bottle",
+      "reviewedGallerySamples": 0,
+      "evaluationSamples": 0,
+      "requiredGallerySamples": 3,
+      "requiredEvaluationSamples": 2,
+      "indexReady": false
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

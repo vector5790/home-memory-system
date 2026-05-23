@@ -1,0 +1,53 @@
+{
+  "ok": true,
+  "manifestPath": "vendor/vision-manifest.json",
+  "runtimeFiles": [
+    {
+      "path": "transformers/transformers.min.js",
+      "ok": true,
+      "bytes": 871803
+    },
+    {
+      "path": "transformers/ort-wasm-simd-threaded.jsep.mjs",
+      "ok": true,
+      "bytes": 44484
+    },
+    {
+      "path": "transformers/ort-wasm-simd-threaded.jsep.wasm",
+      "ok": true,
+      "bytes": 21596019
+    }
+  ],
+  "models": {
+    "Xenova/clip-vit-base-patch32": {
+      "modelId": "Xenova/clip-vit-base-patch32",
+      "listedInManifest": true,
+      "ok": true,
+      "missingFiles": [],
+      "fileCount": 10
+    },
+    "Xenova/owlvit-base-patch32": {
+      "modelId": "Xenova/owlvit-base-patch32",
+      "listedInManifest": true,
+      "ok": true,
+      "missingFiles": [],
+      "fileCount": 9
+    }
+  },
+  "providers": {
+    "owlvit": {
+      "id": "owlvit",
+      "displayName": "Local OWL-ViT + CLIP naming",
+      "providerClass": "real-local-model",
+      "requiredModels": [
+        "Xenova/owlvit-base-patch32",
+        "Xenova/clip-vit-base-patch32"
+      ],
+      "ok": true,
+      "skipReason": ""
+    }
+  },
+  "messages": [],
+  "version": "20260519-grounded-sam",
+  "transformers": "3.7.2"
+}

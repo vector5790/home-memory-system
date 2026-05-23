@@ -1,0 +1,565 @@
+{
+  "kind": "vision-household-image-manifest",
+  "version": "20260523-household-smoke-images",
+  "description": "Smoke manifest using reviewed Wikimedia household photos from the existing real-photo evaluation set.",
+  "taxonomyVersion": "20260523-household-expanded",
+  "sourcePolicy": {
+    "provider": "Wikimedia Commons",
+    "productionReady": false,
+    "note": "License metadata points to Commons file pages and must be reviewed per file before production use."
+  },
+  "samples": [
+    {
+      "id": "storage-box-real-gallery-1",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg",
+      "sourceTitle": "Blue plastic storage organizer boxes for screws.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Blue plastic storage organizer boxes for screws.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0588bd6b06431e35211178ed7ec6682881e7951c946a1115735a05856fe63696",
+      "gtBox": {
+        "x": 0,
+        "y": 2,
+        "w": 100,
+        "h": 94
+      }
+    },
+    {
+      "id": "storage-box-real-gallery-2",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg",
+      "sourceTitle": "Gratnells Extra Deep Storage Tray.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Gratnells Extra Deep Storage Tray.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "a4ca61a57819fe981d374079ab02b2f771161bd325ca6066f635413ebf0e8643",
+      "gtBox": {
+        "x": 0,
+        "y": 16,
+        "w": 97,
+        "h": 73
+      }
+    },
+    {
+      "id": "storage-box-real-gallery-3",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+      "sourceTitle": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "8d9ce6c7fe945689456b5fea6513c1545f519a60bd7239781bb5495f1f9310b9",
+      "gtBox": {
+        "x": 32,
+        "y": 0,
+        "w": 49,
+        "h": 100
+      }
+    },
+    {
+      "id": "charging-cable-real-gallery-1",
+      "categoryId": "charging-cable",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG",
+      "sourceTitle": "Universal Serial Bus, USB.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Universal Serial Bus, USB.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "1aec97462ee21eee253d34fab5cde1d16e8143e6cf025750a2decfde30b8b9d7",
+      "gtBox": {
+        "x": 0,
+        "y": 2,
+        "w": 100,
+        "h": 88
+      }
+    },
+    {
+      "id": "charging-cable-real-gallery-2",
+      "categoryId": "charging-cable",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG",
+      "sourceTitle": "Apple usb extension cable.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Apple usb extension cable.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "326ff1c97cd371038254ea1ee835faa0e0a0f66312e8e0b084b6760a1180a984",
+      "gtBox": {
+        "x": 16,
+        "y": 3,
+        "w": 78,
+        "h": 63
+      }
+    },
+    {
+      "id": "charging-cable-real-gallery-3",
+      "categoryId": "charging-cable",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg",
+      "sourceTitle": "Cavo USB-C = USB-C della Samsung.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Cavo USB-C = USB-C della Samsung.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0785e0cfed99a8e73edf9a995cdf5f17a2b1968afce5d8357c109a10bd590fb8",
+      "gtBox": {
+        "x": 18,
+        "y": 7,
+        "w": 63,
+        "h": 87
+      }
+    },
+    {
+      "id": "charger-real-gallery-1",
+      "categoryId": "charger",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG",
+      "sourceTitle": "USB wall charger.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "USB wall charger.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "eee389438d3a60b5a5c18ab44b1ce1e97ec8b3523613cbd25972049a7ce7a9b1",
+      "gtBox": {
+        "x": 12,
+        "y": 4,
+        "w": 73,
+        "h": 86
+      }
+    },
+    {
+      "id": "charger-real-gallery-2",
+      "categoryId": "charger",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg",
+      "sourceTitle": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "02f19dc96bf96ed2b6ac928299a294be6e221dd494b9117ceb636cf909b7d243",
+      "gtBox": {
+        "x": 30,
+        "y": 11,
+        "w": 48,
+        "h": 82
+      }
+    },
+    {
+      "id": "charger-real-gallery-3",
+      "categoryId": "charger",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg",
+      "sourceTitle": "Mobile phone charger plugs.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Mobile phone charger plugs.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5e3a51a934d22ea361b7a83101e63ad30c7291285ad25d03492cc250ac508260",
+      "gtBox": {
+        "x": 0,
+        "y": 17,
+        "w": 100,
+        "h": 61
+      }
+    },
+    {
+      "id": "remote-control-real-gallery-1",
+      "categoryId": "remote-control",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg",
+      "sourceTitle": "Television remote control - black colour.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Television remote control - black colour.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "797ce0be01653efc703315cc9f8b354a6e5caac9ad3a9fb740ea4900d59ff204",
+      "gtBox": {
+        "x": 29,
+        "y": 2,
+        "w": 37,
+        "h": 95
+      }
+    },
+    {
+      "id": "remote-control-real-gallery-2",
+      "categoryId": "remote-control",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+      "sourceTitle": "AverMedia RM-RH Remote control (white background) edit.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "AverMedia RM-RH Remote control (white background) edit.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "91226d654bf2394b17ffde38b567364d8dcbd7b87335f8c72337619c96400b02",
+      "gtBox": {
+        "x": 15,
+        "y": 13,
+        "w": 75,
+        "h": 72
+      }
+    },
+    {
+      "id": "remote-control-real-gallery-3",
+      "categoryId": "remote-control",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg",
+      "sourceTitle": "Remote control for Hisense TV.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Remote control for Hisense TV.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "e78f96b27fbe49b4a187722ea8b52da550f68282f2df93ec0a3883a5f068e181",
+      "gtBox": {
+        "x": 41,
+        "y": 8,
+        "w": 19,
+        "h": 80
+      }
+    },
+    {
+      "id": "medicine-box-real-gallery-1",
+      "categoryId": "medicine-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG",
+      "sourceTitle": "Pill box with pills.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Pill box with pills.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "746f0a2328bd82ee50277e35bbc1b64a703aa1eafacbce3a79ba43960a746ce9",
+      "gtBox": {
+        "x": 0,
+        "y": 10,
+        "w": 99,
+        "h": 67
+      }
+    },
+    {
+      "id": "medicine-box-real-gallery-2",
+      "categoryId": "medicine-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_Box_(32636946385).jpg",
+      "sourceTitle": "Pill Box (32636946385).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Pill Box (32636946385).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "3800e58927289beaa2312a05367e14c99c763b44fabc5d87e2cfdca410fe3c4e",
+      "gtBox": {
+        "x": 8,
+        "y": 11,
+        "w": 87,
+        "h": 67
+      }
+    },
+    {
+      "id": "medicine-box-real-gallery-3",
+      "categoryId": "medicine-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_Dispenser_(daily).jpg",
+      "sourceTitle": "Pill Dispenser (daily).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Pill Dispenser (daily).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "66073c79169c2f05e4d2ce753ffe0957c3f64839da013b10bd9925f7807a5062",
+      "gtBox": {
+        "x": 1,
+        "y": 24,
+        "w": 94,
+        "h": 50
+      }
+    },
+    {
+      "id": "battery-real-gallery-1",
+      "categoryId": "battery",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg",
+      "sourceTitle": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "6f6f8b95365d73655a2b507169ff13d3e91f7c99236c3f15ed1237b2853cf4b4",
+      "gtBox": {
+        "x": 25,
+        "y": 4,
+        "w": 46,
+        "h": 90
+      }
+    },
+    {
+      "id": "battery-real-gallery-2",
+      "categoryId": "battery",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_batteries.JPG",
+      "sourceTitle": "AA batteries.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "AA batteries.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "771e62635ba30beb8d42263208ef368967b8089977bd885f52397c79fe5b3889",
+      "gtBox": {
+        "x": 15,
+        "y": 18,
+        "w": 74,
+        "h": 58
+      }
+    },
+    {
+      "id": "battery-real-gallery-3",
+      "categoryId": "battery",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg",
+      "sourceTitle": "AA Batteries (51825378856).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "AA Batteries (51825378856).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "f0985097c99e58266449d2bee5e52da0dc0bf2b217b145640233406ca725c33d",
+      "gtBox": {
+        "x": 6,
+        "y": 22,
+        "w": 88,
+        "h": 36
+      }
+    },
+    {
+      "id": "storage-box-real-query-1",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg",
+      "sourceTitle": "Orange plastic storage container on top of a stack.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Orange plastic storage container on top of a stack.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "ca25fb92b51fb2525421d072a96121e0e6998edd9f2823d45c3d9ed8ba3a9986",
+      "gtBox": {
+        "x": 6,
+        "y": 8,
+        "w": 89,
+        "h": 84
+      }
+    },
+    {
+      "id": "charging-cable-real-query-1",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_cable.jpg",
+      "sourceTitle": "USB cable.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "USB cable.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "25c83bf53239f0e57f5458ca729595f112855eef1e937da2e13b77f8571b54fa",
+      "gtBox": {
+        "x": 5,
+        "y": 28,
+        "w": 91,
+        "h": 45
+      }
+    },
+    {
+      "id": "charger-real-query-1",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg",
+      "sourceTitle": "Apple USB Charger 1 2017-02-02.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Apple USB Charger 1 2017-02-02.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "f263318220bad80bde286d60f5702f63ed8334b5c9c40e3764ef0212762b8ca6",
+      "gtBox": {
+        "x": 37,
+        "y": 30,
+        "w": 60,
+        "h": 36
+      }
+    },
+    {
+      "id": "remote-control-real-query-1",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg",
+      "sourceTitle": "Television remote control - black 01.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Television remote control - black 01.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "699697be335493c78a5380ec22b6600affdad506e88d231c1adff3a506ac7e60",
+      "gtBox": {
+        "x": 30,
+        "y": 0.5,
+        "w": 41,
+        "h": 98
+      }
+    },
+    {
+      "id": "medicine-box-real-query-1",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg",
+      "sourceTitle": "2023 Kasetka z lekami.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "2023 Kasetka z lekami.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5153f771458f0880a65c2ca47a9a764cf480a12452b6b7e7f5504da405ecb18c",
+      "gtBox": {
+        "x": 4,
+        "y": 5,
+        "w": 92,
+        "h": 86
+      }
+    },
+    {
+      "id": "battery-real-query-1",
+      "categoryId": "battery",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg",
+      "sourceTitle": "02 - Single Energizer Battery.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "02 - Single Energizer Battery.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "993d9d269013249de1c19d5364b3994faf74dfeee0349f49a014449dfd829b58",
+      "gtBox": {
+        "x": 13,
+        "y": 15,
+        "w": 73,
+        "h": 53
+      }
+    }
+  ]
+}

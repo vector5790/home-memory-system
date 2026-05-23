@@ -1,0 +1,2412 @@
+{
+  "kind": "vision-household-index-build-report",
+  "version": "20260523-household-cn-owlvit-clip",
+  "passed": true,
+  "productionReady": false,
+  "modelIds": {
+    "owlvit": "Xenova/owlvit-base-patch32",
+    "clip": "Xenova/clip-vit-base-patch32"
+  },
+  "timings": {
+    "detectorModelLoadMs": 745.699,
+    "clipModelLoadMs": 137.333,
+    "samples": [
+      {
+        "sampleId": "storage-box-cn-gallery-001",
+        "detectionMs": 248.011,
+        "cropMs": 1.826,
+        "embeddingMs": 22.471
+      },
+      {
+        "sampleId": "storage-box-cn-gallery-002",
+        "detectionMs": 193.001,
+        "cropMs": 1.109,
+        "embeddingMs": 17.821
+      },
+      {
+        "sampleId": "storage-box-cn-gallery-003",
+        "detectionMs": 198.011,
+        "cropMs": 3.08,
+        "embeddingMs": 22.664
+      },
+      {
+        "sampleId": "storage-basket-cn-gallery-001",
+        "detectionMs": 199.228,
+        "cropMs": 2.8,
+        "embeddingMs": 22.393
+      },
+      {
+        "sampleId": "storage-basket-cn-gallery-002",
+        "detectionMs": 205,
+        "cropMs": 5.022,
+        "embeddingMs": 17.173
+      },
+      {
+        "sampleId": "storage-basket-cn-gallery-003",
+        "detectionMs": 190.949,
+        "cropMs": 13.079,
+        "embeddingMs": 17.896
+      },
+      {
+        "sampleId": "drawer-organizer-cn-gallery-001",
+        "detectionMs": 198.395,
+        "cropMs": 0.011,
+        "embeddingMs": 18.037
+      },
+      {
+        "sampleId": "drawer-organizer-cn-gallery-002",
+        "detectionMs": 197.028,
+        "cropMs": 0.024,
+        "embeddingMs": 26.709
+      },
+      {
+        "sampleId": "drawer-organizer-cn-gallery-003",
+        "detectionMs": 224.533,
+        "cropMs": 6.975,
+        "embeddingMs": 26.112
+      },
+      {
+        "sampleId": "vacuum-storage-bag-cn-gallery-001",
+        "detectionMs": 216.318,
+        "cropMs": 6.04,
+        "embeddingMs": 20.379
+      },
+      {
+        "sampleId": "vacuum-storage-bag-cn-gallery-002",
+        "detectionMs": 221.349,
+        "cropMs": 2.645,
+        "embeddingMs": 18.046
+      },
+      {
+        "sampleId": "vacuum-storage-bag-cn-gallery-003",
+        "detectionMs": 193.437,
+        "cropMs": 4.477,
+        "embeddingMs": 23.483
+      },
+      {
+        "sampleId": "closet-organizer-cn-gallery-001",
+        "detectionMs": 219.003,
+        "cropMs": 1.641,
+        "embeddingMs": 17.662
+      },
+      {
+        "sampleId": "closet-organizer-cn-gallery-002",
+        "detectionMs": 227.964,
+        "cropMs": 0.011,
+        "embeddingMs": 38.563
+      },
+      {
+        "sampleId": "closet-organizer-cn-gallery-003",
+        "detectionMs": 229.51,
+        "cropMs": 3.895,
+        "embeddingMs": 24.149
+      },
+      {
+        "sampleId": "cable-organizer-box-cn-gallery-001",
+        "detectionMs": 260.943,
+        "cropMs": 20.559,
+        "embeddingMs": 23.39
+      },
+      {
+        "sampleId": "cable-organizer-box-cn-gallery-002",
+        "detectionMs": 370.11,
+        "cropMs": 2.376,
+        "embeddingMs": 23.389
+      },
+      {
+        "sampleId": "cable-organizer-box-cn-gallery-003",
+        "detectionMs": 262.32,
+        "cropMs": 1.103,
+        "embeddingMs": 23.748
+      },
+      {
+        "sampleId": "shoe-box-cn-gallery-001",
+        "detectionMs": 234.664,
+        "cropMs": 7.357,
+        "embeddingMs": 43.452
+      },
+      {
+        "sampleId": "shoe-box-cn-gallery-002",
+        "detectionMs": 1670.417,
+        "cropMs": 6.317,
+        "embeddingMs": 58.153
+      },
+      {
+        "sampleId": "shoe-box-cn-gallery-003",
+        "detectionMs": 1198.798,
+        "cropMs": 20.143,
+        "embeddingMs": 88.137
+      },
+      {
+        "sampleId": "bowl-cn-gallery-001",
+        "detectionMs": 1066.239,
+        "cropMs": 21.017,
+        "embeddingMs": 77.213
+      },
+      {
+        "sampleId": "bowl-cn-gallery-002",
+        "detectionMs": 602.696,
+        "cropMs": 14.283,
+        "embeddingMs": 69.712
+      },
+      {
+        "sampleId": "bowl-cn-gallery-003",
+        "detectionMs": 778.686,
+        "cropMs": 3.069,
+        "embeddingMs": 32.06
+      },
+      {
+        "sampleId": "plate-cn-gallery-001",
+        "detectionMs": 1032.05,
+        "cropMs": 5.025,
+        "embeddingMs": 32.938
+      },
+      {
+        "sampleId": "plate-cn-gallery-002",
+        "detectionMs": 720.666,
+        "cropMs": 7.05,
+        "embeddingMs": 43.818
+      },
+      {
+        "sampleId": "plate-cn-gallery-003",
+        "detectionMs": 282.153,
+        "cropMs": 16.712,
+        "embeddingMs": 54.237
+      },
+      {
+        "sampleId": "mug-cn-gallery-001",
+        "detectionMs": 376.863,
+        "cropMs": 4.917,
+        "embeddingMs": 30.293
+      },
+      {
+        "sampleId": "mug-cn-gallery-002",
+        "detectionMs": 358.126,
+        "cropMs": 7.151,
+        "embeddingMs": 33.611
+      },
+      {
+        "sampleId": "mug-cn-gallery-003",
+        "detectionMs": 233.561,
+        "cropMs": 3.968,
+        "embeddingMs": 28.406
+      },
+      {
+        "sampleId": "drinking-glass-cn-gallery-001",
+        "detectionMs": 217.117,
+        "cropMs": 1.441,
+        "embeddingMs": 29.253
+      },
+      {
+        "sampleId": "drinking-glass-cn-gallery-002",
+        "detectionMs": 306.186,
+        "cropMs": 3.669,
+        "embeddingMs": 31.982
+      },
+      {
+        "sampleId": "drinking-glass-cn-gallery-003",
+        "detectionMs": 228.043,
+        "cropMs": 2.743,
+        "embeddingMs": 41.3
+      },
+      {
+        "sampleId": "saucepan-cn-gallery-001",
+        "detectionMs": 224.81,
+        "cropMs": 1.351,
+        "embeddingMs": 17.561
+      },
+      {
+        "sampleId": "saucepan-cn-gallery-002",
+        "detectionMs": 225.648,
+        "cropMs": 1.635,
+        "embeddingMs": 22.3
+      },
+      {
+        "sampleId": "saucepan-cn-gallery-003",
+        "detectionMs": 180.335,
+        "cropMs": 1.66,
+        "embeddingMs": 16.406
+      },
+      {
+        "sampleId": "frying-pan-cn-gallery-001",
+        "detectionMs": 204.433,
+        "cropMs": 1.017,
+        "embeddingMs": 16.54
+      },
+      {
+        "sampleId": "frying-pan-cn-gallery-002",
+        "detectionMs": 182.771,
+        "cropMs": 7.513,
+        "embeddingMs": 16.481
+      },
+      {
+        "sampleId": "frying-pan-cn-gallery-003",
+        "detectionMs": 189.561,
+        "cropMs": 2.592,
+        "embeddingMs": 20.536
+      },
+      {
+        "sampleId": "cutting-board-cn-gallery-001",
+        "detectionMs": 195.651,
+        "cropMs": 3.725,
+        "embeddingMs": 16.988
+      },
+      {
+        "sampleId": "cutting-board-cn-gallery-002",
+        "detectionMs": 179.968,
+        "cropMs": 2.76,
+        "embeddingMs": 16.285
+      },
+      {
+        "sampleId": "cutting-board-cn-gallery-003",
+        "detectionMs": 177.676,
+        "cropMs": 1.495,
+        "embeddingMs": 16.287
+      },
+      {
+        "sampleId": "rice-bag-cn-gallery-001",
+        "detectionMs": 181.649,
+        "cropMs": 1.037,
+        "embeddingMs": 17.598
+      },
+      {
+        "sampleId": "rice-bag-cn-gallery-002",
+        "detectionMs": 183.802,
+        "cropMs": 1.931,
+        "embeddingMs": 19.649
+      },
+      {
+        "sampleId": "rice-bag-cn-gallery-003",
+        "detectionMs": 184.245,
+        "cropMs": 1.375,
+        "embeddingMs": 16.686
+      },
+      {
+        "sampleId": "noodle-pack-cn-gallery-001",
+        "detectionMs": 186.766,
+        "cropMs": 3.289,
+        "embeddingMs": 17.57
+      },
+      {
+        "sampleId": "noodle-pack-cn-gallery-002",
+        "detectionMs": 176.826,
+        "cropMs": 2.27,
+        "embeddingMs": 19.582
+      },
+      {
+        "sampleId": "noodle-pack-cn-gallery-003",
+        "detectionMs": 180.056,
+        "cropMs": 0.978,
+        "embeddingMs": 20.971
+      },
+      {
+        "sampleId": "canned-food-cn-gallery-001",
+        "detectionMs": 175.371,
+        "cropMs": 3.884,
+        "embeddingMs": 18.757
+      },
+      {
+        "sampleId": "canned-food-cn-gallery-002",
+        "detectionMs": 178.679,
+        "cropMs": 0.879,
+        "embeddingMs": 18.891
+      },
+      {
+        "sampleId": "canned-food-cn-gallery-003",
+        "detectionMs": 256.73,
+        "cropMs": 1.718,
+        "embeddingMs": 21.417
+      },
+      {
+        "sampleId": "snack-bag-cn-gallery-001",
+        "detectionMs": 223.66,
+        "cropMs": 1.259,
+        "embeddingMs": 18.013
+      },
+      {
+        "sampleId": "snack-bag-cn-gallery-002",
+        "detectionMs": 195.959,
+        "cropMs": 1.973,
+        "embeddingMs": 17.331
+      },
+      {
+        "sampleId": "snack-bag-cn-gallery-003",
+        "detectionMs": 268.178,
+        "cropMs": 1.79,
+        "embeddingMs": 25.064
+      },
+      {
+        "sampleId": "beverage-bottle-cn-gallery-001",
+        "detectionMs": 254.516,
+        "cropMs": 1.508,
+        "embeddingMs": 17.962
+      },
+      {
+        "sampleId": "beverage-bottle-cn-gallery-002",
+        "detectionMs": 199.153,
+        "cropMs": 1.846,
+        "embeddingMs": 18.908
+      },
+      {
+        "sampleId": "beverage-bottle-cn-gallery-003",
+        "detectionMs": 196.466,
+        "cropMs": 1.482,
+        "embeddingMs": 21.378
+      },
+      {
+        "sampleId": "spice-jar-cn-gallery-001",
+        "detectionMs": 187.442,
+        "cropMs": 1.257,
+        "embeddingMs": 18.566
+      },
+      {
+        "sampleId": "spice-jar-cn-gallery-002",
+        "detectionMs": 192.926,
+        "cropMs": 3.275,
+        "embeddingMs": 20.7
+      },
+      {
+        "sampleId": "spice-jar-cn-gallery-003",
+        "detectionMs": 184.446,
+        "cropMs": 1.949,
+        "embeddingMs": 20.755
+      },
+      {
+        "sampleId": "cereal-box-cn-gallery-001",
+        "detectionMs": 182.728,
+        "cropMs": 0.84,
+        "embeddingMs": 18.968
+      },
+      {
+        "sampleId": "cereal-box-cn-gallery-002",
+        "detectionMs": 180.867,
+        "cropMs": 2.001,
+        "embeddingMs": 17.804
+      },
+      {
+        "sampleId": "medicine-box-cn-gallery-001",
+        "detectionMs": 183.729,
+        "cropMs": 1.73,
+        "embeddingMs": 17.193
+      },
+      {
+        "sampleId": "medicine-box-cn-gallery-002",
+        "detectionMs": 175.306,
+        "cropMs": 2.289,
+        "embeddingMs": 18.5
+      },
+      {
+        "sampleId": "medicine-box-cn-gallery-003",
+        "detectionMs": 176.931,
+        "cropMs": 2.346,
+        "embeddingMs": 17.056
+      },
+      {
+        "sampleId": "pill-bottle-cn-gallery-001",
+        "detectionMs": 187.501,
+        "cropMs": 8.478,
+        "embeddingMs": 24.186
+      },
+      {
+        "sampleId": "pill-bottle-cn-gallery-002",
+        "detectionMs": 196.547,
+        "cropMs": 2.153,
+        "embeddingMs": 17.46
+      },
+      {
+        "sampleId": "pill-bottle-cn-gallery-003",
+        "detectionMs": 177.474,
+        "cropMs": 0.802,
+        "embeddingMs": 33.659
+      },
+      {
+        "sampleId": "thermometer-cn-gallery-001",
+        "detectionMs": 194.916,
+        "cropMs": 3.47,
+        "embeddingMs": 22.362
+      },
+      {
+        "sampleId": "thermometer-cn-gallery-002",
+        "detectionMs": 241.714,
+        "cropMs": 2.204,
+        "embeddingMs": 37.04
+      },
+      {
+        "sampleId": "thermometer-cn-gallery-003",
+        "detectionMs": 196.551,
+        "cropMs": 2.357,
+        "embeddingMs": 31.55
+      },
+      {
+        "sampleId": "bandage-box-cn-gallery-001",
+        "detectionMs": 192.403,
+        "cropMs": 2.067,
+        "embeddingMs": 17.853
+      },
+      {
+        "sampleId": "bandage-box-cn-gallery-002",
+        "detectionMs": 188.311,
+        "cropMs": 2.611,
+        "embeddingMs": 23.503
+      },
+      {
+        "sampleId": "bandage-box-cn-gallery-003",
+        "detectionMs": 181.607,
+        "cropMs": 2.955,
+        "embeddingMs": 18.923
+      },
+      {
+        "sampleId": "first-aid-kit-cn-gallery-001",
+        "detectionMs": 188.996,
+        "cropMs": 0.007,
+        "embeddingMs": 19.718
+      },
+      {
+        "sampleId": "first-aid-kit-cn-gallery-002",
+        "detectionMs": 181.171,
+        "cropMs": 0.007,
+        "embeddingMs": 18.156
+      },
+      {
+        "sampleId": "first-aid-kit-cn-gallery-003",
+        "detectionMs": 194.65,
+        "cropMs": 0.901,
+        "embeddingMs": 16.83
+      },
+      {
+        "sampleId": "face-mask-pack-cn-gallery-001",
+        "detectionMs": 176.356,
+        "cropMs": 1.413,
+        "embeddingMs": 16.703
+      },
+      {
+        "sampleId": "face-mask-pack-cn-gallery-002",
+        "detectionMs": 174.047,
+        "cropMs": 3.612,
+        "embeddingMs": 19.93
+      },
+      {
+        "sampleId": "face-mask-pack-cn-gallery-003",
+        "detectionMs": 173.209,
+        "cropMs": 1.415,
+        "embeddingMs": 20.481
+      },
+      {
+        "sampleId": "disinfectant-wipes-cn-gallery-001",
+        "detectionMs": 187.843,
+        "cropMs": 6.249,
+        "embeddingMs": 17.346
+      },
+      {
+        "sampleId": "disinfectant-wipes-cn-gallery-002",
+        "detectionMs": 183.391,
+        "cropMs": 1.503,
+        "embeddingMs": 20.884
+      },
+      {
+        "sampleId": "disinfectant-wipes-cn-gallery-003",
+        "detectionMs": 194.404,
+        "cropMs": 0.007,
+        "embeddingMs": 21.982
+      },
+      {
+        "sampleId": "laundry-detergent-cn-gallery-001",
+        "detectionMs": 185.881,
+        "cropMs": 2.801,
+        "embeddingMs": 24.903
+      },
+      {
+        "sampleId": "laundry-detergent-cn-gallery-002",
+        "detectionMs": 180.243,
+        "cropMs": 3.881,
+        "embeddingMs": 19.335
+      },
+      {
+        "sampleId": "laundry-detergent-cn-gallery-003",
+        "detectionMs": 190.481,
+        "cropMs": 4.627,
+        "embeddingMs": 20.149
+      },
+      {
+        "sampleId": "dish-soap-cn-gallery-001",
+        "detectionMs": 183.863,
+        "cropMs": 1.597,
+        "embeddingMs": 21.832
+      },
+      {
+        "sampleId": "dish-soap-cn-gallery-002",
+        "detectionMs": 188.005,
+        "cropMs": 1.676,
+        "embeddingMs": 17.226
+      },
+      {
+        "sampleId": "dish-soap-cn-gallery-003",
+        "detectionMs": 183.461,
+        "cropMs": 0.967,
+        "embeddingMs": 18.803
+      },
+      {
+        "sampleId": "cleaning-spray-bottle-cn-gallery-001",
+        "detectionMs": 186.205,
+        "cropMs": 1.639,
+        "embeddingMs": 19.85
+      },
+      {
+        "sampleId": "cleaning-spray-bottle-cn-gallery-002",
+        "detectionMs": 195.482,
+        "cropMs": 8.957,
+        "embeddingMs": 22.21
+      },
+      {
+        "sampleId": "cleaning-spray-bottle-cn-gallery-003",
+        "detectionMs": 187.321,
+        "cropMs": 3.133,
+        "embeddingMs": 24.321
+      },
+      {
+        "sampleId": "sponge-cn-gallery-001",
+        "detectionMs": 190.487,
+        "cropMs": 2.913,
+        "embeddingMs": 20.319
+      },
+      {
+        "sampleId": "sponge-cn-gallery-002",
+        "detectionMs": 185.357,
+        "cropMs": 4.011,
+        "embeddingMs": 20.21
+      },
+      {
+        "sampleId": "sponge-cn-gallery-003",
+        "detectionMs": 190.643,
+        "cropMs": 1.108,
+        "embeddingMs": 23.04
+      },
+      {
+        "sampleId": "trash-bag-roll-cn-gallery-001",
+        "detectionMs": 193.267,
+        "cropMs": 1.305,
+        "embeddingMs": 19.636
+      },
+      {
+        "sampleId": "trash-bag-roll-cn-gallery-002",
+        "detectionMs": 193.644,
+        "cropMs": 1.247,
+        "embeddingMs": 19.485
+      },
+      {
+        "sampleId": "trash-bag-roll-cn-gallery-003",
+        "detectionMs": 173.923,
+        "cropMs": 0.838,
+        "embeddingMs": 21.632
+      },
+      {
+        "sampleId": "toilet-cleaner-bottle-cn-gallery-001",
+        "detectionMs": 201.101,
+        "cropMs": 1.691,
+        "embeddingMs": 20.52
+      },
+      {
+        "sampleId": "toilet-cleaner-bottle-cn-gallery-002",
+        "detectionMs": 179.093,
+        "cropMs": 1.505,
+        "embeddingMs": 19.991
+      },
+      {
+        "sampleId": "toilet-cleaner-bottle-cn-gallery-003",
+        "detectionMs": 184.543,
+        "cropMs": 0.698,
+        "embeddingMs": 19.462
+      },
+      {
+        "sampleId": "mop-head-cn-gallery-001",
+        "detectionMs": 188.73,
+        "cropMs": 1.75,
+        "embeddingMs": 20.945
+      },
+      {
+        "sampleId": "mop-head-cn-gallery-002",
+        "detectionMs": 186.617,
+        "cropMs": 2.22,
+        "embeddingMs": 20.483
+      },
+      {
+        "sampleId": "mop-head-cn-gallery-003",
+        "detectionMs": 183.645,
+        "cropMs": 0.01,
+        "embeddingMs": 21.479
+      },
+      {
+        "sampleId": "charging-cable-cn-gallery-001",
+        "detectionMs": 193.534,
+        "cropMs": 4.138,
+        "embeddingMs": 21.62
+      },
+      {
+        "sampleId": "charging-cable-cn-gallery-002",
+        "detectionMs": 188.162,
+        "cropMs": 5.563,
+        "embeddingMs": 23.212
+      },
+      {
+        "sampleId": "charging-cable-cn-gallery-003",
+        "detectionMs": 190.701,
+        "cropMs": 2.093,
+        "embeddingMs": 19.921
+      },
+      {
+        "sampleId": "charger-cn-gallery-001",
+        "detectionMs": 179.074,
+        "cropMs": 1.49,
+        "embeddingMs": 18.903
+      },
+      {
+        "sampleId": "charger-cn-gallery-002",
+        "detectionMs": 189.541,
+        "cropMs": 1.383,
+        "embeddingMs": 19.426
+      },
+      {
+        "sampleId": "charger-cn-gallery-003",
+        "detectionMs": 188.548,
+        "cropMs": 8.23,
+        "embeddingMs": 20.539
+      },
+      {
+        "sampleId": "battery-cn-gallery-001",
+        "detectionMs": 341.089,
+        "cropMs": 6.107,
+        "embeddingMs": 40.356
+      },
+      {
+        "sampleId": "battery-cn-gallery-002",
+        "detectionMs": 181.092,
+        "cropMs": 3.407,
+        "embeddingMs": 21.912
+      },
+      {
+        "sampleId": "battery-cn-gallery-003",
+        "detectionMs": 247.254,
+        "cropMs": 10.992,
+        "embeddingMs": 17.063
+      },
+      {
+        "sampleId": "power-bank-cn-gallery-001",
+        "detectionMs": 183.88,
+        "cropMs": 1.572,
+        "embeddingMs": 18.476
+      },
+      {
+        "sampleId": "power-bank-cn-gallery-002",
+        "detectionMs": 429.898,
+        "cropMs": 5.508,
+        "embeddingMs": 27.223
+      },
+      {
+        "sampleId": "power-bank-cn-gallery-003",
+        "detectionMs": 308.414,
+        "cropMs": 3.312,
+        "embeddingMs": 22.911
+      },
+      {
+        "sampleId": "earphones-cn-gallery-001",
+        "detectionMs": 243.866,
+        "cropMs": 3.883,
+        "embeddingMs": 22.038
+      },
+      {
+        "sampleId": "earphones-cn-gallery-002",
+        "detectionMs": 528.934,
+        "cropMs": 9.312,
+        "embeddingMs": 54.594
+      },
+      {
+        "sampleId": "earphones-cn-gallery-003",
+        "detectionMs": 656.039,
+        "cropMs": 1.446,
+        "embeddingMs": 42.34
+      },
+      {
+        "sampleId": "usb-flash-drive-cn-gallery-001",
+        "detectionMs": 644.71,
+        "cropMs": 4.606,
+        "embeddingMs": 43.216
+      },
+      {
+        "sampleId": "usb-flash-drive-cn-gallery-002",
+        "detectionMs": 246.641,
+        "cropMs": 3.361,
+        "embeddingMs": 26.924
+      },
+      {
+        "sampleId": "usb-flash-drive-cn-gallery-003",
+        "detectionMs": 350.536,
+        "cropMs": 5.889,
+        "embeddingMs": 41.407
+      },
+      {
+        "sampleId": "memory-card-case-cn-gallery-001",
+        "detectionMs": 337.57,
+        "cropMs": 3.296,
+        "embeddingMs": 46.171
+      },
+      {
+        "sampleId": "memory-card-case-cn-gallery-002",
+        "detectionMs": 3588.189,
+        "cropMs": 16.312,
+        "embeddingMs": 112.308
+      },
+      {
+        "sampleId": "memory-card-case-cn-gallery-003",
+        "detectionMs": 698.633,
+        "cropMs": 2.162,
+        "embeddingMs": 36.523
+      },
+      {
+        "sampleId": "remote-control-cn-gallery-001",
+        "detectionMs": 263.082,
+        "cropMs": 3.962,
+        "embeddingMs": 27.936
+      },
+      {
+        "sampleId": "remote-control-cn-gallery-002",
+        "detectionMs": 269.566,
+        "cropMs": 1.065,
+        "embeddingMs": 28.993
+      },
+      {
+        "sampleId": "remote-control-cn-gallery-003",
+        "detectionMs": 248.132,
+        "cropMs": 4.423,
+        "embeddingMs": 22.477
+      },
+      {
+        "sampleId": "electric-kettle-cn-gallery-001",
+        "detectionMs": 214.712,
+        "cropMs": 2.68,
+        "embeddingMs": 21.736
+      },
+      {
+        "sampleId": "electric-kettle-cn-gallery-002",
+        "detectionMs": 239.101,
+        "cropMs": 3.2,
+        "embeddingMs": 38.28
+      },
+      {
+        "sampleId": "electric-kettle-cn-gallery-003",
+        "detectionMs": 229.066,
+        "cropMs": 4.362,
+        "embeddingMs": 30
+      },
+      {
+        "sampleId": "rice-cooker-cn-gallery-001",
+        "detectionMs": 228.591,
+        "cropMs": 5.297,
+        "embeddingMs": 27.442
+      },
+      {
+        "sampleId": "rice-cooker-cn-gallery-002",
+        "detectionMs": 294.127,
+        "cropMs": 3.766,
+        "embeddingMs": 31.554
+      },
+      {
+        "sampleId": "rice-cooker-cn-gallery-003",
+        "detectionMs": 382.321,
+        "cropMs": 5.876,
+        "embeddingMs": 68.126
+      },
+      {
+        "sampleId": "air-purifier-filter-cn-gallery-001",
+        "detectionMs": 220.103,
+        "cropMs": 6.304,
+        "embeddingMs": 18.449
+      },
+      {
+        "sampleId": "air-purifier-filter-cn-gallery-002",
+        "detectionMs": 236.763,
+        "cropMs": 1.014,
+        "embeddingMs": 17.274
+      },
+      {
+        "sampleId": "air-purifier-filter-cn-gallery-003",
+        "detectionMs": 212.674,
+        "cropMs": 1.444,
+        "embeddingMs": 18.06
+      },
+      {
+        "sampleId": "hair-dryer-cn-gallery-001",
+        "detectionMs": 244.669,
+        "cropMs": 3.123,
+        "embeddingMs": 19.933
+      },
+      {
+        "sampleId": "hair-dryer-cn-gallery-002",
+        "detectionMs": 225.645,
+        "cropMs": 0.009,
+        "embeddingMs": 28.232
+      },
+      {
+        "sampleId": "hair-dryer-cn-gallery-003",
+        "detectionMs": 274.88,
+        "cropMs": 5.676,
+        "embeddingMs": 30.013
+      },
+      {
+        "sampleId": "vacuum-cleaner-cn-gallery-001",
+        "detectionMs": 248.776,
+        "cropMs": 2.166,
+        "embeddingMs": 25.123
+      },
+      {
+        "sampleId": "vacuum-cleaner-cn-gallery-002",
+        "detectionMs": 348.103,
+        "cropMs": 10.65,
+        "embeddingMs": 30.375
+      },
+      {
+        "sampleId": "vacuum-cleaner-cn-gallery-003",
+        "detectionMs": 341.542,
+        "cropMs": 2.98,
+        "embeddingMs": 23.261
+      },
+      {
+        "sampleId": "router-cn-gallery-001",
+        "detectionMs": 350.217,
+        "cropMs": 2.94,
+        "embeddingMs": 24.769
+      },
+      {
+        "sampleId": "router-cn-gallery-002",
+        "detectionMs": 308.213,
+        "cropMs": 6.025,
+        "embeddingMs": 24.843
+      },
+      {
+        "sampleId": "router-cn-gallery-003",
+        "detectionMs": 252.009,
+        "cropMs": 2.635,
+        "embeddingMs": 21.759
+      },
+      {
+        "sampleId": "screwdriver-cn-gallery-001",
+        "detectionMs": 243.948,
+        "cropMs": 3.687,
+        "embeddingMs": 22.212
+      },
+      {
+        "sampleId": "screwdriver-cn-gallery-002",
+        "detectionMs": 357.975,
+        "cropMs": 3.318,
+        "embeddingMs": 27.983
+      },
+      {
+        "sampleId": "screwdriver-cn-gallery-003",
+        "detectionMs": 235.751,
+        "cropMs": 5.259,
+        "embeddingMs": 29.527
+      },
+      {
+        "sampleId": "scissors-cn-gallery-001",
+        "detectionMs": 250.323,
+        "cropMs": 2.018,
+        "embeddingMs": 21.706
+      },
+      {
+        "sampleId": "scissors-cn-gallery-002",
+        "detectionMs": 334.725,
+        "cropMs": 14.323,
+        "embeddingMs": 30.644
+      },
+      {
+        "sampleId": "scissors-cn-gallery-003",
+        "detectionMs": 295.07,
+        "cropMs": 11.983,
+        "embeddingMs": 32.218
+      },
+      {
+        "sampleId": "tape-roll-cn-gallery-001",
+        "detectionMs": 271.732,
+        "cropMs": 2.869,
+        "embeddingMs": 20.731
+      },
+      {
+        "sampleId": "tape-roll-cn-gallery-002",
+        "detectionMs": 257.8,
+        "cropMs": 2.811,
+        "embeddingMs": 30.305
+      },
+      {
+        "sampleId": "tape-roll-cn-gallery-003",
+        "detectionMs": 197.037,
+        "cropMs": 0.748,
+        "embeddingMs": 21.248
+      },
+      {
+        "sampleId": "hammer-cn-gallery-001",
+        "detectionMs": 213.755,
+        "cropMs": 3.174,
+        "embeddingMs": 17.633
+      },
+      {
+        "sampleId": "hammer-cn-gallery-002",
+        "detectionMs": 192.927,
+        "cropMs": 3.177,
+        "embeddingMs": 21.404
+      },
+      {
+        "sampleId": "hammer-cn-gallery-003",
+        "detectionMs": 198.032,
+        "cropMs": 3.84,
+        "embeddingMs": 22.424
+      },
+      {
+        "sampleId": "wrench-cn-gallery-001",
+        "detectionMs": 204.325,
+        "cropMs": 1.959,
+        "embeddingMs": 19.456
+      },
+      {
+        "sampleId": "wrench-cn-gallery-002",
+        "detectionMs": 202.449,
+        "cropMs": 4.525,
+        "embeddingMs": 31.785
+      },
+      {
+        "sampleId": "wrench-cn-gallery-003",
+        "detectionMs": 200.126,
+        "cropMs": 1.983,
+        "embeddingMs": 17.643
+      },
+      {
+        "sampleId": "measuring-tape-cn-gallery-001",
+        "detectionMs": 208.574,
+        "cropMs": 5.132,
+        "embeddingMs": 20.109
+      },
+      {
+        "sampleId": "measuring-tape-cn-gallery-002",
+        "detectionMs": 197.813,
+        "cropMs": 3.412,
+        "embeddingMs": 23.198
+      },
+      {
+        "sampleId": "measuring-tape-cn-gallery-003",
+        "detectionMs": 208.26,
+        "cropMs": 3.197,
+        "embeddingMs": 19.927
+      },
+      {
+        "sampleId": "glue-stick-cn-gallery-001",
+        "detectionMs": 194.235,
+        "cropMs": 0.702,
+        "embeddingMs": 17.999
+      },
+      {
+        "sampleId": "glue-stick-cn-gallery-002",
+        "detectionMs": 233.455,
+        "cropMs": 4.752,
+        "embeddingMs": 21.032
+      },
+      {
+        "sampleId": "glue-stick-cn-gallery-003",
+        "detectionMs": 194.494,
+        "cropMs": 2.716,
+        "embeddingMs": 17.128
+      },
+      {
+        "sampleId": "passport-cn-gallery-001",
+        "detectionMs": 193.882,
+        "cropMs": 4.228,
+        "embeddingMs": 22.042
+      },
+      {
+        "sampleId": "passport-cn-gallery-002",
+        "detectionMs": 199.421,
+        "cropMs": 1.786,
+        "embeddingMs": 18.61
+      },
+      {
+        "sampleId": "passport-cn-gallery-003",
+        "detectionMs": 202.356,
+        "cropMs": 2.226,
+        "embeddingMs": 17.362
+      },
+      {
+        "sampleId": "id-card-cn-gallery-001",
+        "detectionMs": 200.851,
+        "cropMs": 1.382,
+        "embeddingMs": 17.835
+      },
+      {
+        "sampleId": "id-card-cn-gallery-002",
+        "detectionMs": 183.52,
+        "cropMs": 0.008,
+        "embeddingMs": 17.414
+      },
+      {
+        "sampleId": "id-card-cn-gallery-003",
+        "detectionMs": 203.211,
+        "cropMs": 2.395,
+        "embeddingMs": 17.162
+      },
+      {
+        "sampleId": "bank-card-cn-gallery-001",
+        "detectionMs": 205.701,
+        "cropMs": 3.483,
+        "embeddingMs": 19.537
+      },
+      {
+        "sampleId": "bank-card-cn-gallery-002",
+        "detectionMs": 194.263,
+        "cropMs": 0.888,
+        "embeddingMs": 15.874
+      },
+      {
+        "sampleId": "bank-card-cn-gallery-003",
+        "detectionMs": 196.477,
+        "cropMs": 0.007,
+        "embeddingMs": 15.354
+      },
+      {
+        "sampleId": "notebook-cn-gallery-001",
+        "detectionMs": 176.387,
+        "cropMs": 1.064,
+        "embeddingMs": 17.579
+      },
+      {
+        "sampleId": "notebook-cn-gallery-002",
+        "detectionMs": 184.678,
+        "cropMs": 1.674,
+        "embeddingMs": 15.738
+      },
+      {
+        "sampleId": "notebook-cn-gallery-003",
+        "detectionMs": 181.47,
+        "cropMs": 1.014,
+        "embeddingMs": 16.427
+      },
+      {
+        "sampleId": "envelope-cn-gallery-001",
+        "detectionMs": 174.192,
+        "cropMs": 2.124,
+        "embeddingMs": 16.306
+      },
+      {
+        "sampleId": "envelope-cn-gallery-002",
+        "detectionMs": 227.22,
+        "cropMs": 1.454,
+        "embeddingMs": 21.422
+      },
+      {
+        "sampleId": "envelope-cn-gallery-003",
+        "detectionMs": 214.995,
+        "cropMs": 12.15,
+        "embeddingMs": 21.239
+      },
+      {
+        "sampleId": "receipt-cn-gallery-001",
+        "detectionMs": 188.758,
+        "cropMs": 1.786,
+        "embeddingMs": 17.443
+      },
+      {
+        "sampleId": "receipt-cn-gallery-002",
+        "detectionMs": 177.173,
+        "cropMs": 0.009,
+        "embeddingMs": 18.771
+      },
+      {
+        "sampleId": "receipt-cn-gallery-003",
+        "detectionMs": 180.798,
+        "cropMs": 2.308,
+        "embeddingMs": 16.26
+      },
+      {
+        "sampleId": "pen-cn-gallery-001",
+        "detectionMs": 198.448,
+        "cropMs": 3.481,
+        "embeddingMs": 23.109
+      },
+      {
+        "sampleId": "pen-cn-gallery-002",
+        "detectionMs": 187.269,
+        "cropMs": 1.073,
+        "embeddingMs": 20.56
+      },
+      {
+        "sampleId": "pen-cn-gallery-003",
+        "detectionMs": 306.455,
+        "cropMs": 5.408,
+        "embeddingMs": 16.607
+      },
+      {
+        "sampleId": "t-shirt-cn-gallery-001",
+        "detectionMs": 202.557,
+        "cropMs": 2.868,
+        "embeddingMs": 17.194
+      },
+      {
+        "sampleId": "t-shirt-cn-gallery-002",
+        "detectionMs": 210.906,
+        "cropMs": 5.936,
+        "embeddingMs": 16.122
+      },
+      {
+        "sampleId": "t-shirt-cn-gallery-003",
+        "detectionMs": 174.254,
+        "cropMs": 3.604,
+        "embeddingMs": 20.183
+      },
+      {
+        "sampleId": "socks-cn-gallery-001",
+        "detectionMs": 180.556,
+        "cropMs": 1.123,
+        "embeddingMs": 18.134
+      },
+      {
+        "sampleId": "socks-cn-gallery-002",
+        "detectionMs": 386.83,
+        "cropMs": 2.739,
+        "embeddingMs": 22.837
+      },
+      {
+        "sampleId": "socks-cn-gallery-003",
+        "detectionMs": 186.519,
+        "cropMs": 0.96,
+        "embeddingMs": 16.587
+      },
+      {
+        "sampleId": "cap-cn-gallery-001",
+        "detectionMs": 179.024,
+        "cropMs": 4.008,
+        "embeddingMs": 16.487
+      },
+      {
+        "sampleId": "cap-cn-gallery-002",
+        "detectionMs": 185.698,
+        "cropMs": 2.276,
+        "embeddingMs": 15.957
+      },
+      {
+        "sampleId": "cap-cn-gallery-003",
+        "detectionMs": 195.123,
+        "cropMs": 0.906,
+        "embeddingMs": 16.448
+      },
+      {
+        "sampleId": "scarf-cn-gallery-001",
+        "detectionMs": 180.578,
+        "cropMs": 2.441,
+        "embeddingMs": 17.108
+      },
+      {
+        "sampleId": "scarf-cn-gallery-002",
+        "detectionMs": 184.098,
+        "cropMs": 4.27,
+        "embeddingMs": 19.909
+      },
+      {
+        "sampleId": "scarf-cn-gallery-003",
+        "detectionMs": 179.568,
+        "cropMs": 2.708,
+        "embeddingMs": 20.403
+      },
+      {
+        "sampleId": "belt-cn-gallery-001",
+        "detectionMs": 191.23,
+        "cropMs": 0.971,
+        "embeddingMs": 15.87
+      },
+      {
+        "sampleId": "belt-cn-gallery-002",
+        "detectionMs": 178.457,
+        "cropMs": 2.473,
+        "embeddingMs": 17.506
+      },
+      {
+        "sampleId": "belt-cn-gallery-003",
+        "detectionMs": 179.017,
+        "cropMs": 2.067,
+        "embeddingMs": 17.767
+      },
+      {
+        "sampleId": "handbag-cn-gallery-001",
+        "detectionMs": 186.279,
+        "cropMs": 1.875,
+        "embeddingMs": 16.293
+      },
+      {
+        "sampleId": "handbag-cn-gallery-002",
+        "detectionMs": 188.959,
+        "cropMs": 2.494,
+        "embeddingMs": 17.606
+      },
+      {
+        "sampleId": "handbag-cn-gallery-003",
+        "detectionMs": 182.105,
+        "cropMs": 2.693,
+        "embeddingMs": 17.112
+      },
+      {
+        "sampleId": "glasses-case-cn-gallery-001",
+        "detectionMs": 190.482,
+        "cropMs": 1.145,
+        "embeddingMs": 18.255
+      },
+      {
+        "sampleId": "glasses-case-cn-gallery-002",
+        "detectionMs": 205.362,
+        "cropMs": 4.07,
+        "embeddingMs": 20.706
+      },
+      {
+        "sampleId": "glasses-case-cn-gallery-003",
+        "detectionMs": 196.852,
+        "cropMs": 1.774,
+        "embeddingMs": 16.639
+      },
+      {
+        "sampleId": "shampoo-bottle-cn-gallery-001",
+        "detectionMs": 266.528,
+        "cropMs": 12.051,
+        "embeddingMs": 17.092
+      },
+      {
+        "sampleId": "shampoo-bottle-cn-gallery-002",
+        "detectionMs": 177.493,
+        "cropMs": 2.955,
+        "embeddingMs": 18.009
+      },
+      {
+        "sampleId": "shampoo-bottle-cn-gallery-003",
+        "detectionMs": 186.016,
+        "cropMs": 1.14,
+        "embeddingMs": 17.697
+      },
+      {
+        "sampleId": "body-wash-bottle-cn-gallery-001",
+        "detectionMs": 225.224,
+        "cropMs": 1.221,
+        "embeddingMs": 17.886
+      },
+      {
+        "sampleId": "body-wash-bottle-cn-gallery-002",
+        "detectionMs": 187.154,
+        "cropMs": 12.643,
+        "embeddingMs": 17.397
+      },
+      {
+        "sampleId": "body-wash-bottle-cn-gallery-003",
+        "detectionMs": 228.852,
+        "cropMs": 1.848,
+        "embeddingMs": 47.17
+      },
+      {
+        "sampleId": "toothpaste-cn-gallery-001",
+        "detectionMs": 225.813,
+        "cropMs": 1.597,
+        "embeddingMs": 18.288
+      },
+      {
+        "sampleId": "toothpaste-cn-gallery-002",
+        "detectionMs": 178.271,
+        "cropMs": 10.278,
+        "embeddingMs": 17.421
+      },
+      {
+        "sampleId": "toothpaste-cn-gallery-003",
+        "detectionMs": 175.82,
+        "cropMs": 1.724,
+        "embeddingMs": 16.822
+      },
+      {
+        "sampleId": "toothbrush-cn-gallery-001",
+        "detectionMs": 190.29,
+        "cropMs": 1.185,
+        "embeddingMs": 18.822
+      },
+      {
+        "sampleId": "toothbrush-cn-gallery-002",
+        "detectionMs": 221.662,
+        "cropMs": 7.069,
+        "embeddingMs": 17.472
+      },
+      {
+        "sampleId": "toothbrush-cn-gallery-003",
+        "detectionMs": 178.575,
+        "cropMs": 1.106,
+        "embeddingMs": 19.149
+      },
+      {
+        "sampleId": "skincare-cream-jar-cn-gallery-001",
+        "detectionMs": 177.373,
+        "cropMs": 0.88,
+        "embeddingMs": 16.174
+      },
+      {
+        "sampleId": "skincare-cream-jar-cn-gallery-002",
+        "detectionMs": 180.127,
+        "cropMs": 2.233,
+        "embeddingMs": 21.236
+      },
+      {
+        "sampleId": "skincare-cream-jar-cn-gallery-003",
+        "detectionMs": 178.599,
+        "cropMs": 1.969,
+        "embeddingMs": 18.024
+      },
+      {
+        "sampleId": "razor-cn-gallery-001",
+        "detectionMs": 235.484,
+        "cropMs": 7.65,
+        "embeddingMs": 17.676
+      },
+      {
+        "sampleId": "razor-cn-gallery-002",
+        "detectionMs": 177.544,
+        "cropMs": 1.48,
+        "embeddingMs": 17.34
+      },
+      {
+        "sampleId": "razor-cn-gallery-003",
+        "detectionMs": 181.524,
+        "cropMs": 1.729,
+        "embeddingMs": 16.247
+      },
+      {
+        "sampleId": "comb-cn-gallery-001",
+        "detectionMs": 178.597,
+        "cropMs": 1.933,
+        "embeddingMs": 15.932
+      },
+      {
+        "sampleId": "comb-cn-gallery-002",
+        "detectionMs": 207.201,
+        "cropMs": 4.627,
+        "embeddingMs": 21.425
+      },
+      {
+        "sampleId": "comb-cn-gallery-003",
+        "detectionMs": 294.754,
+        "cropMs": 7.986,
+        "embeddingMs": 43.445
+      },
+      {
+        "sampleId": "baby-bottle-cn-gallery-001",
+        "detectionMs": 259.613,
+        "cropMs": 1.537,
+        "embeddingMs": 18.188
+      },
+      {
+        "sampleId": "baby-bottle-cn-gallery-002",
+        "detectionMs": 321.252,
+        "cropMs": 6.082,
+        "embeddingMs": 19.634
+      },
+      {
+        "sampleId": "baby-bottle-cn-gallery-003",
+        "detectionMs": 209.497,
+        "cropMs": 5.346,
+        "embeddingMs": 19.209
+      },
+      {
+        "sampleId": "diaper-pack-cn-gallery-001",
+        "detectionMs": 241.412,
+        "cropMs": 4.261,
+        "embeddingMs": 19.611
+      },
+      {
+        "sampleId": "diaper-pack-cn-gallery-002",
+        "detectionMs": 229.706,
+        "cropMs": 3.153,
+        "embeddingMs": 35.309
+      },
+      {
+        "sampleId": "diaper-pack-cn-gallery-003",
+        "detectionMs": 193.726,
+        "cropMs": 3.664,
+        "embeddingMs": 17.627
+      },
+      {
+        "sampleId": "wet-wipes-pack-cn-gallery-001",
+        "detectionMs": 188.91,
+        "cropMs": 0.007,
+        "embeddingMs": 16.909
+      },
+      {
+        "sampleId": "wet-wipes-pack-cn-gallery-002",
+        "detectionMs": 182.208,
+        "cropMs": 4.451,
+        "embeddingMs": 21.229
+      },
+      {
+        "sampleId": "wet-wipes-pack-cn-gallery-003",
+        "detectionMs": 188.788,
+        "cropMs": 3.567,
+        "embeddingMs": 16.516
+      },
+      {
+        "sampleId": "toy-blocks-cn-gallery-001",
+        "detectionMs": 179.632,
+        "cropMs": 2.169,
+        "embeddingMs": 16.177
+      },
+      {
+        "sampleId": "toy-blocks-cn-gallery-002",
+        "detectionMs": 180.32,
+        "cropMs": 0.789,
+        "embeddingMs": 16.247
+      },
+      {
+        "sampleId": "toy-blocks-cn-gallery-003",
+        "detectionMs": 192.868,
+        "cropMs": 2.8,
+        "embeddingMs": 36.904
+      },
+      {
+        "sampleId": "plush-toy-cn-gallery-001",
+        "detectionMs": 190.356,
+        "cropMs": 2.851,
+        "embeddingMs": 26.02
+      },
+      {
+        "sampleId": "plush-toy-cn-gallery-002",
+        "detectionMs": 188.196,
+        "cropMs": 4.856,
+        "embeddingMs": 19.185
+      },
+      {
+        "sampleId": "plush-toy-cn-gallery-003",
+        "detectionMs": 189.105,
+        "cropMs": 3.781,
+        "embeddingMs": 38.412
+      },
+      {
+        "sampleId": "pacifier-cn-gallery-001",
+        "detectionMs": 212.95,
+        "cropMs": 6.903,
+        "embeddingMs": 23.999
+      },
+      {
+        "sampleId": "pacifier-cn-gallery-002",
+        "detectionMs": 235.496,
+        "cropMs": 1.837,
+        "embeddingMs": 28.639
+      },
+      {
+        "sampleId": "pacifier-cn-gallery-003",
+        "detectionMs": 242.113,
+        "cropMs": 3.055,
+        "embeddingMs": 35.994
+      },
+      {
+        "sampleId": "childrens-book-cn-gallery-001",
+        "detectionMs": 269.774,
+        "cropMs": 0.01,
+        "embeddingMs": 27.502
+      },
+      {
+        "sampleId": "childrens-book-cn-gallery-002",
+        "detectionMs": 284.165,
+        "cropMs": 0.01,
+        "embeddingMs": 20.742
+      },
+      {
+        "sampleId": "childrens-book-cn-gallery-003",
+        "detectionMs": 204.011,
+        "cropMs": 2.182,
+        "embeddingMs": 18.32
+      },
+      {
+        "sampleId": "pet-food-bag-cn-gallery-001",
+        "detectionMs": 229.532,
+        "cropMs": 1.113,
+        "embeddingMs": 16.807
+      },
+      {
+        "sampleId": "pet-food-bag-cn-gallery-002",
+        "detectionMs": 179.76,
+        "cropMs": 3.137,
+        "embeddingMs": 17.046
+      },
+      {
+        "sampleId": "pet-food-bag-cn-gallery-003",
+        "detectionMs": 180.837,
+        "cropMs": 1.272,
+        "embeddingMs": 18.716
+      },
+      {
+        "sampleId": "pet-bowl-cn-gallery-001",
+        "detectionMs": 247.347,
+        "cropMs": 1.837,
+        "embeddingMs": 25.241
+      },
+      {
+        "sampleId": "pet-bowl-cn-gallery-002",
+        "detectionMs": 318.126,
+        "cropMs": 3.159,
+        "embeddingMs": 27.802
+      },
+      {
+        "sampleId": "pet-bowl-cn-gallery-003",
+        "detectionMs": 210.578,
+        "cropMs": 1.918,
+        "embeddingMs": 19.677
+      },
+      {
+        "sampleId": "leash-cn-gallery-001",
+        "detectionMs": 186.623,
+        "cropMs": 11.473,
+        "embeddingMs": 17.244
+      },
+      {
+        "sampleId": "leash-cn-gallery-002",
+        "detectionMs": 186.134,
+        "cropMs": 2.133,
+        "embeddingMs": 17.309
+      },
+      {
+        "sampleId": "leash-cn-gallery-003",
+        "detectionMs": 178.249,
+        "cropMs": 0.821,
+        "embeddingMs": 17.053
+      },
+      {
+        "sampleId": "pet-toy-cn-gallery-001",
+        "detectionMs": 174.318,
+        "cropMs": 1.423,
+        "embeddingMs": 16.171
+      },
+      {
+        "sampleId": "pet-toy-cn-gallery-002",
+        "detectionMs": 189.374,
+        "cropMs": 3.152,
+        "embeddingMs": 19.597
+      },
+      {
+        "sampleId": "pet-toy-cn-gallery-003",
+        "detectionMs": 170.854,
+        "cropMs": 3.227,
+        "embeddingMs": 16.845
+      },
+      {
+        "sampleId": "litter-bag-cn-gallery-001",
+        "detectionMs": 176.364,
+        "cropMs": 1.393,
+        "embeddingMs": 17.207
+      },
+      {
+        "sampleId": "litter-bag-cn-gallery-002",
+        "detectionMs": 177.098,
+        "cropMs": 2.622,
+        "embeddingMs": 17.293
+      },
+      {
+        "sampleId": "litter-bag-cn-gallery-003",
+        "detectionMs": 191.579,
+        "cropMs": 3.23,
+        "embeddingMs": 16.023
+      },
+      {
+        "sampleId": "grooming-brush-cn-gallery-001",
+        "detectionMs": 176.261,
+        "cropMs": 2.684,
+        "embeddingMs": 15.603
+      },
+      {
+        "sampleId": "grooming-brush-cn-gallery-002",
+        "detectionMs": 174.467,
+        "cropMs": 1.439,
+        "embeddingMs": 31.38
+      },
+      {
+        "sampleId": "grooming-brush-cn-gallery-003",
+        "detectionMs": 170.831,
+        "cropMs": 1.395,
+        "embeddingMs": 16.166
+      },
+      {
+        "sampleId": "waste-bag-roll-cn-gallery-001",
+        "detectionMs": 181.512,
+        "cropMs": 1.091,
+        "embeddingMs": 16.089
+      },
+      {
+        "sampleId": "waste-bag-roll-cn-gallery-002",
+        "detectionMs": 180.586,
+        "cropMs": 2.091,
+        "embeddingMs": 17.896
+      },
+      {
+        "sampleId": "waste-bag-roll-cn-gallery-003",
+        "detectionMs": 219.024,
+        "cropMs": 0.855,
+        "embeddingMs": 17.458
+      },
+      {
+        "sampleId": "yoga-mat-cn-gallery-001",
+        "detectionMs": 186.933,
+        "cropMs": 7.936,
+        "embeddingMs": 16.146
+      },
+      {
+        "sampleId": "yoga-mat-cn-gallery-002",
+        "detectionMs": 182.702,
+        "cropMs": 13.902,
+        "embeddingMs": 17.423
+      },
+      {
+        "sampleId": "yoga-mat-cn-gallery-003",
+        "detectionMs": 202.249,
+        "cropMs": 4.378,
+        "embeddingMs": 15.8
+      },
+      {
+        "sampleId": "dumbbell-cn-gallery-001",
+        "detectionMs": 188.485,
+        "cropMs": 1.738,
+        "embeddingMs": 15.654
+      },
+      {
+        "sampleId": "dumbbell-cn-gallery-002",
+        "detectionMs": 175.697,
+        "cropMs": 0.777,
+        "embeddingMs": 16.741
+      },
+      {
+        "sampleId": "dumbbell-cn-gallery-003",
+        "detectionMs": 229.739,
+        "cropMs": 1.461,
+        "embeddingMs": 24.8
+      },
+      {
+        "sampleId": "jump-rope-cn-gallery-001",
+        "detectionMs": 382.143,
+        "cropMs": 7.335,
+        "embeddingMs": 36.196
+      },
+      {
+        "sampleId": "jump-rope-cn-gallery-002",
+        "detectionMs": 233.281,
+        "cropMs": 2.28,
+        "embeddingMs": 17.369
+      },
+      {
+        "sampleId": "jump-rope-cn-gallery-003",
+        "detectionMs": 203.731,
+        "cropMs": 11.074,
+        "embeddingMs": 16.705
+      },
+      {
+        "sampleId": "sports-water-bottle-cn-gallery-001",
+        "detectionMs": 205.086,
+        "cropMs": 13.887,
+        "embeddingMs": 16.913
+      },
+      {
+        "sampleId": "sports-water-bottle-cn-gallery-002",
+        "detectionMs": 185.979,
+        "cropMs": 0.008,
+        "embeddingMs": 16.16
+      },
+      {
+        "sampleId": "sports-water-bottle-cn-gallery-003",
+        "detectionMs": 198.528,
+        "cropMs": 2.429,
+        "embeddingMs": 17.953
+      },
+      {
+        "sampleId": "bicycle-helmet-cn-gallery-001",
+        "detectionMs": 208.186,
+        "cropMs": 11.899,
+        "embeddingMs": 17.967
+      },
+      {
+        "sampleId": "bicycle-helmet-cn-gallery-002",
+        "detectionMs": 199.173,
+        "cropMs": 1.421,
+        "embeddingMs": 17.478
+      },
+      {
+        "sampleId": "bicycle-helmet-cn-gallery-003",
+        "detectionMs": 195.345,
+        "cropMs": 9.313,
+        "embeddingMs": 16.678
+      },
+      {
+        "sampleId": "camping-lantern-cn-gallery-001",
+        "detectionMs": 180.797,
+        "cropMs": 1.56,
+        "embeddingMs": 16.743
+      },
+      {
+        "sampleId": "camping-lantern-cn-gallery-002",
+        "detectionMs": 187.319,
+        "cropMs": 3.807,
+        "embeddingMs": 17.537
+      },
+      {
+        "sampleId": "camping-lantern-cn-gallery-003",
+        "detectionMs": 184.528,
+        "cropMs": 7.476,
+        "embeddingMs": 18.405
+      },
+      {
+        "sampleId": "rain-poncho-cn-gallery-001",
+        "detectionMs": 208.884,
+        "cropMs": 3.479,
+        "embeddingMs": 18.889
+      },
+      {
+        "sampleId": "rain-poncho-cn-gallery-002",
+        "detectionMs": 192.762,
+        "cropMs": 0.935,
+        "embeddingMs": 25.853
+      },
+      {
+        "sampleId": "rain-poncho-cn-gallery-003",
+        "detectionMs": 179.535,
+        "cropMs": 2.849,
+        "embeddingMs": 18.134
+      },
+      {
+        "sampleId": "suitcase-cn-gallery-001",
+        "detectionMs": 192.305,
+        "cropMs": 12.348,
+        "embeddingMs": 18.038
+      },
+      {
+        "sampleId": "suitcase-cn-gallery-002",
+        "detectionMs": 328.026,
+        "cropMs": 2.875,
+        "embeddingMs": 45.335
+      },
+      {
+        "sampleId": "suitcase-cn-gallery-003",
+        "detectionMs": 253.83,
+        "cropMs": 5.692,
+        "embeddingMs": 29.698
+      },
+      {
+        "sampleId": "backpack-cn-gallery-001",
+        "detectionMs": 310.453,
+        "cropMs": 3.954,
+        "embeddingMs": 23.947
+      },
+      {
+        "sampleId": "backpack-cn-gallery-002",
+        "detectionMs": 273.048,
+        "cropMs": 13.443,
+        "embeddingMs": 23.067
+      },
+      {
+        "sampleId": "backpack-cn-gallery-003",
+        "detectionMs": 275.588,
+        "cropMs": 2.7,
+        "embeddingMs": 26.91
+      },
+      {
+        "sampleId": "toiletry-bag-cn-gallery-001",
+        "detectionMs": 581.048,
+        "cropMs": 22.43,
+        "embeddingMs": 76.848
+      },
+      {
+        "sampleId": "toiletry-bag-cn-gallery-002",
+        "detectionMs": 370.144,
+        "cropMs": 2.818,
+        "embeddingMs": 29.176
+      },
+      {
+        "sampleId": "toiletry-bag-cn-gallery-003",
+        "detectionMs": 346.944,
+        "cropMs": 3.851,
+        "embeddingMs": 32.056
+      },
+      {
+        "sampleId": "travel-adapter-cn-gallery-001",
+        "detectionMs": 402.901,
+        "cropMs": 16.638,
+        "embeddingMs": 31.737
+      },
+      {
+        "sampleId": "travel-adapter-cn-gallery-002",
+        "detectionMs": 454.809,
+        "cropMs": 1.811,
+        "embeddingMs": 35.235
+      },
+      {
+        "sampleId": "travel-adapter-cn-gallery-003",
+        "detectionMs": 762.432,
+        "cropMs": 4.289,
+        "embeddingMs": 48.966
+      },
+      {
+        "sampleId": "luggage-tag-cn-gallery-001",
+        "detectionMs": 534.283,
+        "cropMs": 6.589,
+        "embeddingMs": 57.592
+      },
+      {
+        "sampleId": "luggage-tag-cn-gallery-002",
+        "detectionMs": 886.191,
+        "cropMs": 11.271,
+        "embeddingMs": 137.251
+      },
+      {
+        "sampleId": "luggage-tag-cn-gallery-003",
+        "detectionMs": 674.668,
+        "cropMs": 4.64,
+        "embeddingMs": 154.909
+      },
+      {
+        "sampleId": "packing-cube-cn-gallery-001",
+        "detectionMs": 345.951,
+        "cropMs": 4.787,
+        "embeddingMs": 36.551
+      },
+      {
+        "sampleId": "packing-cube-cn-gallery-002",
+        "detectionMs": 427.357,
+        "cropMs": 6.225,
+        "embeddingMs": 33.259
+      },
+      {
+        "sampleId": "packing-cube-cn-gallery-003",
+        "detectionMs": 278.934,
+        "cropMs": 0.587,
+        "embeddingMs": 26.389
+      },
+      {
+        "sampleId": "passport-holder-cn-gallery-001",
+        "detectionMs": 311.512,
+        "cropMs": 3.64,
+        "embeddingMs": 58.989
+      },
+      {
+        "sampleId": "passport-holder-cn-gallery-002",
+        "detectionMs": 236.979,
+        "cropMs": 5.723,
+        "embeddingMs": 23.759
+      },
+      {
+        "sampleId": "passport-holder-cn-gallery-003",
+        "detectionMs": 264.472,
+        "cropMs": 3.788,
+        "embeddingMs": 33.01
+      },
+      {
+        "sampleId": "umbrella-cn-gallery-001",
+        "detectionMs": 259.36,
+        "cropMs": 4.872,
+        "embeddingMs": 34.197
+      },
+      {
+        "sampleId": "umbrella-cn-gallery-002",
+        "detectionMs": 233.955,
+        "cropMs": 4.953,
+        "embeddingMs": 26.831
+      },
+      {
+        "sampleId": "umbrella-cn-gallery-003",
+        "detectionMs": 210.239,
+        "cropMs": 0.008,
+        "embeddingMs": 28.499
+      },
+      {
+        "sampleId": "christmas-ornament-cn-gallery-001",
+        "detectionMs": 227.081,
+        "cropMs": 4.436,
+        "embeddingMs": 27.325
+      },
+      {
+        "sampleId": "christmas-ornament-cn-gallery-002",
+        "detectionMs": 225.24,
+        "cropMs": 3.33,
+        "embeddingMs": 19.182
+      },
+      {
+        "sampleId": "christmas-ornament-cn-gallery-003",
+        "detectionMs": 212.232,
+        "cropMs": 4.517,
+        "embeddingMs": 28.049
+      },
+      {
+        "sampleId": "hand-warmer-cn-gallery-001",
+        "detectionMs": 224.032,
+        "cropMs": 2.07,
+        "embeddingMs": 20.953
+      },
+      {
+        "sampleId": "hand-warmer-cn-gallery-002",
+        "detectionMs": 271.991,
+        "cropMs": 9.738,
+        "embeddingMs": 31.112
+      },
+      {
+        "sampleId": "hand-warmer-cn-gallery-003",
+        "detectionMs": 237.215,
+        "cropMs": 4.782,
+        "embeddingMs": 21.381
+      },
+      {
+        "sampleId": "sunscreen-bottle-cn-gallery-001",
+        "detectionMs": 225.035,
+        "cropMs": 3.192,
+        "embeddingMs": 29.765
+      },
+      {
+        "sampleId": "sunscreen-bottle-cn-gallery-002",
+        "detectionMs": 257.836,
+        "cropMs": 2.324,
+        "embeddingMs": 20.9
+      },
+      {
+        "sampleId": "sunscreen-bottle-cn-gallery-003",
+        "detectionMs": 250.133,
+        "cropMs": 13.688,
+        "embeddingMs": 25.633
+      },
+      {
+        "sampleId": "mosquito-repellent-cn-gallery-001",
+        "detectionMs": 244.363,
+        "cropMs": 0.799,
+        "embeddingMs": 20.379
+      },
+      {
+        "sampleId": "mosquito-repellent-cn-gallery-002",
+        "detectionMs": 248.43,
+        "cropMs": 2.839,
+        "embeddingMs": 22.594
+      },
+      {
+        "sampleId": "mosquito-repellent-cn-gallery-003",
+        "detectionMs": 238.131,
+        "cropMs": 2.787,
+        "embeddingMs": 21.239
+      },
+      {
+        "sampleId": "holiday-lights-cn-gallery-001",
+        "detectionMs": 251.089,
+        "cropMs": 2.389,
+        "embeddingMs": 23.496
+      },
+      {
+        "sampleId": "holiday-lights-cn-gallery-002",
+        "detectionMs": 269.606,
+        "cropMs": 8.343,
+        "embeddingMs": 30.225
+      },
+      {
+        "sampleId": "holiday-lights-cn-gallery-003",
+        "detectionMs": 331.423,
+        "cropMs": 0.008,
+        "embeddingMs": 22.365
+      },
+      {
+        "sampleId": "portable-fan-cn-gallery-001",
+        "detectionMs": 254.384,
+        "cropMs": 5.985,
+        "embeddingMs": 25.278
+      },
+      {
+        "sampleId": "portable-fan-cn-gallery-002",
+        "detectionMs": 270.165,
+        "cropMs": 2.498,
+        "embeddingMs": 20.804
+      },
+      {
+        "sampleId": "portable-fan-cn-gallery-003",
+        "detectionMs": 453.206,
+        "cropMs": 3.681,
+        "embeddingMs": 32.508
+      },
+      {
+        "sampleId": "towel-cn-gallery-001",
+        "detectionMs": 491.912,
+        "cropMs": 4.249,
+        "embeddingMs": 48.662
+      },
+      {
+        "sampleId": "towel-cn-gallery-002",
+        "detectionMs": 553.922,
+        "cropMs": 3.116,
+        "embeddingMs": 68.683
+      },
+      {
+        "sampleId": "towel-cn-gallery-003",
+        "detectionMs": 458.514,
+        "cropMs": 10.121,
+        "embeddingMs": 51.548
+      },
+      {
+        "sampleId": "bath-towel-cn-gallery-001",
+        "detectionMs": 370.372,
+        "cropMs": 9.838,
+        "embeddingMs": 28.07
+      },
+      {
+        "sampleId": "bath-towel-cn-gallery-002",
+        "detectionMs": 279.882,
+        "cropMs": 1.096,
+        "embeddingMs": 32.082
+      },
+      {
+        "sampleId": "bath-towel-cn-gallery-003",
+        "detectionMs": 269.494,
+        "cropMs": 5.629,
+        "embeddingMs": 35.381
+      },
+      {
+        "sampleId": "bed-sheet-cn-gallery-001",
+        "detectionMs": 238.334,
+        "cropMs": 4.708,
+        "embeddingMs": 29.783
+      },
+      {
+        "sampleId": "bed-sheet-cn-gallery-002",
+        "detectionMs": 208.029,
+        "cropMs": 4.643,
+        "embeddingMs": 21.405
+      },
+      {
+        "sampleId": "bed-sheet-cn-gallery-003",
+        "detectionMs": 199.515,
+        "cropMs": 3.123,
+        "embeddingMs": 18.223
+      },
+      {
+        "sampleId": "pillowcase-cn-gallery-001",
+        "detectionMs": 191.264,
+        "cropMs": 0.009,
+        "embeddingMs": 25.396
+      },
+      {
+        "sampleId": "pillowcase-cn-gallery-002",
+        "detectionMs": 194.712,
+        "cropMs": 1.061,
+        "embeddingMs": 17.838
+      },
+      {
+        "sampleId": "pillowcase-cn-gallery-003",
+        "detectionMs": 260.812,
+        "cropMs": 2.279,
+        "embeddingMs": 21.11
+      },
+      {
+        "sampleId": "blanket-cn-gallery-001",
+        "detectionMs": 294.819,
+        "cropMs": 3.819,
+        "embeddingMs": 27.075
+      },
+      {
+        "sampleId": "blanket-cn-gallery-002",
+        "detectionMs": 294.283,
+        "cropMs": 2.182,
+        "embeddingMs": 30.598
+      },
+      {
+        "sampleId": "blanket-cn-gallery-003",
+        "detectionMs": 310.915,
+        "cropMs": 2.872,
+        "embeddingMs": 29.566
+      },
+      {
+        "sampleId": "cushion-cover-cn-gallery-001",
+        "detectionMs": 432.532,
+        "cropMs": 3.962,
+        "embeddingMs": 28.038
+      },
+      {
+        "sampleId": "cushion-cover-cn-gallery-002",
+        "detectionMs": 381.547,
+        "cropMs": 5.988,
+        "embeddingMs": 79.696
+      },
+      {
+        "sampleId": "cushion-cover-cn-gallery-003",
+        "detectionMs": 399.19,
+        "cropMs": 16.37,
+        "embeddingMs": 22.784
+      },
+      {
+        "sampleId": "tablecloth-cn-gallery-001",
+        "detectionMs": 283.007,
+        "cropMs": 2.102,
+        "embeddingMs": 37.41
+      },
+      {
+        "sampleId": "tablecloth-cn-gallery-002",
+        "detectionMs": 306.879,
+        "cropMs": 1.72,
+        "embeddingMs": 18.311
+      },
+      {
+        "sampleId": "tablecloth-cn-gallery-003",
+        "detectionMs": 209.79,
+        "cropMs": 3.596,
+        "embeddingMs": 23.851
+      },
+      {
+        "sampleId": "toilet-paper-roll-cn-gallery-001",
+        "detectionMs": 201.753,
+        "cropMs": 1.742,
+        "embeddingMs": 21.124
+      },
+      {
+        "sampleId": "toilet-paper-roll-cn-gallery-002",
+        "detectionMs": 186.057,
+        "cropMs": 4.316,
+        "embeddingMs": 19.508
+      },
+      {
+        "sampleId": "toilet-paper-roll-cn-gallery-003",
+        "detectionMs": 189.527,
+        "cropMs": 2.623,
+        "embeddingMs": 19.567
+      },
+      {
+        "sampleId": "tissue-box-cn-gallery-001",
+        "detectionMs": 195.574,
+        "cropMs": 1.246,
+        "embeddingMs": 17.705
+      },
+      {
+        "sampleId": "tissue-box-cn-gallery-002",
+        "detectionMs": 212.137,
+        "cropMs": 4.556,
+        "embeddingMs": 26.037
+      },
+      {
+        "sampleId": "tissue-box-cn-gallery-003",
+        "detectionMs": 213.812,
+        "cropMs": 6.301,
+        "embeddingMs": 20.065
+      },
+      {
+        "sampleId": "soap-bar-cn-gallery-001",
+        "detectionMs": 204.109,
+        "cropMs": 1.734,
+        "embeddingMs": 19.867
+      },
+      {
+        "sampleId": "soap-bar-cn-gallery-002",
+        "detectionMs": 194.844,
+        "cropMs": 1.67,
+        "embeddingMs": 17.029
+      },
+      {
+        "sampleId": "soap-bar-cn-gallery-003",
+        "detectionMs": 180.194,
+        "cropMs": 1.536,
+        "embeddingMs": 17.945
+      },
+      {
+        "sampleId": "hand-sanitizer-cn-gallery-001",
+        "detectionMs": 194.675,
+        "cropMs": 1.372,
+        "embeddingMs": 17.618
+      },
+      {
+        "sampleId": "hand-sanitizer-cn-gallery-002",
+        "detectionMs": 225.129,
+        "cropMs": 7.583,
+        "embeddingMs": 20.15
+      },
+      {
+        "sampleId": "hand-sanitizer-cn-gallery-003",
+        "detectionMs": 193.336,
+        "cropMs": 3.929,
+        "embeddingMs": 18.419
+      },
+      {
+        "sampleId": "shower-cap-cn-gallery-001",
+        "detectionMs": 202.315,
+        "cropMs": 2.02,
+        "embeddingMs": 17.795
+      },
+      {
+        "sampleId": "shower-cap-cn-gallery-002",
+        "detectionMs": 187.281,
+        "cropMs": 3.686,
+        "embeddingMs": 20.334
+      },
+      {
+        "sampleId": "shower-cap-cn-gallery-003",
+        "detectionMs": 192.28,
+        "cropMs": 3.214,
+        "embeddingMs": 17.227
+      },
+      {
+        "sampleId": "bath-mat-cn-gallery-001",
+        "detectionMs": 186.74,
+        "cropMs": 2.199,
+        "embeddingMs": 16.12
+      },
+      {
+        "sampleId": "bath-mat-cn-gallery-002",
+        "detectionMs": 196.68,
+        "cropMs": 2.087,
+        "embeddingMs": 16.756
+      },
+      {
+        "sampleId": "bath-mat-cn-gallery-003",
+        "detectionMs": 185.496,
+        "cropMs": 1.287,
+        "embeddingMs": 17.476
+      },
+      {
+        "sampleId": "toilet-brush-cn-gallery-001",
+        "detectionMs": 203.106,
+        "cropMs": 2.965,
+        "embeddingMs": 17.017
+      },
+      {
+        "sampleId": "toilet-brush-cn-gallery-002",
+        "detectionMs": 190.367,
+        "cropMs": 2.291,
+        "embeddingMs": 17.655
+      },
+      {
+        "sampleId": "toilet-brush-cn-gallery-003",
+        "detectionMs": 204.146,
+        "cropMs": 1.495,
+        "embeddingMs": 18.819
+      },
+      {
+        "sampleId": "photo-frame-cn-gallery-001",
+        "detectionMs": 201.181,
+        "cropMs": 2.041,
+        "embeddingMs": 17.389
+      },
+      {
+        "sampleId": "photo-frame-cn-gallery-002",
+        "detectionMs": 190.34,
+        "cropMs": 1.152,
+        "embeddingMs": 22.254
+      },
+      {
+        "sampleId": "photo-frame-cn-gallery-003",
+        "detectionMs": 193.293,
+        "cropMs": 1.075,
+        "embeddingMs": 17.919
+      },
+      {
+        "sampleId": "vase-cn-gallery-001",
+        "detectionMs": 198.537,
+        "cropMs": 1.124,
+        "embeddingMs": 18.154
+      },
+      {
+        "sampleId": "vase-cn-gallery-002",
+        "detectionMs": 197.922,
+        "cropMs": 3.365,
+        "embeddingMs": 15.838
+      },
+      {
+        "sampleId": "vase-cn-gallery-003",
+        "detectionMs": 195.456,
+        "cropMs": 2.429,
+        "embeddingMs": 16.734
+      },
+      {
+        "sampleId": "candle-cn-gallery-001",
+        "detectionMs": 191.836,
+        "cropMs": 2.232,
+        "embeddingMs": 17.256
+      },
+      {
+        "sampleId": "candle-cn-gallery-002",
+        "detectionMs": 224.674,
+        "cropMs": 2.044,
+        "embeddingMs": 21.186
+      },
+      {
+        "sampleId": "candle-cn-gallery-003",
+        "detectionMs": 188.983,
+        "cropMs": 3.503,
+        "embeddingMs": 18.8
+      },
+      {
+        "sampleId": "wall-clock-cn-gallery-001",
+        "detectionMs": 267.112,
+        "cropMs": 16.053,
+        "embeddingMs": 18.055
+      },
+      {
+        "sampleId": "wall-clock-cn-gallery-002",
+        "detectionMs": 224.833,
+        "cropMs": 4.221,
+        "embeddingMs": 21.333
+      },
+      {
+        "sampleId": "wall-clock-cn-gallery-003",
+        "detectionMs": 201.605,
+        "cropMs": 1.952,
+        "embeddingMs": 17.292
+      },
+      {
+        "sampleId": "decorative-basket-cn-gallery-001",
+        "detectionMs": 195.526,
+        "cropMs": 2.933,
+        "embeddingMs": 18.114
+      },
+      {
+        "sampleId": "decorative-basket-cn-gallery-002",
+        "detectionMs": 209.66,
+        "cropMs": 1.198,
+        "embeddingMs": 18.341
+      },
+      {
+        "sampleId": "decorative-basket-cn-gallery-003",
+        "detectionMs": 200.876,
+        "cropMs": 2.187,
+        "embeddingMs": 23.297
+      },
+      {
+        "sampleId": "artificial-flower-cn-gallery-001",
+        "detectionMs": 212.598,
+        "cropMs": 1.067,
+        "embeddingMs": 17.778
+      },
+      {
+        "sampleId": "artificial-flower-cn-gallery-002",
+        "detectionMs": 259.337,
+        "cropMs": 4.656,
+        "embeddingMs": 20.017
+      },
+      {
+        "sampleId": "artificial-flower-cn-gallery-003",
+        "detectionMs": 230.056,
+        "cropMs": 1.198,
+        "embeddingMs": 21.513
+      },
+      {
+        "sampleId": "diffuser-bottle-cn-gallery-001",
+        "detectionMs": 234.781,
+        "cropMs": 1.415,
+        "embeddingMs": 21.38
+      },
+      {
+        "sampleId": "diffuser-bottle-cn-gallery-002",
+        "detectionMs": 213.154,
+        "cropMs": 0.911,
+        "embeddingMs": 18.087
+      },
+      {
+        "sampleId": "diffuser-bottle-cn-gallery-003",
+        "detectionMs": 214.623,
+        "cropMs": 3.024,
+        "embeddingMs": 16.634
+      }
+    ]
+  },
+  "summary": {
+    "manifestSamples": 448,
+    "processedGallerySamples": 398,
+    "indexEntries": 398,
+    "failures": 0,
+    "categoriesWithEntries": 133
+  },
+  "failures": []
+}

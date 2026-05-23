@@ -1,0 +1,1708 @@
+{
+  "kind": "vision-model-eval-dataset",
+  "version": "20260523-household-index-smoke-50-eval",
+  "description": "Household smoke eval dataset with 50 query images generated from the extended real-photo manifest.",
+  "sourceProvider": "Wikimedia Commons",
+  "images": [
+    {
+      "id": "storage-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "sourceTitle": "Orange plastic storage container on top of a stack.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-real-query-1",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 6,
+            "y": 8,
+            "w": 89,
+            "h": 84
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "Orange plastic storage container on top of a stack.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "sourceTitle": "USB cable.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_cable.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-real-query-1",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 5,
+            "y": 28,
+            "w": 91,
+            "h": 45
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "USB cable.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_cable.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "sourceTitle": "Apple USB Charger 1 2017-02-02.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-real-query-1",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 37,
+            "y": 30,
+            "w": 60,
+            "h": 36
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "Apple USB Charger 1 2017-02-02.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "sourceTitle": "Television remote control - black 01.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-real-query-1",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 30,
+            "y": 0.5,
+            "w": 41,
+            "h": 98
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "Television remote control - black 01.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "sourceTitle": "2023 Kasetka z lekami.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-real-query-1",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 4,
+            "y": 5,
+            "w": 92,
+            "h": 86
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "2023 Kasetka z lekami.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg"
+        }
+      ]
+    },
+    {
+      "id": "battery-real-query-1",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "sourceTitle": "02 - Single Energizer Battery.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-battery-real-query-1",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "电池"
+          ],
+          "box": {
+            "x": 13,
+            "y": 15,
+            "w": 73,
+            "h": 53
+          },
+          "aliases": [
+            "battery",
+            "alkaline battery",
+            "电池"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "02 - Single Energizer Battery.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-02",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-02-file-storage-containers-in-svalbard-global-seed-vault-01-jpg.jpg",
+      "sourceTitle": "File:Storage containers in Svalbard Global Seed Vault 01.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AStorage_containers_in_Svalbard_Global_Seed_Vault_01.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-02",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 0,
+            "y": 0,
+            "w": 99.7917,
+            "h": 99.2188
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Storage containers in Svalbard Global Seed Vault 01.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AStorage_containers_in_Svalbard_Global_Seed_Vault_01.jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-03",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-03-file-day-of-service-2015-21253681361-jpg.jpg",
+      "sourceTitle": "File:Day of Service 2015 (21253681361).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681361).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-03",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 16.1458,
+            "y": 72.5313,
+            "w": 35.2083,
+            "h": 26.6342
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Day of Service 2015 (21253681361).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681361).jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-04",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-04-file-day-of-service-2015-21245680865-jpg.jpg",
+      "sourceTitle": "File:Day of Service 2015 (21245680865).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21245680865).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-04",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 24.6875,
+            "y": 58.0668,
+            "w": 50.3125,
+            "h": 29.4854
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Day of Service 2015 (21245680865).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21245680865).jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-05",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-05-file-day-of-service-2015-20624556473-jpg.jpg",
+      "sourceTitle": "File:Day of Service 2015 (20624556473).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(20624556473).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-05",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 42.9167,
+            "y": 45.9666,
+            "w": 23.125,
+            "h": 14.6732
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Day of Service 2015 (20624556473).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(20624556473).jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-06",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-06-file-day-of-service-2015-21253681701-jpg.jpg",
+      "sourceTitle": "File:Day of Service 2015 (21253681701).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681701).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-06",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 49.375,
+            "y": 40.2643,
+            "w": 24.1667,
+            "h": 9.8053
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Day of Service 2015 (21253681701).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681701).jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-07",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-07-file-plastic-multi-drawer-storage-cabinets-1-2018-01-30-jpg.jpg",
+      "sourceTitle": "File:Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APlastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-07",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 21.3542,
+            "y": 16.0938,
+            "w": 55.625,
+            "h": 76.7969
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APlastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-08",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-08-file-blue-plastic-storage-organizer-boxes-for-screws-jpg.jpg",
+      "sourceTitle": "File:Blue plastic storage organizer boxes for screws.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABlue_plastic_storage_organizer_boxes_for_screws.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-08",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 0,
+            "y": 1.6349,
+            "w": 99.7917,
+            "h": 93.3243
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Blue plastic storage organizer boxes for screws.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABlue_plastic_storage_organizer_boxes_for_screws.jpg"
+        }
+      ]
+    },
+    {
+      "id": "storage-box-commons-eval-09",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-09-file-gratnells-school-storage-jumbo-tray-in-purple-jpg.jpg",
+      "sourceTitle": "File:Gratnells School Storage Jumbo Tray in Purple.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AGratnells_School_Storage_Jumbo_Tray_in_Purple.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-storage-box-commons-eval-09",
+          "name": "收纳盒",
+          "categoryId": "storage-box",
+          "categoryPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器",
+            "收纳盒"
+          ],
+          "box": {
+            "x": 13.5417,
+            "y": 10.1563,
+            "w": 67.2917,
+            "h": 84.0625
+          },
+          "aliases": [
+            "storage box",
+            "plastic storage bin",
+            "收纳盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Gratnells School Storage Jumbo Tray in Purple.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AGratnells_School_Storage_Jumbo_Tray_in_Purple.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-02",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-02-file-huawei-ec226-with-usb-cable-3384718751-jpg.jpg",
+      "sourceTitle": "File:Huawei EC226 with USB cable (3384718751).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AHuawei_EC226_with_USB_cable_(3384718751).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-02",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 0.8333,
+            "y": 11.8056,
+            "w": 79.4792,
+            "h": 79.1667
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Huawei EC226 with USB cable (3384718751).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AHuawei_EC226_with_USB_cable_(3384718751).jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-03",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-03-file-lost-found-mini-usb-ladekabel-jpg.jpg",
+      "sourceTitle": "File:Lost&Found Mini USB LAdekabel.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALost%26Found_Mini_USB_LAdekabel.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-03",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 13.125,
+            "y": 27.5,
+            "w": 68.9583,
+            "h": 45.4167
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Lost&Found Mini USB LAdekabel.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALost%26Found_Mini_USB_LAdekabel.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-04",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-04-file-usb-c-png.png",
+      "sourceTitle": "File:USB-C.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-C.png",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-04",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 69.9203,
+            "y": 64.0127,
+            "w": 27.8884,
+            "h": 32.4841
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB-C.png",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-C.png"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-05",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-05-file-usb-broadband-modems-jpg.jpg",
+      "sourceTitle": "File:USB broadband modems.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_broadband_modems.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-05",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 6.9444,
+            "y": 48.7234,
+            "w": 79.5833,
+            "h": 20.2128
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB broadband modems.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_broadband_modems.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-06",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-06-file-usb-a-and-usb-micro-b-connectors-in-the-power-bank-jpg.jpg",
+      "sourceTitle": "File:USB-A and USB micro B connectors in the power bank.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-A_and_USB_micro_B_connectors_in_the_power_bank.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-06",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 25.4167,
+            "y": 8.6806,
+            "w": 43.6458,
+            "h": 23.6111
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB-A and USB micro B connectors in the power bank.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-A_and_USB_micro_B_connectors_in_the_power_bank.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-07",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-07-file-usb-a-b-cable-agr-jpg.jpg",
+      "sourceTitle": "File:USB A & B cable.agr.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_A_%26_B_cable.agr.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-07",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 16.0417,
+            "y": 0.625,
+            "w": 83.3333,
+            "h": 93.3333
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB A & B cable.agr.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_A_%26_B_cable.agr.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-08",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-08-file-10base-t1s-to-usb-media-converter-png.png",
+      "sourceTitle": "File:10BASE-T1S-To-USB Media Converter.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A10BASE-T1S-To-USB_Media_Converter.png",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-08",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 44.7742,
+            "y": 12.9151,
+            "w": 31.6129,
+            "h": 8.8561
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:10BASE-T1S-To-USB Media Converter.png",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A10BASE-T1S-To-USB_Media_Converter.png"
+        }
+      ]
+    },
+    {
+      "id": "charging-cable-commons-eval-09",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-09-file-five-usb-cables-with-braided-jackets-in-different-colours-jpg.jpg",
+      "sourceTitle": "File:Five USB cables with braided jackets in different colours.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AFive_USB_cables_with_braided_jackets_in_different_colours.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charging-cable-commons-eval-09",
+          "name": "数据线",
+          "categoryId": "charging-cable",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "数据线"
+          ],
+          "box": {
+            "x": 1.9792,
+            "y": 39.2722,
+            "w": 75.5208,
+            "h": 53.0705
+          },
+          "aliases": [
+            "usb cable",
+            "charging cable",
+            "数据线"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Five USB cables with braided jackets in different colours.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AFive_USB_cables_with_braided_jackets_in_different_colours.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-02",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-02-file-ladeger-t-jpg.jpg",
+      "sourceTitle": "File:Ladegerät.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALadeger%C3%A4t.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-02",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 8.0208,
+            "y": 0.2778,
+            "w": 82.7083,
+            "h": 94.1667
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Ladegerät.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALadeger%C3%A4t.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-03",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-03-file-usb-aa-battery-charger-1-jpg.jpg",
+      "sourceTitle": "File:USB AA battery charger 1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_1.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-03",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 56.9792,
+            "y": 26.25,
+            "w": 21.3542,
+            "h": 17.6389
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB AA battery charger 1.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_1.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-04",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-04-file-usb-aa-battery-charger-3-jpg.jpg",
+      "sourceTitle": "File:USB AA battery charger 3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_3.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-04",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 17.7083,
+            "y": 25.5556,
+            "w": 66.875,
+            "h": 68.3333
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB AA battery charger 3.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_3.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-05",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-05-file-usb-aa-battery-charger-2-jpg.jpg",
+      "sourceTitle": "File:USB AA battery charger 2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_2.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-05",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 15.7292,
+            "y": 12.0833,
+            "w": 72.8125,
+            "h": 73.8889
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:USB AA battery charger 2.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-06",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-06-file-nikon-mh-18a-battery-charger-jpg.jpg",
+      "sourceTitle": "File:Nikon MH-18a battery charger.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANikon_MH-18a_battery_charger.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-06",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 16.875,
+            "y": 11.2202,
+            "w": 67.6042,
+            "h": 80.3647
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Nikon MH-18a battery charger.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANikon_MH-18a_battery_charger.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-07",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-07-file-universal-battery-charger-charging-jpg.jpg",
+      "sourceTitle": "File:Universal battery charger charging.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUniversal_battery_charger_charging.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-07",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 9.8191,
+            "y": 5.2326,
+            "w": 86.8217,
+            "h": 93.9922
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Universal battery charger charging.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUniversal_battery_charger_charging.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-08",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-08-file-buck-converter-stepdown-3a-usb-charger-and-supply-img-20170202-2107-jpg.jpg",
+      "sourceTitle": "File:Buck converter stepdown 3A USB Charger and Supply IMG 20170202 2107.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABuck_converter_stepdown_3A_USB_Charger_and_Supply_IMG_20170202_2107.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-08",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 1.0417,
+            "y": 9.661,
+            "w": 91.9792,
+            "h": 81.1864
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Buck converter stepdown 3A USB Charger and Supply IMG 20170202 2107.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABuck_converter_stepdown_3A_USB_Charger_and_Supply_IMG_20170202_2107.jpg"
+        }
+      ]
+    },
+    {
+      "id": "charger-commons-eval-09",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-09-file-canon-battery-charger-cb2lte-1290-jpg.jpg",
+      "sourceTitle": "File:Canon battery charger CB2LTE-1290.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ACanon_battery_charger_CB2LTE-1290.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-charger-commons-eval-09",
+          "name": "充电器",
+          "categoryId": "charger",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "充电器"
+          ],
+          "box": {
+            "x": 4.7917,
+            "y": 14.7222,
+            "w": 93.9583,
+            "h": 74.8611
+          },
+          "aliases": [
+            "charger",
+            "power adapter",
+            "充电器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Canon battery charger CB2LTE-1290.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ACanon_battery_charger_CB2LTE-1290.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-02",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-02-file-remote-control-infrared-jpg.jpg",
+      "sourceTitle": "File:Remote-Control-Infrared.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote-Control-Infrared.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-02",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 0.2604,
+            "y": 0,
+            "w": 98.1771,
+            "h": 99.4141
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Remote-Control-Infrared.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote-Control-Infrared.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-03",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-03-file-remote-infrared-jpg.jpg",
+      "sourceTitle": "File:Remote infrared.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_infrared.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-03",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 9.1667,
+            "y": 41.2676,
+            "w": 70.4167,
+            "h": 38.7324
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Remote infrared.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_infrared.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-04",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-04-file-avermedia-rm-rh-remote-control-white-background-edit-jpg.jpg",
+      "sourceTitle": "File:AverMedia RM-RH Remote control (white background) edit.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-04",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 20.7292,
+            "y": 19.375,
+            "w": 63.0208,
+            "h": 64.2188
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:AverMedia RM-RH Remote control (white background) edit.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAverMedia_RM-RH_Remote_control_(white_background)_edit.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-05",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-05-file-remote-controls-jpg.jpg",
+      "sourceTitle": "File:Remote controls.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_controls.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-05",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 85.8333,
+            "y": 4.878,
+            "w": 13.8542,
+            "h": 86.8902
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Remote controls.JPG",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_controls.JPG"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-06",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-06-file-remote-control-control-remoto-jpg.jpg",
+      "sourceTitle": "File:Remote control - control remoto.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_control_-_control_remoto.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-06",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 4.0541,
+            "y": 5.6911,
+            "w": 83.1081,
+            "h": 89.4309
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Remote control - control remoto.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_control_-_control_remoto.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-07",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-07-file-nuon-n2000-remote-control-jpg.jpg",
+      "sourceTitle": "File:Nuon-N2000-Remote-Control.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANuon-N2000-Remote-Control.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-07",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 5.1042,
+            "y": 2.6824,
+            "w": 93.75,
+            "h": 94.0987
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Nuon-N2000-Remote-Control.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANuon-N2000-Remote-Control.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-08",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-08-file-television-remote-control-unbranded-4028-jpg.jpg",
+      "sourceTitle": "File:Television remote control - unbranded-4028.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ATelevision_remote_control_-_unbranded-4028.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-08",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 4.7917,
+            "y": 6.0417,
+            "w": 88.9583,
+            "h": 92.2917
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Television remote control - unbranded-4028.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ATelevision_remote_control_-_unbranded-4028.jpg"
+        }
+      ]
+    },
+    {
+      "id": "remote-control-commons-eval-09",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-09-file-lg-ir-dvd-remote-control-6711r1p089k-jpg.jpg",
+      "sourceTitle": "File:LG IR DVD Remote Control 6711R1P089K.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALG_IR_DVD_Remote_Control_6711R1P089K.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-remote-control-commons-eval-09",
+          "name": "遥控器",
+          "categoryId": "remote-control",
+          "categoryPath": [
+            "家电",
+            "小家电",
+            "家庭电器",
+            "遥控器"
+          ],
+          "box": {
+            "x": 26.0417,
+            "y": 3.6907,
+            "w": 45.8333,
+            "h": 82.5425
+          },
+          "aliases": [
+            "remote control",
+            "tv remote",
+            "遥控器"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:LG IR DVD Remote Control 6711R1P089K.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALG_IR_DVD_Remote_Control_6711R1P089K.jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-02",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-02-file-pill-box-with-pills-jpg.jpg",
+      "sourceTitle": "File:Pill box with pills.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_with_pills.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-02",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 6.25,
+            "y": 38.0556,
+            "w": 83.5417,
+            "h": 32.0833
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill box with pills.JPG",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_with_pills.JPG"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-03",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-03-file-pill-dispenser-daily-jpg.jpg",
+      "sourceTitle": "File:Pill Dispenser (daily).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Dispenser_(daily).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-03",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 2.2581,
+            "y": 47.9487,
+            "w": 97.7419,
+            "h": 47.9487
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Dispenser (daily).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Dispenser_(daily).jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-04",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-04-file-pill-box-for-spanish-or-french-speakers-32518630336-jpg.jpg",
+      "sourceTitle": "File:Pill Box for Spanish or French Speakers (32518630336).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_for_Spanish_or_French_Speakers_(32518630336).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-04",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 1.3542,
+            "y": 19.0402,
+            "w": 98.6458,
+            "h": 71.8266
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Box for Spanish or French Speakers (32518630336).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_for_Spanish_or_French_Speakers_(32518630336).jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-05",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-05-file-pill-box-32636946385-jpg.jpg",
+      "sourceTitle": "File:Pill Box (32636946385).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(32636946385).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-05",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 8.3333,
+            "y": 20.9064,
+            "w": 89.7917,
+            "h": 63.5965
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Box (32636946385).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(32636946385).jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-06",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-06-file-pill-box-24888074919-jpg.jpg",
+      "sourceTitle": "File:Pill Box (24888074919).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(24888074919).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-06",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 0.3125,
+            "y": 3.0769,
+            "w": 99.6875,
+            "h": 95.7265
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Box (24888074919).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(24888074919).jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-07",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-07-file-pill-box-warkworth-2022-03-27-3-jpg.jpg",
+      "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_3.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-07",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 13.75,
+            "y": 0,
+            "w": 69.5833,
+            "h": 99.6875
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 3.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_3.jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-08",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-08-file-pill-box-warkworth-2022-03-27-2-jpg.jpg",
+      "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_2.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-08",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 20,
+            "y": 37.4306,
+            "w": 16.9792,
+            "h": 6.1111
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 2.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "medicine-box-commons-eval-09",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-09-file-pill-box-warkworth-2022-03-27-5-jpg.jpg",
+      "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 5.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_5.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-medicine-box-commons-eval-09",
+          "name": "药盒",
+          "categoryId": "medicine-box",
+          "categoryPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品",
+            "药盒"
+          ],
+          "box": {
+            "x": 0,
+            "y": 81.8056,
+            "w": 23.5417,
+            "h": 18.1944
+          },
+          "aliases": [
+            "medicine box",
+            "pill organizer",
+            "药盒"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 5.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_5.jpg"
+        }
+      ]
+    },
+    {
+      "id": "battery-commons-eval-02",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-02-file-alkali-battery-5-jpg.jpg",
+      "sourceTitle": "File:Alkali battery 5.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAlkali_battery_5.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-battery-commons-eval-02",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "电池"
+          ],
+          "box": {
+            "x": 73.0208,
+            "y": 12.8898,
+            "w": 24.0625,
+            "h": 75.052
+          },
+          "aliases": [
+            "battery",
+            "alkaline battery",
+            "电池"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:Alkali battery 5.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAlkali_battery_5.jpg"
+        }
+      ]
+    },
+    {
+      "id": "battery-commons-eval-03",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-03-file-aa-battery-adapter-jpg.jpg",
+      "sourceTitle": "File:AA battery adapter.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAA_battery_adapter.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-battery-commons-eval-03",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "电池"
+          ],
+          "box": {
+            "x": 6.5625,
+            "y": 4.6563,
+            "w": 81.875,
+            "h": 85.255
+          },
+          "aliases": [
+            "battery",
+            "alkaline battery",
+            "电池"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:AA battery adapter.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAA_battery_adapter.jpg"
+        }
+      ]
+    },
+    {
+      "id": "battery-commons-eval-04",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-04-file-02-single-energizer-battery-jpg.jpg",
+      "sourceTitle": "File:02 - Single Energizer Battery.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A02_-_Single_Energizer_Battery.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-battery-commons-eval-04",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "电池"
+          ],
+          "box": {
+            "x": 13.75,
+            "y": 12.7726,
+            "w": 68.4375,
+            "h": 70.8723
+          },
+          "aliases": [
+            "battery",
+            "alkaline battery",
+            "电池"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:02 - Single Energizer Battery.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A02_-_Single_Energizer_Battery.jpg"
+        }
+      ]
+    },
+    {
+      "id": "battery-commons-eval-05",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-05-file-6-most-common-battery-types-1-jpg.jpg",
+      "sourceTitle": "File:6 most common battery types-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A6_most_common_battery_types-1.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "groundTruth": [
+        {
+          "id": "gt-battery-commons-eval-05",
+          "name": "电池",
+          "categoryId": "battery",
+          "categoryPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件",
+            "电池"
+          ],
+          "box": {
+            "x": 62.0833,
+            "y": 34.5972,
+            "w": 6.7708,
+            "h": 64.6919
+          },
+          "aliases": [
+            "battery",
+            "alkaline battery",
+            "电池"
+          ],
+          "activeCategory": true,
+          "sourceTitle": "File:6 most common battery types-1.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A6_most_common_battery_types-1.jpg"
+        }
+      ]
+    }
+  ]
+}

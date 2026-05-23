@@ -84,6 +84,55 @@ python3 scripts/vision-category-index.py build-index
 
 这会从 `data/vision-taxonomy-source.seed.json` 生成四级类目 fixture，校验 `data/vision-samples.seed.json`，输出 `data/generated/vision-evaluation.seed.json`，并在评估通过后生成 `data/vision-index.generated.json`。浏览器端会优先加载生成索引，失败时回退到 `data/vision-index.seed.json`。
 
+扩展家庭类目骨架使用 GS1 GPC 的 `Segment / Family / Class / Brick` 作为 canonical 四级 lineage；Google Product Taxonomy 只做 aliases、search queries、detector labels 和辅助映射；UNSPSC 暂不作为第一版家庭视觉体系的 canonical 来源。生成 MVP household 类目和覆盖报告：
+
+```bash
+python3 scripts/vision-category-index.py import-taxonomy \
+  --input data/vision-taxonomy-source.household.json \
+  --output data/vision-categories.household.json \
+  --version 20260523-household-expanded \
+  --max-coverage-tier mvp
+
+python3 scripts/vision-category-index.py coverage-report \
+  --taxonomy data/vision-categories.household.json \
+  --output data/generated/vision-taxonomy-coverage.household.json
+```
+
+当前 expanded artifact 覆盖 19 个家庭域、133 个 active MVP leaf categories，并在 coverage report 中把还缺代表图片的 leaves 标记为 not index-ready。benchmark 或本地 provider 可以通过 `--categories data/vision-categories.household.json` 显式切换到扩展 taxonomy；默认 smoke test 仍然使用 seed subset。
+
+真实 household index smoke batch 会从已审核的真实照片 manifest 构建本地 OWL-ViT region + CLIP crop embedding index：
+
+```bash
+node scripts/vision-household-index.mjs create-smoke-manifest
+node scripts/vision-household-index.mjs create-eval-dataset
+node scripts/vision-household-index.mjs build-index
+node scripts/vision-household-index.mjs readiness
+
+python3 scripts/vision-model-eval.py benchmark \
+  --dataset data/vision-model-eval.household-index.json \
+  --index data/vision-index.household.owlvit-clip.json \
+  --categories data/vision-categories.household.json \
+  --providers owlvit \
+  --run-local-models \
+  --evaluate \
+  --output data/generated/vision-model-predictions.household-index.json \
+  --raw-output data/generated/vision-model-benchmark-raw.household-index.json \
+  --raw-dir data/generated/vision-model-benchmark-raw-household-index \
+  --output-json data/generated/vision-model-eval-report.household-index.json \
+  --output-html data/generated/vision-model-eval-report.household-index.html \
+  --output-md data/generated/vision-model-eval-report.household-index.md
+```
+
+当前 smoke batch 覆盖 6 个 seed household leaves、18 张 gallery 图和 50 张 eval/query 图，真实生成 `data/vision-index.household.owlvit-clip.json`。50-query 报告当前为 go：box recall 70%，category/name accuracy 50%，Top3 retrieval 70%，combined accuracy 42%。其中新增 query 的 GT 框为 OWL-ViT-assisted 自动标注，适合扩大 smoke 测试；进入生产门槛前仍需要人工复核。
+
+大陆来源 household index 已经单独生成一版：
+
+- `data/vision-household-image-manifest.cn.json`：448 张中国大陆候选来源图片，覆盖 133 个 active leaf，其中 398 张 gallery、50 张 eval/query。
+- `data/vision-index.household-cn.owlvit-clip.json`：398 个 OWL-ViT region + CLIP crop embedding entries，全部有 512 维 embedding。
+- `data/generated/vision-model-eval-report.household-index.cn.{json,html,md}`：50-query 评测报告，报告中展示 query 图、预测框/物品名和 Top3 最相似索引图。
+
+当前大陆来源报告为 no-go：box recall 60%，category/name accuracy 44%，Top3 retrieval 50%，combined accuracy 34%。这版证明链路已经真实使用本地 OWL-ViT + CLIP 并能覆盖全类目索引，但当前 CLIP crop embedding 对相似收纳、包装、容器类区分度还不够，进入生产前需要继续人工审核 gallery 和评估更强 embedding 模型。
+
 ## 本地视觉模型评测
 
 开发和验收默认走脚本模拟器，不需要打开浏览器人工检查。浏览器只作为产品交互入口，评测报告生成、Top3 索引展示和指标校验都用下面的命令复现。

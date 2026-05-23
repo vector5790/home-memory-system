@@ -68,6 +68,45 @@
             "path": { "type": "array", "items": { "type": "string", "minLength": 1 } }
           }
         },
+        "coverageTier": {
+          "type": "string",
+          "enum": ["seed", "mvp", "common", "long-tail"]
+        },
+        "auxiliarySourceIds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "id"],
+            "properties": {
+              "source": { "type": "string", "minLength": 1 },
+              "id": { "type": "string", "minLength": 1 },
+              "path": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+              "usage": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "indexReadiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reviewedGallerySamples",
+            "evaluationSamples",
+            "requiredGallerySamples",
+            "requiredEvaluationSamples",
+            "indexReady"
+          ],
+          "properties": {
+            "reviewedGallerySamples": { "type": "integer", "minimum": 0 },
+            "evaluationSamples": { "type": "integer", "minimum": 0 },
+            "requiredGallerySamples": { "type": "integer", "minimum": 0 },
+            "requiredEvaluationSamples": { "type": "integer", "minimum": 0 },
+            "indexReady": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "sourceOverrideReason": { "type": "string", "minLength": 1 },
+        "disambiguation": { "type": "string", "minLength": 1 },
         "appCategory": {
           "type": "string",
           "enum": ["food", "medicine", "pet", "document", "tool", "daily", "appliance"]
@@ -101,6 +140,24 @@
                   "version": { "type": "string", "minLength": 1 }
                 }
               }
+            },
+            "canonicalLineageLevels": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "sourceStrategy": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "coverageTiers": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["seed", "mvp", "common", "long-tail"] }
+            },
+            "coverageTargets": {
+              "type": "object",
+              "additionalProperties": true
             }
           }
         },
@@ -126,7 +183,20 @@
             }
           }
         },
-        "categories": { "type": "array", "items": { "$ref": "#/$defs/category" } }
+        "categories": { "type": "array", "items": { "$ref": "#/$defs/category" } },
+        "build": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sourcePath": { "type": "string", "minLength": 1 },
+            "maxCoverageTier": { "type": "string", "minLength": 1 },
+            "excludedByCoverageTier": {
+              "type": "object",
+              "additionalProperties": { "type": "integer", "minimum": 0 }
+            },
+            "excludedByCoverageTierCount": { "type": "integer", "minimum": 0 }
+          }
+        }
       }
     },
     "sample": {

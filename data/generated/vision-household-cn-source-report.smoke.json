@@ -1,0 +1,40 @@
+{
+  "kind": "vision-household-cn-source-report",
+  "version": "20260523-household-cn-images",
+  "categoryCount": 5,
+  "gallerySamples": 5,
+  "evalSamples": 5,
+  "samplesByCategory": [
+    {
+      "categoryId": "storage-box",
+      "displayName": "收纳盒",
+      "gallery": 1,
+      "eval": 1
+    },
+    {
+      "categoryId": "storage-basket",
+      "displayName": "收纳篮",
+      "gallery": 1,
+      "eval": 1
+    },
+    {
+      "categoryId": "drawer-organizer",
+      "displayName": "抽屉分隔盒",
+      "gallery": 1,
+      "eval": 1
+    },
+    {
+      "categoryId": "vacuum-storage-bag",
+      "displayName": "真空压缩袋",
+      "gallery": 1,
+      "eval": 1
+    },
+    {
+      "categoryId": "closet-organizer",
+      "displayName": "衣柜收纳格",
+      "gallery": 1,
+      "eval": 1
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,132 @@
+{
+  "kind": "vision-household-index-build-report",
+  "version": "20260523-household-owlvit-clip-smoke-50",
+  "passed": true,
+  "productionReady": false,
+  "modelIds": {
+    "owlvit": "Xenova/owlvit-base-patch32",
+    "clip": "Xenova/clip-vit-base-patch32"
+  },
+  "timings": {
+    "detectorModelLoadMs": 594.252,
+    "clipModelLoadMs": 108.369,
+    "samples": [
+      {
+        "sampleId": "storage-box-real-gallery-1",
+        "detectionMs": 210.284,
+        "cropMs": 2.29,
+        "embeddingMs": 18.152
+      },
+      {
+        "sampleId": "storage-box-real-gallery-2",
+        "detectionMs": 185.847,
+        "cropMs": 2.817,
+        "embeddingMs": 17.442
+      },
+      {
+        "sampleId": "storage-box-real-gallery-3",
+        "detectionMs": 206.424,
+        "cropMs": 6.617,
+        "embeddingMs": 24.004
+      },
+      {
+        "sampleId": "charging-cable-real-gallery-1",
+        "detectionMs": 197.131,
+        "cropMs": 5.72,
+        "embeddingMs": 26.185
+      },
+      {
+        "sampleId": "charging-cable-real-gallery-2",
+        "detectionMs": 200.315,
+        "cropMs": 3.269,
+        "embeddingMs": 34.625
+      },
+      {
+        "sampleId": "charging-cable-real-gallery-3",
+        "detectionMs": 223.052,
+        "cropMs": 3.997,
+        "embeddingMs": 18.694
+      },
+      {
+        "sampleId": "charger-real-gallery-1",
+        "detectionMs": 179.138,
+        "cropMs": 2.99,
+        "embeddingMs": 18.732
+      },
+      {
+        "sampleId": "charger-real-gallery-2",
+        "detectionMs": 182.7,
+        "cropMs": 2.778,
+        "embeddingMs": 16.863
+      },
+      {
+        "sampleId": "charger-real-gallery-3",
+        "detectionMs": 181.527,
+        "cropMs": 2.876,
+        "embeddingMs": 18.002
+      },
+      {
+        "sampleId": "remote-control-real-gallery-1",
+        "detectionMs": 191.879,
+        "cropMs": 8.225,
+        "embeddingMs": 18.98
+      },
+      {
+        "sampleId": "remote-control-real-gallery-2",
+        "detectionMs": 180.402,
+        "cropMs": 2.109,
+        "embeddingMs": 15.863
+      },
+      {
+        "sampleId": "remote-control-real-gallery-3",
+        "detectionMs": 174.307,
+        "cropMs": 3.551,
+        "embeddingMs": 19.957
+      },
+      {
+        "sampleId": "medicine-box-real-gallery-1",
+        "detectionMs": 178.908,
+        "cropMs": 1.872,
+        "embeddingMs": 16.702
+      },
+      {
+        "sampleId": "medicine-box-real-gallery-2",
+        "detectionMs": 174.307,
+        "cropMs": 2.816,
+        "embeddingMs": 20
+      },
+      {
+        "sampleId": "medicine-box-real-gallery-3",
+        "detectionMs": 207.119,
+        "cropMs": 0.876,
+        "embeddingMs": 16.89
+      },
+      {
+        "sampleId": "battery-real-gallery-1",
+        "detectionMs": 180.975,
+        "cropMs": 8.14,
+        "embeddingMs": 17.145
+      },
+      {
+        "sampleId": "battery-real-gallery-2",
+        "detectionMs": 180.503,
+        "cropMs": 1.235,
+        "embeddingMs": 16.97
+      },
+      {
+        "sampleId": "battery-real-gallery-3",
+        "detectionMs": 174.643,
+        "cropMs": 1.02,
+        "embeddingMs": 16.647
+      }
+    ]
+  },
+  "summary": {
+    "manifestSamples": 68,
+    "processedGallerySamples": 18,
+    "indexEntries": 18,
+    "failures": 0,
+    "categoriesWithEntries": 6
+  },
+  "failures": []
+}

@@ -1,0 +1,1980 @@
+{
+  "kind": "vision-household-image-manifest",
+  "version": "20260523-household-smoke-50-images",
+  "description": "Extended smoke manifest with 50 Wikimedia Commons query images. Additional GT boxes are OWL-ViT assisted and marked for later human review.",
+  "taxonomyVersion": "20260523-household-expanded",
+  "sourcePolicy": {
+    "provider": "Wikimedia Commons",
+    "productionReady": false,
+    "note": "Additional query images are Commons media. OWL-ViT-assisted GT boxes are for scale testing and require human review before production gates."
+  },
+  "samples": [
+    {
+      "id": "storage-box-real-gallery-1",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Blue_plastic_storage_organizer_boxes_for_screws.jpg",
+      "sourceTitle": "Blue plastic storage organizer boxes for screws.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Blue plastic storage organizer boxes for screws.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0588bd6b06431e35211178ed7ec6682881e7951c946a1115735a05856fe63696",
+      "gtBox": {
+        "x": 0,
+        "y": 2,
+        "w": 100,
+        "h": 94
+      }
+    },
+    {
+      "id": "storage-box-real-gallery-2",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gratnells_Extra_Deep_Storage_Tray.jpg",
+      "sourceTitle": "Gratnells Extra Deep Storage Tray.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Gratnells Extra Deep Storage Tray.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "a4ca61a57819fe981d374079ab02b2f771161bd325ca6066f635413ebf0e8643",
+      "gtBox": {
+        "x": 0,
+        "y": 16,
+        "w": 97,
+        "h": 73
+      }
+    },
+    {
+      "id": "storage-box-real-gallery-3",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/storage-box-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+      "sourceTitle": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "8d9ce6c7fe945689456b5fea6513c1545f519a60bd7239781bb5495f1f9310b9",
+      "gtBox": {
+        "x": 32,
+        "y": 0,
+        "w": 49,
+        "h": 100
+      }
+    },
+    {
+      "id": "charging-cable-real-gallery-1",
+      "categoryId": "charging-cable",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Universal_Serial_Bus,_USB.JPG",
+      "sourceTitle": "Universal Serial Bus, USB.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Universal Serial Bus, USB.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "1aec97462ee21eee253d34fab5cde1d16e8143e6cf025750a2decfde30b8b9d7",
+      "gtBox": {
+        "x": 0,
+        "y": 2,
+        "w": 100,
+        "h": 88
+      }
+    },
+    {
+      "id": "charging-cable-real-gallery-2",
+      "categoryId": "charging-cable",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_usb_extension_cable.JPG",
+      "sourceTitle": "Apple usb extension cable.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Apple usb extension cable.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "326ff1c97cd371038254ea1ee835faa0e0a0f66312e8e0b084b6760a1180a984",
+      "gtBox": {
+        "x": 16,
+        "y": 3,
+        "w": 78,
+        "h": 63
+      }
+    },
+    {
+      "id": "charging-cable-real-gallery-3",
+      "categoryId": "charging-cable",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cavo_USB-C_=_USB-C_della_Samsung.jpg",
+      "sourceTitle": "Cavo USB-C = USB-C della Samsung.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Cavo USB-C = USB-C della Samsung.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0785e0cfed99a8e73edf9a995cdf5f17a2b1968afce5d8357c109a10bd590fb8",
+      "gtBox": {
+        "x": 18,
+        "y": 7,
+        "w": 63,
+        "h": 87
+      }
+    },
+    {
+      "id": "charger-real-gallery-1",
+      "categoryId": "charger",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_wall_charger.JPG",
+      "sourceTitle": "USB wall charger.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "USB wall charger.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "eee389438d3a60b5a5c18ab44b1ce1e97ec8b3523613cbd25972049a7ce7a9b1",
+      "gtBox": {
+        "x": 12,
+        "y": 4,
+        "w": 73,
+        "h": 86
+      }
+    },
+    {
+      "id": "charger-real-gallery-2",
+      "categoryId": "charger",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:ADTEC-USBcharger-APD-V140AC2-BK_001.jpg",
+      "sourceTitle": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "ADTEC-USBcharger-APD-V140AC2-BK 001.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "02f19dc96bf96ed2b6ac928299a294be6e221dd494b9117ceb636cf909b7d243",
+      "gtBox": {
+        "x": 30,
+        "y": 11,
+        "w": 48,
+        "h": 82
+      }
+    },
+    {
+      "id": "charger-real-gallery-3",
+      "categoryId": "charger",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/charger-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mobile_phone_charger_plugs.jpg",
+      "sourceTitle": "Mobile phone charger plugs.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Mobile phone charger plugs.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5e3a51a934d22ea361b7a83101e63ad30c7291285ad25d03492cc250ac508260",
+      "gtBox": {
+        "x": 0,
+        "y": 17,
+        "w": 100,
+        "h": 61
+      }
+    },
+    {
+      "id": "remote-control-real-gallery-1",
+      "categoryId": "remote-control",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_colour.jpg",
+      "sourceTitle": "Television remote control - black colour.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Television remote control - black colour.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "797ce0be01653efc703315cc9f8b354a6e5caac9ad3a9fb740ea4900d59ff204",
+      "gtBox": {
+        "x": 29,
+        "y": 2,
+        "w": 37,
+        "h": 95
+      }
+    },
+    {
+      "id": "remote-control-real-gallery-2",
+      "categoryId": "remote-control",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+      "sourceTitle": "AverMedia RM-RH Remote control (white background) edit.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "AverMedia RM-RH Remote control (white background) edit.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "91226d654bf2394b17ffde38b567364d8dcbd7b87335f8c72337619c96400b02",
+      "gtBox": {
+        "x": 15,
+        "y": 13,
+        "w": 75,
+        "h": 72
+      }
+    },
+    {
+      "id": "remote-control-real-gallery-3",
+      "categoryId": "remote-control",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/remote-control-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Remote_control_for_Hisense_TV.jpg",
+      "sourceTitle": "Remote control for Hisense TV.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Remote control for Hisense TV.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "e78f96b27fbe49b4a187722ea8b52da550f68282f2df93ec0a3883a5f068e181",
+      "gtBox": {
+        "x": 41,
+        "y": 8,
+        "w": 19,
+        "h": 80
+      }
+    },
+    {
+      "id": "medicine-box-real-gallery-1",
+      "categoryId": "medicine-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_box_with_pills.JPG",
+      "sourceTitle": "Pill box with pills.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Pill box with pills.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "746f0a2328bd82ee50277e35bbc1b64a703aa1eafacbce3a79ba43960a746ce9",
+      "gtBox": {
+        "x": 0,
+        "y": 10,
+        "w": 99,
+        "h": 67
+      }
+    },
+    {
+      "id": "medicine-box-real-gallery-2",
+      "categoryId": "medicine-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_Box_(32636946385).jpg",
+      "sourceTitle": "Pill Box (32636946385).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Pill Box (32636946385).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "3800e58927289beaa2312a05367e14c99c763b44fabc5d87e2cfdca410fe3c4e",
+      "gtBox": {
+        "x": 8,
+        "y": 11,
+        "w": 87,
+        "h": 67
+      }
+    },
+    {
+      "id": "medicine-box-real-gallery-3",
+      "categoryId": "medicine-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pill_Dispenser_(daily).jpg",
+      "sourceTitle": "Pill Dispenser (daily).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Pill Dispenser (daily).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "66073c79169c2f05e4d2ce753ffe0957c3f64839da013b10bd9925f7807a5062",
+      "gtBox": {
+        "x": 1,
+        "y": 24,
+        "w": 94,
+        "h": 50
+      }
+    },
+    {
+      "id": "battery-real-gallery-1",
+      "categoryId": "battery",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2500_mAh_NiMH_Battery_-_AA_(11469147674).jpg",
+      "sourceTitle": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "2500 mAh NiMH Battery - AA (11469147674).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "6f6f8b95365d73655a2b507169ff13d3e91f7c99236c3f15ed1237b2853cf4b4",
+      "gtBox": {
+        "x": 25,
+        "y": 4,
+        "w": 46,
+        "h": 90
+      }
+    },
+    {
+      "id": "battery-real-gallery-2",
+      "categoryId": "battery",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_batteries.JPG",
+      "sourceTitle": "AA batteries.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "AA batteries.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "771e62635ba30beb8d42263208ef368967b8089977bd885f52397c79fe5b3889",
+      "gtBox": {
+        "x": 15,
+        "y": 18,
+        "w": 74,
+        "h": 58
+      }
+    },
+    {
+      "id": "battery-real-gallery-3",
+      "categoryId": "battery",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-real/raw/battery-gallery-3.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AA_Batteries_(51825378856).jpg",
+      "sourceTitle": "AA Batteries (51825378856).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "AA Batteries (51825378856).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "f0985097c99e58266449d2bee5e52da0dc0bf2b217b145640233406ca725c33d",
+      "gtBox": {
+        "x": 6,
+        "y": 22,
+        "w": 88,
+        "h": 36
+      }
+    },
+    {
+      "id": "storage-box-real-query-1",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/storage-box-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Orange_plastic_storage_container_on_top_of_a_stack.jpg",
+      "sourceTitle": "Orange plastic storage container on top of a stack.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Orange plastic storage container on top of a stack.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "ca25fb92b51fb2525421d072a96121e0e6998edd9f2823d45c3d9ed8ba3a9986",
+      "gtBox": {
+        "x": 6,
+        "y": 8,
+        "w": 89,
+        "h": 84
+      }
+    },
+    {
+      "id": "charging-cable-real-query-1",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/charging-cable-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:USB_cable.jpg",
+      "sourceTitle": "USB cable.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "USB cable.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "25c83bf53239f0e57f5458ca729595f112855eef1e937da2e13b77f8571b54fa",
+      "gtBox": {
+        "x": 5,
+        "y": 28,
+        "w": 91,
+        "h": 45
+      }
+    },
+    {
+      "id": "charger-real-query-1",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/charger-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apple_USB_Charger_1_2017-02-02.jpg",
+      "sourceTitle": "Apple USB Charger 1 2017-02-02.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Apple USB Charger 1 2017-02-02.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "f263318220bad80bde286d60f5702f63ed8334b5c9c40e3764ef0212762b8ca6",
+      "gtBox": {
+        "x": 37,
+        "y": 30,
+        "w": 60,
+        "h": 36
+      }
+    },
+    {
+      "id": "remote-control-real-query-1",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/remote-control-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_black_01.jpg",
+      "sourceTitle": "Television remote control - black 01.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "Television remote control - black 01.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "699697be335493c78a5380ec22b6600affdad506e88d231c1adff3a506ac7e60",
+      "gtBox": {
+        "x": 30,
+        "y": 0.5,
+        "w": 41,
+        "h": 98
+      }
+    },
+    {
+      "id": "medicine-box-real-query-1",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/medicine-box-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Kasetka_z_lekami.jpg",
+      "sourceTitle": "2023 Kasetka z lekami.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "2023 Kasetka z lekami.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5153f771458f0880a65c2ca47a9a764cf480a12452b6b7e7f5504da405ecb18c",
+      "gtBox": {
+        "x": 4,
+        "y": 5,
+        "w": 92,
+        "h": 86
+      }
+    },
+    {
+      "id": "battery-real-query-1",
+      "categoryId": "battery",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-real/raw/battery-query.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:02_-_Single_Energizer_Battery.jpg",
+      "sourceTitle": "02 - Single Energizer Battery.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Wikimedia Commons media",
+        "usage": "See the source file page for exact license and attribution requirements."
+      },
+      "variant": "02 - Single Energizer Battery.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "993d9d269013249de1c19d5364b3994faf74dfeee0349f49a014449dfd829b58",
+      "gtBox": {
+        "x": 13,
+        "y": 15,
+        "w": 73,
+        "h": 53
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-02",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-02-file-storage-containers-in-svalbard-global-seed-vault-01-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AStorage_containers_in_Svalbard_Global_Seed_Vault_01.jpg",
+      "sourceTitle": "File:Storage containers in Svalbard Global Seed Vault 01.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Public domain",
+        "usage": "Public domain",
+        "artist": "<bdi><a href=\"https://www.wikidata.org/wiki/Q47502209\" class=\"extiw\" title=\"d:Q47502209\"><span title=\"GBIF Node Manager for Norway\">Dag Endresen</span></a></bdi>",
+        "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"http://sesto.nordgen.org/sesto/index.php?scp=ngb&amp;thm=pictures&amp;mod=det&amp;id=004531\">http://sesto.nordgen.org/sesto/index.php?scp=ngb&amp;thm=pictures&amp;mod=det&amp;id=004531</a> (<a rel=\"nofollow\" class=\"external text\" href=\"http://sesto.nordgen.org/sesto_data/pix/img004531.JPG\">image link</a>)"
+      },
+      "variant": "File:Storage containers in Svalbard Global Seed Vault 01.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5401547c24ce1494c004a1000df657e04eff8094d5b98c1ae9bc73a8f08ba9dc",
+      "gtBox": {
+        "x": 0,
+        "y": 0,
+        "w": 99.7917,
+        "h": 99.2188
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.119474,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-03",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-03-file-day-of-service-2015-21253681361-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681361).jpg",
+      "sourceTitle": "File:Day of Service 2015 (21253681361).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/34600060@N08\">Nazareth College</a> from Rochester, NY, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/nazareth_college/21253681361/\">Day of Service 2015</a>"
+      },
+      "variant": "File:Day of Service 2015 (21253681361).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "a99e7b4e5f1443edc096ce72191ab5b388081e5a1c03a0e58a7839933b86407e",
+      "gtBox": {
+        "x": 16.1458,
+        "y": 72.5313,
+        "w": 35.2083,
+        "h": 26.6342
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.369931,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-04",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-04-file-day-of-service-2015-21245680865-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21245680865).jpg",
+      "sourceTitle": "File:Day of Service 2015 (21245680865).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/34600060@N08\">Nazareth College</a> from Rochester, NY, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/nazareth_college/21245680865/\">Day of Service 2015</a>"
+      },
+      "variant": "File:Day of Service 2015 (21245680865).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "f932f84b45b0edde7a4c6bfa9823db6897cc5cbbf8006fd6b66ebe8e22fad9cf",
+      "gtBox": {
+        "x": 24.6875,
+        "y": 58.0668,
+        "w": 50.3125,
+        "h": 29.4854
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.113103,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-05",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-05-file-day-of-service-2015-20624556473-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(20624556473).jpg",
+      "sourceTitle": "File:Day of Service 2015 (20624556473).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/34600060@N08\">Nazareth College</a> from Rochester, NY, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/nazareth_college/20624556473/\">Day of Service 2015</a>"
+      },
+      "variant": "File:Day of Service 2015 (20624556473).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "e3f1b41a27cf22530edef3b07b8931039bece598563ae5aa744c0250f86ae3d2",
+      "gtBox": {
+        "x": 42.9167,
+        "y": 45.9666,
+        "w": 23.125,
+        "h": 14.6732
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.034344,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-06",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-06-file-day-of-service-2015-21253681701-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681701).jpg",
+      "sourceTitle": "File:Day of Service 2015 (21253681701).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/34600060@N08\">Nazareth College</a> from Rochester, NY, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/nazareth_college/21253681701/\">Day of Service 2015</a>"
+      },
+      "variant": "File:Day of Service 2015 (21253681701).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "4257670a60e502bffcdfe7cafcf2ba932205930b03cd549a068813480cd35f4d",
+      "gtBox": {
+        "x": 49.375,
+        "y": 40.2643,
+        "w": 24.1667,
+        "h": 9.8053
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.217064,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-07",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-07-file-plastic-multi-drawer-storage-cabinets-1-2018-01-30-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APlastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+      "sourceTitle": "File:Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User_talk:Fastily\" title=\"User talk:Fastily\"><span style=\"font-family:'Trebuchet MS';color:Indigo;font-weight:bold;\"><span style=\"font-size:120%;\">F</span><span style=\"font-size:90%;\">ASTILY</span></span></a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Plastic multi-drawer storage cabinets 1 2018-01-30.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0024797c46a6500b5bbf5993bb8acb9b8c5dbb954de7cc3824fff90f0823da5d",
+      "gtBox": {
+        "x": 21.3542,
+        "y": 16.0938,
+        "w": 55.625,
+        "h": 76.7969
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "storage box",
+        "score": 0.069152,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-08",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-08-file-blue-plastic-storage-organizer-boxes-for-screws-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABlue_plastic_storage_organizer_boxes_for_screws.jpg",
+      "sourceTitle": "File:Blue plastic storage organizer boxes for screws.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Podzemnik\" title=\"User:Podzemnik\">Michal Klajban</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Blue plastic storage organizer boxes for screws.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0c8e8ed9577ab2d232ef4ed632842b027549abadbc8bf63ceb828b8b5fe5489a",
+      "gtBox": {
+        "x": 0,
+        "y": 1.6349,
+        "w": 99.7917,
+        "h": 93.3243
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "storage box",
+        "score": 0.177561,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-09",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-09-file-gratnells-school-storage-jumbo-tray-in-purple-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AGratnells_School_Storage_Jumbo_Tray_in_Purple.jpg",
+      "sourceTitle": "File:Gratnells School Storage Jumbo Tray in Purple.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Gratnells\" title=\"User:Gratnells\">Gratnells</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Gratnells School Storage Jumbo Tray in Purple.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "a95cd93924e76c3862ba894d4a0b781fe0d7fa57e5123a323775a183218706ab",
+      "gtBox": {
+        "x": 13.5417,
+        "y": 10.1563,
+        "w": 67.2917,
+        "h": 84.0625
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.094419,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-02",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-02-file-huawei-ec226-with-usb-cable-3384718751-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AHuawei_EC226_with_USB_cable_(3384718751).jpg",
+      "sourceTitle": "File:Huawei EC226 with USB cable (3384718751).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/61368956@N00\">Julien Min GONG</a>",
+        "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.flickr.com/photos/61368956@N00/3384718751\">https://www.flickr.com/photos/61368956@N00/3384718751</a>"
+      },
+      "variant": "File:Huawei EC226 with USB cable (3384718751).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "b970ed1acba1f02e60d36f74a8a9a0ae76bd3e1faf1e7413804f71b2b7762c68",
+      "gtBox": {
+        "x": 0.8333,
+        "y": 11.8056,
+        "w": 79.4792,
+        "h": 79.1667
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.103896,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-03",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-03-file-lost-found-mini-usb-ladekabel-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALost%26Found_Mini_USB_LAdekabel.jpg",
+      "sourceTitle": "File:Lost&Found Mini USB LAdekabel.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Alice_Forstner_(WMDE)&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Alice Forstner (WMDE) (page does not exist)\">Alice Forstner (WMDE)</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Lost&Found Mini USB LAdekabel.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "6739dabbffe90dd4d966e9438475a45566a4337b6c944ca3d8e0cb2df07c587c",
+      "gtBox": {
+        "x": 13.125,
+        "y": 27.5,
+        "w": 68.9583,
+        "h": 45.4167
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.106467,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-04",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-04-file-usb-c-png.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-C.png",
+      "sourceTitle": "File:USB-C.png",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC0",
+        "usage": "Creative Commons Zero, Public Domain Dedication",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Xxmarijnw\" title=\"User:Xxmarijnw\">Xxmarijnw</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:USB-C.png",
+      "reviewStatus": "reviewed",
+      "sha256": "3cfd6fb621866a5711d33d3e9ed045c1a3b5df36377db86991c1e7d0dc17ccca",
+      "gtBox": {
+        "x": 69.9203,
+        "y": 64.0127,
+        "w": 27.8884,
+        "h": 32.4841
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "usb cable",
+        "score": 0.026452,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-05",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-05-file-usb-broadband-modems-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_broadband_modems.jpg",
+      "sourceTitle": "File:USB broadband modems.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Dr.KBAHT\" title=\"User:Dr.KBAHT\">User:Dr.KBAHT</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:USB broadband modems.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "b17b3d70127b785870e287a7a788e973b7492d787e858d4a74d5b59934ee81f2",
+      "gtBox": {
+        "x": 6.9444,
+        "y": 48.7234,
+        "w": 79.5833,
+        "h": 20.2128
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "usb cable",
+        "score": 0.042219,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-06",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-06-file-usb-a-and-usb-micro-b-connectors-in-the-power-bank-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-A_and_USB_micro_B_connectors_in_the_power_bank.jpg",
+      "sourceTitle": "File:USB-A and USB micro B connectors in the power bank.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Public domain",
+        "usage": "Public domain",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:WrS.tm.pl\" title=\"User:WrS.tm.pl\">WrS.tm.pl</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:USB-A and USB micro B connectors in the power bank.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0243297497a63d7fa37f9433ed9152b5bc6fffa7c5cd47c43e5cf8c5013d9331",
+      "gtBox": {
+        "x": 25.4167,
+        "y": 8.6806,
+        "w": 43.6458,
+        "h": 23.6111
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "usb cable",
+        "score": 0.127542,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-07",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-07-file-usb-a-b-cable-agr-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_A_%26_B_cable.agr.jpg",
+      "sourceTitle": "File:USB A & B cable.agr.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:ArnoldReinhold\" title=\"User:ArnoldReinhold\">ArnoldReinhold</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:USB A & B cable.agr.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "56327fb657fe4fa7a2bfb271c21c611f89605df8f6a54fad5c815d2a7e1d5950",
+      "gtBox": {
+        "x": 16.0417,
+        "y": 0.625,
+        "w": 83.3333,
+        "h": 93.3333
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.044528,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-08",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-08-file-10base-t1s-to-usb-media-converter-png.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A10BASE-T1S-To-USB_Media_Converter.png",
+      "sourceTitle": "File:10BASE-T1S-To-USB Media Converter.png",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "Janus Piwek in Zusammenarbeit mit Ralf Moses",
+        "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://github.com/jpiwek/usb_t1s_bridge\">https://github.com/jpiwek/usb_t1s_bridge</a>"
+      },
+      "variant": "File:10BASE-T1S-To-USB Media Converter.png",
+      "reviewStatus": "reviewed",
+      "sha256": "ea780f5638da1ff2f6005d288cfc7da846c3574d3486ecfaff46d1167f79137d",
+      "gtBox": {
+        "x": 44.7742,
+        "y": 12.9151,
+        "w": 31.6129,
+        "h": 8.8561
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "数据线",
+        "score": 0.008109,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-09",
+      "categoryId": "charging-cable",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-09-file-five-usb-cables-with-braided-jackets-in-different-colours-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AFive_USB_cables_with_braided_jackets_in_different_colours.jpg",
+      "sourceTitle": "File:Five USB cables with braided jackets in different colours.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Pittigrilli\" title=\"User:Pittigrilli\">Pittigrilli</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Five USB cables with braided jackets in different colours.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "bc6317359e9e195fc4a6b2b01789e67ca9189709c6dd639fe5c8b83bc94de9ce",
+      "gtBox": {
+        "x": 1.9792,
+        "y": 39.2722,
+        "w": 75.5208,
+        "h": 53.0705
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.031249,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-02",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-02-file-ladeger-t-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALadeger%C3%A4t.jpg",
+      "sourceTitle": "File:Ladegerät.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Medvedev\" title=\"User:Medvedev\">Medvedev</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Ladegerät.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "1808dd45d3c3869da76fe2b9d4d3a54ddf3dfa3c37219129e3b6db0940b96994",
+      "gtBox": {
+        "x": 8.0208,
+        "y": 0.2778,
+        "w": 82.7083,
+        "h": 94.1667
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charger",
+        "score": 0.148857,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-03",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-03-file-usb-aa-battery-charger-1-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_1.jpg",
+      "sourceTitle": "File:USB AA battery charger 1.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/28721989@N00\">Limor</a> from New York CIty, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/ladyada/4377558166/\">usbcharger</a>"
+      },
+      "variant": "File:USB AA battery charger 1.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "eecdb76b5f822fb21818440f56b52c096818c3bf1ae2b58d8fdf37b4f68dd718",
+      "gtBox": {
+        "x": 56.9792,
+        "y": 26.25,
+        "w": 21.3542,
+        "h": 17.6389
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.059712,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-04",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-04-file-usb-aa-battery-charger-3-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_3.jpg",
+      "sourceTitle": "File:USB AA battery charger 3.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/28721989@N00\">Limor</a> from New York CIty, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/ladyada/4376810777/\">usbcharger</a>"
+      },
+      "variant": "File:USB AA battery charger 3.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "c6db5f063b630fe4b4a73b5084657d66656c1f1ea3956b90fe42f43c053121c1",
+      "gtBox": {
+        "x": 17.7083,
+        "y": 25.5556,
+        "w": 66.875,
+        "h": 68.3333
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.044131,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-05",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-05-file-usb-aa-battery-charger-2-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_2.jpg",
+      "sourceTitle": "File:USB AA battery charger 2.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/28721989@N00\">Limor</a> from New York CIty, USA",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/ladyada/4376810217/\">usbcharger</a>"
+      },
+      "variant": "File:USB AA battery charger 2.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5f7bd8ceee42dace889d9c23864ebaf33b5b006a36c405cd8ae7ec2587a473b1",
+      "gtBox": {
+        "x": 15.7292,
+        "y": 12.0833,
+        "w": 72.8125,
+        "h": 73.8889
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.031557,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-06",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-06-file-nikon-mh-18a-battery-charger-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANikon_MH-18a_battery_charger.jpg",
+      "sourceTitle": "File:Nikon MH-18a battery charger.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<p><a href=\"//commons.wikimedia.org/wiki/User:Joydeep\" title=\"User:Joydeep\">Joydeep</a>\n</p>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Nikon MH-18a battery charger.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "dcab3dc13c42e78aaf014688a369da20bb374a3b10ca32df1c9c067f5776d782",
+      "gtBox": {
+        "x": 16.875,
+        "y": 11.2202,
+        "w": 67.6042,
+        "h": 80.3647
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.045065,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-07",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-07-file-universal-battery-charger-charging-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUniversal_battery_charger_charging.jpg",
+      "sourceTitle": "File:Universal battery charger charging.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC0",
+        "usage": "Creative Commons Zero, Public Domain Dedication",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Lemon_tart\" title=\"User:Lemon tart\">Lemon tart</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Universal battery charger charging.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "49b2307b1e500e08c9081a86abac44f1faa95bc03922c59bc8fdad1ffa724012",
+      "gtBox": {
+        "x": 9.8191,
+        "y": 5.2326,
+        "w": 86.8217,
+        "h": 93.9922
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charger",
+        "score": 0.054232,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-08",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-08-file-buck-converter-stepdown-3a-usb-charger-and-supply-img-20170202-2107-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABuck_converter_stepdown_3A_USB_Charger_and_Supply_IMG_20170202_2107.jpg",
+      "sourceTitle": "File:Buck converter stepdown 3A USB Charger and Supply IMG 20170202 2107.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Hans_Haase\" title=\"User:Hans Haase\">Hans Haase</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Buck converter stepdown 3A USB Charger and Supply IMG 20170202 2107.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "0449f38f5e0a4526f5f2d7a593f30e1eb82bf6528bbaa5e03b1c11242d4ede54",
+      "gtBox": {
+        "x": 1.0417,
+        "y": 9.661,
+        "w": 91.9792,
+        "h": 81.1864
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.049835,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-09",
+      "categoryId": "charger",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-09-file-canon-battery-charger-cb2lte-1290-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ACanon_battery_charger_CB2LTE-1290.jpg",
+      "sourceTitle": "File:Canon battery charger CB2LTE-1290.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<bdi><a href=\"https://www.wikidata.org/wiki/Q108103612\" class=\"extiw\" title=\"d:Q108103612\"><span title=\"Wikipedian and OpenStreetMap mapper from Cologne, Open Data activist\">Raimond Spekking</span></a></bdi>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Canon battery charger CB2LTE-1290.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "f9d373c5889d64b97d0e7502a0712afab7814b2b5507eb610e345a17c86d50c4",
+      "gtBox": {
+        "x": 4.7917,
+        "y": 14.7222,
+        "w": 93.9583,
+        "h": 74.8611
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.019562,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-02",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-02-file-remote-control-infrared-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote-Control-Infrared.jpg",
+      "sourceTitle": "File:Remote-Control-Infrared.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Public domain",
+        "usage": "Public domain",
+        "artist": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:MikeMalak&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:MikeMalak (page does not exist)\">Michael Malak</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Remote-Control-Infrared.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "90af643571a47f26d5494cabe6edd4fd09abb9ee53ce1b0b16f065fb531e60e8",
+      "gtBox": {
+        "x": 0.2604,
+        "y": 0,
+        "w": 98.1771,
+        "h": 99.4141
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "tv remote",
+        "score": 0.011805,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-03",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-03-file-remote-infrared-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_infrared.jpg",
+      "sourceTitle": "File:Remote infrared.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Public domain",
+        "usage": "Public domain",
+        "artist": "Peter Hebels",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Remote infrared.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "fe747784adaa8d299ae6c96e36be084dff4928c300362fc750e948a76cc3f9fc",
+      "gtBox": {
+        "x": 9.1667,
+        "y": 41.2676,
+        "w": 70.4167,
+        "h": 38.7324
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "tv remote",
+        "score": 0.096654,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-04",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-04-file-avermedia-rm-rh-remote-control-white-background-edit-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+      "sourceTitle": "File:AverMedia RM-RH Remote control (white background) edit.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "Taken by the uploader, <a href=\"https://en.wikipedia.org/wiki/es:Usuario:Barcex\" class=\"extiw\" title=\"w:es:Usuario:Barcex\">w:es:Usuario:Barcex</a>",
+        "credit": "Taken by <a href=\"https://en.wikipedia.org/wiki/es:Usuario:Barcex\" class=\"extiw\" title=\"w:es:Usuario:Barcex\">w:es:Usuario:Barcex</a>"
+      },
+      "variant": "File:AverMedia RM-RH Remote control (white background) edit.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "19635833410d70010dea954fd4a5a043ee70adf446de3352df5d962f482db95d",
+      "gtBox": {
+        "x": 20.7292,
+        "y": 19.375,
+        "w": 63.0208,
+        "h": 64.2188
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.137525,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-05",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-05-file-remote-controls-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_controls.JPG",
+      "sourceTitle": "File:Remote controls.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Sidik_iz_PTU\" class=\"mw-redirect\" title=\"User:Sidik iz PTU\">Sidik iz PTU</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Remote controls.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "1df98ce9f5c532de7a53717db04c6476a4ad89c0fadf98afe518fd177d599c16",
+      "gtBox": {
+        "x": 85.8333,
+        "y": 4.878,
+        "w": 13.8542,
+        "h": 86.8902
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.415817,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-06",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-06-file-remote-control-control-remoto-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_control_-_control_remoto.jpg",
+      "sourceTitle": "File:Remote control - control remoto.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC0",
+        "usage": "Creative Commons Zero, Public Domain Dedication",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Carlos_t\" title=\"User:Carlos t\">Carlos t</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Remote control - control remoto.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "479ebb0e0cb5c6d4c7c8c9cfbe0554ad4f46b034562e32a4ccd97a27ede5450d",
+      "gtBox": {
+        "x": 4.0541,
+        "y": 5.6911,
+        "w": 83.1081,
+        "h": 89.4309
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.335536,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-07",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-07-file-nuon-n2000-remote-control-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANuon-N2000-Remote-Control.jpg",
+      "sourceTitle": "File:Nuon-N2000-Remote-Control.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "Public domain",
+        "usage": "Public domain",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Evan-Amos\" title=\"User:Evan-Amos\">Evan-Amos</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Nuon-N2000-Remote-Control.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "55d83ed77d0459b77789d5eb768863d165a9351d5a2b41160bf9e173f6fdb5c8",
+      "gtBox": {
+        "x": 5.1042,
+        "y": 2.6824,
+        "w": 93.75,
+        "h": 94.0987
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.200652,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-08",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-08-file-television-remote-control-unbranded-4028-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ATelevision_remote_control_-_unbranded-4028.jpg",
+      "sourceTitle": "File:Television remote control - unbranded-4028.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<bdi><a href=\"https://www.wikidata.org/wiki/Q108103612\" class=\"extiw\" title=\"d:Q108103612\"><span title=\"Wikipedian and OpenStreetMap mapper from Cologne, Open Data activist\">Raimond Spekking</span></a></bdi>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Television remote control - unbranded-4028.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "3bfe3c96a6e9eb7e7b5574d33200ab8de207e33da783815b22df36dc17a9b6be",
+      "gtBox": {
+        "x": 4.7917,
+        "y": 6.0417,
+        "w": 88.9583,
+        "h": 92.2917
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.165055,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-09",
+      "categoryId": "remote-control",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-09-file-lg-ir-dvd-remote-control-6711r1p089k-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALG_IR_DVD_Remote_Control_6711R1P089K.jpg",
+      "sourceTitle": "File:LG IR DVD Remote Control 6711R1P089K.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "usage": "Creative Commons Attribution-Share Alike 4.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Slcreza\" title=\"User:Slcreza\">Slcreza</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:LG IR DVD Remote Control 6711R1P089K.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "e501b9663f716ef8036dcd5fb2c6ccbb4f45ce4e0f1011f6306f17a68c24fe74",
+      "gtBox": {
+        "x": 26.0417,
+        "y": 3.6907,
+        "w": 45.8333,
+        "h": 82.5425
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.281925,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-02",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-02-file-pill-box-with-pills-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_with_pills.JPG",
+      "sourceTitle": "File:Pill box with pills.JPG",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Dvortygirl\" title=\"User:Dvortygirl\">Dvortygirl</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Pill box with pills.JPG",
+      "reviewStatus": "reviewed",
+      "sha256": "f96121b071af85daac7707b2f085ae9e1fe3fe43896fd3b32414612bc16ca577",
+      "gtBox": {
+        "x": 6.25,
+        "y": 38.0556,
+        "w": 83.5417,
+        "h": 32.0833
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.163396,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-03",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-03-file-pill-dispenser-daily-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Dispenser_(daily).jpg",
+      "sourceTitle": "File:Pill Dispenser (daily).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Mattes\" title=\"User:Mattes\">User:Mattes</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Pill Dispenser (daily).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "66073c79169c2f05e4d2ce753ffe0957c3f64839da013b10bd9925f7807a5062",
+      "gtBox": {
+        "x": 2.2581,
+        "y": 47.9487,
+        "w": 97.7419,
+        "h": 47.9487
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.055901,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-04",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-04-file-pill-box-for-spanish-or-french-speakers-32518630336-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_for_Spanish_or_French_Speakers_(32518630336).jpg",
+      "sourceTitle": "File:Pill Box for Spanish or French Speakers (32518630336).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/54591706@N02\">NIAID</a>",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/niaid/32518630336/\">Pill Box for Spanish or French Speakers</a>"
+      },
+      "variant": "File:Pill Box for Spanish or French Speakers (32518630336).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "cb8e3431b17612f34812b9ae77483da4d1ee56f55105c624dff01219c3ec2e54",
+      "gtBox": {
+        "x": 1.3542,
+        "y": 19.0402,
+        "w": 98.6458,
+        "h": 71.8266
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.030055,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-05",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-05-file-pill-box-32636946385-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(32636946385).jpg",
+      "sourceTitle": "File:Pill Box (32636946385).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/54591706@N02\">NIAID</a>",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/niaid/32636946385/\">Pill Box</a>"
+      },
+      "variant": "File:Pill Box (32636946385).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "2eb95e61f4daebc73a3ab1ccf8caddcebfba8299bdbd64e71490ae88f0b33458",
+      "gtBox": {
+        "x": 8.3333,
+        "y": 20.9064,
+        "w": 89.7917,
+        "h": 63.5965
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.045857,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-06",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-06-file-pill-box-24888074919-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(24888074919).jpg",
+      "sourceTitle": "File:Pill Box (24888074919).jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 2.0",
+        "usage": "Creative Commons Attribution 2.0",
+        "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/54591706@N02\">NIAID</a>",
+        "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/niaid/24888074919/\">Pill Box</a>"
+      },
+      "variant": "File:Pill Box (24888074919).jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "5518d9e12914341cda70b371de16a4d8ff1e5400c6df31d20bd214cff63e2961",
+      "gtBox": {
+        "x": 0.3125,
+        "y": 3.0769,
+        "w": 99.6875,
+        "h": 95.7265
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.193055,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-07",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-07-file-pill-box-warkworth-2022-03-27-3-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_3.jpg",
+      "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 3.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC0",
+        "usage": "Creative Commons Zero, Public Domain Dedication",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Sic19\" title=\"User:Sic19\">Simon Cobb</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Pill Box, Warkworth (2022-03-27) 3.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "356db2d5961f083269f4fbda7cea17d4e2476537243535f1abf99550a60486d0",
+      "gtBox": {
+        "x": 13.75,
+        "y": 0,
+        "w": 69.5833,
+        "h": 99.6875
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.008368,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-08",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-08-file-pill-box-warkworth-2022-03-27-2-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_2.jpg",
+      "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 2.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC0",
+        "usage": "Creative Commons Zero, Public Domain Dedication",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Sic19\" title=\"User:Sic19\">Simon Cobb</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Pill Box, Warkworth (2022-03-27) 2.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "6f730575a2783e55a0e5175137cb084a7c6efc37cfe4e598742d50086d5e1869",
+      "gtBox": {
+        "x": 20,
+        "y": 37.4306,
+        "w": 16.9792,
+        "h": 6.1111
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "药盒",
+        "score": 0.007583,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-09",
+      "categoryId": "medicine-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-09-file-pill-box-warkworth-2022-03-27-5-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_5.jpg",
+      "sourceTitle": "File:Pill Box, Warkworth (2022-03-27) 5.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC0",
+        "usage": "Creative Commons Zero, Public Domain Dedication",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Sic19\" title=\"User:Sic19\">Simon Cobb</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Pill Box, Warkworth (2022-03-27) 5.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "39d9bf1c6dc84835c520366b775a49f83299435649e0db230dfecef09fccad05",
+      "gtBox": {
+        "x": 0,
+        "y": 81.8056,
+        "w": 23.5417,
+        "h": 18.1944
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "medicine box",
+        "score": 0.047365,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-02",
+      "categoryId": "battery",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-02-file-alkali-battery-5-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAlkali_battery_5.jpg",
+      "sourceTitle": "File:Alkali battery 5.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Aney&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Aney (page does not exist)\">Aney</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:Alkali battery 5.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "9590621a54c3706229c7e78d99e93eb395af4faa66aa8be2e40f4dcaedfcc601",
+      "gtBox": {
+        "x": 73.0208,
+        "y": 12.8898,
+        "w": 24.0625,
+        "h": 75.052
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.081518,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-03",
+      "categoryId": "battery",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-03-file-aa-battery-adapter-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAA_battery_adapter.jpg",
+      "sourceTitle": "File:AA battery adapter.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "The original uploader was <a href=\"https://en.wikipedia.org/wiki/de:User:Keimzelle\" class=\"extiw\" title=\"w:de:User:Keimzelle\">Keimzelle</a> at <a href=\"https://en.wikipedia.org/wiki/de:\" class=\"extiw\" title=\"w:de:\">German Wikipedia</a>.",
+        "credit": "<bdi lang=\"en\" dir=\"ltr\">Transferred from <span class=\"plainlinks\"><a class=\"external text\" href=\"https://de.wikipedia.org\">de.wikipedia</a></span> to Commons.</bdi>"
+      },
+      "variant": "File:AA battery adapter.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "d444fb608564f458867bc66be893dfb9627007363986de436e38ac6a834e8c0e",
+      "gtBox": {
+        "x": 6.5625,
+        "y": 4.6563,
+        "w": 81.875,
+        "h": 85.255
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.100796,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-04",
+      "categoryId": "battery",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-04-file-02-single-energizer-battery-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A02_-_Single_Energizer_Battery.jpg",
+      "sourceTitle": "File:02 - Single Energizer Battery.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY 3.0",
+        "usage": "Creative Commons Attribution 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Asim18\" title=\"User:Asim18\">Asim18</a>",
+        "credit": "Own work by uploader (Photographed by myself (Asim18)"
+      },
+      "variant": "File:02 - Single Energizer Battery.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "cf1d221ad45acda482907879b5734bda0afc3495ff6bc0057f95c2102531d8b9",
+      "gtBox": {
+        "x": 13.75,
+        "y": 12.7726,
+        "w": 68.4375,
+        "h": 70.8723
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.145704,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-05",
+      "categoryId": "battery",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-05-file-6-most-common-battery-types-1-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A6_most_common_battery_types-1.jpg",
+      "sourceTitle": "File:6 most common battery types-1.jpg",
+      "sourceProvider": "Wikimedia Commons",
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "usage": "Creative Commons Attribution-Share Alike 3.0",
+        "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Lead_holder\" title=\"User:Lead holder\">Lead holder</a>",
+        "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>"
+      },
+      "variant": "File:6 most common battery types-1.jpg",
+      "reviewStatus": "reviewed",
+      "sha256": "1801bafdf28fbd7ce357bd1a8a443e52d76fa2867c03303531a4f9d26219c974",
+      "gtBox": {
+        "x": 62.0833,
+        "y": 34.5972,
+        "w": 6.7708,
+        "h": 64.6919
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.129004,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    }
+  ],
+  "generation": {
+    "targetEval": 50,
+    "detectorModelId": "Xenova/owlvit-base-patch32",
+    "detectorLoadMs": 99033.579,
+    "addedEvalSamples": 44,
+    "failures": 28
+  }
+}

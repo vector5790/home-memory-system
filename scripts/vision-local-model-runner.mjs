@@ -93,11 +93,12 @@ function unique(values) {
   return [...new Set(values.filter(Boolean))];
 }
 
-function buildCategoryLookup(categoriesPayload) {
+function buildCategoryLookup(categoriesPayload, allowedCategoryIds = null) {
   const entries = [];
   const labelMap = new Map();
   for (const category of categoriesPayload.categories || []) {
     if (!category || category.active === false || !category.id) continue;
+    if (allowedCategoryIds && !allowedCategoryIds.has(category.id)) continue;
     const rawLabels = [
       ...(category.detectorLabels || []),
       ...(category.aliases || []),
@@ -236,8 +237,12 @@ async function loadClipResources(index, outputPath) {
   const entries = [];
   for (const entry of index.entries || []) {
     if (!entry?.sourceImagePath) continue;
+    if (Array.isArray(entry.embedding) && entry.embedding.length > 0) {
+      entries.push({ ...entry, clipEmbedding: normalizeVector(entry.embedding) });
+      continue;
+    }
     const image = await RawImage.read(resolveRootPath(entry.sourceImagePath));
-    const embedding = await embedRawImage(extractor, image, entry.box);
+    const embedding = await embedRawImage(extractor, image, entry.box || entry.region);
     entries.push({ ...entry, clipEmbedding: embedding.vector });
   }
   const galleryEmbeddingMs = elapsedMs(galleryStart);
@@ -360,6 +365,15 @@ async function runOwlVitDetector(imagePath, detector, labels, lookup, threshold,
     })
     .filter((detection) => detection.box && detection.score >= threshold)
     .sort((left, right) => right.score - left.score);
+}
+
+async function runOwlVitDetectorBatched(imagePath, detector, labels, lookup, threshold, rawImage, chunkSize = 32) {
+  const detections = [];
+  for (let index = 0; index < labels.length; index += chunkSize) {
+    const chunk = labels.slice(index, index + chunkSize);
+    detections.push(...await runOwlVitDetector(imagePath, detector, chunk, lookup, threshold, rawImage));
+  }
+  return detections.sort((left, right) => right.score - left.score);
 }
 
 function maskBoxFromTensor(mask, channelIndex, rawImage) {
@@ -512,7 +526,8 @@ function failurePrediction(image, providerId, error, timing = {}) {
 }
 
 async function runDetectorProvider(providerId, dataset, index, categories, outputPath) {
-  const lookup = buildCategoryLookup(categories);
+  const indexedCategoryIds = new Set((index.entries || []).map((entry) => entry.categoryId).filter(Boolean));
+  const lookup = buildCategoryLookup(categories, indexedCategoryIds.size ? indexedCategoryIds : null);
   const modelIds = providerId.startsWith("grounding-dino")
     ? [MODEL_IDS.groundingDino, MODEL_IDS.clip]
     : [MODEL_IDS.owlvit, MODEL_IDS.clip];
@@ -532,7 +547,7 @@ async function runDetectorProvider(providerId, dataset, index, categories, outpu
       const detectionStart = performance.now();
       const detections = detector.kind === "grounding-dino"
         ? await runGroundingDinoDetector(rawImage, detector, lookup.labels, lookup, 0.05)
-        : await runOwlVitDetector(imagePath, detector.detector, lookup.labels.slice(0, 32), lookup, 0.05, rawImage);
+        : await runOwlVitDetectorBatched(imagePath, detector.detector, lookup.labels, lookup, 0.05, rawImage);
       const detectionMs = elapsedMs(detectionStart);
       const detected = bestDetection(detections);
 

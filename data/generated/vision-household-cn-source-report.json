@@ -1,0 +1,900 @@
+{
+  "kind": "vision-household-cn-source-report",
+  "version": "20260523-household-cn-images",
+  "categoryCount": 133,
+  "gallerySamples": 398,
+  "evalSamples": 50,
+  "samplesByCategory": [
+    {
+      "categoryId": "storage-box",
+      "displayName": "收纳盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "storage-basket",
+      "displayName": "收纳篮",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "drawer-organizer",
+      "displayName": "抽屉分隔盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "vacuum-storage-bag",
+      "displayName": "真空压缩袋",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "closet-organizer",
+      "displayName": "衣柜收纳格",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "cable-organizer-box",
+      "displayName": "线缆收纳盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "shoe-box",
+      "displayName": "鞋盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "bowl",
+      "displayName": "碗",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "plate",
+      "displayName": "盘子",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "mug",
+      "displayName": "马克杯",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "drinking-glass",
+      "displayName": "玻璃杯",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "saucepan",
+      "displayName": "奶锅",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "frying-pan",
+      "displayName": "煎锅",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "cutting-board",
+      "displayName": "菜板",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "rice-bag",
+      "displayName": "米袋",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "noodle-pack",
+      "displayName": "面条包装",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "canned-food",
+      "displayName": "罐头",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "snack-bag",
+      "displayName": "零食袋",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "beverage-bottle",
+      "displayName": "饮料瓶",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "spice-jar",
+      "displayName": "调料瓶",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "cereal-box",
+      "displayName": "麦片盒",
+      "gallery": 2,
+      "eval": 0
+    },
+    {
+      "categoryId": "medicine-box",
+      "displayName": "药盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "pill-bottle",
+      "displayName": "药瓶",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "thermometer",
+      "displayName": "体温计",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "bandage-box",
+      "displayName": "创可贴盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "first-aid-kit",
+      "displayName": "急救包",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "face-mask-pack",
+      "displayName": "口罩包",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "disinfectant-wipes",
+      "displayName": "消毒湿巾",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "laundry-detergent",
+      "displayName": "洗衣液",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "dish-soap",
+      "displayName": "洗洁精",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "cleaning-spray-bottle",
+      "displayName": "清洁喷瓶",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "sponge",
+      "displayName": "海绵",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "trash-bag-roll",
+      "displayName": "垃圾袋卷",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "toilet-cleaner-bottle",
+      "displayName": "洁厕剂",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "mop-head",
+      "displayName": "拖把头",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "charging-cable",
+      "displayName": "数据线",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "charger",
+      "displayName": "充电器",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "battery",
+      "displayName": "电池",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "power-bank",
+      "displayName": "充电宝",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "earphones",
+      "displayName": "耳机",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "usb-flash-drive",
+      "displayName": "U盘",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "memory-card-case",
+      "displayName": "存储卡盒",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "remote-control",
+      "displayName": "遥控器",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "electric-kettle",
+      "displayName": "电水壶",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "rice-cooker",
+      "displayName": "电饭煲",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "air-purifier-filter",
+      "displayName": "空气净化器滤芯",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "hair-dryer",
+      "displayName": "吹风机",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "vacuum-cleaner",
+      "displayName": "吸尘器",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "router",
+      "displayName": "路由器",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "screwdriver",
+      "displayName": "螺丝刀",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "scissors",
+      "displayName": "剪刀",
+      "gallery": 3,
+      "eval": 1
+    },
+    {
+      "categoryId": "tape-roll",
+      "displayName": "胶带",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "hammer",
+      "displayName": "锤子",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "wrench",
+      "displayName": "扳手",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "measuring-tape",
+      "displayName": "卷尺",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "glue-stick",
+      "displayName": "胶棒",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "passport",
+      "displayName": "护照",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "id-card",
+      "displayName": "身份证",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "bank-card",
+      "displayName": "银行卡",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "notebook",
+      "displayName": "笔记本",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "envelope",
+      "displayName": "信封",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "receipt",
+      "displayName": "票据",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "pen",
+      "displayName": "笔",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "t-shirt",
+      "displayName": "T恤",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "socks",
+      "displayName": "袜子",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "cap",
+      "displayName": "帽子",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "scarf",
+      "displayName": "围巾",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "belt",
+      "displayName": "腰带",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "handbag",
+      "displayName": "手提包",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "glasses-case",
+      "displayName": "眼镜盒",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "shampoo-bottle",
+      "displayName": "洗发水",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "body-wash-bottle",
+      "displayName": "沐浴露",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "toothpaste",
+      "displayName": "牙膏",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "toothbrush",
+      "displayName": "牙刷",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "skincare-cream-jar",
+      "displayName": "面霜罐",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "razor",
+      "displayName": "剃须刀",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "comb",
+      "displayName": "梳子",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "baby-bottle",
+      "displayName": "奶瓶",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "diaper-pack",
+      "displayName": "纸尿裤",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "wet-wipes-pack",
+      "displayName": "湿巾包",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "toy-blocks",
+      "displayName": "积木",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "plush-toy",
+      "displayName": "毛绒玩具",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "pacifier",
+      "displayName": "安抚奶嘴",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "childrens-book",
+      "displayName": "儿童书",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "pet-food-bag",
+      "displayName": "宠物粮袋",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "pet-bowl",
+      "displayName": "宠物碗",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "leash",
+      "displayName": "牵引绳",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "pet-toy",
+      "displayName": "宠物玩具",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "litter-bag",
+      "displayName": "猫砂袋",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "grooming-brush",
+      "displayName": "宠物梳",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "waste-bag-roll",
+      "displayName": "宠物拾便袋",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "yoga-mat",
+      "displayName": "瑜伽垫",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "dumbbell",
+      "displayName": "哑铃",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "jump-rope",
+      "displayName": "跳绳",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "sports-water-bottle",
+      "displayName": "运动水杯",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "bicycle-helmet",
+      "displayName": "骑行头盔",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "camping-lantern",
+      "displayName": "露营灯",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "rain-poncho",
+      "displayName": "雨衣",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "suitcase",
+      "displayName": "行李箱",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "backpack",
+      "displayName": "背包",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "toiletry-bag",
+      "displayName": "洗漱包",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "travel-adapter",
+      "displayName": "旅行转换插头",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "luggage-tag",
+      "displayName": "行李牌",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "packing-cube",
+      "displayName": "旅行收纳袋",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "passport-holder",
+      "displayName": "护照夹",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "umbrella",
+      "displayName": "雨伞",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "christmas-ornament",
+      "displayName": "节日挂饰",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "hand-warmer",
+      "displayName": "暖宝宝",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "sunscreen-bottle",
+      "displayName": "防晒霜",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "mosquito-repellent",
+      "displayName": "驱蚊液",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "holiday-lights",
+      "displayName": "节日灯串",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "portable-fan",
+      "displayName": "小风扇",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "towel",
+      "displayName": "毛巾",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "bath-towel",
+      "displayName": "浴巾",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "bed-sheet",
+      "displayName": "床单",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "pillowcase",
+      "displayName": "枕套",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "blanket",
+      "displayName": "毯子",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "cushion-cover",
+      "displayName": "抱枕套",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "tablecloth",
+      "displayName": "桌布",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "toilet-paper-roll",
+      "displayName": "卷纸",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "tissue-box",
+      "displayName": "纸巾盒",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "soap-bar",
+      "displayName": "香皂",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "hand-sanitizer",
+      "displayName": "免洗洗手液",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "shower-cap",
+      "displayName": "浴帽",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "bath-mat",
+      "displayName": "浴垫",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "toilet-brush",
+      "displayName": "马桶刷",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "photo-frame",
+      "displayName": "相框",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "vase",
+      "displayName": "花瓶",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "candle",
+      "displayName": "蜡烛",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "wall-clock",
+      "displayName": "挂钟",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "decorative-basket",
+      "displayName": "装饰篮",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "artificial-flower",
+      "displayName": "仿真花",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "diffuser-bottle",
+      "displayName": "香薰瓶",
+      "gallery": 3,
+      "eval": 0
+    }
+  ],
+  "failures": [
+    {
+      "categoryId": "noodle-pack",
+      "sampleId": "noodle-pack-cn-gallery-002",
+      "stage": "download-or-annotate",
+      "reason": "download failed 403: https://img.zcool.cn/community/01jtxjuv6y0sgmqw4lmukk3637.jpg?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100",
+      "sourceUrl": "https://www.zcool.com.cn/work/ZNjQzOTcyNjg=.html"
+    },
+    {
+      "categoryId": "noodle-pack",
+      "sampleId": "noodle-pack-cn-gallery-003",
+      "stage": "download-or-annotate",
+      "reason": "download failed 403: https://img.zcool.cn/community/01ee7b60a367ca11013e3b7d51ee51.png?imageMogr2/auto-orient/thumbnail/1280x%3E/sharpen/0.5/quality/100",
+      "sourceUrl": "https://www.zcool.com.cn/work/ZNTI3NjYzNTI=.html?from=UCollections"
+    },
+    {
+      "categoryId": "noodle-pack",
+      "sampleId": "noodle-pack-cn-gallery-003",
+      "stage": "download-or-annotate",
+      "reason": "download failed 403: https://img.zcool.cn/community/01ouffglt1c7d0a2he17h83833.jpg?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100",
+      "sourceUrl": "https://www.zcool.com.cn/work/ZNjE2NzU3NjQ=.html"
+    },
+    {
+      "categoryId": "noodle-pack",
+      "sampleId": "noodle-pack-cn-gallery-003",
+      "stage": "download-or-annotate",
+      "reason": "download failed 403: https://img.zcool.cn/community/01jtxjuv6y0sgmqw4lmukk3637.jpg?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100",
+      "sourceUrl": "https://www.zcool.com.cn/work/ZNjQzOTcyNjg=.html"
+    },
+    {
+      "categoryId": "noodle-pack",
+      "sampleId": "noodle-pack-cn-gallery-003",
+      "stage": "download-or-annotate",
+      "reason": "download failed 403: https://img.zcool.cn/community/01jtxjuv6y0sgmqw4lmukk3637.jpg?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100",
+      "sourceUrl": "https://www.zcool.com.cn/work/ZNjQzOTcyNjg=.html"
+    },
+    {
+      "categoryId": "face-mask-pack",
+      "sampleId": "face-mask-pack-cn-gallery-002",
+      "stage": "download-or-annotate",
+      "reason": "download failed 403: https://img.zcool.cn/community/678f15014aca2931tmz4aq6233.png",
+      "sourceUrl": "https://www.zcool.com.cn/work/ZNzEyODg3OTI=.html"
+    },
+    {
+      "categoryId": "power-bank",
+      "query": "充电宝 淘宝 商品图",
+      "provider": "duckduckgo-cn",
+      "stage": "search",
+      "reason": "fetch failed"
+    },
+    {
+      "categoryId": "power-bank",
+      "sampleId": "power-bank-cn-gallery-001",
+      "stage": "image-size",
+      "reason": "image too small",
+      "sourceUrl": "https://dcdv.zol.com.cn/1019/10190690.html"
+    },
+    {
+      "categoryId": "power-bank",
+      "sampleId": "power-bank-cn-gallery-001",
+      "stage": "image-size",
+      "reason": "image too small",
+      "sourceUrl": "https://dcdv.zol.com.cn/969/9690301.html"
+    },
+    {
+      "categoryId": "power-bank",
+      "sampleId": "power-bank-cn-gallery-001",
+      "stage": "image-size",
+      "reason": "image too small",
+      "sourceUrl": "https://dcdv.zol.com.cn/983/9838203_all.html"
+    },
+    {
+      "categoryId": "power-bank",
+      "sampleId": "power-bank-cn-eval-004",
+      "stage": "image-size",
+      "reason": "image too small",
+      "sourceUrl": "https://dcdv.zol.com.cn/969/9696298.html"
+    },
+    {
+      "categoryId": "leash",
+      "query": "牵引绳 淘宝 商品图",
+      "provider": "duckduckgo-cn",
+      "stage": "search",
+      "reason": "fetch failed"
+    },
+    {
+      "categoryId": "mosquito-repellent",
+      "sampleId": "mosquito-repellent-cn-gallery-003",
+      "stage": "download-or-annotate",
+      "reason": "fetch failed",
+      "sourceUrl": "https://www.hbkz.cn/xjcx/379.html"
+    }
+  ]
+}

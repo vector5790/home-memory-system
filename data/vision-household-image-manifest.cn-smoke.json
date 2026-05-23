@@ -1,0 +1,448 @@
+{
+  "kind": "vision-household-image-manifest",
+  "version": "20260523-household-cn-images",
+  "description": "Chinese-mainland-source candidate image manifest generated from Bing China image results. Samples require human source/license/category review before production use.",
+  "taxonomyVersion": "20260523-household-expanded",
+  "sourcePolicy": {
+    "provider": "Taobao search first, DuckDuckGo Taobao/Tmall/1688 product-image search second, then Bing Images over Chinese mainland web candidates",
+    "sourceRegion": "CN-mainland-web-candidate",
+    "productionReady": false,
+    "note": "Images are downloaded from candidate mainland China web sources. Source rights and category correctness must be manually reviewed before production or redistribution."
+  },
+  "generation": {
+    "categoryCount": 5,
+    "galleryPerCategory": 1,
+    "evalTotal": 5,
+    "searchLimit": 30,
+    "sourceStrategy": [
+      "Direct Taobao search at https://s.taobao.com/search?q=<category>",
+      "DuckDuckGo image search using '<category> 淘宝/天猫/1688 商品图' and mainland/Taobao ecosystem source filtering",
+      "Bing China image search constrained toward Taobao/Tmall/1688 and other mainland web candidates"
+    ],
+    "detectorModelId": "Xenova/owlvit-base-patch32",
+    "detectorLoadMs": 11548.53,
+    "failures": 0
+  },
+  "samples": [
+    {
+      "id": "storage-box-cn-gallery-001",
+      "categoryId": "storage-box",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-household/cn-smoke/storage-box/storage-box-cn-gallery-001-image.jpg",
+      "sourceUrl": "https://bk.taobao.com/k/xiyifenshounahe_14299/de0965ccc0360ba3493705833f4cb5d6.html",
+      "sourceTitle": "日式白色塑料收纳盒：家居整理神器，让生活更有条理 -洗衣粉收纳盒-淘宝百科网",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "bk.taobao.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "日式白色塑料收纳盒：家居整理神器，让生活更有条理 -洗衣粉收纳盒-淘宝百科网",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 14,
+        "exact": true,
+        "termHits": [
+          "收纳盒",
+          "收纳",
+          "纳盒"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "sha256": "2bbd8d2265f52c858b4faddf4c8320638cacf5f01c20575f35474ebd5a4b6a5a"
+    },
+    {
+      "id": "storage-box-cn-eval-002",
+      "categoryId": "storage-box",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/cn-smoke/storage-box/storage-box-cn-eval-002-a4.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_jjZMk87t0tQGGGPtBBdsJte-A7AqqefKZnraeKyh3.html",
+      "sourceTitle": "桌面收纳盒抽屉式办公室桌上可叠加杂物化妆品a4小盒子多层储物箱_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "桌面收纳盒抽屉式办公室桌上可叠加杂物化妆品a4小盒子多层储物箱_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 14,
+        "exact": true,
+        "termHits": [
+          "收纳盒",
+          "收纳",
+          "纳盒"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 2
+      },
+      "sha256": "354ff2b367ad1181611842cfc6b7bdff730cec1b1a91203915bad3fc3a18eeb0",
+      "gtBox": {
+        "x": 34,
+        "y": 25.125,
+        "w": 40.25,
+        "h": 64.875
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "storage box",
+        "score": 0.059975,
+        "note": "Auto-assisted GT box for scaling mainland-China-sourced smoke evaluation; human review required before production gates."
+      }
+    },
+    {
+      "id": "storage-basket-cn-gallery-001",
+      "categoryId": "storage-basket",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-household/cn-smoke/storage-basket/storage-basket-cn-gallery-001-image.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_o2yN22XirtRx242tDArUntN-7QGWW2sw84ZyWXKUe.html",
+      "sourceTitle": "仿藤水果篮子藤编面包篮厨房果蔬菜收纳篮塑料长方形水果筐有把手_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "仿藤水果篮子藤编面包篮厨房果蔬菜收纳篮塑料长方形水果筐有把手_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 14,
+        "exact": true,
+        "termHits": [
+          "收纳篮",
+          "收纳",
+          "纳篮"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "sha256": "32191bdbb7b85efc6d792342329daec1604a6f53e5c3f205c1ba677764d220df"
+    },
+    {
+      "id": "storage-basket-cn-eval-002",
+      "categoryId": "storage-basket",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/cn-smoke/storage-basket/storage-basket-cn-eval-002-image.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_oxeZQ02SrtKZanAAwQtD9auntN-qKZqqrSr8NDMXjai79.html",
+      "sourceTitle": "收纳筐塑料收纳篮置物篮桌面杂物零食收纳框浴筐菜篮子厨房收纳盒_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "收纳筐塑料收纳篮置物篮桌面杂物零食收纳框浴筐菜篮子厨房收纳盒_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 14,
+        "exact": true,
+        "termHits": [
+          "收纳篮",
+          "收纳",
+          "纳篮"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 2
+      },
+      "sha256": "714e9c97bd148ffa2993ae7d33c574c45c9ecd8d152db835fee85e6c0ff2b280",
+      "gtBox": {
+        "x": 1.25,
+        "y": 46.875,
+        "w": 47.875,
+        "h": 38.25
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "woven storage basket",
+        "score": 0.106845,
+        "note": "Auto-assisted GT box for scaling mainland-China-sourced smoke evaluation; human review required before production gates."
+      }
+    },
+    {
+      "id": "drawer-organizer-cn-gallery-001",
+      "categoryId": "drawer-organizer",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-household/cn-smoke/drawer-organizer/drawer-organizer-cn-gallery-001-image.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_613639296271.html",
+      "sourceTitle": "抽屉收纳分隔自由组合整理分隔盒板分割神器塑料隔断袜子格子隔板_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "抽屉收纳分隔自由组合整理分隔盒板分割神器塑料隔断袜子格子隔板_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 10,
+        "exact": false,
+        "termHits": [
+          "抽屉",
+          "分隔",
+          "隔盒"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "sha256": "c468a7e984dcf3f87034fd1748453160d1fe861f37af6a60217e62ce756966d6"
+    },
+    {
+      "id": "drawer-organizer-cn-eval-002",
+      "categoryId": "drawer-organizer",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/cn-smoke/drawer-organizer/drawer-organizer-cn-eval-002-image.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_665344401361.html",
+      "sourceTitle": "抽屉收纳分隔板片塑料分割板隔断自由组合内衣袜子格子神器分隔盒_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "抽屉收纳分隔板片塑料分割板隔断自由组合内衣袜子格子神器分隔盒_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 10,
+        "exact": false,
+        "termHits": [
+          "抽屉",
+          "分隔",
+          "隔盒"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 2
+      },
+      "sha256": "6699bc16a36cc3a4ac1cd294173cecb8e9d4726f5cca8ddcad8bc617094e6051",
+      "gtBox": {
+        "x": 0,
+        "y": 13.75,
+        "w": 32.75,
+        "h": 35.75
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "drawer organizer",
+        "score": 0.168814,
+        "note": "Auto-assisted GT box for scaling mainland-China-sourced smoke evaluation; human review required before production gates."
+      }
+    },
+    {
+      "id": "vacuum-storage-bag-cn-gallery-001",
+      "categoryId": "vacuum-storage-bag",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-household/cn-smoke/vacuum-storage-bag/vacuum-storage-bag-cn-gallery-001-image.jpg",
+      "sourceUrl": "https://bk.taobao.com/k/beiziyasuodai_8610/0fafa1d3de10d11ad7a0b8feb448336a.html",
+      "sourceTitle": "真空压缩袋收纳革命：旅行收纳神器，轻松搞定大件行李!🧳 -被子压缩袋-淘宝百科网",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "bk.taobao.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "真空压缩袋收纳革命：旅行收纳神器，轻松搞定大件行李!🧳 -被子压缩袋-淘宝百科网",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 14,
+        "exact": true,
+        "termHits": [
+          "真空压缩袋",
+          "真空压缩",
+          "真空",
+          "空压",
+          "压缩",
+          "缩袋"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "sha256": "4a3953c430e36b3be71b4d7326bb5d4ef99ed65059f5789d0e42e8037ff89b1a"
+    },
+    {
+      "id": "vacuum-storage-bag-cn-eval-002",
+      "categoryId": "vacuum-storage-bag",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/cn-smoke/vacuum-storage-bag/vacuum-storage-bag-cn-eval-002-image.jpg",
+      "sourceUrl": "https://bk.taobao.com/k/zhenkongdai_5516/38a393781507cabb7da5267ba2cc30fb.html",
+      "sourceTitle": "亚马逊真空压缩袋真的能省空间？一文讲清防尘防潮收纳真相!-真空袋-淘宝百科网",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "bk.taobao.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "亚马逊真空压缩袋真的能省空间？一文讲清防尘防潮收纳真相!-真空袋-淘宝百科网",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 14,
+        "exact": true,
+        "termHits": [
+          "真空压缩袋",
+          "真空压缩",
+          "真空",
+          "空压",
+          "压缩",
+          "缩袋"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 2
+      },
+      "sha256": "0c635aaf2a4b210d11bf898941faf25828ba751c23aad5038f0eef85e3fc0628",
+      "gtBox": {
+        "x": 0,
+        "y": 40.5,
+        "w": 54.125,
+        "h": 37
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "vacuum storage bag",
+        "score": 0.059704,
+        "note": "Auto-assisted GT box for scaling mainland-China-sourced smoke evaluation; human review required before production gates."
+      }
+    },
+    {
+      "id": "closet-organizer-cn-gallery-001",
+      "categoryId": "closet-organizer",
+      "split": "gallery",
+      "role": "gallery",
+      "imagePath": "fixtures/vision-household/cn-smoke/closet-organizer/closet-organizer-cn-gallery-001-t.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_POvbzZmC3t67NqONOZUvv3tPt6-7QGWW2swYpavbzBFn.html",
+      "sourceTitle": "衣柜衣服收纳格神器宿舍衣物收纳分隔盒装T恤裤子分格抽屉整理箱_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "衣柜衣服收纳格神器宿舍衣物收纳分隔盒装T恤裤子分格抽屉整理箱_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 10,
+        "exact": false,
+        "termHits": [
+          "衣柜",
+          "收纳",
+          "纳格"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 2
+      },
+      "sha256": "78f9a21869776ec6def526a235f3c4127d3c40fab0bc0407abfe8ba97859bff0"
+    },
+    {
+      "id": "closet-organizer-cn-eval-002",
+      "categoryId": "closet-organizer",
+      "split": "eval",
+      "role": "query",
+      "imagePath": "fixtures/vision-household/cn-smoke/closet-organizer/closet-organizer-cn-eval-002-image.jpg",
+      "sourceUrl": "https://tao.hooos.com/goods_mQqv0bzuktJRwBjdZ0uzzRUot3-Mw0WW4FVbw5PMXPhY.html",
+      "sourceTitle": "内衣收纳盒家用抽屉式布艺衣柜衣物分格盒装内裤袜子裤子收纳神器_虎窝淘",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceSearchProvider": "duckduckgo-cn",
+      "sourceRegion": "CN-mainland-web-candidate",
+      "sourceHost": "tao.hooos.com",
+      "imageHost": "img.alicdn.com",
+      "license": {
+        "name": "Unverified Taobao ecosystem image",
+        "usage": "For local smoke evaluation only. Check Taobao/Tmall/1688 source rights before production or redistribution."
+      },
+      "variant": "内衣收纳盒家用抽屉式布艺衣柜衣物分格盒装内裤袜子裤子收纳神器_虎窝淘",
+      "reviewStatus": "pending",
+      "sourceMatch": {
+        "accepted": true,
+        "score": 9,
+        "exact": false,
+        "termHits": [
+          "衣柜",
+          "收纳"
+        ],
+        "commerce": true,
+        "mainland": true,
+        "blacklist": false,
+        "rank": 3
+      },
+      "sha256": "0602d86e6288e04f756687fdb7f6110fa8390cc7910a2dc6e6a6cbe5db8d06aa",
+      "gtBox": {
+        "x": 2.375,
+        "y": 20.625,
+        "w": 97.625,
+        "h": 75.875
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "closet organizer",
+        "score": 0.249527,
+        "note": "Auto-assisted GT box for scaling mainland-China-sourced smoke evaluation; human review required before production gates."
+      }
+    }
+  ]
+}

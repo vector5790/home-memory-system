@@ -1,0 +1,1043 @@
+{
+  "kind": "vision-household-query-expansion-report",
+  "version": "20260523-household-smoke-50-images",
+  "targetEval": 50,
+  "evalCount": 50,
+  "addedEvalSamples": 44,
+  "additions": [
+    {
+      "id": "storage-box-commons-eval-02",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-02-file-storage-containers-in-svalbard-global-seed-vault-01-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AStorage_containers_in_Svalbard_Global_Seed_Vault_01.jpg",
+      "gtBox": {
+        "x": 0,
+        "y": 0,
+        "w": 99.7917,
+        "h": 99.2188
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.119474,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-03",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-03-file-day-of-service-2015-21253681361-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681361).jpg",
+      "gtBox": {
+        "x": 16.1458,
+        "y": 72.5313,
+        "w": 35.2083,
+        "h": 26.6342
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.369931,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-04",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-04-file-day-of-service-2015-21245680865-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21245680865).jpg",
+      "gtBox": {
+        "x": 24.6875,
+        "y": 58.0668,
+        "w": 50.3125,
+        "h": 29.4854
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.113103,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-05",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-05-file-day-of-service-2015-20624556473-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(20624556473).jpg",
+      "gtBox": {
+        "x": 42.9167,
+        "y": 45.9666,
+        "w": 23.125,
+        "h": 14.6732
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.034344,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-06",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-06-file-day-of-service-2015-21253681701-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ADay_of_Service_2015_(21253681701).jpg",
+      "gtBox": {
+        "x": 49.375,
+        "y": 40.2643,
+        "w": 24.1667,
+        "h": 9.8053
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.217064,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-07",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-07-file-plastic-multi-drawer-storage-cabinets-1-2018-01-30-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APlastic_multi-drawer_storage_cabinets_1_2018-01-30.jpg",
+      "gtBox": {
+        "x": 21.3542,
+        "y": 16.0938,
+        "w": 55.625,
+        "h": 76.7969
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "storage box",
+        "score": 0.069152,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-08",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-08-file-blue-plastic-storage-organizer-boxes-for-screws-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABlue_plastic_storage_organizer_boxes_for_screws.jpg",
+      "gtBox": {
+        "x": 0,
+        "y": 1.6349,
+        "w": 99.7917,
+        "h": 93.3243
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "storage box",
+        "score": 0.177561,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "storage-box-commons-eval-09",
+      "categoryId": "storage-box",
+      "imagePath": "fixtures/vision-household/smoke-50/storage-box/storage-box-commons-eval-09-file-gratnells-school-storage-jumbo-tray-in-purple-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AGratnells_School_Storage_Jumbo_Tray_in_Purple.jpg",
+      "gtBox": {
+        "x": 13.5417,
+        "y": 10.1563,
+        "w": 67.2917,
+        "h": 84.0625
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "plastic storage bin",
+        "score": 0.094419,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-02",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-02-file-huawei-ec226-with-usb-cable-3384718751-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AHuawei_EC226_with_USB_cable_(3384718751).jpg",
+      "gtBox": {
+        "x": 0.8333,
+        "y": 11.8056,
+        "w": 79.4792,
+        "h": 79.1667
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.103896,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-03",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-03-file-lost-found-mini-usb-ladekabel-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALost%26Found_Mini_USB_LAdekabel.jpg",
+      "gtBox": {
+        "x": 13.125,
+        "y": 27.5,
+        "w": 68.9583,
+        "h": 45.4167
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.106467,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-04",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-04-file-usb-c-png.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-C.png",
+      "gtBox": {
+        "x": 69.9203,
+        "y": 64.0127,
+        "w": 27.8884,
+        "h": 32.4841
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "usb cable",
+        "score": 0.026452,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-05",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-05-file-usb-broadband-modems-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_broadband_modems.jpg",
+      "gtBox": {
+        "x": 6.9444,
+        "y": 48.7234,
+        "w": 79.5833,
+        "h": 20.2128
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "usb cable",
+        "score": 0.042219,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-06",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-06-file-usb-a-and-usb-micro-b-connectors-in-the-power-bank-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB-A_and_USB_micro_B_connectors_in_the_power_bank.jpg",
+      "gtBox": {
+        "x": 25.4167,
+        "y": 8.6806,
+        "w": 43.6458,
+        "h": 23.6111
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "usb cable",
+        "score": 0.127542,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-07",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-07-file-usb-a-b-cable-agr-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_A_%26_B_cable.agr.jpg",
+      "gtBox": {
+        "x": 16.0417,
+        "y": 0.625,
+        "w": 83.3333,
+        "h": 93.3333
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.044528,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-08",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-08-file-10base-t1s-to-usb-media-converter-png.png",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A10BASE-T1S-To-USB_Media_Converter.png",
+      "gtBox": {
+        "x": 44.7742,
+        "y": 12.9151,
+        "w": 31.6129,
+        "h": 8.8561
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "数据线",
+        "score": 0.008109,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charging-cable-commons-eval-09",
+      "categoryId": "charging-cable",
+      "imagePath": "fixtures/vision-household/smoke-50/charging-cable/charging-cable-commons-eval-09-file-five-usb-cables-with-braided-jackets-in-different-colours-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AFive_USB_cables_with_braided_jackets_in_different_colours.jpg",
+      "gtBox": {
+        "x": 1.9792,
+        "y": 39.2722,
+        "w": 75.5208,
+        "h": 53.0705
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charging cable",
+        "score": 0.031249,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-02",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-02-file-ladeger-t-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALadeger%C3%A4t.jpg",
+      "gtBox": {
+        "x": 8.0208,
+        "y": 0.2778,
+        "w": 82.7083,
+        "h": 94.1667
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charger",
+        "score": 0.148857,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-03",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-03-file-usb-aa-battery-charger-1-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_1.jpg",
+      "gtBox": {
+        "x": 56.9792,
+        "y": 26.25,
+        "w": 21.3542,
+        "h": 17.6389
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.059712,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-04",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-04-file-usb-aa-battery-charger-3-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_3.jpg",
+      "gtBox": {
+        "x": 17.7083,
+        "y": 25.5556,
+        "w": 66.875,
+        "h": 68.3333
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.044131,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-05",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-05-file-usb-aa-battery-charger-2-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUSB_AA_battery_charger_2.jpg",
+      "gtBox": {
+        "x": 15.7292,
+        "y": 12.0833,
+        "w": 72.8125,
+        "h": 73.8889
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.031557,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-06",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-06-file-nikon-mh-18a-battery-charger-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANikon_MH-18a_battery_charger.jpg",
+      "gtBox": {
+        "x": 16.875,
+        "y": 11.2202,
+        "w": 67.6042,
+        "h": 80.3647
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.045065,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-07",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-07-file-universal-battery-charger-charging-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUniversal_battery_charger_charging.jpg",
+      "gtBox": {
+        "x": 9.8191,
+        "y": 5.2326,
+        "w": 86.8217,
+        "h": 93.9922
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "charger",
+        "score": 0.054232,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-08",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-08-file-buck-converter-stepdown-3a-usb-charger-and-supply-img-20170202-2107-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABuck_converter_stepdown_3A_USB_Charger_and_Supply_IMG_20170202_2107.jpg",
+      "gtBox": {
+        "x": 1.0417,
+        "y": 9.661,
+        "w": 91.9792,
+        "h": 81.1864
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.049835,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "charger-commons-eval-09",
+      "categoryId": "charger",
+      "imagePath": "fixtures/vision-household/smoke-50/charger/charger-commons-eval-09-file-canon-battery-charger-cb2lte-1290-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ACanon_battery_charger_CB2LTE-1290.jpg",
+      "gtBox": {
+        "x": 4.7917,
+        "y": 14.7222,
+        "w": 93.9583,
+        "h": 74.8611
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "power adapter",
+        "score": 0.019562,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-02",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-02-file-remote-control-infrared-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote-Control-Infrared.jpg",
+      "gtBox": {
+        "x": 0.2604,
+        "y": 0,
+        "w": 98.1771,
+        "h": 99.4141
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "tv remote",
+        "score": 0.011805,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-03",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-03-file-remote-infrared-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_infrared.jpg",
+      "gtBox": {
+        "x": 9.1667,
+        "y": 41.2676,
+        "w": 70.4167,
+        "h": 38.7324
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "tv remote",
+        "score": 0.096654,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-04",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-04-file-avermedia-rm-rh-remote-control-white-background-edit-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAverMedia_RM-RH_Remote_control_(white_background)_edit.jpg",
+      "gtBox": {
+        "x": 20.7292,
+        "y": 19.375,
+        "w": 63.0208,
+        "h": 64.2188
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.137525,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-05",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-05-file-remote-controls-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_controls.JPG",
+      "gtBox": {
+        "x": 85.8333,
+        "y": 4.878,
+        "w": 13.8542,
+        "h": 86.8902
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.415817,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-06",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-06-file-remote-control-control-remoto-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ARemote_control_-_control_remoto.jpg",
+      "gtBox": {
+        "x": 4.0541,
+        "y": 5.6911,
+        "w": 83.1081,
+        "h": 89.4309
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.335536,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-07",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-07-file-nuon-n2000-remote-control-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ANuon-N2000-Remote-Control.jpg",
+      "gtBox": {
+        "x": 5.1042,
+        "y": 2.6824,
+        "w": 93.75,
+        "h": 94.0987
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.200652,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-08",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-08-file-television-remote-control-unbranded-4028-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ATelevision_remote_control_-_unbranded-4028.jpg",
+      "gtBox": {
+        "x": 4.7917,
+        "y": 6.0417,
+        "w": 88.9583,
+        "h": 92.2917
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.165055,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "remote-control-commons-eval-09",
+      "categoryId": "remote-control",
+      "imagePath": "fixtures/vision-household/smoke-50/remote-control/remote-control-commons-eval-09-file-lg-ir-dvd-remote-control-6711r1p089k-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ALG_IR_DVD_Remote_Control_6711R1P089K.jpg",
+      "gtBox": {
+        "x": 26.0417,
+        "y": 3.6907,
+        "w": 45.8333,
+        "h": 82.5425
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "remote control",
+        "score": 0.281925,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-02",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-02-file-pill-box-with-pills-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_with_pills.JPG",
+      "gtBox": {
+        "x": 6.25,
+        "y": 38.0556,
+        "w": 83.5417,
+        "h": 32.0833
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.163396,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-03",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-03-file-pill-dispenser-daily-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Dispenser_(daily).jpg",
+      "gtBox": {
+        "x": 2.2581,
+        "y": 47.9487,
+        "w": 97.7419,
+        "h": 47.9487
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.055901,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-04",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-04-file-pill-box-for-spanish-or-french-speakers-32518630336-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_for_Spanish_or_French_Speakers_(32518630336).jpg",
+      "gtBox": {
+        "x": 1.3542,
+        "y": 19.0402,
+        "w": 98.6458,
+        "h": 71.8266
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.030055,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-05",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-05-file-pill-box-32636946385-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(32636946385).jpg",
+      "gtBox": {
+        "x": 8.3333,
+        "y": 20.9064,
+        "w": 89.7917,
+        "h": 63.5965
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.045857,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-06",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-06-file-pill-box-24888074919-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_(24888074919).jpg",
+      "gtBox": {
+        "x": 0.3125,
+        "y": 3.0769,
+        "w": 99.6875,
+        "h": 95.7265
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.193055,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-07",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-07-file-pill-box-warkworth-2022-03-27-3-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_3.jpg",
+      "gtBox": {
+        "x": 13.75,
+        "y": 0,
+        "w": 69.5833,
+        "h": 99.6875
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "pill organizer",
+        "score": 0.008368,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-08",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-08-file-pill-box-warkworth-2022-03-27-2-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_2.jpg",
+      "gtBox": {
+        "x": 20,
+        "y": 37.4306,
+        "w": 16.9792,
+        "h": 6.1111
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "药盒",
+        "score": 0.007583,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "medicine-box-commons-eval-09",
+      "categoryId": "medicine-box",
+      "imagePath": "fixtures/vision-household/smoke-50/medicine-box/medicine-box-commons-eval-09-file-pill-box-warkworth-2022-03-27-5-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_5.jpg",
+      "gtBox": {
+        "x": 0,
+        "y": 81.8056,
+        "w": 23.5417,
+        "h": 18.1944
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "medicine box",
+        "score": 0.047365,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-02",
+      "categoryId": "battery",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-02-file-alkali-battery-5-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAlkali_battery_5.jpg",
+      "gtBox": {
+        "x": 73.0208,
+        "y": 12.8898,
+        "w": 24.0625,
+        "h": 75.052
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.081518,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-03",
+      "categoryId": "battery",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-03-file-aa-battery-adapter-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAA_battery_adapter.jpg",
+      "gtBox": {
+        "x": 6.5625,
+        "y": 4.6563,
+        "w": 81.875,
+        "h": 85.255
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.100796,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-04",
+      "categoryId": "battery",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-04-file-02-single-energizer-battery-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A02_-_Single_Energizer_Battery.jpg",
+      "gtBox": {
+        "x": 13.75,
+        "y": 12.7726,
+        "w": 68.4375,
+        "h": 70.8723
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.145704,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    },
+    {
+      "id": "battery-commons-eval-05",
+      "categoryId": "battery",
+      "imagePath": "fixtures/vision-household/smoke-50/battery/battery-commons-eval-05-file-6-most-common-battery-types-1-jpg.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A6_most_common_battery_types-1.jpg",
+      "gtBox": {
+        "x": 62.0833,
+        "y": 34.5972,
+        "w": 6.7708,
+        "h": 64.6919
+      },
+      "gtAnnotation": {
+        "method": "owlvit-assisted",
+        "modelId": "Xenova/owlvit-base-patch32",
+        "label": "alkaline battery",
+        "score": 0.129004,
+        "note": "Auto-assisted GT box for scaling the smoke evaluation set; should be human-reviewed before production gating."
+      }
+    }
+  ],
+  "failures": [
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_115028.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_183176.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_320423.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_349514.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/f/f3/Pill_Box_-_geograph.org.uk_-_357269.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_357269.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_377418.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/a/a8/Pill_Box_-_geograph.org.uk_-_377446.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_377446.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_383852.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/7/72/Pill_box_-_geograph.org.uk_-_392370.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_392370.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/5/52/Pill_box_-_geograph.org.uk_-_423114.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_423114.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/8/8a/Pill_Box_-_geograph.org.uk_-_438584.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_438584.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/d/d5/Pill_Box_-_geograph.org.uk_-_442657.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_442657.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/9/95/Pill_Box_-_geograph.org.uk_-_451651.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_451651.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/9/96/Pill_Box_-_geograph.org.uk_-_454455.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_454455.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/8/8c/WW2_Pill_Box_at_Box_-_geograph.org.uk_-_515506.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AWW2_Pill_Box_at_Box_-_geograph.org.uk_-_515506.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/4/46/Pill_Box_-_geograph.org.uk_-_580948.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_580948.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/e/ef/Pill_Box_-_geograph.org.uk_-_602515.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_602515.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Pill_Box_-_geograph.org.uk_-_657135.jpg/960px-Pill_Box_-_geograph.org.uk_-_657135.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_657135.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/8/89/Pill_box_-_geograph.org.uk_-_853660.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_853660.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/3/3a/Pill_box_-_geograph.org.uk_-_853671.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_853671.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/3/3c/Pill_box_-_geograph.org.uk_-_853691.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_853691.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/c/cd/Pill_Box_-_geograph.org.uk_-_1465639.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_1465639.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-04",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_1715825.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-07",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box_-_geograph.org.uk_-_2358260.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-07",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/1/1c/Pill_box_-_geograph.org.uk_-_2531379.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_box_-_geograph.org.uk_-_2531379.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-08",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_1.jpg"
+    },
+    {
+      "categoryId": "medicine-box",
+      "sampleId": "medicine-box-commons-eval-09",
+      "stage": "gt-region",
+      "reason": "no owlvit-assisted gt region",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3APill_Box%2C_Warkworth_(2022-03-27)_4.jpg"
+    },
+    {
+      "categoryId": "battery",
+      "sampleId": "battery-commons-eval-05",
+      "stage": "download-or-annotate",
+      "reason": "download failed 429: https://upload.wikimedia.org/wikipedia/commons/2/22/AAAA_AAA_AA_9V_comparison-1.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAAAA_AAA_AA_9V_comparison-1.jpg"
+    }
+  ]
+}
