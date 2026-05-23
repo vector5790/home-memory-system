@@ -27,7 +27,10 @@ async function assertFile(relativePath) {
   const fullPath = path.join(root, relativePath);
   const info = await stat(fullPath).catch(() => null);
   if (!info?.isFile()) {
-    throw new Error(`Missing required asset: ${relativePath}`);
+    const assetHint = relativePath.startsWith("vendor/")
+      ? "\nRun `npm run assets:vision` before packaging the iOS MVP, then retry `npm run build:web`."
+      : "";
+    throw new Error(`Missing required asset: ${relativePath}${assetHint}`);
   }
 }
 

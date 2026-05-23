@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import time
 import sys
 import urllib.error
 import urllib.request
@@ -28,22 +29,44 @@ MODELS = [
     "Xenova/slimsam-77-uniform",
     "Xenova/clip-vit-base-patch32",
 ]
+RETRY_COUNT = 3
+RETRY_DELAY_SECONDS = 2
+
+
+def with_retries(label: str, operation):
+    last_error = None
+    for attempt in range(1, RETRY_COUNT + 1):
+        try:
+            return operation()
+        except Exception as error:
+            last_error = error
+            if attempt == RETRY_COUNT:
+                break
+            print(f"retry {attempt}/{RETRY_COUNT - 1} {label}: {error}", flush=True)
+            time.sleep(RETRY_DELAY_SECONDS * attempt)
+    raise last_error
 
 
 def fetch_json(url: str) -> object:
-    with urllib.request.urlopen(url, timeout=60) as response:
-        return json.loads(response.read().decode("utf-8"))
+    def operation():
+        with urllib.request.urlopen(url, timeout=60) as response:
+            return json.loads(response.read().decode("utf-8"))
+    return with_retries(url, operation)
 
 
 def download(url: str, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists() and destination.stat().st_size > 0:
-        print(f"skip {destination.relative_to(ROOT)}")
+        print(f"skip {destination.relative_to(ROOT)}", flush=True)
         return
-    print(f"get  {destination.relative_to(ROOT)}")
-    request = urllib.request.Request(url, headers={"user-agent": "home-memory-system/0.1"})
-    with urllib.request.urlopen(request, timeout=180) as response:
-        destination.write_bytes(response.read())
+    print(f"get  {destination.relative_to(ROOT)}", flush=True)
+
+    def operation():
+        request = urllib.request.Request(url, headers={"user-agent": "home-memory-system/0.1"})
+        with urllib.request.urlopen(request, timeout=180) as response:
+            destination.write_bytes(response.read())
+
+    with_retries(str(destination.relative_to(ROOT)), operation)
 
 
 def list_model_files(repo_id: str) -> list[str]:

@@ -5,6 +5,8 @@
   "description": "Local-first Home Memory prototype with an iOS app shell.",
   "type": "module",
   "scripts": {
+    "dev": "python3 server.py 4173",
+    "assets:vision": "python3 scripts/download-vision-assets.py",
     "build:web": "node scripts/build-web.mjs",
     "check:web": "node --check app.js && node --check server.mjs && node --check scripts/build-web.mjs",
     "ios:sync": "npm run build:web && cap sync ios",

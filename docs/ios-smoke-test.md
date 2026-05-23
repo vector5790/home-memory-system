@@ -7,9 +7,11 @@ Use this checklist before calling the iOS app reliable enough for household test
 - [x] Full Xcode is installed.
 - [x] `xcode-select -p` points to `/Applications/Xcode.app/Contents/Developer`.
 - [x] Node.js 20+ and npm are available.
-- [x] Local model assets exist under `vendor/`.
+- [x] Local model assets exist under `vendor/`; run `npm run assets:vision` if `vendor/vision-manifest.json` is missing.
 
 Current local note: Xcode 26.5 and the iOS 26.5 simulator runtime are installed. Simulator launch verification was run on iPhone 17 simulator `7AC1093D-549E-4E79-8530-2EF9CB6C7241`.
+
+Local model asset note on 2026-05-23: `npm run assets:vision` refreshed the packaged local model set after one transient TLS retry; `vendor/` is approximately `680M`.
 
 Environment and launch commands run on 2026-05-20:
 
@@ -40,6 +42,7 @@ Results:
 ## Build
 
 - [x] Run `npm install`.
+- [x] Run `npm run assets:vision` when local model assets are absent.
 - [x] Run `npm run check:web`.
 - [x] Run `npm run build:web`.
 - [x] Run `npm run ios:sync`.

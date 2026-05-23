@@ -4,6 +4,9 @@ const STORAGE_KEY = "home-memory-system:v3";
 const platform = createHomeMemoryPlatform({
   storageKey: STORAGE_KEY,
   schemaVersion: HOME_DATA_SCHEMA_VERSION,
+  onWriteError() {
+    showToast("本地保存失败，当前更改仅保留在本次会话中");
+  },
 });
 const today = new Date();
 const repeatLabels = {
@@ -70,6 +73,7 @@ const visionConfig = {
   appVersion: "20260523-owlvit-first",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
+  allowRemoteVisionAssets: !platform.isNative,
   localTransformersModule: "/vendor/transformers/transformers.min.js",
   localHeicConverterScript: "/vendor/heic2any/heic2any.min.js",
   localManifest: "/vendor/vision-manifest.json",
@@ -1390,10 +1394,15 @@ async function loadTransformersRuntime() {
           };
         }
       }
-      if (!module) module = await import(visionConfig.remoteTransformersModule);
+      if (!module && visionConfig.allowRemoteVisionAssets) {
+        module = await import(visionConfig.remoteTransformersModule);
+      }
+      if (!module) {
+        throw new Error("本地识别运行时未打包，iOS MVP 不会联网加载模型资源。");
+      }
 
       module.env.allowLocalModels = runtimeMode.hasLocalRuntime;
-      module.env.allowRemoteModels = true;
+      module.env.allowRemoteModels = Boolean(visionConfig.allowRemoteVisionAssets);
       module.env.localModelPath = visionConfig.localModelPath;
       module.env.useBrowserCache = true;
       configureTransformersRuntime(module);
@@ -2125,7 +2134,7 @@ async function recognizeWithSmallModelCached(image) {
 async function recognizeWithCloudApi(context) {
   const endpoint = visionConfig.cloudRecognitionEndpoint || (platform.isNative ? "" : "/api/recognize");
   if (!endpoint) {
-    throw new Error("iOS 未配置云端识别端点，默认只使用本地识别。");
+    throw new Error("移动端未配置云端识别端点，默认只使用本地识别。");
   }
   const response = await fetch(endpoint, {
     method: "POST",
@@ -2648,6 +2657,10 @@ function providerLabel(provider) {
   if (name === "local-image") return "本地候选区域";
   if (name === "ios-camera") return "iOS 相机";
   if (name === "ios-photo-library") return "iOS 相册";
+  if (name === "android-camera") return "Android 相机";
+  if (name === "android-photo-library") return "Android 相册";
+  if (name === "native-camera") return "原生相机";
+  if (name === "native-photo-library") return "原生相册";
   if (name === "cloud-vlm" || name.startsWith("openai:")) return "云端大模型";
   return name;
 }
@@ -2656,6 +2669,11 @@ function getRequestedRecognitionProvider() {
   if (visionConfig.preferredDetector === "owlvit") return "local-owlvit";
   if (visionConfig.preferredDetector === "grounding-dino") return "local-grounding-dino";
   return "local-small-model";
+}
+
+function nativePhotoProvider(source) {
+  const prefix = platform.isIOS ? "ios" : platform.isAndroid ? "android" : "native";
+  return `${prefix}-${source === "camera" ? "camera" : "photo-library"}`;
 }
 
 function daysUntil(dateText) {
@@ -4658,13 +4676,14 @@ async function importNativePhoto(source) {
     showToast("当前环境暂不支持原生照片导入");
     return;
   }
+  const provider = nativePhotoProvider(source);
   state.capture = {
     ...state.capture,
     candidates: [],
     activeCandidateId: null,
     recognitionStatus: "loading",
     recognitionError: "",
-    provider: isCamera ? "ios-camera" : "ios-photo-library",
+    provider,
   };
   render();
   showToast(isCamera ? "正在打开相机" : "正在打开相册");
@@ -4674,13 +4693,13 @@ async function importNativePhoto(source) {
     const loaded = await loadImage(photo.dataUrl);
     const image = await resizeImageSourceToDataUrl(loaded);
     const imageMeta = normalizeImageMeta(loaded) || await imageMetaFromDataUrl(image);
-    const imageRef = await persistPhotoDataUrl(image, isCamera ? "ios-camera" : "ios-photo-library");
+    const imageRef = await persistPhotoDataUrl(image, provider);
     resetCaptureRecognition({
       image,
       imageRef,
       imageMeta,
       preprocessingMs: performance.now() - preprocessStartedAt,
-      provider: isCamera ? "ios-camera" : "ios-photo-library",
+      provider,
     });
     warmCaptureDetectionModel();
     persist();
@@ -4693,7 +4712,7 @@ async function importNativePhoto(source) {
       activeCandidateId: null,
       recognitionStatus: "error",
       recognitionError: error.message || "照片导入失败",
-      provider: isCamera ? "ios-camera" : "ios-photo-library",
+      provider,
     };
     persist();
     render();

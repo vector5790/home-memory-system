@@ -15,7 +15,7 @@
 
 ```bash
 npm install
-python3 scripts/download-vision-assets.py
+npm run assets:vision
 npm run test:simulator
 ```
 
@@ -24,20 +24,21 @@ npm run test:simulator
 首次使用前需要下载本地小模型资产：
 
 ```bash
-python3 scripts/download-vision-assets.py
+npm run assets:vision
 ```
 
 这会把 Transformers.js、Grounding DINO Tiny、OWL-ViT、SlimSAM 和 CLIP 目录匹配模型放到 `vendor/`。如果要手动走 iOS App 开发，先安装 Node.js 20+ 和完整 Xcode，然后运行：
 
 ```bash
 npm install
+npm run assets:vision
 npm run build:web
 npx cap add ios # 只在首次生成 ios/ 工程时需要
 npm run ios:sync
 npm run ios:open
 ```
 
-`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `python3 scripts/download-vision-assets.py`，否则本地模型资产校验会失败。
+`npm run dev` 仍可启动本地浏览器开发服务，但功能验收以 iOS 模拟器或真机为准。`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `npm run assets:vision`，否则本地模型资产校验会失败。
 
 如果 `xcodebuild` 提示 active developer directory 是 `/Library/Developer/CommandLineTools`，说明当前只安装或只选中了 Command Line Tools，需要安装完整 Xcode，并执行：
 
@@ -61,10 +62,12 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 ## iOS 当前实现范围
 
+- 当前 MVP 只交付 iOS 本地优先版本；Android 工程暂不生成，后续可在同一 Capacitor/platform adapter 边界下补充。
 - 已添加 Capacitor iOS 工程，bundle id 为 `com.guzeyu.homememory`。
 - Web 端通过 `platform.js` 统一访问运行环境、存储、文件、相机/相册和通知能力。
 - iOS 相机/相册入口会优先走 Capacitor Camera，桌面浏览器仍保留文件上传和 `getUserMedia`。
 - iOS 侧会尝试把处理后的照片保存到 App Data 下的 `photos/`，并在持久化快照中保留 `imageRef`。
+- iOS MVP 不会在缺少本地模型时从 CDN 或 Hugging Face 拉取识别运行时/模型；本地模型不可用时只走本地降级候选或人工确认流程。
 - 云端识别不会作为 iOS 默认路径，也不会把 API key 打进 App 包。
 - iOS 真机/模拟器验证清单见 `docs/ios-smoke-test.md`。
 
