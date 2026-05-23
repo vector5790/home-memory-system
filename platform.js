@@ -219,6 +219,32 @@ function makeNotificationsAdapter() {
       if (!LocalNotifications?.requestPermissions) return { display: "unavailable" };
       return LocalNotifications.requestPermissions();
     },
+
+    async schedule(notifications = []) {
+      const LocalNotifications = getPlugin("LocalNotifications");
+      if (!LocalNotifications?.schedule || !Array.isArray(notifications) || !notifications.length) {
+        return { scheduled: [] };
+      }
+      return LocalNotifications.schedule({
+        notifications: notifications.map((notification) => ({
+          id: Number(notification.id),
+          title: notification.title || "家忆提醒",
+          body: notification.body || "",
+          schedule: notification.schedule,
+          extra: notification.extra || {},
+        })),
+      });
+    },
+
+    async cancel(ids = []) {
+      const LocalNotifications = getPlugin("LocalNotifications");
+      const notifications = ids
+        .map((id) => Number(id))
+        .filter((id) => Number.isInteger(id))
+        .map((id) => ({ id }));
+      if (!LocalNotifications?.cancel || !notifications.length) return { cancelled: [] };
+      return LocalNotifications.cancel({ notifications });
+    },
   };
 }
 

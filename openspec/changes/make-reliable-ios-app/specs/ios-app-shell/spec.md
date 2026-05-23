@@ -14,7 +14,7 @@ The system SHALL include a native iOS project that packages the existing web app
 - **AND** the app does not require `python3 server.py` or `node server.mjs` to be running
 
 ### Requirement: Repeatable build commands
-The system SHALL provide documented commands for browser development, web asset packaging, iOS synchronization, and opening or running the iOS app.
+The system SHALL provide documented commands for web asset packaging, iOS synchronization, and opening or running the iOS app in the simulator.
 
 #### Scenario: Build web assets
 - **WHEN** a developer runs the documented web build command
@@ -25,17 +25,13 @@ The system SHALL provide documented commands for browser development, web asset 
 - **THEN** the iOS project receives the latest packaged web assets
 - **AND** the command exits with a non-zero status if required assets are missing
 
-### Requirement: Browser workflow remains available
-The system SHALL keep the existing local browser prototype runnable during and after the iOS migration.
+### Requirement: Simulator workflow is the verification path
+The system SHALL make iOS simulator testing the documented acceptance path for feature verification.
 
-#### Scenario: Run browser prototype
-- **WHEN** a developer starts the existing local server and opens the documented localhost URL
-- **THEN** the browser prototype loads with the same capture, search, storage hierarchy, and reminder flows available
-
-#### Scenario: Platform adapter fallback
-- **WHEN** the app runs in a normal desktop browser without native plugins
-- **THEN** platform adapters use web fallbacks
-- **AND** the UI does not fail due to missing iOS-only APIs
+#### Scenario: Run simulator app
+- **WHEN** a developer runs the documented simulator command
+- **THEN** the iOS app is built from packaged assets and launched through the iOS run workflow
+- **AND** the verification does not require a localhost browser URL
 
 ### Requirement: iOS permissions and app metadata
 The system SHALL configure iOS app metadata and usage descriptions for every native permission used by the app.

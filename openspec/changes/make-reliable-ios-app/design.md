@@ -1,15 +1,15 @@
 ## Context
 
-The app is currently a static web prototype served by `server.py` or `server.mjs`. The product logic, UI state, capture flow, object recognition orchestration, and local persistence are concentrated in `app.js`. The latest capture implementation is local-first: it tries downloaded Transformers.js assets from `vendor/`, uses Grounding DINO/OWL-ViT/SlimSAM/CLIP when available, and only treats cloud recognition as an optional API path.
+The app is currently a Capacitor iOS shell that packages the static Home Memory UI. The product logic, UI state, capture flow, object recognition orchestration, and local persistence are concentrated in `app.js`. The latest capture implementation is local-first: it tries downloaded Transformers.js assets from `vendor/`, uses Grounding DINO/OWL-ViT/SlimSAM/CLIP when available, and only treats cloud recognition as an optional API path.
 
-This is a good starting point for iOS because the UI already runs in a browser-like runtime, but it is not yet a reliable mobile app. The current prototype assumes a localhost server, stores large image data in `localStorage` when space allows, depends on browser upload/camera behavior, and has no native iOS project, build workflow, permission configuration, or device-level persistence boundary.
+This is a good starting point for iOS because the UI already runs in a WebView runtime, but it is not yet a reliable mobile app. The earlier prototype assumed a localhost server, stored large image data in `localStorage` when space allowed, depended on desktop upload/camera behavior, and lacked a native iOS project, build workflow, permission configuration, or device-level persistence boundary.
 
 ## Goals / Non-Goals
 
 **Goals:**
 
 - Create a real iOS project that can be opened in Xcode, run in the simulator, and installed on a device.
-- Keep the existing static web development loop working while adding mobile packaging.
+- Keep the web asset build boundary needed by Capacitor while making simulator/device verification the default.
 - Package the current UI and local model assets so the app can boot without Python, Node, or a development server.
 - Introduce platform adapters for storage, photo capture/import, file URLs, and optional native capabilities.
 - Move photos and image-heavy state out of `localStorage` into durable app file storage.
@@ -34,13 +34,13 @@ This is a good starting point for iOS because the UI already runs in a browser-l
 
 2. Add a lightweight web build boundary before adding native code.
 
-   The repository should gain a `package.json` with scripts such as `dev`, `build:web`, `ios:sync`, `ios:open`, and `ios:run`. The initial `build:web` can copy `index.html`, `app.js`, `styles.css`, `data/`, and selected `vendor/` assets into a Capacitor `webDir` without introducing a framework. This keeps the static prototype simple while giving iOS a stable packaged asset root.
+   The repository should gain a `package.json` with scripts such as `build:web`, `ios:sync`, `ios:open`, `ios:run`, and `test:simulator`. The initial `build:web` can copy `index.html`, `app.js`, `styles.css`, `data/`, and selected `vendor/` assets into a Capacitor `webDir` without introducing a framework. This keeps the static implementation simple while giving iOS a stable packaged asset root.
 
    Alternative considered: introduce Vite/React immediately. That can help later, but the current UI is already a working single-file app; adding a bundler and framework now would increase migration risk without solving the iOS reliability problem by itself.
 
 3. Introduce platform adapters instead of scattering Capacitor calls through UI code.
 
-   `app.js` should call small adapter modules for storage, photos, file URL conversion, notifications, and environment detection. Each adapter has a web fallback, so browser development remains usable. The iOS implementation can use Capacitor plugins behind the adapter while the UI continues to work with normalized app data.
+   `app.js` should call small adapter modules for storage, photos, file URL conversion, notifications, and environment detection. The iOS implementation can use Capacitor plugins behind the adapter while the UI continues to work with normalized app data. Web fallbacks may remain for development safety, but they are not the acceptance-test path.
 
    Alternative considered: directly import Capacitor plugins in capture and persistence handlers. That is faster initially, but it would make the web prototype harder to run and would make later Swift/Core ML migration messier.
 
@@ -82,7 +82,7 @@ This is a good starting point for iOS because the UI already runs in a browser-l
 
 - WKWebView model inference may be slow or memory-constrained on older iPhones → Mitigation: benchmark the current models on device, preload only when needed, cap image size, and keep a future Core ML provider boundary.
 - Packaged model assets may make the app bundle large → Mitigation: start with the smallest verified asset set, document bundle size, and preserve the manifest for a first-run cache strategy.
-- Capacitor plugin behavior can diverge from desktop browser behavior → Mitigation: keep web fallback adapters and run both browser and iOS smoke checks before considering the change complete.
+- Capacitor plugin behavior can diverge from desktop behavior → Mitigation: keep adapter boundaries and run simulator/device smoke checks before considering the change complete.
 - JSON file storage can become less efficient as households grow → Mitigation: version the storage API so SQLite can replace the implementation without changing UI records.
 - iOS photo formats and orientation can produce confusing results → Mitigation: normalize imports into app-owned JPEG derivatives and verify with real iPhone photos.
 - Native project files can be noisy in git → Mitigation: commit generated iOS project files intentionally, avoid unrelated Xcode setting churn, and document regeneration steps.
@@ -90,13 +90,13 @@ This is a good starting point for iOS because the UI already runs in a browser-l
 
 ## Migration Plan
 
-1. Add web build scripts and a generated web output directory while keeping the existing static server route working.
+1. Add web build scripts and a generated web output directory for the iOS package.
 2. Add Capacitor configuration and generate the iOS project.
 3. Add platform adapter modules with web fallbacks, then route existing persistence and photo flows through them.
 4. Move saved photos into app file storage and migrate existing `localStorage` snapshots into the new store on first launch.
 5. Verify local model assets load from packaged resources; document and fix any WKWebView path or WASM issues.
 6. Add iOS permissions, icons/splash placeholders, app metadata, and manual smoke-test documentation.
-7. Run browser checks plus iOS simulator/device checks. If the iOS migration has to be rolled back, keep the web app runnable from the unchanged source files and remove only the native packaging layer.
+7. Run iOS simulator/device checks. If the iOS migration has to be rolled back, keep the UI source files intact and remove only the native packaging layer.
 
 ## Open Questions
 

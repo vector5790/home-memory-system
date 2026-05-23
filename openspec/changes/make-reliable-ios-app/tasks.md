@@ -1,9 +1,9 @@
 ## 1. Web Build and Dependency Setup
 
-- [x] 1.1 Add `package.json` and lockfile with scripts for browser dev, web asset build, iOS sync, iOS open, and iOS run.
+- [x] 1.1 Add `package.json` and lockfile with scripts for web asset build, iOS sync, iOS open, iOS run, and simulator verification.
 - [x] 1.2 Add a lightweight `build:web` script that emits current static assets into the configured Capacitor web directory.
 - [x] 1.3 Ensure `index.html`, `app.js`, `styles.css`, `data/`, and required `vendor/` runtime/model files are included or explicitly checked during packaging.
-- [x] 1.4 Keep the existing `python3 server.py 4173` browser workflow documented and working.
+- [x] 1.4 Remove the local browser workflow from default verification docs and scripts.
 
 ## 2. Capacitor iOS Shell
 
@@ -17,8 +17,8 @@
 
 - [x] 3.1 Add environment detection for web browser versus Capacitor iOS runtime.
 - [x] 3.2 Introduce storage, photo, file-url, and notification adapter modules with browser fallbacks.
-- [x] 3.3 Route existing `app.js` persistence through the storage adapter without changing the visible browser flow.
-- [x] 3.4 Route existing upload/camera entry points through the photo adapter while preserving desktop file input behavior.
+- [x] 3.3 Route existing `app.js` persistence through the storage adapter without changing the visible capture flow.
+- [x] 3.4 Route existing upload/camera entry points through the photo adapter while preserving fallback file input behavior.
 - [x] 3.5 Add adapter-level error handling so missing native plugins show recoverable UI messages.
 
 ## 4. Durable Local Data and Photo Storage

@@ -14,6 +14,33 @@ const repeatLabels = {
   yearly: "每年",
 };
 
+const timedReminderOffsetLabels = {
+  none: "无",
+  "on-time": "准时",
+  "before-5m": "提前5分钟",
+  "before-30m": "提前30分钟",
+  "before-1h": "提前1小时",
+  "before-1d": "提前1天",
+  custom: "自定义",
+};
+
+const allDayReminderOffsetLabels = {
+  none: "无",
+  "same-day": "当天",
+  "before-1d": "提前1天",
+  "before-2d": "提前2天",
+  "before-3d": "提前3天",
+  "before-1w": "提前1周",
+  custom: "自定义",
+};
+
+const customOffsetUnitLabels = {
+  minutes: "分钟",
+  hours: "小时",
+  days: "天",
+  weeks: "周",
+};
+
 const icons = {
   home: '<svg class="icon" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
   scan: '<svg class="icon" viewBox="0 0 24 24"><path d="M7 3H5a2 2 0 0 0-2 2v2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>',
@@ -40,7 +67,7 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260522-select-frame-calendar",
+  appVersion: "20260523-owlvit-first",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
@@ -50,6 +77,8 @@ const visionConfig = {
   catalogIndex: "/data/vision-index.seed.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
+  preferredDetector: "owlvit",
+  enableGroundingDinoFallback: false,
   samModel: "Xenova/slimsam-77-uniform",
   catalogModel: "Xenova/clip-vit-base-patch32",
   detectionThreshold: 0.05,
@@ -66,6 +95,7 @@ const visionConfig = {
   maxSamRefinements: 0,
   samMinBoxArea: 0.42,
   groundingPromptBatchSize: 48,
+  owlVitPromptBatchSize: 48,
   owlVitLabelLimit: 48,
   maxWasmThreads: 4,
   recognitionCacheSize: 6,
@@ -413,7 +443,7 @@ function loadState() {
     const parsed = JSON.parse(raw);
     const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
     loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = Array.isArray(loaded.items) ? loaded.items : [];
+    loaded.items = normalizeItems(loaded.items);
     loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
     return loaded;
   } catch {
@@ -429,7 +459,7 @@ async function hydratePlatformState() {
     const parsed = JSON.parse(raw);
     const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
     loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = Array.isArray(loaded.items) ? loaded.items : [];
+    loaded.items = normalizeItems(loaded.items);
     loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
     state = loaded;
     render();
@@ -814,7 +844,8 @@ function normalizeCaptureState(capture) {
   const candidates = Array.isArray(capture.candidates)
     ? capture.candidates.map((candidate, index) => normalizeCandidate(candidate, index, provider))
     : [];
-  const activeCandidateId = candidates.some((candidate) => candidate.id === capture.activeCandidateId)
+  const activeCandidates = candidates.filter((candidate) => !isCandidateDeleted(candidate));
+  const activeCandidateId = activeCandidates.some((candidate) => candidate.id === capture.activeCandidateId)
     ? capture.activeCandidateId
     : null;
 
@@ -912,11 +943,142 @@ function clampBox(box = {}) {
   };
 }
 
+function normalizeDateText(dateText) {
+  const text = String(dateText || "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  if (!text) return "";
+  const date = new Date(text);
+  return Number.isNaN(date.getTime()) ? "" : dateToIso(date);
+}
+
+function normalizeReminderTime(timeText) {
+  const match = String(timeText || "").match(/^(\d{1,2}):(\d{1,2})$/);
+  if (!match) return "09:00";
+  const hour = clampNumber(match[1], 0, 23);
+  const minute = clampNumber(match[2], 0, 59);
+  return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+}
+
+function getReminderOffsetLabels(hasTime) {
+  return hasTime ? timedReminderOffsetLabels : allDayReminderOffsetLabels;
+}
+
+function defaultReminderOffset(hasTime) {
+  return hasTime ? "on-time" : "none";
+}
+
+function normalizeReminderOffset(offset, hasTime) {
+  const labels = getReminderOffsetLabels(hasTime);
+  const value = String(offset || "").trim();
+  if (labels[value]) return value;
+  if (value === "onTime") return "on-time";
+  if (value === "sameDay") return "same-day";
+  return defaultReminderOffset(hasTime);
+}
+
+function normalizeCustomOffset(customOffset = {}) {
+  return {
+    amount: Math.max(1, Math.round(Number(customOffset.amount) || 5)),
+    unit: customOffsetUnitLabels[customOffset.unit] ? customOffset.unit : "minutes",
+  };
+}
+
+function createNotificationId(seed) {
+  const text = String(seed || `${Date.now()}-${Math.random()}`);
+  let hash = 0;
+  for (let index = 0; index < text.length; index += 1) {
+    hash = Math.imul(31, hash) + text.charCodeAt(index);
+  }
+  return 100000 + ((hash >>> 0) % 2000000000);
+}
+
+function normalizeReminder(reminder = {}, index = 0) {
+  const rawHasTime = Object.prototype.hasOwnProperty.call(reminder, "hasTime")
+    ? Boolean(reminder.hasTime)
+    : Boolean(reminder.time || reminder.nextTime);
+  const id = reminder.id || createId("reminder", reminder.title || reminder.nextLabel || `提醒${index + 1}`);
+  const date = normalizeDateText(reminder.date || reminder.nextAt || reminder.at) || dateToIso(today);
+  const offset = normalizeReminderOffset(reminder.offset, rawHasTime);
+  const notificationId = Number.isInteger(Number(reminder.notificationId))
+    ? Number(reminder.notificationId)
+    : createNotificationId(`${id}:${date}:${reminder.time || reminder.nextTime || ""}`);
+  return {
+    id,
+    title: String(reminder.title || reminder.nextLabel || "提醒").trim() || "提醒",
+    date,
+    hasTime: rawHasTime,
+    time: normalizeReminderTime(reminder.time || reminder.nextTime || "09:00"),
+    offset,
+    repeat: repeatLabels[reminder.repeat] ? reminder.repeat : (repeatLabels[reminder.nextRepeat] ? reminder.nextRepeat : "none"),
+    customOffset: normalizeCustomOffset(reminder.customOffset),
+    enabled: reminder.enabled !== false,
+    notificationId,
+  };
+}
+
+function legacyReminderFromFields(record = {}) {
+  if (!record.nextAt) return null;
+  return {
+    id: record.nextReminderId || record.reminderId || undefined,
+    title: record.nextLabel || "提醒",
+    date: record.nextAt,
+    hasTime: Boolean(record.nextTime),
+    time: record.nextTime || "09:00",
+    offset: record.nextOffset || "on-time",
+    repeat: record.nextRepeat || "none",
+    enabled: true,
+    notificationId: record.notificationId,
+  };
+}
+
+function normalizeReminderList(record = {}) {
+  const raw = Array.isArray(record) ? record : (Array.isArray(record.reminders) ? record.reminders : []);
+  if (raw.length) return raw.map((reminder, index) => normalizeReminder(reminder, index));
+  const legacy = legacyReminderFromFields(record);
+  return legacy ? [normalizeReminder(legacy)] : [];
+}
+
+function getPrimaryReminder(record = {}) {
+  return normalizeReminderList(record)[0] || null;
+}
+
+function normalizeItem(item = {}, index = 0) {
+  const reminders = normalizeReminderList(item);
+  const primaryReminder = reminders[0] || null;
+  return {
+    ...item,
+    id: item.id || createId("item", item.name || `物品${index + 1}`),
+    name: String(item.name || `物品${index + 1}`).trim(),
+    aliases: Array.isArray(item.aliases) ? item.aliases : [],
+    category: categoryLabels[item.category] ? item.category : "daily",
+    qty: Math.max(1, Math.round(Number(item.qty) || 1)),
+    roomId: item.roomId || seedState.capture.roomId,
+    placeId: item.placeId || null,
+    container: item.container || "",
+    box: clampBox(item.box),
+    expireAt: item.expireAt || null,
+    reminders,
+    nextAt: item.nextAt || primaryReminder?.date || null,
+    nextTime: item.nextTime || primaryReminder?.time || null,
+    nextRepeat: item.nextRepeat || primaryReminder?.repeat || null,
+    nextLabel: item.nextLabel || primaryReminder?.title || null,
+    confidence: clampNumber(item.confidence ?? 0.75, 0, 1),
+  };
+}
+
+function normalizeItems(items) {
+  return Array.isArray(items)
+    ? items.map((item, index) => normalizeItem(item, index)).filter((item) => item.name)
+    : [];
+}
+
 function normalizeCandidate(candidate = {}, index = 0, provider = "local-image") {
   const name = String(candidate.name || `候选物品 ${index + 1}`).trim();
   const category = categoryLabels[candidate.category] ? candidate.category : "daily";
   const qty = Math.max(1, Math.round(Number(candidate.qty) || 1));
   const confidence = clampNumber(candidate.confidence ?? 0.75, 0, 1);
+  const reminders = normalizeReminderList(candidate);
+  const primaryReminder = reminders[0] || null;
 
   return {
     id: candidate.id || `candidate-${Date.now()}-${index}-${Math.random().toString(16).slice(2)}`,
@@ -925,14 +1087,16 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     category,
     qty,
     expireAt: candidate.expireAt || "",
-    nextAt: candidate.nextAt || "",
-    nextTime: candidate.nextTime || "09:00",
-    nextRepeat: repeatLabels[candidate.nextRepeat] ? candidate.nextRepeat : "none",
-    nextLabel: candidate.nextLabel || "",
+    reminders,
+    nextAt: candidate.nextAt || primaryReminder?.date || "",
+    nextTime: candidate.nextTime || primaryReminder?.time || "09:00",
+    nextRepeat: repeatLabels[candidate.nextRepeat] ? candidate.nextRepeat : (primaryReminder?.repeat || "none"),
+    nextLabel: candidate.nextLabel || primaryReminder?.title || "",
     container: candidate.container || "",
     box: clampBox(candidate.box),
     confidence,
     selected: candidate.selected !== false,
+    deletedAt: candidate.deletedAt || null,
     source: candidate.source || provider,
     namingStatus: candidate.namingStatus || "done",
     detectionLabel: candidate.detectionLabel || "",
@@ -954,6 +1118,41 @@ function normalizeRecognitionResults(results, provider = "local-image") {
   return results
     .map((candidate, index) => normalizeCandidate(candidate, index, provider))
     .filter((candidate) => candidate.name);
+}
+
+function isCandidateDeleted(candidate) {
+  return Boolean(candidate?.deletedAt);
+}
+
+function getActiveCandidates(candidates = state.capture.candidates || []) {
+  return candidates.filter((candidate) => !isCandidateDeleted(candidate));
+}
+
+function getDeletedCandidates(candidates = state.capture.candidates || []) {
+  return candidates.filter((candidate) => isCandidateDeleted(candidate));
+}
+
+function getSelectedCandidateCount(candidates = state.capture.candidates || []) {
+  return getActiveCandidates(candidates).filter((candidate) => candidate.selected).length;
+}
+
+function getCandidateIndex(candidates, candidateId) {
+  return candidates.findIndex((candidate) => candidate.id === candidateId);
+}
+
+function getAdjacentCandidateId(candidateId, direction) {
+  const candidates = getActiveCandidates();
+  if (!candidates.length) return null;
+  const currentIndex = Math.max(0, getCandidateIndex(candidates, candidateId));
+  const nextIndex = clampNumber(currentIndex + direction, 0, candidates.length - 1);
+  return candidates[nextIndex]?.id || null;
+}
+
+function getFallbackActiveCandidateId(preferredId = state.capture.activeCandidateId) {
+  const activeCandidates = getActiveCandidates();
+  if (!activeCandidates.length) return null;
+  if (activeCandidates.some((candidate) => candidate.id === preferredId)) return preferredId;
+  return activeCandidates[0].id;
 }
 
 async function recognizeStorageImage(context) {
@@ -1087,6 +1286,7 @@ function mergeCandidateWithUserState(incoming, existing = null) {
       category: existing.category,
       qty: existing.qty,
       expireAt: existing.expireAt,
+      reminders: normalizeReminderList(existing),
       nextAt: existing.nextAt,
       nextTime: existing.nextTime,
       nextRepeat: existing.nextRepeat,
@@ -1101,6 +1301,7 @@ function mergeCandidateWithUserState(incoming, existing = null) {
     ...preserveUserFields,
     id: existing.id,
     selected: existing.selected,
+    deletedAt: existing.deletedAt || null,
     cropImage: incoming.cropImage || existing.cropImage || "",
     cropMeta: normalizeCropMeta(incoming.cropMeta || existing.cropMeta),
     cropVersion: incoming.cropVersion || existing.cropVersion || "",
@@ -1305,15 +1506,15 @@ function warmCaptureDetectionModel() {
   window.setTimeout(async () => {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.local) return;
-    if (assetMode.groundingReady) {
-      getGroundingDinoDetector().catch((error) => {
-        console.info("Grounding DINO prewarm skipped.", error);
+    if (assetMode.owlReady) {
+      getSmallModelDetector().catch((error) => {
+        console.info("OWL-ViT prewarm skipped.", error);
       });
       return;
     }
-    if (assetMode.owlReady) {
-      getSmallModelDetector().catch((error) => {
-        console.info("Vision model prewarm skipped.", error);
+    if (shouldAttemptGroundingDino(assetMode)) {
+      getGroundingDinoDetector().catch((error) => {
+        console.info("Grounding DINO prewarm skipped.", error);
       });
     }
   }, 80);
@@ -1474,7 +1675,8 @@ function chunkArray(values, chunkSize) {
 
 async function runPipelineObjectDetector({ image, detector, labels, threshold }) {
   const detections = [];
-  for (const labelChunk of chunkArray(labels, 1)) {
+  const promptBatchSize = Math.max(1, Math.min(labels.length || 1, Number(visionConfig.owlVitPromptBatchSize) || labels.length || 1));
+  for (const labelChunk of chunkArray(labels, promptBatchSize)) {
     const chunkDetections = await detector(image, labelChunk, { threshold, percentage: false });
     if (Array.isArray(chunkDetections)) detections.push(...chunkDetections);
   }
@@ -1549,14 +1751,21 @@ function hashStringFast(value) {
 }
 
 function getRecognitionCacheKey(image) {
-  const labelSignature = getFastGroundingLabelEntries()
+  const useOwlVit = visionConfig.preferredDetector === "owlvit";
+  const labelEntries = useOwlVit
+    ? getDetectionLabelEntries().slice(0, visionConfig.owlVitLabelLimit)
+    : getFastGroundingLabelEntries();
+  const labelSignature = labelEntries
     .map((entry) => normalizeDetectionLabel(entry.label))
     .join(",");
   return [
     visionConfig.assetVersion,
+    visionConfig.preferredDetector,
+    visionConfig.enableGroundingDinoFallback ? "dino-fallback" : "no-dino-fallback",
     visionConfig.detectionMaxDimension,
     visionConfig.groundingThreshold,
     visionConfig.detectionThreshold,
+    visionConfig.owlVitPromptBatchSize,
     visionConfig.maxDetectedObjects,
     labelSignature,
     hashStringFast(image),
@@ -1839,19 +2048,7 @@ async function matchCatalogForCrop(source, box) {
 async function recognizeWithSmallModel(image) {
   const source = await loadImage(image);
   const assetMode = await getVisionAssetMode();
-  const detectorAttempts = [];
-  if (assetMode.groundingReady || !assetMode.owlReady) {
-    detectorAttempts.push({
-      getDetector: getGroundingDinoDetector,
-      provider: assetMode.groundingReady ? "local-grounding-dino" : "browser-grounding-dino",
-      threshold: visionConfig.groundingThreshold,
-    });
-  }
-  detectorAttempts.push({
-    getDetector: getSmallModelDetector,
-    provider: assetMode.owlReady ? "local-owlvit" : "browser-owlvit",
-    threshold: visionConfig.detectionThreshold,
-  });
+  const detectorAttempts = getDetectorAttempts(assetMode);
 
   let lastError = null;
   for (const attempt of detectorAttempts) {
@@ -1878,6 +2075,43 @@ async function recognizeWithSmallModel(image) {
   }
 
   throw lastError || new Error("本地主体识别暂不可用");
+}
+
+function getOwlVitDetectorAttempt(assetMode) {
+  return {
+    getDetector: getSmallModelDetector,
+    provider: assetMode.owlReady ? "local-owlvit" : "browser-owlvit",
+    threshold: visionConfig.detectionThreshold,
+  };
+}
+
+function getGroundingDinoDetectorAttempt(assetMode) {
+  return {
+    getDetector: getGroundingDinoDetector,
+    provider: assetMode.groundingReady ? "local-grounding-dino" : "browser-grounding-dino",
+    threshold: visionConfig.groundingThreshold,
+  };
+}
+
+function shouldAttemptGroundingDino(assetMode) {
+  if (!assetMode.groundingReady) return false;
+  if (!assetMode.owlReady) return true;
+  return visionConfig.preferredDetector === "grounding-dino" || visionConfig.enableGroundingDinoFallback;
+}
+
+function getDetectorAttempts(assetMode) {
+  const preferOwlVit = visionConfig.preferredDetector === "owlvit";
+  if (preferOwlVit) {
+    return [
+      ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+      ...(shouldAttemptGroundingDino(assetMode) ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
+    ];
+  }
+
+  return [
+    ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
+    ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+  ];
 }
 
 async function recognizeWithSmallModelCached(image) {
@@ -2418,6 +2652,12 @@ function providerLabel(provider) {
   return name;
 }
 
+function getRequestedRecognitionProvider() {
+  if (visionConfig.preferredDetector === "owlvit") return "local-owlvit";
+  if (visionConfig.preferredDetector === "grounding-dino") return "local-grounding-dino";
+  return "local-small-model";
+}
+
 function daysUntil(dateText) {
   if (!dateText) return null;
   const target = new Date(`${dateText}T00:00:00`);
@@ -2432,11 +2672,26 @@ function formatDate(dateText) {
 }
 
 function formatReminderTime(timeText) {
-  return /^\d{2}:\d{2}$/.test(String(timeText || "")) ? timeText : "09:00";
+  return normalizeReminderTime(timeText);
 }
 
 function formatReminderRepeat(repeat) {
   return repeatLabels[repeat] || repeatLabels.none;
+}
+
+function formatReminderOffset(reminder) {
+  const normalized = normalizeReminder(reminder);
+  const labels = getReminderOffsetLabels(normalized.hasTime);
+  if (normalized.offset === "custom") {
+    return `提前${normalized.customOffset.amount}${customOffsetUnitLabels[normalized.customOffset.unit]}`;
+  }
+  return labels[normalized.offset] || labels.none;
+}
+
+function formatReminderSchedule(reminder) {
+  const normalized = normalizeReminder(reminder);
+  const timeText = normalized.hasTime ? ` ${formatReminderTime(normalized.time)}` : "";
+  return `${formatDate(normalized.date)}${timeText} · ${formatReminderRepeat(normalized.repeat)}`;
 }
 
 function dueStatus(dateText) {
@@ -2888,7 +3143,8 @@ function renderPlaceSummary(place) {
 
 function renderCompactItem(item) {
   const place = getPlace(item.placeId);
-  const due = item.expireAt ? dueStatus(item.expireAt) : item.nextAt ? dueStatus(item.nextAt) : null;
+  const primaryReminder = getPrimaryReminder(item);
+  const due = item.expireAt ? dueStatus(item.expireAt) : primaryReminder ? dueStatus(primaryReminder.date) : null;
   return `
     <article class="item-row">
       <div>
@@ -3036,14 +3292,14 @@ function renderAnswer(answer) {
         </div>
         <div class="result-list">
           ${answer.items.map((item) => {
-            const dateText = item.expireAt || item.nextAt;
-            const due = dueStatus(dateText);
+            const due = dueStatus(item.reminderDate || item.expireAt || item.nextAt);
             return `
               <article class="result-row item-row">
                 <div>
                   <strong>${escapeHtml(item.name)}</strong>
                   <div class="meta-line">
                     <span class="badge ${item.category}">${categoryLabels[item.category]}</span>
+                    <span>${escapeHtml(item.reminderTitle || "提醒")}：${escapeHtml(item.reminderSchedule || formatDate(item.reminderDate || item.expireAt || item.nextAt))}</span>
                     <span>${escapeHtml(buildTrail(item))}</span>
                   </div>
                 </div>
@@ -3076,10 +3332,11 @@ function renderAnswer(answer) {
   if (!place) return renderAnswer({ type: "not-found", query: item.name });
   const placePath = getPlacePath(place.id);
   const [rootPlace, ...insidePlaces] = placePath;
+  const primaryReminder = getPrimaryReminder(item);
   const timeText = item.expireAt
     ? `有效期至 ${formatDate(item.expireAt)}`
-    : item.nextAt
-      ? `${item.nextLabel || "下次处理"}：${formatDate(item.nextAt)} ${formatReminderTime(item.nextTime)} · ${formatReminderRepeat(item.nextRepeat)}`
+    : primaryReminder
+      ? `${primaryReminder.title}：${formatReminderSchedule(primaryReminder)} · ${formatReminderOffset(primaryReminder)}`
       : `上次确认 ${formatDate(item.updatedAt)}`;
   return `
     <section class="answer-panel">
@@ -3120,11 +3377,12 @@ function renderAnswer(answer) {
 function getRecognitionStatusMeta() {
   const status = state.capture.recognitionStatus || "idle";
   const candidates = state.capture.candidates || [];
+  const activeCandidates = getActiveCandidates(candidates);
   const hasImage = Boolean(state.capture.image);
   if (status === "detecting") return { label: "识别主体", cls: "warn", body: "正在检测照片里的主体区域" };
   if (status === "naming") return { label: "命名中", cls: "warn", body: "主体框已生成，正在匹配物品名称" };
   if (status === "loading") return { label: hasImage ? "分析中" : "处理照片", cls: "warn", body: hasImage ? "正在本地分析上传照片" : "正在解码并压缩上传照片" };
-  if (status === "done") return { label: "已生成候选", cls: "good", body: `${candidates.length} 个候选，${candidates.filter((candidate) => candidate.selected).length} 个待入库` };
+  if (status === "done") return { label: "已生成候选", cls: "good", body: `${activeCandidates.length} 个候选，${getSelectedCandidateCount(candidates)} 个待入库` };
   if (status === "empty") return { label: "未发现候选", cls: "warn", body: "没有识别到可入库物品" };
   if (status === "error") return { label: "分析失败", cls: "danger", body: state.capture.recognitionError || "请稍后重试" };
   return {
@@ -3170,7 +3428,9 @@ function renderCaptureView() {
   const place = getCapturePlace() || makeVirtualPlace(room);
   const placeRows = getRoomPlacesInTree(room.id);
   const candidates = state.capture.candidates || [];
-  const selectedCount = candidates.filter((candidate) => candidate.selected).length;
+  const activeCandidates = getActiveCandidates(candidates);
+  const deletedCandidates = getDeletedCandidates(candidates);
+  const selectedCount = getSelectedCandidateCount(candidates);
   const status = getRecognitionStatusMeta();
   const isLoading = ["loading", "detecting", "naming"].includes(state.capture.recognitionStatus);
   const canAnalyze = Boolean(state.capture.image) && !isLoading;
@@ -3199,12 +3459,9 @@ function renderCaptureView() {
               <p class="panel-subtitle">${escapeHtml(place.shortName)} · ${escapeHtml(providerLabel(state.capture.provider))}</p>
               ${renderRecognitionDiagnostics()}
             </div>
-            <span class="count-pill">${selectedCount}/${candidates.length}</span>
+            <span class="count-pill">${selectedCount}/${activeCandidates.length}${deletedCandidates.length ? ` · 回收站 ${deletedCandidates.length}` : ""}</span>
           </div>
-          <div class="candidate-list">
-            ${state.capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(state.capture.recognitionError)}</p>` : ""}
-            ${candidates.length ? candidates.map(renderCandidate).join("") : `<p class="empty-state">${state.capture.recognitionStatus === "empty" ? "没有候选区域" : state.capture.image ? "点击开始分析" : "等待照片"}</p>`}
-          </div>
+          ${renderCandidateReviewPanel(candidates)}
         </div>
       </div>
     </section>
@@ -3212,8 +3469,9 @@ function renderCaptureView() {
 }
 
 function renderCaptureStage() {
-  const candidates = state.capture.candidates || [];
-  const activeCandidate = candidates.find((candidate) => candidate.id === state.capture.activeCandidateId);
+  const candidates = getActiveCandidates(state.capture.candidates || []);
+  const activeId = getFallbackActiveCandidateId(state.capture.activeCandidateId);
+  const activeCandidate = candidates.find((candidate) => candidate.id === activeId);
   const hasImage = Boolean(state.capture.image) && !state.cameraOn;
   return `
     <div class="capture-stage ${hasImage ? "has-image" : ""}" data-capture-stage ${hasImage ? imageAspectStyle(state.capture.imageMeta) : ""}>
@@ -3231,7 +3489,7 @@ function renderCaptureStage() {
         </span>
       ` : ""}
       ${candidates.map((candidate) => {
-        const isActive = state.capture.activeCandidateId === candidate.id;
+        const isActive = activeId === candidate.id;
         const isNaming = candidate.namingStatus === "loading";
         return `
         <button
@@ -3261,13 +3519,15 @@ function renderCapturePlaceholder() {
 }
 
 function hasCandidateOptionalDetails(candidate) {
-  return Boolean(candidate.expireAt || candidate.nextAt || candidate.nextLabel || candidate.container);
+  return Boolean(candidate.expireAt || normalizeReminderList(candidate).length || candidate.container);
 }
 
 function renderCandidateMetaChips(candidate) {
   const chips = [];
   if (candidate.expireAt) chips.push(`保质期 ${formatDate(candidate.expireAt)}`);
-  if (candidate.nextAt) chips.push(`${candidate.nextLabel || "提醒"} ${formatDate(candidate.nextAt)} ${formatReminderTime(candidate.nextTime)} · ${formatReminderRepeat(candidate.nextRepeat)}`);
+  for (const reminder of normalizeReminderList(candidate).slice(0, 2)) {
+    chips.push(`${reminder.title} ${formatReminderSchedule(reminder)}`);
+  }
   if (candidate.container) chips.push(`位置 ${candidate.container}`);
   if (!chips.length) return "";
   return `<div class="candidate-meta-chips">${chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>`;
@@ -3275,18 +3535,86 @@ function renderCandidateMetaChips(candidate) {
 
 function renderCandidateDatePicker(candidate, field, label) {
   const value = candidate[field] || "";
-  const detail = field === "nextAt" && value
-    ? `${formatReminderTime(candidate.nextTime)} · ${formatReminderRepeat(candidate.nextRepeat)}`
-    : "";
   return `
     <div class="date-picker-block">
       <span>${escapeHtml(label)}</span>
       <button class="secondary-btn compact-btn date-choice" type="button" data-open-date-picker="${candidate.id}" data-field="${field}">
         <strong>${value ? escapeHtml(formatDate(value)) : "选择日期"}</strong>
-        ${detail ? `<small>${escapeHtml(detail)}</small>` : ""}
       </button>
       ${value ? `<button class="ghost-btn compact-btn" type="button" data-clear-candidate-date="${candidate.id}" data-field="${field}">清除</button>` : ""}
     </div>
+  `;
+}
+
+function renderCandidateReviewPanel(candidates) {
+  const activeCandidates = getActiveCandidates(candidates);
+  const deletedCandidates = getDeletedCandidates(candidates);
+  const activeId = getFallbackActiveCandidateId(state.capture.activeCandidateId);
+  const activeCandidate = activeCandidates.find((candidate) => candidate.id === activeId);
+  const activeIndex = activeCandidate ? getCandidateIndex(activeCandidates, activeCandidate.id) : -1;
+  return `
+    <div class="candidate-list candidate-card-stack">
+      ${state.capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(state.capture.recognitionError)}</p>` : ""}
+      ${activeCandidate
+        ? renderCandidate(activeCandidate, activeIndex, activeCandidates.length)
+        : `<p class="empty-state">${state.capture.recognitionStatus === "empty" ? "没有候选区域" : state.capture.image ? "点击开始分析" : "等待照片"}</p>`}
+      ${renderCandidateTrash(deletedCandidates)}
+    </div>
+  `;
+}
+
+function renderCandidateTrash(deletedCandidates) {
+  if (!deletedCandidates.length) return "";
+  return `
+    <section class="candidate-trash">
+      <div class="candidate-trash-head">
+        <strong>垃圾箱</strong>
+        <span>${deletedCandidates.length} 个可恢复</span>
+      </div>
+      <div class="candidate-trash-list">
+        ${deletedCandidates.map((candidate) => `
+          <article class="trash-candidate">
+            ${renderCandidateCrop(candidate)}
+            <div>
+              <strong>${escapeHtml(candidate.name)}</strong>
+              <span>置信度 ${Math.round(candidate.confidence * 100)}%</span>
+            </div>
+            <button class="secondary-btn compact-btn" type="button" data-restore-candidate="${candidate.id}">恢复</button>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderCandidateReminders(candidate) {
+  const reminders = normalizeReminderList(candidate);
+  return `
+    <section class="reminder-task-panel">
+      <div class="reminder-task-head">
+        <div>
+          <strong>提醒</strong>
+          <span>${reminders.length ? `${reminders.length} 个提醒事项` : "未设置"}</span>
+        </div>
+        <button class="secondary-btn compact-btn" type="button" data-add-candidate-reminder="${candidate.id}">${icons.plus}<span>添加提醒</span></button>
+      </div>
+      ${reminders.length ? `
+        <div class="reminder-task-list">
+          ${reminders.map((reminder) => `
+            <article class="reminder-task-row">
+              <div>
+                <strong>${escapeHtml(reminder.title)}</strong>
+                <span>${escapeHtml(formatReminderSchedule(reminder))} · ${escapeHtml(formatReminderOffset(reminder))}</span>
+              </div>
+              <div class="candidate-actions">
+                <button class="ghost-btn compact-btn" type="button" data-edit-candidate-reminder="${candidate.id}" data-reminder-id="${reminder.id}">编辑</button>
+                <button class="icon-btn" type="button" data-delete-candidate-reminder="${candidate.id}" data-reminder-id="${reminder.id}" title="删除提醒" aria-label="删除提醒">${icons.trash}</button>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      ` : `<p class="empty-state compact">提醒不是必填；需要时可以添加多个提醒事项。</p>`}
+    </section>
   `;
 }
 
@@ -3294,18 +3622,21 @@ function renderCandidateDateModal() {
   if (!candidateDatePickerState) return "";
   const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateDatePickerState.candidateId);
   if (!candidate) return "";
-  const isReminder = candidateDatePickerState.field === "nextAt";
-  const title = isReminder ? "提醒日期" : "保质期";
-  const monthKey = candidateDatePickerState.month || monthKeyFromIso(candidateDatePickerState.date);
+  const isReminder = candidateDatePickerState.mode === "reminder";
+  const reminder = isReminder ? normalizeReminder(candidateDatePickerState.reminder) : null;
+  const title = isReminder ? "提醒" : "保质期";
+  const selected = isReminder
+    ? reminder.date
+    : (candidateDatePickerState.date || dateToIso(today));
+  const monthKey = candidateDatePickerState.month || monthKeyFromIso(selected);
   const [year, month] = monthKey.split("-").map(Number);
   const monthTitle = `${year}年${month}月`;
-  const selected = candidateDatePickerState.date || dateToIso(today);
   const quickOptions = isReminder
     ? [
       ["今天", addDaysIso(0)],
       ["明天", addDaysIso(1)],
       ["下周一", nextMondayIso()],
-      ["明天上午", addDaysIso(1), "09:00"],
+      ["明天上午", addDaysIso(1), "09:00", true],
     ]
     : [
       ["今天", addDaysIso(0)],
@@ -3313,21 +3644,27 @@ function renderCandidateDateModal() {
       ["3个月", addDaysIso(90)],
       ["半年", addDaysIso(180)],
     ];
-  const [hour, minute] = formatReminderTime(candidateDatePickerState.time).split(":");
+  const [hour, minute] = isReminder ? formatReminderTime(reminder.time).split(":") : ["09", "00"];
+  const offsetLabels = isReminder ? getReminderOffsetLabels(reminder.hasTime) : {};
   return `
     <div class="date-modal-backdrop" data-date-modal-dismiss>
       <section class="date-modal" role="dialog" aria-modal="true" aria-label="${escapeHtml(title)}" data-date-modal>
         <div class="date-modal-head">
           <button class="round-btn" type="button" data-close-date-modal aria-label="关闭">×</button>
           <div class="date-mode-tabs">
-            <span class="active">日期</span>
-            ${isReminder ? "<span>时间段</span>" : ""}
+            <span class="active">${escapeHtml(title)}</span>
           </div>
           <button class="round-btn confirm" type="button" data-confirm-date-modal aria-label="确认">✓</button>
         </div>
+        ${isReminder ? `
+          <label class="modal-field">
+            <span>提醒事项</span>
+            <input class="field" value="${escapeHtml(reminder.title)}" data-date-reminder-title placeholder="例如：换滤芯、补货、复查" />
+          </label>
+        ` : ""}
         <div class="date-quick-grid">
-          ${quickOptions.map(([label, date, time]) => `
-            <button type="button" data-date-quick="${date}" ${time ? `data-time-quick="${time}"` : ""}>
+          ${quickOptions.map(([label, date, time, hasTime]) => `
+            <button type="button" data-date-quick="${date}" ${time ? `data-time-quick="${time}"` : ""} ${hasTime ? "data-time-enabled=\"true\"" : ""}>
               <strong>${escapeHtml(label)}</strong>
               <span>${escapeHtml(formatDate(date))}</span>
             </button>
@@ -3350,22 +3687,48 @@ function renderCandidateDateModal() {
         </div>
         ${isReminder ? `
           <div class="reminder-options">
-            <label>
+            <label class="reminder-time-toggle">
               <span>时间</span>
-              <div class="time-select-row">
+              <span class="switch-row">
+                <input type="checkbox" data-date-has-time ${reminder.hasTime ? "checked" : ""} />
+                <b>${reminder.hasTime ? "精确到分钟" : "不选时间"}</b>
+              </span>
+            </label>
+            ${reminder.hasTime ? `
+              <label>
+                <span>具体时间</span>
+                <div class="time-select-row">
                 <select class="select-field" data-date-time-hour>
                   ${Array.from({ length: 24 }, (_, value) => String(value).padStart(2, "0")).map((value) => `<option value="${value}" ${hour === value ? "selected" : ""}>${value}</option>`).join("")}
                 </select>
                 <b>:</b>
                 <select class="select-field" data-date-time-minute>
-                  ${["00", "15", "30", "45"].map((value) => `<option value="${value}" ${minute === value ? "selected" : ""}>${value}</option>`).join("")}
+                  ${Array.from({ length: 60 }, (_, value) => String(value).padStart(2, "0")).map((value) => `<option value="${value}" ${minute === value ? "selected" : ""}>${value}</option>`).join("")}
                 </select>
-              </div>
+                </div>
+              </label>
+            ` : ""}
+            <label>
+              <span>提醒</span>
+              <select class="select-field" data-date-offset>
+                ${Object.entries(offsetLabels).map(([key, label]) => `<option value="${key}" ${reminder.offset === key ? "selected" : ""}>${label}</option>`).join("")}
+              </select>
             </label>
+            ${reminder.offset === "custom" ? `
+              <label>
+                <span>自定义</span>
+                <div class="custom-offset-row">
+                  <input class="field" type="number" min="1" value="${reminder.customOffset.amount}" data-date-custom-offset-amount />
+                  <select class="select-field" data-date-custom-offset-unit>
+                    ${Object.entries(customOffsetUnitLabels).map(([key, label]) => `<option value="${key}" ${reminder.customOffset.unit === key ? "selected" : ""}>${label}</option>`).join("")}
+                  </select>
+                </div>
+              </label>
+            ` : ""}
             <label>
               <span>重复</span>
               <select class="select-field" data-date-repeat>
-                ${Object.entries(repeatLabels).map(([key, label]) => `<option value="${key}" ${candidateDatePickerState.repeat === key ? "selected" : ""}>${label}</option>`).join("")}
+                ${Object.entries(repeatLabels).map(([key, label]) => `<option value="${key}" ${reminder.repeat === key ? "selected" : ""}>${label}</option>`).join("")}
               </select>
             </label>
           </div>
@@ -3386,13 +3749,21 @@ function renderCandidateCrop(candidate) {
   `;
 }
 
-function renderCandidate(candidate) {
-  const isActive = state.capture.activeCandidateId === candidate.id;
+function renderCandidate(candidate, activeIndex = 0, total = 1) {
+  const isActive = getFallbackActiveCandidateId(state.capture.activeCandidateId) === candidate.id;
   const isNaming = candidate.namingStatus === "loading";
   const showDetails = candidate.detailsOpen || hasCandidateOptionalDetails(candidate);
   const showBox = candidate.boxOpen;
+  const previousId = getAdjacentCandidateId(candidate.id, -1);
+  const nextId = getAdjacentCandidateId(candidate.id, 1);
   return `
-    <article class="candidate-row ${candidate.selected ? "" : "muted"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}" data-candidate-select="${candidate.id}">
+    <article class="candidate-card ${candidate.selected ? "" : "muted"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}" data-candidate-select="${candidate.id}">
+      <div class="candidate-card-nav">
+        <button class="icon-btn" type="button" data-candidate-prev="${candidate.id}" ${previousId === candidate.id ? "disabled" : ""} aria-label="上一个候选">‹</button>
+        <span>第 ${activeIndex + 1} / ${total} 个候选</span>
+        <button class="icon-btn" type="button" data-candidate-next="${candidate.id}" ${nextId === candidate.id ? "disabled" : ""} aria-label="下一个候选">›</button>
+        <button class="icon-btn danger" type="button" data-delete-candidate="${candidate.id}" title="删除候选" aria-label="删除候选">${icons.trash}</button>
+      </div>
       <div class="candidate-head">
         <label class="checkbox">
           <input type="checkbox" ${candidate.selected ? "checked" : ""} data-candidate-toggle="${candidate.id}" />
@@ -3400,7 +3771,6 @@ function renderCandidate(candidate) {
         </label>
         <div class="candidate-actions">
           <span class="status-pill good">置信度 ${Math.round(candidate.confidence * 100)}%</span>
-          <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
         </div>
       </div>
       ${renderCandidateMetaChips(candidate)}
@@ -3425,6 +3795,7 @@ function renderCandidate(candidate) {
             </label>
           </div>
           <div class="candidate-option-bar">
+            <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
             <button class="ghost-btn compact-btn" type="button" data-toggle-candidate-details="${candidate.id}">
               ${icons.bell}<span>${showDetails ? "收起提醒" : "保质期/提醒"}</span>
             </button>
@@ -3438,12 +3809,8 @@ function renderCandidate(candidate) {
         <div class="candidate-extra-panel">
           <div class="date-picker-grid">
             ${renderCandidateDatePicker(candidate, "expireAt", "保质期")}
-            ${renderCandidateDatePicker(candidate, "nextAt", "提醒日期")}
           </div>
-          <label class="candidate-field">
-            <span>提醒事项</span>
-            <input class="field" value="${escapeHtml(candidate.nextLabel || "")}" data-candidate-field="${candidate.id}" data-field="nextLabel" aria-label="维护事项" placeholder="例如：换滤芯、补货、复查" />
-          </label>
+          ${renderCandidateReminders(candidate)}
           <label class="candidate-field">
             <span>具体位置</span>
             <input class="field" value="${escapeHtml(candidate.container || "")}" data-candidate-field="${candidate.id}" data-field="container" aria-label="具体位置" placeholder="例如：左侧抽屉、白色药箱" />
@@ -3473,7 +3840,7 @@ function renderReminderView() {
           <h2>主动提醒</h2>
           <p>食品、药品、维护和补货</p>
         </div>
-        <span class="status-pill ${reminders.some((item) => dueStatus(item.expireAt || item.nextAt).cls === "danger") ? "danger" : "good"}">${reminders.length} 条</span>
+        <span class="status-pill ${reminders.some((item) => dueStatus(item.reminderDate).cls === "danger") ? "danger" : "good"}">${reminders.length} 条</span>
       </div>
       <div class="reminder-list">
         ${reminders.map(renderReminder).join("") || `<p class="empty-state">暂无提醒</p>`}
@@ -3483,19 +3850,14 @@ function renderReminderView() {
 }
 
 function renderReminder(item) {
-  const dateText = item.expireAt || item.nextAt;
-  const due = dueStatus(dateText);
-  const label = item.expireAt ? "有效期" : item.nextLabel || "下次处理";
-  const scheduleText = item.expireAt
-    ? formatDate(dateText)
-    : `${formatDate(dateText)} ${formatReminderTime(item.nextTime)} · ${formatReminderRepeat(item.nextRepeat)}`;
+  const due = dueStatus(item.reminderDate);
   return `
     <article class="reminder-row">
       <div>
         <strong>${escapeHtml(item.name)}</strong>
         <div class="meta-line">
           <span class="badge ${item.category}">${categoryLabels[item.category]}</span>
-          <span>${escapeHtml(label)}：${escapeHtml(scheduleText)}</span>
+          <span>${escapeHtml(item.reminderTitle || "提醒")}：${escapeHtml(item.reminderSchedule || formatDate(item.reminderDate))}</span>
           <span>${escapeHtml(buildTrail(item))}</span>
         </div>
       </div>
@@ -3506,10 +3868,97 @@ function renderReminder(item) {
 
 function getReminderItems() {
   return state.items
-    .filter((item) => item.expireAt || item.nextAt)
-    .map((item) => ({ ...item, dueIn: daysUntil(item.expireAt || item.nextAt) }))
+    .flatMap((item) => {
+      const entries = [];
+      if (item.expireAt) {
+        entries.push({
+          ...item,
+          reminderKind: "expiry",
+          reminderTitle: "有效期",
+          reminderDate: item.expireAt,
+          reminderSchedule: formatDate(item.expireAt),
+          dueIn: daysUntil(item.expireAt),
+        });
+      }
+      for (const reminder of normalizeReminderList(item)) {
+        entries.push({
+          ...item,
+          reminderKind: "task",
+          reminder,
+          reminderTitle: reminder.title,
+          reminderDate: reminder.date,
+          reminderSchedule: `${formatReminderSchedule(reminder)} · ${formatReminderOffset(reminder)}`,
+          dueIn: daysUntil(reminder.date),
+        });
+      }
+      return entries;
+    })
     .filter((item) => item.dueIn <= 45)
     .sort((a, b) => a.dueIn - b.dueIn);
+}
+
+function getReminderOffsetMinutes(reminder) {
+  const normalized = normalizeReminder(reminder);
+  if (normalized.offset === "none") return null;
+  if (normalized.offset === "on-time" || normalized.offset === "same-day") return 0;
+  if (normalized.offset === "before-5m") return 5;
+  if (normalized.offset === "before-30m") return 30;
+  if (normalized.offset === "before-1h") return 60;
+  if (normalized.offset === "before-1d") return 1440;
+  if (normalized.offset === "before-2d") return 2880;
+  if (normalized.offset === "before-3d") return 4320;
+  if (normalized.offset === "before-1w") return 10080;
+  if (normalized.offset === "custom") {
+    const amount = normalized.customOffset.amount;
+    if (normalized.customOffset.unit === "hours") return amount * 60;
+    if (normalized.customOffset.unit === "days") return amount * 1440;
+    if (normalized.customOffset.unit === "weeks") return amount * 10080;
+    return amount;
+  }
+  return null;
+}
+
+function getReminderNotificationDate(reminder) {
+  const normalized = normalizeReminder(reminder);
+  if (!normalized.enabled) return null;
+  const offsetMinutes = getReminderOffsetMinutes(normalized);
+  if (offsetMinutes === null) return null;
+  const [hour, minute] = normalized.hasTime ? normalizeReminderTime(normalized.time).split(":").map(Number) : [9, 0];
+  const date = new Date(`${normalized.date}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`);
+  if (Number.isNaN(date.getTime())) return null;
+  date.setMinutes(date.getMinutes() - offsetMinutes);
+  if (date.getTime() <= Date.now()) return null;
+  return date;
+}
+
+async function scheduleConfirmedItemReminders(items) {
+  const notifications = normalizeItems(items).flatMap((item) => normalizeReminderList(item)
+    .map((reminder) => {
+      const at = getReminderNotificationDate(reminder);
+      if (!at) return null;
+      return {
+        id: reminder.notificationId,
+        title: `家忆：${item.name}`,
+        body: `${reminder.title} · ${formatReminderSchedule(reminder)}`,
+        schedule: { at },
+        extra: { itemId: item.id, reminderId: reminder.id },
+      };
+    })
+    .filter(Boolean));
+  if (!notifications.length) return;
+  const permission = await platform.notifications.requestPermissions().catch(() => ({ display: "denied" }));
+  if (permission?.display === "denied") return;
+  await platform.notifications.schedule(notifications).catch((error) => {
+    console.info("Native reminders unavailable.", error);
+  });
+}
+
+async function cancelReminderNotifications(records) {
+  const ids = normalizeItems(records)
+    .flatMap((item) => normalizeReminderList(item).map((reminder) => reminder.notificationId))
+    .filter((id) => Number.isInteger(Number(id)))
+    .map(Number);
+  if (ids.length) await platform.notifications.cancel(ids).catch(() => {});
 }
 
 function renderInsights() {
@@ -3618,7 +4067,7 @@ async function scanCurrentPlace() {
     return;
   }
 
-  const requestedProvider = "local-small-model";
+  const requestedProvider = getRequestedRecognitionProvider();
   const runId = recognitionRunId + 1;
   recognitionRunId = runId;
   const scanImage = state.capture.image;
@@ -3704,7 +4153,7 @@ async function scanCurrentPlace() {
       roomId: room.id,
       placeId: place.id,
       candidates: detected,
-      activeCandidateId: null,
+      activeCandidateId: detected[0]?.id || null,
       recognitionStatus: "naming",
       recognitionError: "",
       recognitionDiagnostics: null,
@@ -3729,7 +4178,7 @@ async function scanCurrentPlace() {
     state.capture = {
       ...state.capture,
       candidates: applyCandidateProgressUpdates(state.capture.candidates || [], namedCandidates, provider),
-      activeCandidateId: state.capture.activeCandidateId || null,
+      activeCandidateId: getFallbackActiveCandidateId(state.capture.activeCandidateId),
       recognitionStatus: "done",
       recognitionError: "",
       recognitionDiagnostics: {
@@ -3776,7 +4225,7 @@ async function scanCurrentPlace() {
 }
 
 function confirmCandidates() {
-  const selected = (state.capture.candidates || []).filter((candidate) => candidate.selected && normalizeText(candidate.name));
+  const selected = getActiveCandidates().filter((candidate) => candidate.selected && normalizeText(candidate.name));
   if (!selected.length) {
     showToast("请选择要入库的物品");
     return;
@@ -3788,7 +4237,10 @@ function confirmCandidates() {
   const existingNames = new Set(state.items.map((item) => `${item.placeId}:${normalizeText(item.name)}`));
   const incoming = selected
     .filter((candidate) => !existingNames.has(`${placeId}:${normalizeText(candidate.name)}`))
-    .map((candidate) => ({
+    .map((candidate) => {
+      const reminders = normalizeReminderList(candidate);
+      const primaryReminder = reminders[0] || null;
+      return {
       id: `item-${Date.now()}-${Math.random().toString(16).slice(2)}`,
       name: candidate.name,
       aliases: [],
@@ -3799,19 +4251,22 @@ function confirmCandidates() {
       container: candidate.container,
       box: candidate.box,
       expireAt: candidate.expireAt || null,
-      nextAt: candidate.nextAt || null,
-      nextTime: candidate.nextAt ? formatReminderTime(candidate.nextTime) : null,
-      nextRepeat: candidate.nextAt ? candidate.nextRepeat || "none" : null,
-      nextLabel: candidate.nextLabel || null,
+      reminders,
+      nextAt: primaryReminder?.date || null,
+      nextTime: primaryReminder?.hasTime ? formatReminderTime(primaryReminder.time) : null,
+      nextRepeat: primaryReminder?.repeat || null,
+      nextLabel: primaryReminder?.title || null,
       updatedAt: nowText,
       confidence: candidate.confidence,
       source: candidate.source || state.capture.provider || "local-image",
       recognitionProvider: state.capture.provider || "local-image",
       imageRef: state.capture.imageRef || null,
       boxEdited: Boolean(candidate.edited),
-    }));
+      };
+    });
 
-  state.items = [...state.items, ...incoming];
+  state.items = normalizeItems([...state.items, ...incoming]);
+  scheduleConfirmedItemReminders(incoming).catch((error) => console.info("Reminder scheduling skipped.", error));
   resetCaptureRecognition();
   state.activeRoomId = roomId;
   state.activePlaceId = placeId;
@@ -3849,7 +4304,7 @@ function scanInsideItem(itemId) {
 }
 
 function scanInsideCandidate(candidateId) {
-  const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
+  const candidate = getActiveCandidates().find((entry) => entry.id === candidateId);
   if (!candidate) return;
   const parentPlace = ensureCapturePlace();
   const cleanName = String(candidate.name || "").trim() || "下级储物点";
@@ -3872,6 +4327,37 @@ function scanInsideCandidate(candidateId) {
   persist();
   render();
   showToast(`已切换到 ${targetPlace.name}，请上传内部照片`);
+}
+
+function moveCandidateCard(id, direction) {
+  const nextId = getAdjacentCandidateId(id, direction);
+  if (!nextId || nextId === id) return;
+  selectCandidate(nextId);
+}
+
+function deleteCandidate(id) {
+  const activeCandidates = getActiveCandidates();
+  const currentIndex = getCandidateIndex(activeCandidates, id);
+  const fallback = activeCandidates[currentIndex + 1] || activeCandidates[currentIndex - 1] || null;
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
+    candidate.id === id
+      ? { ...candidate, deletedAt: new Date().toISOString(), edited: true }
+      : candidate
+  ));
+  state.capture.activeCandidateId = fallback?.id || null;
+  persist();
+  render();
+}
+
+function restoreCandidate(id) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
+    candidate.id === id
+      ? { ...candidate, deletedAt: null, edited: true }
+      : candidate
+  ));
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
 }
 
 function updateCandidate(id, field, value) {
@@ -3904,12 +4390,37 @@ function openCandidateDatePicker(id, field) {
   if (!candidate) return;
   const currentDate = candidate[field] || dateToIso(today);
   candidateDatePickerState = {
+    mode: "date",
     candidateId: id,
     field,
     date: currentDate,
     month: monthKeyFromIso(currentDate),
-    time: formatReminderTime(candidate.nextTime),
-    repeat: candidate.nextRepeat || "none",
+  };
+  state.capture.activeCandidateId = id;
+  render();
+}
+
+function openCandidateReminderEditor(id, reminderId = null) {
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  if (!candidate) return;
+  const reminders = normalizeReminderList(candidate);
+  const reminder = reminders.find((entry) => entry.id === reminderId)
+    || normalizeReminder({
+      id: createId("reminder", candidate.name || "提醒"),
+      title: "提醒",
+      date: dateToIso(today),
+      hasTime: false,
+      time: "09:00",
+      offset: "none",
+      repeat: "none",
+      enabled: true,
+    });
+  candidateDatePickerState = {
+    mode: "reminder",
+    candidateId: id,
+    reminder: normalizeReminder(reminder),
+    month: monthKeyFromIso(reminder.date),
+    offsetTouched: Boolean(reminderId),
   };
   state.capture.activeCandidateId = id;
   render();
@@ -3922,6 +4433,36 @@ function closeCandidateDatePicker() {
 
 function updateCandidateDateDraft(patch) {
   if (!candidateDatePickerState) return;
+  if (candidateDatePickerState.mode === "reminder") {
+    const current = normalizeReminder(candidateDatePickerState.reminder);
+    const rawReminder = {
+      ...current,
+      ...patch,
+      customOffset: {
+        ...current.customOffset,
+        ...(patch.customOffset || {}),
+      },
+    };
+    const nextHasTime = Object.prototype.hasOwnProperty.call(patch, "hasTime")
+      ? Boolean(patch.hasTime)
+      : current.hasTime;
+    const offsetTouched = candidateDatePickerState.offsetTouched || Object.prototype.hasOwnProperty.call(patch, "offset");
+    const offset = Object.prototype.hasOwnProperty.call(patch, "hasTime") && !offsetTouched
+      ? defaultReminderOffset(nextHasTime)
+      : normalizeReminderOffset(rawReminder.offset, nextHasTime);
+    candidateDatePickerState = {
+      ...candidateDatePickerState,
+      ...("month" in patch ? { month: patch.month } : {}),
+      offsetTouched,
+      reminder: normalizeReminder({
+        ...rawReminder,
+        hasTime: nextHasTime,
+        offset,
+      }),
+    };
+    render();
+    return;
+  }
   candidateDatePickerState = {
     ...candidateDatePickerState,
     ...patch,
@@ -3930,8 +4471,38 @@ function updateCandidateDateDraft(patch) {
 }
 
 function confirmCandidateDatePicker() {
-  if (!candidateDatePickerState?.candidateId || !candidateDatePickerState.field) return;
-  const { candidateId, field, date, time, repeat } = candidateDatePickerState;
+  if (!candidateDatePickerState?.candidateId) return;
+  const { candidateId } = candidateDatePickerState;
+  if (candidateDatePickerState.mode === "reminder") {
+    const reminder = normalizeReminder(candidateDatePickerState.reminder);
+    state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+      if (candidate.id !== candidateId) return candidate;
+      const current = normalizeReminderList(candidate);
+      const exists = current.some((entry) => entry.id === reminder.id);
+      const reminders = exists
+        ? current.map((entry) => (entry.id === reminder.id ? reminder : entry))
+        : [...current, reminder];
+      const primary = reminders[0] || null;
+      return {
+        ...candidate,
+        reminders,
+        nextAt: primary?.date || "",
+        nextTime: primary?.time || "09:00",
+        nextRepeat: primary?.repeat || "none",
+        nextLabel: primary?.title || "",
+        detailsOpen: true,
+        edited: true,
+      };
+    });
+    state.capture.activeCandidateId = candidateId;
+    candidateDatePickerState = null;
+    persist();
+    render();
+    return;
+  }
+
+  if (!candidateDatePickerState.field) return;
+  const { field, date } = candidateDatePickerState;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
     if (candidate.id !== candidateId) return candidate;
     const next = {
@@ -3939,10 +4510,6 @@ function confirmCandidateDatePicker() {
       [field]: date || dateToIso(today),
       edited: true,
     };
-    if (field === "nextAt") {
-      next.nextTime = formatReminderTime(time);
-      next.nextRepeat = repeatLabels[repeat] ? repeat : "none";
-    }
     return next;
   });
   state.capture.activeCandidateId = candidateId;
@@ -3955,10 +4522,6 @@ function clearCandidateDate(id, field) {
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
     if (candidate.id !== id) return candidate;
     const next = { ...candidate, [field]: "", edited: true };
-    if (field === "nextAt") {
-      next.nextTime = "09:00";
-      next.nextRepeat = "none";
-    }
     return next;
   });
   state.capture.activeCandidateId = id;
@@ -3966,7 +4529,29 @@ function clearCandidateDate(id, field) {
   render();
 }
 
+function deleteCandidateReminder(candidateId, reminderId) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== candidateId) return candidate;
+    const reminders = normalizeReminderList(candidate).filter((reminder) => reminder.id !== reminderId);
+    const primary = reminders[0] || null;
+    return {
+      ...candidate,
+      reminders,
+      nextAt: primary?.date || "",
+      nextTime: primary?.time || "09:00",
+      nextRepeat: primary?.repeat || "none",
+      nextLabel: primary?.title || "",
+      detailsOpen: true,
+      edited: true,
+    };
+  });
+  state.capture.activeCandidateId = candidateId;
+  persist();
+  render();
+}
+
 function toggleCandidate(id) {
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
     candidate.id === id ? { ...candidate, selected: !candidate.selected } : candidate
   ));
@@ -3976,13 +4561,14 @@ function toggleCandidate(id) {
 }
 
 function selectCandidate(id) {
-  if (!(state.capture.candidates || []).some((candidate) => candidate.id === id)) return;
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.activeCandidateId = id;
   persist();
   render();
 }
 
 function updateCandidateBox(id, field, value) {
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
     if (candidate.id !== id) return candidate;
     return {
@@ -3997,6 +4583,7 @@ function updateCandidateBox(id, field, value) {
 }
 
 function setCandidateBoxWithoutRender(id, box) {
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
     candidate.id === id ? { ...candidate, box: clampBox(box), edited: true } : candidate
   ));
@@ -4005,7 +4592,7 @@ function setCandidateBoxWithoutRender(id, box) {
 
 function startCandidateDrag(event, boxButton) {
   const id = boxButton.dataset.candidateDrag;
-  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  const candidate = getActiveCandidates().find((entry) => entry.id === id);
   const stage = boxButton.closest("[data-capture-stage]");
   if (!candidate || !stage) return;
 
@@ -4257,6 +4844,48 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const previousCandidateButton = event.target.closest("[data-candidate-prev]");
+  if (previousCandidateButton) {
+    moveCandidateCard(previousCandidateButton.dataset.candidatePrev, -1);
+    return;
+  }
+
+  const nextCandidateButton = event.target.closest("[data-candidate-next]");
+  if (nextCandidateButton) {
+    moveCandidateCard(nextCandidateButton.dataset.candidateNext, 1);
+    return;
+  }
+
+  const deleteCandidateButton = event.target.closest("[data-delete-candidate]");
+  if (deleteCandidateButton) {
+    deleteCandidate(deleteCandidateButton.dataset.deleteCandidate);
+    return;
+  }
+
+  const restoreCandidateButton = event.target.closest("[data-restore-candidate]");
+  if (restoreCandidateButton) {
+    restoreCandidate(restoreCandidateButton.dataset.restoreCandidate);
+    return;
+  }
+
+  const addCandidateReminderButton = event.target.closest("[data-add-candidate-reminder]");
+  if (addCandidateReminderButton) {
+    openCandidateReminderEditor(addCandidateReminderButton.dataset.addCandidateReminder);
+    return;
+  }
+
+  const editCandidateReminderButton = event.target.closest("[data-edit-candidate-reminder]");
+  if (editCandidateReminderButton) {
+    openCandidateReminderEditor(editCandidateReminderButton.dataset.editCandidateReminder, editCandidateReminderButton.dataset.reminderId);
+    return;
+  }
+
+  const deleteCandidateReminderButton = event.target.closest("[data-delete-candidate-reminder]");
+  if (deleteCandidateReminderButton) {
+    deleteCandidateReminder(deleteCandidateReminderButton.dataset.deleteCandidateReminder, deleteCandidateReminderButton.dataset.reminderId);
+    return;
+  }
+
   const toggleCandidateDetailsButton = event.target.closest("[data-toggle-candidate-details]");
   if (toggleCandidateDetailsButton) {
     toggleCandidatePanel(toggleCandidateDetailsButton.dataset.toggleCandidateDetails, "details");
@@ -4309,6 +4938,7 @@ document.addEventListener("click", (event) => {
       date: quickDateButton.dataset.dateQuick,
       month: monthKeyFromIso(quickDateButton.dataset.dateQuick),
       ...(quickDateButton.dataset.timeQuick ? { time: quickDateButton.dataset.timeQuick } : {}),
+      ...(quickDateButton.dataset.timeEnabled ? { hasTime: true } : {}),
     });
     return;
   }
@@ -4397,6 +5027,7 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-reset]")) {
     stopCamera();
+    cancelReminderNotifications(state.items).catch(() => {});
     platform.storage.removeSnapshot();
     state = structuredClone(seedState);
     render();
@@ -4417,6 +5048,29 @@ document.addEventListener("input", (event) => {
     return;
   }
 
+  if (event.target.matches("[data-date-reminder-title]")) {
+    if (candidateDatePickerState?.mode === "reminder") {
+      candidateDatePickerState.reminder = normalizeReminder({
+        ...candidateDatePickerState.reminder,
+        title: event.target.value,
+      });
+    }
+    return;
+  }
+
+  if (event.target.matches("[data-date-custom-offset-amount]")) {
+    if (candidateDatePickerState?.mode === "reminder") {
+      candidateDatePickerState.reminder = normalizeReminder({
+        ...candidateDatePickerState.reminder,
+        customOffset: {
+          ...candidateDatePickerState.reminder.customOffset,
+          amount: event.target.value,
+        },
+      });
+    }
+    return;
+  }
+
   const candidateField = event.target.closest("[data-candidate-field]");
   if (candidateField) {
     updateCandidate(candidateField.dataset.candidateField, candidateField.dataset.field, candidateField.value);
@@ -4428,6 +5082,21 @@ document.addEventListener("change", async (event) => {
     const hour = document.querySelector("[data-date-time-hour]")?.value || "09";
     const minute = document.querySelector("[data-date-time-minute]")?.value || "00";
     updateCandidateDateDraft({ time: `${hour}:${minute}` });
+    return;
+  }
+
+  if (event.target.matches("[data-date-has-time]")) {
+    updateCandidateDateDraft({ hasTime: event.target.checked });
+    return;
+  }
+
+  if (event.target.matches("[data-date-offset]")) {
+    updateCandidateDateDraft({ offset: event.target.value });
+    return;
+  }
+
+  if (event.target.matches("[data-date-custom-offset-unit]")) {
+    updateCandidateDateDraft({ customOffset: { unit: event.target.value } });
     return;
   }
 

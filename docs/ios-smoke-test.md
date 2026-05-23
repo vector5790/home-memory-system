@@ -1,6 +1,6 @@
 # iOS Smoke Test
 
-Use this checklist before calling the iOS app reliable enough for household testing.
+Use this checklist before calling the iOS app reliable enough for household testing. This is the default verification path for new features; browser preview checks are no longer used as the acceptance path.
 
 ## Environment
 

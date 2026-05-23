@@ -9,27 +9,25 @@
 - 查询时返回照片地图和局部高亮，而不是只返回文字。
 - 主动提醒食品、药品、耗材和设备维护。
 
-## 运行
+## 运行与验证
 
-推荐直接用 macOS 自带的 Python 启动：
+当前以 iOS 模拟器作为默认体验和验收入口：
 
 ```bash
-python3 server.py 4173
+npm install
+python3 scripts/download-vision-assets.py
+npm run test:simulator
 ```
 
-首次使用前可以先下载本地小模型资产：
+`npm run test:simulator` 会先构建 Web 资产、同步到 Capacitor iOS 工程，再启动 iOS 运行流程。以后功能验证以模拟器或真机为准，不再使用本地浏览器页面作为验收入口。
+
+首次使用前需要下载本地小模型资产：
 
 ```bash
 python3 scripts/download-vision-assets.py
 ```
 
-这会把 Transformers.js、Grounding DINO Tiny、OWL-ViT、SlimSAM 和 CLIP 目录匹配模型放到 `vendor/`。之后启动服务：
-
-```text
-http://localhost:4173/?v=20260520-upload-feedback
-```
-
-如果要走 iOS App 开发，先安装 Node.js 20+ 和完整 Xcode，然后运行：
+这会把 Transformers.js、Grounding DINO Tiny、OWL-ViT、SlimSAM 和 CLIP 目录匹配模型放到 `vendor/`。如果要手动走 iOS App 开发，先安装 Node.js 20+ 和完整 Xcode，然后运行：
 
 ```bash
 npm install
@@ -39,7 +37,7 @@ npm run ios:sync
 npm run ios:open
 ```
 
-`npm run dev` 仍然等价于本地浏览器开发服务，会启动 `python3 server.py 4173`。`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `python3 scripts/download-vision-assets.py`，否则本地模型资产校验会失败。
+`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `python3 scripts/download-vision-assets.py`，否则本地模型资产校验会失败。
 
 如果 `xcodebuild` 提示 active developer directory 是 `/Library/Developer/CommandLineTools`，说明当前只安装或只选中了 Command Line Tools，需要安装完整 Xcode，并执行：
 
@@ -47,25 +45,7 @@ npm run ios:open
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 ```
 
-默认不需要任何付费 API。上传照片后，浏览器会优先调用 `vendor/` 里的本地 Grounding DINO 做开放词表主体检测，并在 SlimSAM 资产存在时细化候选区域；主体点和连线标签会先出现，名称会以“识别中”状态异步补全。如果 Grounding DINO 还没下载，会退回 OWL-ViT；如果小模型不可用，再明确降级到本地 Canvas 图片分析生成候选区域，用户再手动确认和改名。
-
-如果你的 PowerShell 能直接识别 `node`，也可以使用 Node 服务：
-
-```powershell
-node server.mjs 4173
-```
-
-如果提示 `node` 无法识别，直接运行启动脚本：
-
-```powershell
-.\start.bat
-```
-
-或者：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\start.ps1
-```
+默认不需要任何付费 API。上传照片后，App 会优先调用打包在 `vendor/` 里的本地 OWL-ViT 做开放词表主体检测；Grounding DINO 保留为可配置的慢速兜底，不作为默认链路。主体点会先出现，名称会以“识别中”状态异步补全。如果小模型不可用，再明确降级到本地 Canvas 图片分析生成候选区域，用户再手动确认和改名。
 
 ## 当前范围
 
@@ -75,7 +55,7 @@ powershell -ExecutionPolicy Bypass -File .\start.ps1
 2. 用户可以手动新增空间/储物点；上传照片识别成功后也会自动生成照片点。
 3. 储物点支持下级目录，例如 `客厅 > 电视柜 > 柜子A > 阿莫西林`。
 4. 上传并确认后的照片会绑定到当前储物点，之后搜索路径会在真实照片上高亮物品。
-5. 上传照片后，优先用 Grounding DINO/OWL-ViT 输出主体区域；Canvas 只在小模型不可用或无结果时兜底。
+5. 上传照片后，优先用 OWL-ViT 输出主体区域；Grounding DINO 作为可配置慢速兜底，Canvas 只在小模型不可用或无结果时兜底。
 6. 候选命名先匹配家庭常见物品目录和可选 embedding 索引，低于阈值时显示 `物品A/B/C` 等待用户填写。
 7. 云端大模型识别只作为后续可选兜底 provider，不是默认路径。
 

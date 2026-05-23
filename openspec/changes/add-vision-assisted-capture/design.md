@@ -54,9 +54,9 @@ The existing capture flow already supports upload, camera capture, candidate edi
 
    Alternative considered: directly translate the detector label into a Chinese item name. That is fast, but it caused false names such as generic boxes being shown as `收纳盒`.
 
-6. Prefer Grounding DINO and use SAM only as a refinement layer.
+6. Prefer fast local OWL-ViT and keep Grounding DINO as an optional slow fallback.
 
-   The open-vocabulary detector is responsible for subject recall and visible geometry. OWL-ViT remains the fallback detector because it is already smaller and available in the prototype. SlimSAM is optional and only tightens candidate regions after detection; if it cannot load or cannot produce a plausible mask, the detector box remains unchanged. This avoids replacing real detector output with fabricated or unstable boxes.
+   The open-vocabulary detector is responsible for subject recall and visible geometry. OWL-ViT is the default detector because it is smaller and fast enough for the current iOS verification loop. Grounding DINO remains available behind configuration for harder recall cases, but it is not the default path because it can make ordinary tests take tens of seconds. SlimSAM is optional and only tightens candidate regions after detection; if it cannot load or cannot produce a plausible mask, the detector box remains unchanged. This avoids replacing real detector output with fabricated or unstable boxes.
 
 7. Start from an empty household map.
 
