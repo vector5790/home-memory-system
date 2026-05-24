@@ -423,6 +423,7 @@ let cameraStream = null;
 let toastTimer = null;
 let candidateDrag = null;
 let candidateDatePickerState = null;
+let dateModalFocusReady = false;
 let recognitionRunId = 0;
 let candidateEditRecognitionToken = 0;
 let candidateCropHydrationKey = "";
@@ -2408,7 +2409,7 @@ function drawSourceToDataUrl(source, width, height, quality) {
   canvas.width = Math.max(1, Math.round(width));
   canvas.height = Math.max(1, Math.round(height));
   const context = canvas.getContext("2d", { alpha: false });
-  context.fillStyle = "#fff";
+  context.fillStyle = "rgb(250, 249, 245)";
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.drawImage(source, 0, 0, canvas.width, canvas.height);
   return canvas.toDataURL("image/jpeg", quality);
@@ -3043,6 +3044,7 @@ function render() {
   hydrateCamera();
   hydrateCandidatePins();
   hydrateCandidateCrops();
+  hydrateDateModalFocus();
 }
 
 function renderTopbar() {
@@ -3620,6 +3622,7 @@ function renderCaptureStage() {
           data-candidate-drag="${activeCandidate.id}"
           data-drag-mode="move"
           role="button"
+          tabindex="0"
           aria-label="拖拽调整 ${escapeHtml(activeCandidate.name)} 主体框"
         >
           <span class="candidate-active-highlight"></span>
@@ -3795,7 +3798,7 @@ function renderCandidateDateModal() {
   const offsetLabels = isReminder ? getReminderOffsetLabels(reminder.hasTime) : {};
   return `
     <div class="date-modal-backdrop" data-date-modal-dismiss>
-      <section class="date-modal" role="dialog" aria-modal="true" aria-label="${escapeHtml(title)}" data-date-modal>
+      <section class="date-modal" role="dialog" aria-modal="true" aria-label="${escapeHtml(title)}" tabindex="-1" data-date-modal>
         <div class="date-modal-head">
           <button class="round-btn" type="button" data-close-date-modal aria-label="关闭">×</button>
           <div class="date-mode-tabs">
@@ -4540,6 +4543,7 @@ function openCandidateDatePicker(id, field) {
   const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
   if (!candidate) return;
   const currentDate = candidate[field] || dateToIso(today);
+  dateModalFocusReady = false;
   candidateDatePickerState = {
     mode: "date",
     candidateId: id,
@@ -4566,6 +4570,7 @@ function openCandidateReminderEditor(id, reminderId = null) {
       repeat: "none",
       enabled: true,
     });
+  dateModalFocusReady = false;
   candidateDatePickerState = {
     mode: "reminder",
     candidateId: id,
@@ -4578,8 +4583,11 @@ function openCandidateReminderEditor(id, reminderId = null) {
 }
 
 function closeCandidateDatePicker() {
+  const candidateId = candidateDatePickerState?.candidateId;
   candidateDatePickerState = null;
+  dateModalFocusReady = false;
   render();
+  focusCandidateControl(candidateId);
 }
 
 function updateCandidateDateDraft(patch) {
@@ -4647,8 +4655,10 @@ function confirmCandidateDatePicker() {
     });
     state.capture.activeCandidateId = candidateId;
     candidateDatePickerState = null;
+    dateModalFocusReady = false;
     persist();
     render();
+    focusCandidateControl(candidateId);
     return;
   }
 
@@ -4665,8 +4675,10 @@ function confirmCandidateDatePicker() {
   });
   state.capture.activeCandidateId = candidateId;
   candidateDatePickerState = null;
+  dateModalFocusReady = false;
   persist();
   render();
+  focusCandidateControl(candidateId);
 }
 
 function clearCandidateDate(id, field) {
@@ -4968,6 +4980,102 @@ function hydrateCamera() {
   if (video && cameraStream) {
     video.srcObject = cameraStream;
   }
+}
+
+function getFocusableElements(scope) {
+  if (!scope) return [];
+  return [...scope.querySelectorAll([
+    "button:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "[tabindex]:not([tabindex='-1'])",
+  ].join(","))]
+    .filter((element) => element.offsetParent !== null || element === document.activeElement);
+}
+
+function hydrateDateModalFocus() {
+  const modal = document.querySelector("[data-date-modal]");
+  if (!modal || dateModalFocusReady) return;
+  dateModalFocusReady = true;
+  requestAnimationFrame(() => {
+    const focusable = getFocusableElements(modal);
+    (focusable[0] || modal).focus?.({ preventScroll: true });
+  });
+}
+
+function focusCandidateControl(candidateId) {
+  if (!candidateId) return;
+  requestAnimationFrame(() => {
+    const escapedId = escapeCssIdentifier(candidateId);
+    const target = document.querySelector(`[data-open-date-picker="${escapedId}"], [data-add-candidate-reminder="${escapedId}"], [data-candidate-select="${escapedId}"]`);
+    target?.focus?.({ preventScroll: true });
+  });
+}
+
+function escapeCssIdentifier(value) {
+  return window.CSS?.escape ? window.CSS.escape(String(value)) : String(value).replace(/["\\]/g, "\\$&");
+}
+
+function trapDateModalFocus(event) {
+  const modal = document.querySelector("[data-date-modal]");
+  if (!modal) return false;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeCandidateDatePicker();
+    return true;
+  }
+  if (event.key !== "Tab") return false;
+  const focusable = getFocusableElements(modal);
+  if (!focusable.length) {
+    event.preventDefault();
+    modal.focus?.({ preventScroll: true });
+    return true;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+    event.preventDefault();
+    last.focus({ preventScroll: true });
+    return true;
+  }
+  if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus({ preventScroll: true });
+    return true;
+  }
+  return false;
+}
+
+function nudgeCandidateBoxFromKeyboard(event) {
+  const frame = event.target.closest?.("[data-candidate-drag]");
+  if (!frame || !["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft"].includes(event.key)) return false;
+  const candidate = getActiveCandidates().find((entry) => entry.id === frame.dataset.candidateDrag);
+  const stage = frame.closest("[data-capture-stage]");
+  if (!candidate || !stage) return false;
+  event.preventDefault();
+  const step = event.shiftKey ? 5 : 1;
+  const delta = {
+    ArrowUp: { x: 0, y: -step },
+    ArrowRight: { x: step, y: 0 },
+    ArrowDown: { x: 0, y: step },
+    ArrowLeft: { x: -step, y: 0 },
+  }[event.key];
+  const box = event.altKey
+    ? clampBox({
+      ...candidate.box,
+      w: candidate.box.w + delta.x,
+      h: candidate.box.h + delta.y,
+    })
+    : clampBox({
+      ...candidate.box,
+      x: candidate.box.x + delta.x,
+      y: candidate.box.y + delta.y,
+    });
+  setCandidateBoxWithoutRender(candidate.id, box);
+  updateCandidateDragElements({ id: candidate.id, stage, frameElement: frame }, box);
+  persist();
+  return true;
 }
 
 function hydrateCandidatePins() {
@@ -5477,6 +5585,8 @@ document.addEventListener("pointercancel", finishCandidateDrag);
 window.addEventListener("resize", hydrateCandidatePins);
 
 document.addEventListener("keydown", (event) => {
+  if (trapDateModalFocus(event)) return;
+  if (nudgeCandidateBoxFromKeyboard(event)) return;
   if (event.key === "Enter" && event.target.matches("[data-query-input]")) {
     performSearch();
   }
