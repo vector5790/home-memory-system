@@ -1,4 +1,35 @@
-import { HOME_DATA_SCHEMA_VERSION, createHomeMemoryPlatform } from "./platform.js";
+import { HOME_DATA_SCHEMA_VERSION, createHomeMemoryPlatform } from "../platform/index.js";
+import { createDateDomain } from "../domain/dates.js";
+import { boxIou, clampBox, clampNumber, dedupeCandidates } from "../domain/geometry.js";
+import { createLocationDomain } from "../domain/locations.js";
+import { createRecordDomain } from "../domain/records.js";
+import { createReminderDomain } from "../domain/reminders.js";
+import { buildTrailParts as buildDomainTrailParts, findBestItem } from "../domain/search.js";
+import { createLocalDataStore } from "../store/local-data-store.js";
+import {
+  allDayReminderOffsetLabels,
+  categoryLabels,
+  createVisionConfig,
+  customOffsetUnitLabels,
+  furnitureByRoom,
+  genericDetectionLabels,
+  icons,
+  repeatLabels,
+  timedReminderOffsetLabels,
+  unknownObjectNames,
+  visionCatalog,
+} from "../config/app-config.js";
+import { normalizeText } from "../domain/text.js";
+import { createVisionAssetLoader } from "../vision/assets.js";
+import { createDetectorAttemptPlanner } from "../vision/detector-attempts.js";
+import { createHeuristicRegionRecognizer } from "../vision/heuristic-regions.js";
+import { createImageProcessing } from "../vision/image-processing.js";
+import { createLocalRecognitionProvider } from "../vision/local-recognition-provider.js";
+import { createVisionCatalog } from "../vision/catalog.js";
+import { getRequestedRecognitionProvider as getConfiguredRecognitionProvider, nativePhotoProvider as getNativePhotoProvider, providerLabel } from "../vision/providers.js";
+import { createVisionRuntimeHelpers } from "../vision/runtime.js";
+import { bindAppEvents } from "./events.js";
+import { escapeHtml, layoutCandidatePins, styleActiveCandidateLabel, styleBox, styleCandidatePin } from "./rendering.js";
 
 const STORAGE_KEY = "home-memory-system:v3";
 const platform = createHomeMemoryPlatform({
@@ -8,367 +39,38 @@ const platform = createHomeMemoryPlatform({
     showToast("本地保存失败，当前更改仅保留在本次会话中");
   },
 });
+const localStore = createLocalDataStore({ platform, createId });
 const today = new Date();
-const repeatLabels = {
-  none: "无",
-  daily: "每天",
-  weekly: "每周",
-  monthly: "每月",
-  yearly: "每年",
-};
-
-const timedReminderOffsetLabels = {
-  none: "无",
-  "on-time": "准时",
-  "before-5m": "提前5分钟",
-  "before-30m": "提前30分钟",
-  "before-1h": "提前1小时",
-  "before-1d": "提前1天",
-  custom: "自定义",
-};
-
-const allDayReminderOffsetLabels = {
-  none: "无",
-  "same-day": "当天",
-  "before-1d": "提前1天",
-  "before-2d": "提前2天",
-  "before-3d": "提前3天",
-  "before-1w": "提前1周",
-  custom: "自定义",
-};
-
-const customOffsetUnitLabels = {
-  minutes: "分钟",
-  hours: "小时",
-  days: "天",
-  weeks: "周",
-};
-
-const icons = {
-  home: '<svg class="icon" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
-  scan: '<svg class="icon" viewBox="0 0 24 24"><path d="M7 3H5a2 2 0 0 0-2 2v2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>',
-  search: '<svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
-  bell: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
-  map: '<svg class="icon" viewBox="0 0 24 24"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg>',
-  plus: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>',
-  camera: '<svg class="icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg>',
-  check: '<svg class="icon" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>',
-  rotate: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>',
-  box: '<svg class="icon" viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>',
-  spark: '<svg class="icon" viewBox="0 0 24 24"><path d="M13 2 9 14l-7 2 7 2 4 4 2-7 7-4-7-2-2-7Z"/></svg>',
-  trash: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5"/><path d="M14 11v5"/></svg>',
-};
-
-const categoryLabels = {
-  food: "食品",
-  medicine: "药品",
-  pet: "宠物",
-  document: "证件",
-  tool: "工具",
-  daily: "日用",
-  appliance: "家电",
-};
-
-const visionConfig = {
-  appVersion: "20260523-owlvit-first",
-  assetVersion: "20260519-grounded-sam",
-  remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
-  allowRemoteVisionAssets: !platform.isNative,
-  localTransformersModule: "/vendor/transformers/transformers.min.js",
-  localHeicConverterScript: "/vendor/heic2any/heic2any.min.js",
-  localManifest: "/vendor/vision-manifest.json",
-  localModelPath: "/vendor/models/",
-  catalogIndex: "/data/vision-index.seed.json",
-  groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
-  detectionModel: "Xenova/owlvit-base-patch32",
-  preferredDetector: "owlvit",
-  enableGroundingDinoFallback: false,
-  samModel: "Xenova/slimsam-77-uniform",
-  catalogModel: "Xenova/clip-vit-base-patch32",
-  detectionThreshold: 0.05,
-  groundingThreshold: 0.08,
-  detectionNameThreshold: 0.11,
-  catalogThreshold: 0.26,
-  maxDetectedObjects: 28,
-  maxUploadDimension: 1600,
-  detectionMaxDimension: 1280,
-  maxUploadDataUrlLength: 850000,
-  uploadJpegQuality: 0.82,
-  uploadDecodeTimeoutMs: 18000,
-  heicConversionTimeoutMs: 45000,
-  maxSamRefinements: 0,
-  samMinBoxArea: 0.42,
-  groundingPromptBatchSize: 48,
-  owlVitPromptBatchSize: 48,
-  owlVitLabelLimit: 48,
-  maxWasmThreads: 4,
-  recognitionCacheSize: 6,
-  candidateCropVersion: "crop-640-v2",
-  candidateCropMaxDimension: 640,
-  candidateCropQuality: 0.9,
-  cloudRecognitionEndpoint: "",
-};
-
-const unknownObjectNames = ["物品A", "物品B", "物品C", "物品D", "物品E", "物品F", "物品G", "物品H", "物品I", "物品J", "物品K", "物品L"];
-
-const visionCatalog = [
-  {
-    id: "television",
-    name: "电视",
-    category: "appliance",
-    labels: ["television", "tv", "flat screen tv", "black television screen"],
-    prompts: ["television", "flat screen tv"],
-    searchQueries: ["flat screen tv"],
-  },
-  {
-    id: "pendant-light",
-    name: "吊灯",
-    category: "daily",
-    labels: ["pendant light", "ceiling lamp", "hanging light"],
-    prompts: ["pendant light", "ceiling lamp"],
-    searchQueries: ["pendant light"],
-  },
-  {
-    id: "wall-ornament",
-    name: "挂饰",
-    category: "daily",
-    labels: ["wall ornament", "hanging decoration", "wall decoration"],
-    prompts: ["wall ornament", "hanging decoration"],
-    searchQueries: ["wall ornament"],
-  },
-  {
-    id: "speaker",
-    name: "音响",
-    category: "appliance",
-    labels: ["speaker", "audio speaker", "bookshelf speaker", "floor standing speaker", "floor speaker", "left speaker", "right speaker", "speaker with orange grille"],
-    prompts: ["speaker", "audio speaker", "bookshelf speaker", "floor speaker"],
-    searchQueries: ["bookshelf speaker", "home audio speaker"],
-  },
-  {
-    id: "speaker-grille",
-    name: "音箱面罩",
-    category: "appliance",
-    labels: ["speaker grille", "speaker cover", "orange speaker grille"],
-    prompts: ["speaker grille", "speaker cover"],
-    searchQueries: ["speaker grille"],
-  },
-  {
-    id: "amplifier",
-    name: "功放",
-    category: "appliance",
-    labels: ["amplifier", "audio amplifier", "stereo receiver", "stereo amplifier", "silver amplifier", "silver stereo receiver", "audio receiver"],
-    prompts: ["amplifier", "audio amplifier", "stereo receiver", "silver amplifier"],
-    searchQueries: ["stereo amplifier", "audio receiver"],
-  },
-  {
-    id: "turntable",
-    name: "唱片机",
-    category: "appliance",
-    labels: ["turntable", "record player", "black turntable", "record player on shelf"],
-    prompts: ["turntable", "record player", "black turntable"],
-    searchQueries: ["turntable record player"],
-  },
-  {
-    id: "remote-control",
-    name: "遥控器",
-    category: "tool",
-    labels: ["remote control", "tv remote", "black remote control", "small black remote", "remote control on shelf"],
-    prompts: ["remote control", "tv remote", "small black remote"],
-    searchQueries: ["tv remote control"],
-  },
-  {
-    id: "media-player",
-    name: "播放器",
-    category: "appliance",
-    labels: ["media player", "audio player", "dvd player", "black media player", "black electronic device", "audio component"],
-    prompts: ["media player", "audio player", "dvd player", "black electronic device"],
-    searchQueries: ["media player", "audio player"],
-  },
-  {
-    id: "tv-cabinet",
-    name: "电视柜",
-    category: "daily",
-    labels: ["tv cabinet", "television cabinet", "white tv stand", "media cabinet", "media console", "tv console", "entertainment center", "drawer under tv", "cabinet drawer front"],
-    prompts: ["tv cabinet", "television cabinet", "media console", "tv console"],
-    searchQueries: ["tv cabinet"],
-  },
-  {
-    id: "cabinet",
-    name: "柜子",
-    category: "daily",
-    labels: ["cabinet", "storage cabinet", "cupboard", "side cabinet", "wooden cabinet"],
-    prompts: ["cabinet", "storage cabinet", "cupboard"],
-    searchQueries: ["storage cabinet", "cupboard"],
-  },
-  {
-    id: "drawer",
-    name: "抽屉",
-    category: "daily",
-    labels: ["drawer", "open drawer", "drawer front", "cabinet drawer", "dresser drawer"],
-    prompts: ["drawer", "cabinet drawer"],
-    searchQueries: ["cabinet drawer", "drawer"],
-  },
-  {
-    id: "cabinet-door",
-    name: "柜门",
-    category: "daily",
-    labels: ["cabinet door", "cupboard door", "storage door", "drawer handle"],
-    prompts: ["cabinet door", "cupboard door"],
-    searchQueries: ["cabinet door"],
-  },
-  {
-    id: "storage-compartment",
-    name: "储物格",
-    category: "daily",
-    labels: ["storage compartment", "shelf compartment", "cubby", "cabinet compartment", "open shelf"],
-    prompts: ["storage compartment", "shelf compartment"],
-    searchQueries: ["storage compartment"],
-  },
-  {
-    id: "small-speaker",
-    name: "小音箱",
-    category: "appliance",
-    labels: ["small speaker", "mini speaker", "small audio speaker"],
-    prompts: ["small speaker", "mini speaker"],
-    searchQueries: ["small speaker"],
-  },
-  {
-    id: "small-device",
-    name: "小设备",
-    category: "appliance",
-    labels: ["small device", "small electronic device", "black device"],
-    prompts: ["small electronic device", "black device"],
-    searchQueries: ["small electronic device"],
-  },
-  {
-    id: "pillow",
-    name: "抱枕",
-    category: "daily",
-    labels: ["pillow", "cushion", "throw pillow"],
-    prompts: ["pillow", "cushion"],
-    searchQueries: ["throw pillow"],
-  },
-  {
-    id: "air-conditioner",
-    name: "空调",
-    category: "appliance",
-    labels: ["air conditioner", "floor air conditioner", "standing air conditioner"],
-    prompts: ["air conditioner", "floor air conditioner"],
-    searchQueries: ["floor air conditioner"],
-  },
-  {
-    id: "data-cable",
-    name: "数据线",
-    category: "tool",
-    labels: ["cable", "usb cable", "charging cable"],
-    prompts: ["usb cable", "charging cable"],
-    searchQueries: ["usb cable", "type c cable"],
-  },
-  {
-    id: "charger",
-    name: "充电器",
-    category: "tool",
-    labels: ["charger", "power adapter", "phone charger"],
-    prompts: ["charger", "power adapter", "phone charger"],
-    searchQueries: ["phone charger", "usb power adapter"],
-  },
-  {
-    id: "battery",
-    name: "电池",
-    category: "tool",
-    labels: ["battery", "aa battery", "aaa battery"],
-    prompts: ["battery", "aa battery", "aaa battery"],
-    searchQueries: ["aa battery", "aaa battery"],
-  },
-  {
-    id: "medicine-box",
-    name: "药盒",
-    category: "medicine",
-    labels: ["medicine box", "pill box", "pill bottle"],
-    prompts: ["medicine box", "pill box", "pill bottle"],
-    searchQueries: ["medicine box", "pill bottle"],
-  },
-  {
-    id: "storage-box",
-    name: "收纳盒",
-    category: "daily",
-    labels: ["storage box", "storage basket", "plastic bin"],
-    prompts: ["storage box", "storage basket", "plastic bin"],
-    searchQueries: ["storage box", "plastic storage bin"],
-  },
-  {
-    id: "key",
-    name: "钥匙",
-    category: "tool",
-    labels: ["key", "keys", "keychain"],
-    prompts: ["key", "keys", "keychain"],
-    searchQueries: ["house keys", "keychain"],
-  },
-];
-
-const genericDetectionLabels = [
-  { label: "window", name: "窗户", category: "daily" },
-  { label: "curtain", name: "窗帘", category: "daily" },
-  { label: "television cabinet drawer", name: "抽屉", category: "daily" },
-  { label: "tv stand drawer", name: "抽屉", category: "daily" },
-  { label: "tv console drawer", name: "抽屉", category: "daily" },
-  { label: "media cabinet drawer", name: "抽屉", category: "daily" },
-  { label: "white drawer front", name: "抽屉", category: "daily" },
-  { label: "horizontal drawer", name: "抽屉", category: "daily" },
-  { label: "cabinet drawer handle", name: "抽屉", category: "daily" },
-  { label: "cabinet handle", name: "柜门", category: "daily" },
-  { label: "cabinet shelf", name: "储物格", category: "daily" },
-  { label: "shelf under television", name: "架子", category: "daily" },
-  { label: "cabinet", name: "柜子", category: "daily" },
-  { label: "storage cabinet", name: "柜子", category: "daily" },
-  { label: "cupboard", name: "柜子", category: "daily" },
-  { label: "drawer", name: "抽屉", category: "daily" },
-  { label: "drawer front", name: "抽屉", category: "daily" },
-  { label: "cabinet drawer", name: "抽屉", category: "daily" },
-  { label: "cabinet door", name: "柜门", category: "daily" },
-  { label: "shelf", name: "架子", category: "daily" },
-  { label: "storage compartment", name: "储物格", category: "daily" },
-  { label: "shelf compartment", name: "储物格", category: "daily" },
-  { label: "cable", name: "线材", category: "tool" },
-  { label: "black cable", name: "线材", category: "tool" },
-  { label: "food package", name: "食品包装", category: "food" },
-  { label: "bottle", name: "瓶装物", category: "daily" },
-  { label: "spray bottle", name: "喷雾瓶", category: "daily" },
-  { label: "detergent bottle", name: "清洁液", category: "daily" },
-  { label: "filter cartridge", name: "滤芯", category: "appliance" },
-  { label: "pet supplies", name: "宠物用品", category: "pet" },
-  { label: "bag", name: "袋装物", category: "daily" },
-  { label: "document", name: "文件", category: "document" },
-  { label: "book", name: "书本", category: "daily" },
-  { label: "cup", name: "杯子", category: "daily" },
-  { label: "bowl", name: "碗", category: "daily" },
-  { label: "box", name: "盒状物", category: "daily" },
-];
-
-const furnitureByRoom = {
-  kitchen: [
-    { x: 4, y: 8, w: 26, h: 68, cls: "slim" },
-    { x: 34, y: 18, w: 25, h: 48, cls: "" },
-    { x: 65, y: 12, w: 27, h: 62, cls: "slim" },
-    { x: 22, y: 78, w: 54, h: 10, cls: "" },
-  ],
-  living: [
-    { x: 9, y: 42, w: 32, h: 22, cls: "" },
-    { x: 46, y: 50, w: 42, h: 24, cls: "" },
-    { x: 12, y: 76, w: 70, h: 8, cls: "slim" },
-  ],
-  balcony: [
-    { x: 6, y: 16, w: 26, h: 66, cls: "slim" },
-    { x: 38, y: 52, w: 24, h: 20, cls: "" },
-    { x: 68, y: 22, w: 20, h: 54, cls: "slim" },
-  ],
-  bedroom: [
-    { x: 6, y: 13, w: 31, h: 67, cls: "slim" },
-    { x: 43, y: 46, w: 42, h: 24, cls: "" },
-    { x: 56, y: 20, w: 18, h: 18, cls: "" },
-  ],
-};
-
+const visionConfig = createVisionConfig(platform);
+const {
+  getCatalogLabelEntries,
+  getCatalogPromptEntries,
+  getDetectionLabelEntries,
+  getDetectionLabelMeta,
+  getFastGroundingLabelEntries,
+  isStorageDetectionLabel,
+  normalizeDetectionLabel,
+} = createVisionCatalog({ genericDetectionLabels, visionCatalog });
+const {
+  configureTransformersRuntime,
+  getVisionWasmThreadCount,
+} = createVisionRuntimeHelpers({ maxWasmThreads: visionConfig.maxWasmThreads });
+const {
+  getVisionAssetMode,
+  loadTransformersRuntime,
+} = createVisionAssetLoader({ configureTransformersRuntime, visionConfig });
+const {
+  getDetectorAttempts,
+} = createDetectorAttemptPlanner({ getGroundingDinoDetector, getSmallModelDetector, visionConfig });
+const imageProcessing = createImageProcessing({ visionConfig });
+const {
+  getDrawableSize,
+  getImageDimensions,
+  loadImage,
+  prepareImageForDetection,
+  prepareUploadedImage,
+  resizeImageSourceToDataUrl,
+} = imageProcessing;
 const seedState = {
   activeTab: "capture",
   activeRoomId: "living",
@@ -419,6 +121,81 @@ const seedState = {
   items: [],
 };
 
+const {
+  addDaysIso,
+  dateToIso,
+  daysUntil,
+  formatDate,
+  getCalendarDays,
+  monthKeyFromIso,
+  moveMonthKey,
+  nextMondayIso,
+} = createDateDomain(today);
+
+const {
+  createNotificationId,
+  defaultReminderOffset,
+  dueStatus,
+  formatReminderOffset,
+  formatReminderRepeat,
+  formatReminderSchedule,
+  formatReminderTime,
+  getPrimaryReminder,
+  getReminderOffsetLabels,
+  legacyReminderFromFields,
+  normalizeCustomOffset,
+  normalizeDateText,
+  normalizeReminder,
+  normalizeReminderList,
+  normalizeReminderOffset,
+  normalizeReminderTime,
+} = createReminderDomain({
+  allDayReminderOffsetLabels,
+  clampNumber,
+  customOffsetUnitLabels,
+  dateToIso,
+  daysUntil,
+  formatDate,
+  repeatLabels,
+  timedReminderOffsetLabels,
+  today,
+  createId,
+});
+
+const {
+  normalizePlace,
+  normalizeRooms,
+  roomTypeForName,
+} = createLocationDomain({
+  clampBox,
+  createId,
+  normalizeImageMeta,
+  seedState,
+});
+
+const {
+  getUnknownObjectName,
+  isCandidateDeleted,
+  isUnknownObjectName,
+  normalizeCandidate,
+  normalizeItem,
+  normalizeItems,
+  normalizeRecognitionResults,
+  renumberUnknownCandidates,
+} = createRecordDomain({
+  categoryLabels,
+  clampBox,
+  clampNumber,
+  createId,
+  normalizeCropMeta,
+  normalizeReminderList,
+  repeatLabels,
+  seedState,
+});
+const {
+  recognizeWithHeuristicRegions,
+} = createHeuristicRegionRecognizer({ getUnknownObjectName, loadImage });
+
 let state = loadState();
 let cameraStream = null;
 let toastTimer = null;
@@ -426,46 +203,33 @@ let candidateDrag = null;
 let candidateDatePickerState = null;
 let recognitionRunId = 0;
 let candidateCropHydrationKey = "";
-let visionAssetModePromise = null;
-let transformersModulePromise = null;
 let groundingDinoDetectorPromise = null;
 let smallModelDetectorPromise = null;
 let samSegmenterPromise = null;
 let catalogClassifierPromise = null;
 let catalogFeatureExtractorPromise = null;
 let catalogIndexPromise = null;
-let heicConverterPromise = null;
 const recognitionResultCache = new Map();
 let persistWarningShown = false;
 
 const app = document.querySelector("#app");
 
+function normalizeLoadedState(parsed = {}) {
+  const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+  loaded.rooms = normalizeRooms(loaded.rooms);
+  loaded.items = normalizeItems(loaded.items);
+  loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
+  return loaded;
+}
+
 function loadState() {
-  try {
-    const raw = platform.storage.readSnapshotSync();
-    if (!raw) return structuredClone(seedState);
-    const parsed = JSON.parse(raw);
-    const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
-    loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = normalizeItems(loaded.items);
-    loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
-    return loaded;
-  } catch {
-    return structuredClone(seedState);
-  }
+  return localStore.loadInitialStateSync({ seedState, normalizeState: normalizeLoadedState });
 }
 
 async function hydratePlatformState() {
   if (!platform.isNative) return;
   try {
-    const raw = await platform.storage.readSnapshotAsync();
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
-    loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = normalizeItems(loaded.items);
-    loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
-    state = loaded;
+    state = await localStore.hydrateNativeState({ seedState, normalizeState: normalizeLoadedState });
     render();
     performSearch();
   } catch (error) {
@@ -474,61 +238,17 @@ async function hydratePlatformState() {
   }
 }
 
-function createPersistSnapshot(options = {}) {
-  const snapshot = structuredClone(state);
-  snapshot.schemaVersion = HOME_DATA_SCHEMA_VERSION;
-  snapshot.savedAt = new Date().toISOString();
-  snapshot.cameraOn = false;
-  if (options.omitCaptureImage && snapshot.capture) {
-    snapshot.capture.image = null;
-  }
-  if (options.usePhotoReferences && snapshot.capture) {
-    snapshot.capture.image = getDurableImageValue(snapshot.capture.image, snapshot.capture.imageRef);
-  }
-  if (options.omitPlaceImages) {
-    snapshot.rooms = snapshot.rooms.map((room) => ({
-      ...room,
-      places: (room.places || []).map((place) => ({ ...place, image: null })),
-    }));
-  } else if (options.usePhotoReferences) {
-    snapshot.rooms = snapshot.rooms.map((room) => ({
-      ...room,
-      places: (room.places || []).map((place) => ({
-        ...place,
-        image: getDurableImageValue(place.image, place.imageRef),
-      })),
-    }));
-  }
-  return snapshot;
-}
-
 function persist() {
-  const usePhotoReferences = Boolean(platform.isNative);
-  const attempts = [
-    createPersistSnapshot({ usePhotoReferences }),
-    createPersistSnapshot({ usePhotoReferences, omitCaptureImage: true }),
-    createPersistSnapshot({ usePhotoReferences, omitCaptureImage: true, omitPlaceImages: true }),
-  ];
-  let lastError = null;
-  for (const snapshot of attempts) {
-    try {
-      if (platform.storage.writeSnapshot(JSON.stringify(snapshot))) return true;
-    } catch (error) {
-      lastError = error;
-    }
-  }
-  if (!persistWarningShown) {
+  const result = localStore.saveSnapshot({
+    state,
+    schemaVersion: HOME_DATA_SCHEMA_VERSION,
+    usePhotoReferences: Boolean(platform.isNative),
+  });
+  if (!result.ok && !persistWarningShown) {
     persistWarningShown = true;
-    console.warn("Local persistence skipped; current session state remains available.", lastError);
+    console.warn("Local persistence skipped; current session state remains available.", result.lastError);
   }
-  return false;
-}
-
-function getDurableImageValue(image, imageRef) {
-  if (imageRef?.webPath) return imageRef.webPath;
-  if (imageRef?.uri) return platform.convertFileSrc(imageRef.uri);
-  if (typeof image === "string" && image.startsWith("data:image/")) return null;
-  return image || null;
+  return result.ok;
 }
 
 function setState(patch) {
@@ -539,39 +259,6 @@ function setState(patch) {
 
 function getRoom(roomId = state.activeRoomId) {
   return state.rooms.find((room) => room.id === roomId) || state.rooms[0];
-}
-
-function normalizeRooms(rooms) {
-  const fallbackRooms = structuredClone(seedState.rooms);
-  const sourceRooms = Array.isArray(rooms) && rooms.length ? rooms : fallbackRooms;
-  return sourceRooms.map((room, index) => {
-    const fallback = fallbackRooms[index] || fallbackRooms[0];
-    return {
-      id: room.id || fallback.id || createId("room", room.name || "空间"),
-      name: room.name || fallback.name || "空间",
-      type: room.type || roomTypeForName(room.name || fallback.name || ""),
-      places: Array.isArray(room.places)
-        ? room.places.map((place) => normalizePlace(place))
-        : [],
-    };
-  });
-}
-
-function normalizePlace(place = {}) {
-  const name = String(place.name || "未命名储物点").trim();
-  return {
-    id: place.id || createId("place", name),
-    name,
-    shortName: place.shortName || name,
-    kind: place.kind || "photo",
-    parentId: place.parentId || null,
-    sourceItemId: place.sourceItemId || null,
-    box: clampBox(place.box || { x: 16, y: 18, w: 36, h: 24 }),
-    image: place.image || null,
-    imageRef: place.imageRef || null,
-    imageMeta: normalizeImageMeta(place.imageMeta),
-    note: place.note || "储物点",
-  };
 }
 
 function getAllPlaces() {
@@ -674,24 +361,7 @@ function createId(prefix, name = "") {
 }
 
 async function persistPhotoDataUrl(dataUrl, source = "capture") {
-  if (!platform.isNative || !platform.files.isAvailable() || !String(dataUrl || "").startsWith("data:image/")) {
-    return null;
-  }
-  const extension = dataUrl.startsWith("data:image/png") ? "png" : "jpg";
-  const id = createId("photo", source);
-  const saved = await platform.files.writeDataUrl(`photos/${id}.${extension}`, dataUrl);
-  return {
-    id,
-    source,
-    ...saved,
-  };
-}
-
-function roomTypeForName(name) {
-  if (/厨/.test(name)) return "kitchen";
-  if (/阳台|露台/.test(name)) return "balcony";
-  if (/卧|睡|衣帽/.test(name)) return "bedroom";
-  return "living";
+  return localStore.persistPhotoDataUrl(dataUrl, source);
 }
 
 function makeVirtualPlace(room) {
@@ -888,12 +558,6 @@ function resetCaptureRecognition(overrides = {}) {
   };
 }
 
-function clampNumber(value, min, max) {
-  const number = Number(value);
-  if (!Number.isFinite(number)) return min;
-  return Math.min(max, Math.max(min, number));
-}
-
 function normalizeImageMeta(meta) {
   const width = Math.round(Number(meta?.width || meta?.naturalWidth || meta?.videoWidth || 0));
   const height = Math.round(Number(meta?.height || meta?.naturalHeight || meta?.videoHeight || 0));
@@ -936,198 +600,6 @@ function cropAspectStyle(cropMeta) {
   return `style="--crop-aspect:${meta.width} / ${meta.height};--crop-preview-width:${Math.max(54, Math.round(width))}px;--crop-preview-height:${frameHeight}px"`;
 }
 
-function clampBox(box = {}) {
-  const width = clampNumber(box.w ?? 20, 6, 100);
-  const height = clampNumber(box.h ?? 14, 6, 100);
-  return {
-    x: clampNumber(box.x ?? 10, 0, 100 - width),
-    y: clampNumber(box.y ?? 10, 0, 100 - height),
-    w: width,
-    h: height,
-  };
-}
-
-function normalizeDateText(dateText) {
-  const text = String(dateText || "").trim();
-  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-  if (!text) return "";
-  const date = new Date(text);
-  return Number.isNaN(date.getTime()) ? "" : dateToIso(date);
-}
-
-function normalizeReminderTime(timeText) {
-  const match = String(timeText || "").match(/^(\d{1,2}):(\d{1,2})$/);
-  if (!match) return "09:00";
-  const hour = clampNumber(match[1], 0, 23);
-  const minute = clampNumber(match[2], 0, 59);
-  return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
-}
-
-function getReminderOffsetLabels(hasTime) {
-  return hasTime ? timedReminderOffsetLabels : allDayReminderOffsetLabels;
-}
-
-function defaultReminderOffset(hasTime) {
-  return hasTime ? "on-time" : "none";
-}
-
-function normalizeReminderOffset(offset, hasTime) {
-  const labels = getReminderOffsetLabels(hasTime);
-  const value = String(offset || "").trim();
-  if (labels[value]) return value;
-  if (value === "onTime") return "on-time";
-  if (value === "sameDay") return "same-day";
-  return defaultReminderOffset(hasTime);
-}
-
-function normalizeCustomOffset(customOffset = {}) {
-  return {
-    amount: Math.max(1, Math.round(Number(customOffset.amount) || 5)),
-    unit: customOffsetUnitLabels[customOffset.unit] ? customOffset.unit : "minutes",
-  };
-}
-
-function createNotificationId(seed) {
-  const text = String(seed || `${Date.now()}-${Math.random()}`);
-  let hash = 0;
-  for (let index = 0; index < text.length; index += 1) {
-    hash = Math.imul(31, hash) + text.charCodeAt(index);
-  }
-  return 100000 + ((hash >>> 0) % 2000000000);
-}
-
-function normalizeReminder(reminder = {}, index = 0) {
-  const rawHasTime = Object.prototype.hasOwnProperty.call(reminder, "hasTime")
-    ? Boolean(reminder.hasTime)
-    : Boolean(reminder.time || reminder.nextTime);
-  const id = reminder.id || createId("reminder", reminder.title || reminder.nextLabel || `提醒${index + 1}`);
-  const date = normalizeDateText(reminder.date || reminder.nextAt || reminder.at) || dateToIso(today);
-  const offset = normalizeReminderOffset(reminder.offset, rawHasTime);
-  const notificationId = Number.isInteger(Number(reminder.notificationId))
-    ? Number(reminder.notificationId)
-    : createNotificationId(`${id}:${date}:${reminder.time || reminder.nextTime || ""}`);
-  return {
-    id,
-    title: String(reminder.title || reminder.nextLabel || "提醒").trim() || "提醒",
-    date,
-    hasTime: rawHasTime,
-    time: normalizeReminderTime(reminder.time || reminder.nextTime || "09:00"),
-    offset,
-    repeat: repeatLabels[reminder.repeat] ? reminder.repeat : (repeatLabels[reminder.nextRepeat] ? reminder.nextRepeat : "none"),
-    customOffset: normalizeCustomOffset(reminder.customOffset),
-    enabled: reminder.enabled !== false,
-    notificationId,
-  };
-}
-
-function legacyReminderFromFields(record = {}) {
-  if (!record.nextAt) return null;
-  return {
-    id: record.nextReminderId || record.reminderId || undefined,
-    title: record.nextLabel || "提醒",
-    date: record.nextAt,
-    hasTime: Boolean(record.nextTime),
-    time: record.nextTime || "09:00",
-    offset: record.nextOffset || "on-time",
-    repeat: record.nextRepeat || "none",
-    enabled: true,
-    notificationId: record.notificationId,
-  };
-}
-
-function normalizeReminderList(record = {}) {
-  const raw = Array.isArray(record) ? record : (Array.isArray(record.reminders) ? record.reminders : []);
-  if (raw.length) return raw.map((reminder, index) => normalizeReminder(reminder, index));
-  const legacy = legacyReminderFromFields(record);
-  return legacy ? [normalizeReminder(legacy)] : [];
-}
-
-function getPrimaryReminder(record = {}) {
-  return normalizeReminderList(record)[0] || null;
-}
-
-function normalizeItem(item = {}, index = 0) {
-  const reminders = normalizeReminderList(item);
-  const primaryReminder = reminders[0] || null;
-  return {
-    ...item,
-    id: item.id || createId("item", item.name || `物品${index + 1}`),
-    name: String(item.name || `物品${index + 1}`).trim(),
-    aliases: Array.isArray(item.aliases) ? item.aliases : [],
-    category: categoryLabels[item.category] ? item.category : "daily",
-    qty: Math.max(1, Math.round(Number(item.qty) || 1)),
-    roomId: item.roomId || seedState.capture.roomId,
-    placeId: item.placeId || null,
-    container: item.container || "",
-    box: clampBox(item.box),
-    expireAt: item.expireAt || null,
-    reminders,
-    nextAt: item.nextAt || primaryReminder?.date || null,
-    nextTime: item.nextTime || primaryReminder?.time || null,
-    nextRepeat: item.nextRepeat || primaryReminder?.repeat || null,
-    nextLabel: item.nextLabel || primaryReminder?.title || null,
-    confidence: clampNumber(item.confidence ?? 0.75, 0, 1),
-  };
-}
-
-function normalizeItems(items) {
-  return Array.isArray(items)
-    ? items.map((item, index) => normalizeItem(item, index)).filter((item) => item.name)
-    : [];
-}
-
-function normalizeCandidate(candidate = {}, index = 0, provider = "local-image") {
-  const name = String(candidate.name || `候选物品 ${index + 1}`).trim();
-  const category = categoryLabels[candidate.category] ? candidate.category : "daily";
-  const qty = Math.max(1, Math.round(Number(candidate.qty) || 1));
-  const confidence = clampNumber(candidate.confidence ?? 0.75, 0, 1);
-  const reminders = normalizeReminderList(candidate);
-  const primaryReminder = reminders[0] || null;
-
-  return {
-    id: candidate.id || `candidate-${Date.now()}-${index}-${Math.random().toString(16).slice(2)}`,
-    name,
-    aliases: Array.isArray(candidate.aliases) ? candidate.aliases : [],
-    category,
-    qty,
-    expireAt: candidate.expireAt || "",
-    reminders,
-    nextAt: candidate.nextAt || primaryReminder?.date || "",
-    nextTime: candidate.nextTime || primaryReminder?.time || "09:00",
-    nextRepeat: repeatLabels[candidate.nextRepeat] ? candidate.nextRepeat : (primaryReminder?.repeat || "none"),
-    nextLabel: candidate.nextLabel || primaryReminder?.title || "",
-    container: candidate.container || "",
-    box: clampBox(candidate.box),
-    confidence,
-    selected: candidate.selected !== false,
-    deletedAt: candidate.deletedAt || null,
-    source: candidate.source || provider,
-    namingStatus: candidate.namingStatus || "done",
-    detectionLabel: candidate.detectionLabel || "",
-    suggestedName: candidate.suggestedName || "",
-    catalogId: candidate.catalogId || "",
-    cropImage: candidate.cropImage || "",
-    cropMeta: normalizeCropMeta(candidate.cropMeta),
-    cropVersion: candidate.cropVersion || "",
-    edited: Boolean(candidate.edited),
-    detailsOpen: Boolean(candidate.detailsOpen),
-    boxOpen: Boolean(candidate.boxOpen),
-  };
-}
-
-function normalizeRecognitionResults(results, provider = "local-image") {
-  if (!Array.isArray(results)) {
-    throw new Error("Recognition provider returned invalid data");
-  }
-  return results
-    .map((candidate, index) => normalizeCandidate(candidate, index, provider))
-    .filter((candidate) => candidate.name);
-}
-
-function isCandidateDeleted(candidate) {
-  return Boolean(candidate?.deletedAt);
-}
-
 function getActiveCandidates(candidates = state.capture.candidates || []) {
   return candidates.filter((candidate) => !isCandidateDeleted(candidate));
 }
@@ -1162,124 +634,6 @@ function getFallbackActiveCandidateId(preferredId = state.capture.activeCandidat
 async function recognizeStorageImage(context) {
   if (context.image) return recognizeWithLocalImage(context);
   throw new Error("请先上传或拍摄储物点照片。");
-}
-
-function getUnknownObjectName(index) {
-  let number = index + 1;
-  let suffix = "";
-  while (number > 0) {
-    number -= 1;
-    suffix = String.fromCharCode(65 + (number % 26)) + suffix;
-    number = Math.floor(number / 26);
-  }
-  return `物品${suffix}`;
-}
-
-function isUnknownObjectName(name) {
-  return /^物品[A-Z]+$/.test(String(name || ""));
-}
-
-function renumberUnknownCandidates(candidates) {
-  let unknownIndex = 0;
-  return candidates.map((candidate) => {
-    if (candidate.edited) return candidate;
-    const shouldRename = !candidate.name || isUnknownObjectName(candidate.name) || String(candidate.name).startsWith("候选区域");
-    if (!shouldRename) return candidate;
-    const name = getUnknownObjectName(unknownIndex);
-    unknownIndex += 1;
-    return { ...candidate, name };
-  });
-}
-
-function isStorageDetectionLabel(label) {
-  return /cabinet|drawer|cupboard|shelf|compartment|storage|door|tv stand|entertainment/i.test(String(label || ""));
-}
-
-function getCatalogLabelEntries() {
-  return visionCatalog.flatMap((item) => item.labels.map((label) => ({ ...item, label, isCatalogItem: true })));
-}
-
-function getCatalogPromptEntries() {
-  return visionCatalog.flatMap((item) => item.prompts.map((prompt) => ({ ...item, prompt })));
-}
-
-function getDetectionLabelEntries() {
-  return [...getCatalogLabelEntries(), ...genericDetectionLabels.map((entry) => ({ ...entry, isCatalogItem: false }))];
-}
-
-function uniqueLabelEntries(entries) {
-  const seen = new Set();
-  return entries.filter((entry) => {
-    const label = normalizeDetectionLabel(entry.label);
-    if (!label || seen.has(label)) return false;
-    seen.add(label);
-    return true;
-  });
-}
-
-function getFastGroundingLabelEntries() {
-  const primaryCatalogLabels = visionCatalog.flatMap((item) => {
-    if (["speaker", "amplifier", "turntable", "remote-control", "media-player", "tv-cabinet", "drawer", "cabinet", "cabinet-door", "storage-compartment"].includes(item.id)) {
-      return item.labels.slice(0, 2).map((label) => ({ ...item, label, isCatalogItem: true }));
-    }
-    return item.labels.slice(0, 1).map((label) => ({ ...item, label, isCatalogItem: true }));
-  });
-  const genericKeep = new Set([
-    "television cabinet drawer",
-    "tv stand drawer",
-    "white drawer front",
-    "cabinet drawer",
-    "cabinet door",
-    "shelf",
-    "storage compartment",
-    "box",
-    "bag",
-    "bottle",
-    "food package",
-    "document",
-    "book",
-    "cable",
-  ]);
-  const primaryGenericLabels = genericDetectionLabels
-    .filter((entry) => genericKeep.has(entry.label))
-    .map((entry) => ({ ...entry, isCatalogItem: false }));
-  return uniqueLabelEntries([...primaryCatalogLabels, ...primaryGenericLabels]);
-}
-
-function normalizeDetectionLabel(label) {
-  return normalizeText(label)
-    .replace(/^(a|an|the)\s+/, "")
-    .replace(/[.。]+$/g, "");
-}
-
-function getDetectionLabelMeta(label) {
-  const normalized = normalizeDetectionLabel(label);
-  return getDetectionLabelEntries().find((entry) => normalizeDetectionLabel(entry.label) === normalized)
-    || { label, name: "", category: "daily", isCatalogItem: false };
-}
-
-function boxArea(box) {
-  return Math.max(0, box.w) * Math.max(0, box.h);
-}
-
-function boxIou(left, right) {
-  const x1 = Math.max(left.x, right.x);
-  const y1 = Math.max(left.y, right.y);
-  const x2 = Math.min(left.x + left.w, right.x + right.w);
-  const y2 = Math.min(left.y + left.h, right.y + right.h);
-  const intersection = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
-  const union = boxArea(left) + boxArea(right) - intersection;
-  return union ? intersection / union : 0;
-}
-
-function dedupeCandidates(candidates, maxItems = 10, overlapThreshold = 0.42) {
-  const selected = [];
-  for (const candidate of candidates.sort((a, b) => b.confidence - a.confidence)) {
-    if (selected.some((existing) => boxIou(existing.box, candidate.box) > overlapThreshold)) continue;
-    selected.push(candidate);
-    if (selected.length >= maxItems) break;
-  }
-  return selected;
 }
 
 function mergeCandidateWithUserState(incoming, existing = null) {
@@ -1341,93 +695,6 @@ function applyCandidateProgressUpdates(currentCandidates, updatedCandidates, pro
     const current = currentById.get(candidate.id);
     return normalizeCandidate(mergeCandidateWithUserState(candidate, current), index, provider);
   });
-}
-
-async function getVisionAssetMode() {
-  if (!visionAssetModePromise) {
-    visionAssetModePromise = fetch(`${visionConfig.localManifest}?v=${visionConfig.assetVersion}`, { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((manifest) => {
-        const models = new Set(Array.isArray(manifest?.models) ? manifest.models : []);
-        const hasLocalRuntime = Boolean(manifest?.transformers);
-        const owlReady = models.has(visionConfig.detectionModel);
-        const groundingReady = models.has(visionConfig.groundingDinoModel);
-        return {
-          local: hasLocalRuntime && (groundingReady || owlReady),
-          hasLocalRuntime,
-          owlReady,
-          groundingReady,
-          samReady: models.has(visionConfig.samModel),
-          catalogReady: models.has(visionConfig.catalogModel),
-          manifest,
-        };
-      })
-      .catch(() => ({
-        local: false,
-        hasLocalRuntime: false,
-        owlReady: false,
-        groundingReady: false,
-        samReady: false,
-        catalogReady: false,
-        manifest: null,
-      }));
-  }
-  return visionAssetModePromise;
-}
-
-async function loadTransformersRuntime() {
-  if (!transformersModulePromise) {
-    transformersModulePromise = (async () => {
-      const assetMode = await getVisionAssetMode();
-      let module = null;
-      let runtimeMode = assetMode;
-      if (assetMode.hasLocalRuntime) {
-        try {
-          module = await import(`${visionConfig.localTransformersModule}?v=${visionConfig.assetVersion}`);
-        } catch (error) {
-          console.info("Local Transformers.js asset unavailable, using CDN fallback.", error);
-          runtimeMode = {
-            ...assetMode,
-            local: false,
-            hasLocalRuntime: false,
-            manifest: null,
-          };
-        }
-      }
-      if (!module && visionConfig.allowRemoteVisionAssets) {
-        module = await import(visionConfig.remoteTransformersModule);
-      }
-      if (!module) {
-        throw new Error("本地识别运行时未打包，iOS MVP 不会联网加载模型资源。");
-      }
-
-      module.env.allowLocalModels = runtimeMode.hasLocalRuntime;
-      module.env.allowRemoteModels = Boolean(visionConfig.allowRemoteVisionAssets);
-      module.env.localModelPath = visionConfig.localModelPath;
-      module.env.useBrowserCache = true;
-      configureTransformersRuntime(module);
-
-      return { ...module, runtimeMode };
-    })();
-  }
-  return transformersModulePromise;
-}
-
-function getVisionWasmThreadCount() {
-  if (!window.crossOriginIsolated || typeof SharedArrayBuffer === "undefined") return 1;
-  const cores = Number(navigator.hardwareConcurrency) || 2;
-  return Math.max(1, Math.min(visionConfig.maxWasmThreads, Math.max(1, cores - 1)));
-}
-
-function configureTransformersRuntime(module) {
-  try {
-    const wasmBackend = module.env?.backends?.onnx?.wasm;
-    if (!wasmBackend) return;
-    wasmBackend.numThreads = getVisionWasmThreadCount();
-    wasmBackend.wasmPaths = "/vendor/transformers/";
-  } catch (error) {
-    console.info("Vision runtime thread tuning skipped.", error);
-  }
 }
 
 async function getGroundingDinoDetector() {
@@ -1521,7 +788,7 @@ function warmCaptureDetectionModel() {
       });
       return;
     }
-    if (shouldAttemptGroundingDino(assetMode)) {
+    if (getDetectorAttempts(assetMode).some((attempt) => attempt.provider.includes("grounding-dino"))) {
       getGroundingDinoDetector().catch((error) => {
         console.info("Grounding DINO prewarm skipped.", error);
       });
@@ -2086,43 +1353,6 @@ async function recognizeWithSmallModel(image) {
   throw lastError || new Error("本地主体识别暂不可用");
 }
 
-function getOwlVitDetectorAttempt(assetMode) {
-  return {
-    getDetector: getSmallModelDetector,
-    provider: assetMode.owlReady ? "local-owlvit" : "browser-owlvit",
-    threshold: visionConfig.detectionThreshold,
-  };
-}
-
-function getGroundingDinoDetectorAttempt(assetMode) {
-  return {
-    getDetector: getGroundingDinoDetector,
-    provider: assetMode.groundingReady ? "local-grounding-dino" : "browser-grounding-dino",
-    threshold: visionConfig.groundingThreshold,
-  };
-}
-
-function shouldAttemptGroundingDino(assetMode) {
-  if (!assetMode.groundingReady) return false;
-  if (!assetMode.owlReady) return true;
-  return visionConfig.preferredDetector === "grounding-dino" || visionConfig.enableGroundingDinoFallback;
-}
-
-function getDetectorAttempts(assetMode) {
-  const preferOwlVit = visionConfig.preferredDetector === "owlvit";
-  if (preferOwlVit) {
-    return [
-      ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
-      ...(shouldAttemptGroundingDino(assetMode) ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-    ];
-  }
-
-  return [
-    ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-    ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
-  ];
-}
-
 async function recognizeWithSmallModelCached(image) {
   const cached = getCachedRecognitionResult(image);
   if (cached) return cached;
@@ -2158,396 +1388,6 @@ async function recognizeWithCloudApi(context) {
   return {
     provider: payload.provider || "cloud-vlm",
     candidates: payload.candidates || [],
-  };
-}
-
-function loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("图片无法读取，请换一张照片。"));
-    image.src = src;
-  });
-}
-
-function withTimeout(promise, timeoutMs, message) {
-  let timer = null;
-  const timeout = new Promise((_, reject) => {
-    timer = window.setTimeout(() => reject(new Error(message)), timeoutMs);
-  });
-  return Promise.race([promise, timeout]).finally(() => window.clearTimeout(timer));
-}
-
-function isImageFile(file) {
-  if (file?.type?.startsWith("image/")) return true;
-  return /\.(avif|bmp|gif|heic|heif|jpe?g|png|webp)$/i.test(file?.name || "");
-}
-
-function isLikelyImageDecodeError(error) {
-  return /decode|解码|图片无法读取|source image|unsupported|invalid image/i.test(error?.message || String(error || ""));
-}
-
-async function readFileSignature(file, length = 32) {
-  const buffer = await file.slice(0, length).arrayBuffer();
-  return new Uint8Array(buffer);
-}
-
-function asciiFromBytes(bytes, start, end) {
-  return Array.from(bytes.slice(start, end), (byte) => String.fromCharCode(byte)).join("");
-}
-
-async function isHeicHeifFile(file) {
-  const mime = String(file?.type || "").toLowerCase();
-  if (/image\/hei[cf]|image\/heif-sequence|image\/heic-sequence/.test(mime)) return true;
-  if (/\.(heic|heif|heics|heifs)$/i.test(file?.name || "")) return true;
-
-  try {
-    const bytes = await readFileSignature(file, 32);
-    if (bytes.length < 12 || asciiFromBytes(bytes, 4, 8) !== "ftyp") return false;
-    const brands = new Set(["heic", "heix", "hevc", "hevx", "heim", "heis", "hevm", "hevs", "mif1", "msf1"]);
-    for (let index = 8; index + 4 <= bytes.length; index += 4) {
-      if (brands.has(asciiFromBytes(bytes, index, index + 4))) return true;
-    }
-  } catch (error) {
-    console.warn("HEIC signature check failed.", error);
-  }
-  return false;
-}
-
-async function loadHeicConverter() {
-  if (typeof window.heic2any === "function") return window.heic2any;
-  if (!heicConverterPromise) {
-    heicConverterPromise = new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = `${visionConfig.localHeicConverterScript}?v=${visionConfig.appVersion}`;
-      script.async = true;
-      script.onload = () => {
-        if (typeof window.heic2any === "function") {
-          resolve(window.heic2any);
-          return;
-        }
-        reject(new Error("HEIC 转换器加载失败。"));
-      };
-      script.onerror = () => reject(new Error("HEIC 转换器加载失败。"));
-      document.head.appendChild(script);
-    }).catch((error) => {
-      heicConverterPromise = null;
-      throw error;
-    });
-  }
-  return heicConverterPromise;
-}
-
-function canUseLocalImageConversionApi() {
-  return ["http:", "https:"].includes(window.location.protocol);
-}
-
-function blobToDataUrl(blob) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () => reject(new Error("图片数据读取失败。"));
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.readAsDataURL(blob);
-  });
-}
-
-async function convertHeicFileWithLocalServer(file) {
-  const image = await blobToDataUrl(file);
-  const response = await fetch("/api/convert-image", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      image,
-      filename: file.name || "upload.heic",
-      quality: Math.round(visionConfig.uploadJpegQuality * 100),
-    }),
-  });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(payload.error || "本地 HEIC/HEIF 转换失败。");
-  }
-  if (!String(payload.image || "").startsWith("data:image/jpeg;base64,")) {
-    throw new Error("本地 HEIC/HEIF 转换没有返回 JPEG。");
-  }
-  return fetch(payload.image).then((convertedResponse) => convertedResponse.blob());
-}
-
-async function convertHeicFileInBrowser(file) {
-  const heic2any = await loadHeicConverter();
-  const converted = await withTimeout(
-    heic2any({
-      blob: file,
-      toType: "image/jpeg",
-      quality: Math.min(0.92, Math.max(0.72, visionConfig.uploadJpegQuality)),
-      multiple: false,
-    }),
-    visionConfig.heicConversionTimeoutMs,
-    "HEIC/HEIF 转 JPEG 超时，请稍后重试或先裁剪照片。",
-  );
-  const blob = Array.isArray(converted) ? converted[0] : converted;
-  if (!(blob instanceof Blob)) {
-    throw new Error("HEIC/HEIF 转 JPEG 失败。");
-  }
-  return blob;
-}
-
-async function convertHeicFileToJpegBlob(file) {
-  const errors = [];
-  if (canUseLocalImageConversionApi()) {
-    try {
-      return await convertHeicFileWithLocalServer(file);
-    } catch (error) {
-      errors.push(error);
-      console.warn("Local HEIC conversion failed, falling back to browser converter.", error);
-    }
-  }
-  try {
-    return await convertHeicFileInBrowser(file);
-  } catch (error) {
-    errors.push(error);
-  }
-  console.warn("HEIC conversion failed.", errors);
-  throw new Error("HEIC/HEIF 自动转换失败，请换一张照片或先在相册导出为 JPEG/PNG。");
-}
-
-function getDrawableSize(source) {
-  return {
-    width: source.videoWidth || source.naturalWidth || source.width || 1,
-    height: source.videoHeight || source.naturalHeight || source.height || 1,
-  };
-}
-
-function drawSourceToDataUrl(source, width, height, quality) {
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(width));
-  canvas.height = Math.max(1, Math.round(height));
-  const context = canvas.getContext("2d", { alpha: false });
-  context.fillStyle = "#fff";
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.drawImage(source, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg", quality);
-}
-
-async function resizeImageSourceToDataUrl(source, options = {}) {
-  const maxDimension = options.maxDimension || visionConfig.maxUploadDimension;
-  const maxLength = options.maxLength || visionConfig.maxUploadDataUrlLength;
-  let quality = options.quality || visionConfig.uploadJpegQuality;
-  const original = getDrawableSize(source);
-  let scale = Math.min(1, maxDimension / Math.max(original.width, original.height));
-  let width = Math.max(1, Math.round(original.width * scale));
-  let height = Math.max(1, Math.round(original.height * scale));
-  let dataUrl = drawSourceToDataUrl(source, width, height, quality);
-
-  while (dataUrl.length > maxLength && quality > 0.58) {
-    quality = Math.max(0.58, quality - 0.08);
-    dataUrl = drawSourceToDataUrl(source, width, height, quality);
-  }
-
-  while (dataUrl.length > maxLength && Math.max(width, height) > 960) {
-    scale *= 0.86;
-    width = Math.max(1, Math.round(original.width * scale));
-    height = Math.max(1, Math.round(original.height * scale));
-    dataUrl = drawSourceToDataUrl(source, width, height, quality);
-  }
-
-  if (dataUrl.length > maxLength * 1.2) {
-    throw new Error("照片仍然过大，请换一张更小的图片或稍微裁剪后再上传。");
-  }
-  return dataUrl;
-}
-
-async function prepareImageForDetection(image) {
-  const source = await loadImage(image);
-  const size = getDrawableSize(source);
-  if (Math.max(size.width, size.height) <= visionConfig.detectionMaxDimension) return image;
-  return resizeImageSourceToDataUrl(source, {
-    maxDimension: visionConfig.detectionMaxDimension,
-    maxLength: Math.min(visionConfig.maxUploadDataUrlLength, 520000),
-    quality: 0.78,
-  });
-}
-
-async function decodeImageBlobToDataUrl(blob) {
-  const url = URL.createObjectURL(blob);
-  try {
-    const image = await withTimeout(
-      loadImage(url),
-      visionConfig.uploadDecodeTimeoutMs,
-      "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
-    ).catch(async (error) => {
-      if (!window.createImageBitmap) throw error;
-      const bitmap = await withTimeout(
-        createImageBitmap(blob, { imageOrientation: "from-image" }),
-        visionConfig.uploadDecodeTimeoutMs,
-        "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
-      );
-      return bitmap;
-    });
-    try {
-      return await resizeImageSourceToDataUrl(image);
-    } finally {
-      image.close?.();
-    }
-  } finally {
-    URL.revokeObjectURL(url);
-  }
-}
-
-async function prepareUploadedImage(file) {
-  const isHeif = await isHeicHeifFile(file);
-  if (!isImageFile(file) && !isHeif) {
-    throw new Error("请选择图片文件。");
-  }
-
-  try {
-    return await decodeImageBlobToDataUrl(file);
-  } catch (error) {
-    if (isHeif && isLikelyImageDecodeError(error)) {
-      try {
-        const jpegBlob = await convertHeicFileToJpegBlob(file);
-        return await decodeImageBlobToDataUrl(jpegBlob);
-      } catch (conversionError) {
-        throw new Error(conversionError.message || "HEIC/HEIF 自动转换失败，请换一张照片。");
-      }
-    }
-    if (isLikelyImageDecodeError(error)) {
-      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，系统会自动转换，请确认文件没有损坏。");
-    }
-    throw error;
-  }
-}
-
-async function getImageDimensions(image) {
-  const source = await loadImage(image);
-  return {
-    width: source.naturalWidth || source.width || 0,
-    height: source.naturalHeight || source.height || 0,
-  };
-}
-
-function buildIntegralScores(cellScores) {
-  const rows = cellScores.length;
-  const cols = cellScores[0]?.length || 0;
-  const integral = Array.from({ length: rows + 1 }, () => Array(cols + 1).fill(0));
-  for (let row = 0; row < rows; row += 1) {
-    for (let col = 0; col < cols; col += 1) {
-      integral[row + 1][col + 1] = cellScores[row][col]
-        + integral[row][col + 1]
-        + integral[row + 1][col]
-        - integral[row][col];
-    }
-  }
-  return integral;
-}
-
-function sumGridWindow(integral, row, col, height, width) {
-  return integral[row + height][col + width]
-    - integral[row][col + width]
-    - integral[row + height][col]
-    + integral[row][col];
-}
-
-function proposeRegionsFromGrid(cellScores, gridCols, gridRows) {
-  const integral = buildIntegralScores(cellScores);
-  const windowSizes = [
-    [3, 3],
-    [4, 3],
-    [3, 4],
-    [4, 4],
-    [5, 4],
-    [4, 5],
-    [6, 4],
-    [4, 6],
-  ];
-  const proposals = [];
-  for (const [windowCols, windowRows] of windowSizes) {
-    if (windowCols > gridCols || windowRows > gridRows) continue;
-    for (let row = 0; row <= gridRows - windowRows; row += 1) {
-      for (let col = 0; col <= gridCols - windowCols; col += 1) {
-        const area = windowCols * windowRows;
-        const score = sumGridWindow(integral, row, col, windowRows, windowCols) / Math.sqrt(area);
-        proposals.push({
-          score,
-          box: clampBox({
-            x: (col / gridCols) * 100,
-            y: (row / gridRows) * 100,
-            w: (windowCols / gridCols) * 100,
-            h: (windowRows / gridRows) * 100,
-          }),
-        });
-      }
-    }
-  }
-
-  const scored = proposals
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 80)
-    .map((proposal, index) => ({
-      name: getUnknownObjectName(index),
-      category: "daily",
-      qty: 1,
-      expireAt: "",
-      nextAt: "",
-      nextLabel: "",
-      container: "",
-      box: proposal.box,
-      confidence: clampNumber(0.35 + Math.min(0.48, proposal.score / 110), 0.35, 0.83),
-      source: "local-image",
-      namingStatus: "loading",
-    }));
-
-  return dedupeCandidates(scored, 8, 0.34)
-    .map((candidate, index) => ({
-      ...candidate,
-      name: getUnknownObjectName(index),
-    }));
-}
-
-async function recognizeWithHeuristicRegions(image) {
-  const source = await loadImage(image);
-  const maxWidth = 180;
-  const width = maxWidth;
-  const height = Math.max(1, Math.round((source.naturalHeight / source.naturalWidth) * width));
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const context = canvas.getContext("2d", { willReadFrequently: true });
-  context.drawImage(source, 0, 0, width, height);
-  const { data } = context.getImageData(0, 0, width, height);
-  const gridCols = 18;
-  const gridRows = Math.max(10, Math.round((height / width) * gridCols));
-  const cellScores = Array.from({ length: gridRows }, () => Array(gridCols).fill(0));
-  const grayscale = new Float32Array(width * height);
-  const saturation = new Float32Array(width * height);
-
-  for (let index = 0; index < width * height; index += 1) {
-    const offset = index * 4;
-    const red = data[offset];
-    const green = data[offset + 1];
-    const blue = data[offset + 2];
-    const max = Math.max(red, green, blue);
-    const min = Math.min(red, green, blue);
-    grayscale[index] = red * 0.299 + green * 0.587 + blue * 0.114;
-    saturation[index] = max ? (max - min) / max : 0;
-  }
-
-  for (let y = 1; y < height - 1; y += 1) {
-    for (let x = 1; x < width - 1; x += 1) {
-      const index = y * width + x;
-      const edge = Math.abs(grayscale[index] - grayscale[index - 1])
-        + Math.abs(grayscale[index] - grayscale[index + 1])
-        + Math.abs(grayscale[index] - grayscale[index - width])
-        + Math.abs(grayscale[index] - grayscale[index + width]);
-      const score = edge / 255 + saturation[index] * 0.8;
-      const col = Math.min(gridCols - 1, Math.floor((x / width) * gridCols));
-      const row = Math.min(gridRows - 1, Math.floor((y / height) * gridRows));
-      cellScores[row][col] += score;
-    }
-  }
-
-  return {
-    provider: "local-image",
-    candidates: proposeRegionsFromGrid(cellScores, gridCols, gridRows),
   };
 }
 
@@ -2640,164 +1480,29 @@ async function nameDetectedCandidates(image, candidates, onProgress) {
   return named;
 }
 
-function providerLabel(provider) {
-  if (!provider) return "未识别";
-  const name = String(provider);
-  if (name === "none") return "等待照片";
-  if (name === "local-mock") return "本地演示";
-  if (name.endsWith("-fallback")) return "本地降级候选";
-  if (name.endsWith("+sam")) return `${providerLabel(name.replace("+sam", ""))} + SAM`;
-  if (name.includes("+regions")) return `${providerLabel(name.split("+")[0])} + 区域补全`;
-  if (name.startsWith("local-grounding-dino")) return "本地 Grounding DINO";
-  if (name.startsWith("browser-grounding-dino")) return "在线 Grounding DINO";
-  if (name.startsWith("local-owlvit")) return "本地 OWL-ViT";
-  if (name.startsWith("browser-owlvit")) return "在线 OWL-ViT";
-  if (name.startsWith("local-small-model")) return "本地小模型";
-  if (name.startsWith("browser-small-model")) return "在线小模型";
-  if (name === "local-image") return "本地候选区域";
-  if (name === "ios-camera") return "iOS 相机";
-  if (name === "ios-photo-library") return "iOS 相册";
-  if (name === "android-camera") return "Android 相机";
-  if (name === "android-photo-library") return "Android 相册";
-  if (name === "native-camera") return "原生相机";
-  if (name === "native-photo-library") return "原生相册";
-  if (name === "cloud-vlm" || name.startsWith("openai:")) return "云端大模型";
-  return name;
-}
-
 function getRequestedRecognitionProvider() {
-  if (visionConfig.preferredDetector === "owlvit") return "local-owlvit";
-  if (visionConfig.preferredDetector === "grounding-dino") return "local-grounding-dino";
-  return "local-small-model";
+  return getConfiguredRecognitionProvider(visionConfig);
 }
 
 function nativePhotoProvider(source) {
-  const prefix = platform.isIOS ? "ios" : platform.isAndroid ? "android" : "native";
-  return `${prefix}-${source === "camera" ? "camera" : "photo-library"}`;
+  return getNativePhotoProvider(platform, source);
 }
 
-function daysUntil(dateText) {
-  if (!dateText) return null;
-  const target = new Date(`${dateText}T00:00:00`);
-  const current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  return Math.ceil((target - current) / 86400000);
-}
-
-function formatDate(dateText) {
-  if (!dateText) return "未设置";
-  const date = new Date(`${dateText}T00:00:00`);
-  return `${date.getMonth() + 1}月${date.getDate()}日`;
-}
-
-function formatReminderTime(timeText) {
-  return normalizeReminderTime(timeText);
-}
-
-function formatReminderRepeat(repeat) {
-  return repeatLabels[repeat] || repeatLabels.none;
-}
-
-function formatReminderOffset(reminder) {
-  const normalized = normalizeReminder(reminder);
-  const labels = getReminderOffsetLabels(normalized.hasTime);
-  if (normalized.offset === "custom") {
-    return `提前${normalized.customOffset.amount}${customOffsetUnitLabels[normalized.customOffset.unit]}`;
-  }
-  return labels[normalized.offset] || labels.none;
-}
-
-function formatReminderSchedule(reminder) {
-  const normalized = normalizeReminder(reminder);
-  const timeText = normalized.hasTime ? ` ${formatReminderTime(normalized.time)}` : "";
-  return `${formatDate(normalized.date)}${timeText} · ${formatReminderRepeat(normalized.repeat)}`;
-}
-
-function dueStatus(dateText) {
-  const days = daysUntil(dateText);
-  if (days === null) return { label: "未设置", cls: "" };
-  if (days < 0) return { label: `已超 ${Math.abs(days)} 天`, cls: "danger" };
-  if (days <= 7) return { label: `${days} 天后`, cls: "danger" };
-  if (days <= 30) return { label: `${days} 天后`, cls: "warn" };
-  return { label: `${days} 天后`, cls: "good" };
-}
-
-function dateToIso(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function addDaysIso(days) {
-  const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days);
-  return dateToIso(date);
-}
-
-function nextMondayIso() {
-  const day = today.getDay();
-  const offset = day === 1 ? 7 : ((8 - day) % 7 || 7);
-  return addDaysIso(offset);
-}
-
-function monthKeyFromIso(dateText) {
-  const date = dateText ? new Date(`${dateText}T00:00:00`) : today;
-  if (Number.isNaN(date.getTime())) return dateToIso(today).slice(0, 7);
-  return dateToIso(new Date(date.getFullYear(), date.getMonth(), 1)).slice(0, 7);
-}
-
-function moveMonthKey(monthKey, delta) {
-  const [year, month] = String(monthKey || dateToIso(today).slice(0, 7)).split("-").map(Number);
-  const date = new Date(year || today.getFullYear(), (month || today.getMonth() + 1) - 1 + delta, 1);
-  return dateToIso(date).slice(0, 7);
-}
-
-function getCalendarDays(monthKey) {
-  const [year, month] = monthKey.split("-").map(Number);
-  const first = new Date(year, month - 1, 1);
-  const start = new Date(first);
-  start.setDate(first.getDate() - first.getDay());
-  return Array.from({ length: 42 }, (_, index) => {
-    const date = new Date(start);
-    date.setDate(start.getDate() + index);
-    return {
-      iso: dateToIso(date),
-      day: date.getDate(),
-      inMonth: date.getMonth() === month - 1,
-    };
-  });
-}
-
-function normalizeText(text) {
-  return String(text || "")
-    .toLowerCase()
-    .replace(/\s+/g, "")
-    .replace(/[，。！？、,.!?]/g, "");
-}
+const localRecognitionProvider = createLocalRecognitionProvider({
+  getAssetMode: getVisionAssetMode,
+  getImageDimensions,
+  getProvider: getRequestedRecognitionProvider,
+  getWasmThreadCount: getVisionWasmThreadCount,
+  nameCandidates: nameDetectedCandidates,
+  normalizeRecognitionResults,
+  prepareImageForDetection,
+  recognizeWithHeuristicRegions,
+  recognizeWithSmallModelCached,
+  renumberUnknownCandidates,
+});
 
 function matchItem(query) {
-  const q = normalizeText(query);
-  if (!q) return null;
-  let best = null;
-  let bestScore = 0;
-  for (const item of state.items) {
-    const names = [item.name, ...(item.aliases || []), categoryLabels[item.category] || ""];
-    let score = 0;
-    for (const name of names) {
-      const n = normalizeText(name);
-      if (q.includes(n) || n.includes(q)) score = Math.max(score, n.length + 10);
-      for (let size = Math.min(n.length, q.length); size >= 2; size -= 1) {
-        if (q.includes(n.slice(0, size)) || n.includes(q.slice(0, size))) {
-          score = Math.max(score, size);
-          break;
-        }
-      }
-    }
-    if (score > bestScore) {
-      best = item;
-      bestScore = score;
-    }
-  }
-  return bestScore >= 2 ? best : null;
+  return findBestItem(query, state.items, categoryLabels);
 }
 
 function buildTrail(item) {
@@ -2806,13 +1511,7 @@ function buildTrail(item) {
 }
 
 function buildTrailParts(item, room = getRoom(item.roomId)) {
-  const placeNames = getPlacePath(item.placeId).map((place) => place.name);
-  return [
-    room.name,
-    ...placeNames,
-    item.container || "",
-    item.name,
-  ].filter(Boolean);
+  return buildDomainTrailParts(item, room, getPlacePath(item.placeId));
 }
 
 function renderPathSteps(item) {
@@ -2826,134 +1525,6 @@ function renderPathSteps(item) {
       `).join("")}
     </ol>
   `;
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function styleBox(box) {
-  return `left:${box.x}%;top:${box.y}%;width:${box.w}%;height:${box.h}%`;
-}
-
-function estimatePinLabelSize(candidate) {
-  const text = candidate?.namingStatus === "loading" ? "识别中" : String(candidate?.name || "物品");
-  const charUnits = Array.from(text).reduce((sum, char) => sum + (/[\u4e00-\u9fff]/.test(char) ? 14 : 8), 0);
-  return {
-    width: clampNumber(charUnits + 22, 58, 148),
-    height: 30,
-  };
-}
-
-function rectanglesOverlap(left, right, padding = 6) {
-  return left.x < right.x + right.w + padding
-    && left.x + left.w + padding > right.x
-    && left.y < right.y + right.h + padding
-    && left.y + left.h + padding > right.y;
-}
-
-function labelOverflowScore(rect, stageWidth, stageHeight) {
-  const left = Math.max(0, 8 - rect.x);
-  const top = Math.max(0, 8 - rect.y);
-  const right = Math.max(0, rect.x + rect.w - (stageWidth - 8));
-  const bottom = Math.max(0, rect.y + rect.h - (stageHeight - 8));
-  return left + top + right + bottom;
-}
-
-function getPinLineMetrics(offset, labelSize) {
-  const nearestX = clampNumber(0, offset.x, offset.x + labelSize.width);
-  const nearestY = clampNumber(0, offset.y, offset.y + labelSize.height);
-  const dx = nearestX;
-  const dy = nearestY;
-  const distance = Math.hypot(dx, dy);
-  return {
-    angle: Math.atan2(dy, dx) * (180 / Math.PI),
-    length: Math.max(36, distance - 9),
-  };
-}
-
-function buildPinLayout(candidate, index, placed, stageWidth, stageHeight) {
-  const box = candidate.box;
-  const center = {
-    x: (clampNumber(box.x + box.w / 2, 2, 98) / 100) * stageWidth,
-    y: (clampNumber(box.y + box.h / 2, 2, 98) / 100) * stageHeight,
-  };
-  const labelSize = estimatePinLabelSize(candidate);
-  const leftOffset = -labelSize.width - 46;
-  const preferredRight = center.x < stageWidth * 0.58;
-  const candidates = [
-    { x: preferredRight ? 46 : leftOffset, y: -42 },
-    { x: preferredRight ? 46 : leftOffset, y: 16 },
-    { x: preferredRight ? leftOffset : 46, y: -42 },
-    { x: preferredRight ? leftOffset : 46, y: 16 },
-    { x: -labelSize.width / 2, y: -64 },
-    { x: -labelSize.width / 2, y: 38 },
-    { x: preferredRight ? 70 : leftOffset - 24, y: index % 2 ? -66 : 40 },
-    { x: preferredRight ? leftOffset - 24 : 70, y: index % 2 ? 40 : -66 },
-  ];
-
-  let best = null;
-  for (const offset of candidates) {
-    const adjusted = {
-      x: clampNumber(center.x + offset.x, 8, stageWidth - labelSize.width - 8) - center.x,
-      y: clampNumber(center.y + offset.y, 8, stageHeight - labelSize.height - 8) - center.y,
-    };
-    const rect = {
-      x: center.x + adjusted.x,
-      y: center.y + adjusted.y,
-      w: labelSize.width,
-      h: labelSize.height,
-    };
-    const overlapCount = placed.filter((entry) => rectanglesOverlap(rect, entry)).length;
-    const overflow = labelOverflowScore(rect, stageWidth, stageHeight);
-    const distance = Math.hypot(adjusted.x, adjusted.y);
-    const score = overlapCount * 1000 + overflow * 15 + distance * 0.08;
-    if (!best || score < best.score) best = { offset: adjusted, rect, score };
-    if (score < 1) break;
-  }
-
-  const metrics = getPinLineMetrics(best.offset, labelSize);
-  placed.push(best.rect);
-  return {
-    x: (center.x / stageWidth) * 100,
-    y: (center.y / stageHeight) * 100,
-    labelX: Math.round(best.offset.x),
-    labelY: Math.round(best.offset.y),
-    lineAngle: Number(metrics.angle.toFixed(2)),
-    lineLength: Math.round(metrics.length),
-  };
-}
-
-function layoutCandidatePins(candidates, stageWidth = 420, stageHeight = 410) {
-  const placed = [];
-  const layouts = new Map();
-  const ordered = [...candidates].sort((left, right) => {
-    const leftCenter = left.box.y + left.box.h / 2;
-    const rightCenter = right.box.y + right.box.h / 2;
-    if (Math.abs(leftCenter - rightCenter) > 4) return leftCenter - rightCenter;
-    return (left.box.x + left.box.w / 2) - (right.box.x + right.box.w / 2);
-  });
-  ordered.forEach((candidate, index) => {
-    layouts.set(candidate.id, buildPinLayout(candidate, index, placed, stageWidth, stageHeight));
-  });
-  return layouts;
-}
-
-function styleCandidatePin(box) {
-  const centerX = clampNumber(box.x + box.w / 2, 2, 98);
-  const centerY = clampNumber(box.y + box.h / 2, 2, 98);
-  return `left:${centerX}%;top:${centerY}%`;
-}
-
-function styleActiveCandidateLabel(box) {
-  const centerX = clampNumber(box.x + box.w / 2, 8, 92);
-  const top = clampNumber(box.y - 2, 8, 92);
-  return `left:${centerX}%;top:${top}%`;
 }
 
 function render() {
@@ -4090,7 +2661,6 @@ async function scanCurrentPlace() {
   recognitionRunId = runId;
   const scanImage = state.capture.image;
   const scanStartedAt = performance.now();
-  const imageDimensionsPromise = getImageDimensions(scanImage).catch(() => null);
   state.capture = {
     ...state.capture,
     recognitionStatus: "detecting",
@@ -4105,35 +2675,14 @@ async function scanCurrentPlace() {
 
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   try {
-    const detectionImage = await prepareImageForDetection(scanImage).catch((error) => {
-      console.info("Detection resize skipped.", error);
-      return scanImage;
-    });
+    const detectionImage = await localRecognitionProvider.prepare(scanImage);
     if (!stillCurrent()) return;
 
-    const smallRecognition = await recognizeWithSmallModelCached(detectionImage)
-      .catch((error) => {
-        console.info("Small model unavailable, falling back to local image proposals.", error);
-        return null;
-      });
+    const recognition = await localRecognitionProvider.detect(detectionImage);
     if (!stillCurrent()) return;
 
-    let provider = smallRecognition?.provider || requestedProvider;
-    const cacheHit = Boolean(smallRecognition?.cacheHit);
-    let detected = smallRecognition?.candidates?.length
-      ? normalizeRecognitionResults(smallRecognition.candidates, provider)
-      : [];
-
-    if (!detected.length) {
-      const fallbackRecognition = await recognizeWithHeuristicRegions(detectionImage)
-        .catch((error) => {
-          console.info("Local proposal fallback failed.", error);
-          return { provider: "local-image", candidates: [] };
-        });
-      if (!stillCurrent()) return;
-      provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
-      detected = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
-    }
+    const { provider, cacheHit } = recognition;
+    const detected = recognition.candidates;
     const detectionMs = performance.now() - scanStartedAt;
 
     if (!detected.length) {
@@ -4143,18 +2692,16 @@ async function scanCurrentPlace() {
         activeCandidateId: null,
         recognitionStatus: "empty",
         recognitionError: "",
-        recognitionDiagnostics: {
+        recognitionDiagnostics: await localRecognitionProvider.diagnostics({
+          image: scanImage,
           provider,
-          assetMode: await getVisionAssetMode().catch(() => null),
-          imageDimensions: await imageDimensionsPromise,
           preprocessingMs: state.capture.preprocessingMs || null,
           detectionMs,
           namingMs: 0,
           totalMs: performance.now() - scanStartedAt,
           resultCount: 0,
           cacheHit,
-          wasmThreads: getVisionWasmThreadCount(),
-        },
+        }),
         provider,
       };
       persist();
@@ -4165,7 +2712,6 @@ async function scanCurrentPlace() {
 
     const place = ensureCapturePlace();
     updatePlaceImage(place.id, scanImage, state.capture.imageRef, state.capture.imageMeta);
-    detected = renumberUnknownCandidates(detected);
     state.capture = {
       ...state.capture,
       roomId: room.id,
@@ -4182,7 +2728,7 @@ async function scanCurrentPlace() {
     showToast(`已生成 ${detected.length} 个主体框，正在命名`);
 
     const namingStartedAt = performance.now();
-    const namedCandidates = await nameDetectedCandidates(scanImage, detected, (partialCandidates) => {
+    const namedCandidates = await localRecognitionProvider.nameCandidates(scanImage, detected, (partialCandidates) => {
       if (!stillCurrent()) return;
       state.capture = {
         ...state.capture,
@@ -4199,18 +2745,16 @@ async function scanCurrentPlace() {
       activeCandidateId: getFallbackActiveCandidateId(state.capture.activeCandidateId),
       recognitionStatus: "done",
       recognitionError: "",
-      recognitionDiagnostics: {
+      recognitionDiagnostics: await localRecognitionProvider.diagnostics({
+        image: scanImage,
         provider,
-        assetMode: await getVisionAssetMode().catch(() => null),
-        imageDimensions: await imageDimensionsPromise,
         preprocessingMs: state.capture.preprocessingMs || null,
         detectionMs,
         namingMs,
         totalMs: performance.now() - scanStartedAt,
         resultCount: namedCandidates.length,
         cacheHit,
-        wasmThreads: getVisionWasmThreadCount(),
-      },
+      }),
       provider,
     };
     persist();
@@ -4223,18 +2767,16 @@ async function scanCurrentPlace() {
       activeCandidateId: null,
       recognitionStatus: "error",
       recognitionError: error.message || "分析失败，请保留照片后重试",
-      recognitionDiagnostics: {
+      recognitionDiagnostics: await localRecognitionProvider.diagnostics({
+        image: scanImage,
         provider: state.capture.provider || requestedProvider,
-        assetMode: await getVisionAssetMode().catch(() => null),
-        imageDimensions: await imageDimensionsPromise,
         preprocessingMs: state.capture.preprocessingMs || null,
         detectionMs: performance.now() - scanStartedAt,
         namingMs: 0,
         totalMs: performance.now() - scanStartedAt,
         resultCount: 0,
         cacheHit: false,
-        wasmThreads: getVisionWasmThreadCount(),
-      },
+      }),
     };
     persist();
     render();
@@ -4803,7 +3345,7 @@ function showToast(message) {
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
 }
 
-document.addEventListener("click", (event) => {
+function handleClick(event) {
   const tabButton = event.target.closest("[data-tab]");
   if (tabButton) {
     setState({ activeTab: tabButton.dataset.tab });
@@ -5047,14 +3589,14 @@ document.addEventListener("click", (event) => {
   if (event.target.closest("[data-reset]")) {
     stopCamera();
     cancelReminderNotifications(state.items).catch(() => {});
-    platform.storage.removeSnapshot();
+    localStore.clearSnapshot();
     state = structuredClone(seedState);
     render();
     showToast("已清空本地数据");
   }
-});
+}
 
-document.addEventListener("input", (event) => {
+function handleInput(event) {
   if (event.target.matches("[data-query-input]")) {
     state.query = event.target.value;
     persist();
@@ -5094,9 +3636,9 @@ document.addEventListener("input", (event) => {
   if (candidateField) {
     updateCandidate(candidateField.dataset.candidateField, candidateField.dataset.field, candidateField.value);
   }
-});
+}
 
-document.addEventListener("change", async (event) => {
+async function handleChange(event) {
   if (event.target.matches("[data-date-time-hour], [data-date-time-minute]")) {
     const hour = document.querySelector("[data-date-time-hour]")?.value || "09";
     const minute = document.querySelector("[data-date-time-minute]")?.value || "00";
@@ -5193,25 +3735,35 @@ document.addEventListener("change", async (event) => {
       input.value = "";
     }
   }
-});
+}
 
-document.addEventListener("pointerdown", (event) => {
+function handlePointerDown(event) {
   const boxButton = event.target.closest("[data-candidate-drag]");
   if (boxButton) startCandidateDrag(event, boxButton);
-});
+}
 
-document.addEventListener("pointermove", moveCandidateDrag);
-document.addEventListener("pointerup", finishCandidateDrag);
-document.addEventListener("pointercancel", finishCandidateDrag);
-window.addEventListener("resize", hydrateCandidatePins);
-
-document.addEventListener("keydown", (event) => {
+function handleKeyDown(event) {
   if (event.key === "Enter" && event.target.matches("[data-query-input]")) {
     performSearch();
   }
-});
+}
 
-window.addEventListener("beforeunload", stopCamera);
+bindAppEvents({
+  document,
+  window,
+  handlers: {
+    onClick: handleClick,
+    onInput: handleInput,
+    onChange: handleChange,
+    onPointerDown: handlePointerDown,
+    onPointerMove: moveCandidateDrag,
+    onPointerUp: finishCandidateDrag,
+    onPointerCancel: finishCandidateDrag,
+    onKeyDown: handleKeyDown,
+    onResize: hydrateCandidatePins,
+    onBeforeUnload: stopCamera,
+  },
+});
 
 render();
 performSearch();

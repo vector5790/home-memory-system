@@ -8,8 +8,9 @@ const outDir = path.join(root, "www");
 
 const requiredFiles = [
   "index.html",
-  "app.js",
-  "platform.js",
+  "src/main.js",
+  "src/ui/app.js",
+  "src/platform/index.js",
   "styles.css",
   "data/vision-catalog.seed.json",
   "data/vision-index.seed.json",
@@ -67,7 +68,7 @@ async function main() {
   await rm(outDir, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
 
-  for (const relativePath of ["index.html", "app.js", "platform.js", "styles.css", "data", "vendor"]) {
+  for (const relativePath of ["index.html", "src", "styles.css", "data", "vendor"]) {
     await copyPath(relativePath);
   }
 

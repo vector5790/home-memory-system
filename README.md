@@ -38,7 +38,30 @@ npm run ios:sync
 npm run ios:open
 ```
 
-`npm run dev` 仍可启动本地浏览器开发服务，但功能验收以 iOS 模拟器或真机为准。`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `npm run assets:vision`，否则本地模型资产校验会失败。
+`npm run dev` 仍可启动本地浏览器开发服务，但功能验收以 iOS 模拟器或真机为准。`npm run build:web` 会把 `index.html`、`src/`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `npm run assets:vision`，否则本地模型资产校验会失败。
+
+架构校验命令：
+
+```bash
+npm run check:architecture
+npm run build:web
+npm run check:mobile-package
+```
+
+`check:architecture` 会检查前端入口大小、`src/` 模块边界和 store/domain 的无浏览器 smoke case。`check:mobile-package` 在 `build:web` 之后运行，确认 iOS 包装输入里有本地模型/runtime 资产，且不依赖 `server.py`、`server.mjs` 或 localhost。
+
+## 前端架构边界
+
+当前前端使用浏览器原生 ES modules，不引入 React/Vite/TypeScript/bundler。`src/main.js` 是唯一运行入口，只负责加载应用。
+
+- `src/config/`：应用配置、视觉模型配置、标签目录和 UI 静态标签。
+- `src/domain/`：不依赖 DOM/storage/platform 的领域辅助逻辑。
+- `src/store/`：本地 household graph 快照、照片引用、flush/clear 等持久化服务边界。
+- `src/platform/`：Capacitor/web 运行时适配，包括 iOS、未来 Android、文件、相机、通知和 Preferences。
+- `src/vision/`：本地识别 provider 标签、未来远程 provider 边界和检测器选择辅助。
+- `src/ui/`：DOM 渲染、事件处理和当前应用控制器。
+
+Android 仍不在 MVP 实现范围内；平台边界会保留 `isAndroid`/Android provider 命名，方便未来接入，但当前不会生成或验证 Android 工程。远程识别服务也只保留 provider 边界，不作为 iOS 默认路径。
 
 如果 `xcodebuild` 提示 active developer directory 是 `/Library/Developer/CommandLineTools`，说明当前只安装或只选中了 Command Line Tools，需要安装完整 Xcode，并执行：
 
@@ -64,7 +87,7 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 - 当前 MVP 只交付 iOS 本地优先版本；Android 工程暂不生成，后续可在同一 Capacitor/platform adapter 边界下补充。
 - 已添加 Capacitor iOS 工程，bundle id 为 `com.guzeyu.homememory`。
-- Web 端通过 `platform.js` 统一访问运行环境、存储、文件、相机/相册和通知能力。
+- Web 端通过 `src/platform/` 统一访问运行环境、存储、文件、相机/相册和通知能力。
 - iOS 相机/相册入口会优先走 Capacitor Camera，桌面浏览器仍保留文件上传和 `getUserMedia`。
 - iOS 侧会尝试把处理后的照片保存到 App Data 下的 `photos/`，并在持久化快照中保留 `imageRef`。
 - iOS MVP 不会在缺少本地模型时从 CDN 或 Hugging Face 拉取识别运行时/模型；本地模型不可用时只走本地降级候选或人工确认流程。
