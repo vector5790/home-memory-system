@@ -1,0 +1,199 @@
+{
+  "kind": "vision-subject-detection-eval-report",
+  "version": "2026-05-24-subject-detection-cn-first10-pilot-run-report",
+  "generatedAt": "2026-05-24T16:24:19.409Z",
+  "detectionRunVersion": "2026-05-24-subject-detection-cn-first10-pilot-run",
+  "reviewVersion": "2026-05-24-subject-detection-review",
+  "manifestVersion": "2026-05-24-subject-detection-cn-first10-pilot",
+  "taxonomyVersion": "20260524-household-expanded",
+  "metrics": {
+    "byModelVariant": {
+      "grounding-dino | original": {
+        "modelId": "grounding-dino",
+        "imageVariant": "original",
+        "resultCount": 10,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 1310.097,
+        "detectionP50Ms": 1273.66,
+        "detectionP95Ms": 1549.914,
+        "accurateBoxMinScore": null,
+        "inaccurateBoxMaxScore": null
+      },
+      "owlvit | original": {
+        "modelId": "owlvit",
+        "imageVariant": "original",
+        "resultCount": 10,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 0.5,
+        "failureRate": 0,
+        "averageRecognitionMs": 182.18,
+        "detectionP50Ms": 178.566,
+        "detectionP95Ms": 197.266,
+        "accurateBoxMinScore": null,
+        "inaccurateBoxMaxScore": null
+      },
+      "grounding-dino | normalized-1024": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "resultCount": 10,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 1313.497,
+        "detectionP50Ms": 1258.732,
+        "detectionP95Ms": 1788.392,
+        "accurateBoxMinScore": null,
+        "inaccurateBoxMaxScore": null
+      },
+      "owlvit | normalized-1024": {
+        "modelId": "owlvit",
+        "imageVariant": "normalized-1024",
+        "resultCount": 10,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 0.5,
+        "failureRate": 0,
+        "averageRecognitionMs": 187.322,
+        "detectionP50Ms": 180.248,
+        "detectionP95Ms": 260.524,
+        "accurateBoxMinScore": null,
+        "inaccurateBoxMaxScore": null
+      }
+    },
+    "modelSummary": {
+      "grounding-dino": {
+        "resultCount": 20,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 1311.797,
+        "detectionP50Ms": 1272.092,
+        "detectionP95Ms": 1549.914,
+        "accurateBoxMinScore": null,
+        "inaccurateBoxMaxScore": null
+      },
+      "owlvit": {
+        "resultCount": 20,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 0.5,
+        "failureRate": 0,
+        "averageRecognitionMs": 184.751,
+        "detectionP50Ms": 180.248,
+        "detectionP95Ms": 197.266,
+        "accurateBoxMinScore": null,
+        "inaccurateBoxMaxScore": null
+      }
+    },
+    "grouped": {
+      "categoryId": {
+        "storage-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "storage-basket": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "cable-organizer-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "shoe-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 7,
+          "failureRate": 0
+        },
+        "underbed-storage-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "folding-storage-crate": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "document-storage-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "jewelry-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        },
+        "cosmetic-organizer": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5.5,
+          "failureRate": 0
+        },
+        "bowl": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 5,
+          "failureRate": 0
+        }
+      },
+      "sourceProvider": {
+        "Bing Images": {
+          "resultCount": 20,
+          "imageCount": 5,
+          "averageBoxCount": 5.1,
+          "failureRate": 0
+        },
+        "DuckDuckGo Images": {
+          "resultCount": 20,
+          "imageCount": 5,
+          "averageBoxCount": 5.4,
+          "failureRate": 0
+        }
+      }
+    }
+  },
+  "recommendations": {
+    "compressionRecommendation": "人工标注不足，暂不判断压缩图是否影响准确性；未标注 smoke 中 normalized variant 平均耗时约为 original 的 1.006 倍。",
+    "modelRecommendation": "人工标注不足，暂不判断哪个模型更准确。未标注 smoke 仅供排障参考：grounding-dino: 平均 1311.797ms, 平均框数 10, 失败率 0；owlvit: 平均 184.751ms, 平均框数 0.5, 失败率 0。"
+  }
+}

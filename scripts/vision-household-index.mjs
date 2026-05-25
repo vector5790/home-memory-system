@@ -1,12 +1,19 @@
 #!/usr/bin/env node
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { env, pipeline, RawImage } from "@huggingface/transformers";
+import {
+  AutoModelForZeroShotObjectDetection,
+  AutoProcessor,
+  env,
+  pipeline,
+  RawImage,
+} from "@huggingface/transformers";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MODEL_IDS = {
+  groundingDino: "onnx-community/grounding-dino-tiny-ONNX",
   owlvit: "Xenova/owlvit-base-patch32",
   clip: "Xenova/clip-vit-base-patch32",
 };
@@ -15,13 +22,15 @@ const DEFAULT_REAL_INDEX = "data/vision-index.real.json";
 const DEFAULT_REAL_DATASET = "data/vision-model-eval.real.json";
 const DEFAULT_MANIFEST = "data/vision-household-image-manifest.smoke.json";
 const DEFAULT_DATASET = "data/vision-model-eval.household-index.json";
-const DEFAULT_INDEX = "data/vision-index.household.owlvit-clip.json";
+const DEFAULT_INDEX = "data/vision-index.household.grounding-dino-clip.json";
 const DEFAULT_REPORT = "data/generated/vision-household-index-build-report.json";
 const DEFAULT_READINESS = "data/generated/vision-household-index-readiness.json";
 const DEFAULT_EXTENDED_MANIFEST = "data/vision-household-image-manifest.smoke-50.json";
 const DEFAULT_EXTENDED_IMAGE_DIR = "fixtures/vision-household/smoke-50";
 const DEFAULT_CN_MANIFEST = "data/vision-household-image-manifest.cn.json";
 const DEFAULT_CN_IMAGE_DIR = "fixtures/vision-household/cn";
+const DEFAULT_EMBEDDING_SELECTION = "data/vision-embedding-category-selection.household.tsv";
+const DEFAULT_INDEX_NORMALIZED_DIR = "data/generated/vision-household-index-normalized";
 const CN_SOURCE_DOMAINS = [
   ".cn",
   "1688.com",
@@ -91,6 +100,16 @@ async function readJson(filePath) {
   return JSON.parse(await readFile(resolveRootPath(filePath), "utf8"));
 }
 
+async function readJsonIfExists(filePath) {
+  if (!filePath) return null;
+  try {
+    return await readJson(filePath);
+  } catch (error) {
+    if (error?.code === "ENOENT") return null;
+    throw error;
+  }
+}
+
 async function writeJson(filePath, payload) {
   const resolved = resolveRootPath(filePath);
   await mkdir(path.dirname(resolved), { recursive: true });
@@ -101,6 +120,18 @@ async function writeJson(filePath, payload) {
 async function sha256File(filePath) {
   const buffer = await readFile(resolveRootPath(filePath));
   return createHash("sha256").update(buffer).digest("hex");
+}
+
+async function imageMetadata(filePath) {
+  const resolved = resolveRootPath(filePath);
+  const raw = await RawImage.read(resolved);
+  const info = await stat(resolved);
+  return {
+    width: raw.width,
+    height: raw.height,
+    bytes: info.size,
+    sha256: await sha256File(resolved),
+  };
 }
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
@@ -139,6 +170,14 @@ function normalizePercentBox(box) {
   };
 }
 
+function normalizePromptLabel(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[。]+/g, ".")
+    .replace(/\.+$/g, "");
+}
+
 function percentBoxFromPixels(box, width, height) {
   const [x1, y1, x2, y2] = Array.isArray(box)
     ? box
@@ -154,6 +193,39 @@ function percentBoxFromPixels(box, width, height) {
     w: ((Number(x2) - Number(x1)) / width) * 100,
     h: ((Number(y2) - Number(y1)) / height) * 100,
   });
+}
+
+function boxArea(box) {
+  return Math.max(0, Number(box?.w) || 0) * Math.max(0, Number(box?.h) || 0);
+}
+
+function boxIntersectionOverUnion(left, right) {
+  if (!left || !right) return 0;
+  const leftX2 = left.x + left.w;
+  const leftY2 = left.y + left.h;
+  const rightX2 = right.x + right.w;
+  const rightY2 = right.y + right.h;
+  const x1 = Math.max(left.x, right.x);
+  const y1 = Math.max(left.y, right.y);
+  const x2 = Math.min(leftX2, rightX2);
+  const y2 = Math.min(leftY2, rightY2);
+  const intersection = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
+  const union = boxArea(left) + boxArea(right) - intersection;
+  return union > 0 ? intersection / union : 0;
+}
+
+function nmsDetections(rawDetections, { iouThreshold, maxBoxes }) {
+  const kept = [];
+  const sorted = rawDetections
+    .map((detection) => ({ ...detection, region: normalizePercentBox(detection.region || detection.box) }))
+    .filter((detection) => detection.region)
+    .sort((left, right) => right.score - left.score);
+  for (const detection of sorted) {
+    if (kept.some((existing) => boxIntersectionOverUnion(existing.region, detection.region) >= iouThreshold)) continue;
+    kept.push(detection);
+    if (kept.length >= maxBoxes) break;
+  }
+  return kept;
 }
 
 function pixelBoxFromPercent(box, width, height, paddingPct = 0) {
@@ -173,6 +245,25 @@ function normalizeVector(values) {
   return vector.map((value) => round(value / norm, 8));
 }
 
+function tensorValues(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  if (ArrayBuffer.isView(value)) return Array.from(value);
+  if (Array.isArray(value.data)) return value.data;
+  if (ArrayBuffer.isView(value.data)) return Array.from(value.data);
+  return [];
+}
+
+function tensorRows(value, width) {
+  const values = tensorValues(value);
+  if (Array.isArray(values[0])) return values;
+  const rows = [];
+  for (let index = 0; index < values.length; index += width) {
+    rows.push(values.slice(index, index + width));
+  }
+  return rows;
+}
+
 function categoryMap(categoriesPayload) {
   return new Map((categoriesPayload.categories || []).map((category) => [category.id, category]));
 }
@@ -181,6 +272,7 @@ function detectorLabelsFor(category) {
   return [
     ...(category?.detectorLabels || []),
     ...(category?.aliases || []),
+    category?.displayName,
     category?.id?.replace(/-/g, " "),
   ]
     .filter(Boolean)
@@ -189,35 +281,83 @@ function detectorLabelsFor(category) {
     .slice(0, 8);
 }
 
-function activeCategories(categoriesPayload, args) {
+async function readEmbeddingSelection(filePath) {
+  if (!filePath) return null;
+  const resolved = resolveRootPath(filePath);
+  const text = await readFile(resolved, "utf8");
+  if (resolved.toLowerCase().endsWith(".json")) {
+    const payload = JSON.parse(text);
+    const rows = Array.isArray(payload) ? payload : payload.categories || payload.rows || payload.selections || [];
+    return new Map(rows
+      .filter((row) => row && row.categoryId)
+      .map((row) => [String(row.categoryId), row]));
+  }
+  const [headerLine, ...lines] = text.split(/\r?\n/).filter((line) => line.trim());
+  if (!headerLine) return new Map();
+  const headers = headerLine.split("\t").map((header) => header.trim());
+  const rows = new Map();
+  for (const line of lines) {
+    const values = line.split("\t");
+    const row = Object.fromEntries(headers.map((header, index) => [header, values[index] || ""]));
+    if (row.categoryId) rows.set(String(row.categoryId), row);
+  }
+  return rows;
+}
+
+function isEmbeddingSelected(selectionRow) {
+  const value = String(selectionRow?.includeForEmbedding || selectionRow?.include || selectionRow?.selected || "")
+    .trim()
+    .toLowerCase();
+  return ["yes", "y", "true", "1", "include", "selected"].includes(value);
+}
+
+function selectedCategoryIds(selectionRows) {
+  if (!selectionRows) return null;
+  return new Set([...selectionRows.entries()]
+    .filter(([, row]) => isEmbeddingSelected(row))
+    .map(([categoryId]) => categoryId));
+}
+
+async function activeCategories(categoriesPayload, args) {
   const requested = new Set(String(args.categoryIds || "")
     .split(",")
     .map((value) => value.trim())
     .filter(Boolean));
+  const selectionRows = await readEmbeddingSelection(args.embeddingSelection || args.categorySelection || "");
+  const selected = selectedCategoryIds(selectionRows);
   const limit = Number(args.categoryLimit || 0);
   const categories = (categoriesPayload.categories || [])
     .filter((category) => category.active)
-    .filter((category) => !requested.size || requested.has(category.id));
+    .filter((category) => !requested.size || requested.has(category.id))
+    .filter((category) => !selected || requested.size || selected.has(category.id));
+  if (selectionRows && !requested.size && !categories.length) {
+    throw new Error(`no active categories selected by ${args.embeddingSelection || args.categorySelection}; mark includeForEmbedding=yes or pass --category-ids`);
+  }
   return limit > 0 ? categories.slice(0, limit) : categories;
 }
 
 function cnQueriesForCategory(category) {
   const display = category.displayName || category.id;
   const pathParts = Array.isArray(category.displayPath) ? category.displayPath.slice(0, -1) : [];
-  return [
-    `${display} site:detail.tmall.com`,
-    `${display} site:1688.com`,
-    `${display} site:taobao.com`,
-    `${display} site:jdliving.cn`,
-    `${display} 家用 实物图`,
-    `${display} 商品图`,
-    `${display} 京东`,
-    `${display} 天猫`,
-    `${display} 淘宝`,
-    `${display} 1688`,
-    `${display} 白底图`,
-    `${display} ${pathParts.at(-1) || pathParts[0] || "家用"}`,
-  ].filter((value, index, array) => value && array.indexOf(value) === index);
+  const terms = [
+    display,
+    ...(Array.isArray(category.aliases) ? category.aliases : []),
+    ...(Array.isArray(category.searchQueries) ? category.searchQueries : []),
+  ].filter((value, index, array) => value && array.indexOf(value) === index).slice(0, 8);
+  return terms.flatMap((term) => [
+    `${term} site:detail.tmall.com`,
+    `${term} site:1688.com`,
+    `${term} site:taobao.com`,
+    `${term} site:jdliving.cn`,
+    `${term} 家用 实物图`,
+    `${term} 商品图`,
+    `${term} 京东`,
+    `${term} 天猫`,
+    `${term} 淘宝`,
+    `${term} 1688`,
+    `${term} 白底图`,
+    `${term} ${pathParts.at(-1) || pathParts[0] || "家用"}`,
+  ]).filter((value, index, array) => value && array.indexOf(value) === index);
 }
 
 function safeDecodeURIComponent(value) {
@@ -318,8 +458,10 @@ function resultMatchAssessment(result, category, query, rank) {
   if (rank <= 5 && queryDisplay) score += 2;
   else if (rank <= 10 && queryDisplay) score += 1;
   if (blacklist && !exact) score -= 5;
+  const strictMatch = score >= 4 && !blacklist && (exact || termHits.length >= 2);
+  const trustedTopResult = rank <= 3 && !blacklist && (commerce || mainland);
   return {
-    accepted: score >= 4 && !blacklist && (exact || termHits.length >= 2),
+    accepted: strictMatch || trustedTopResult,
     score,
     exact,
     termHits,
@@ -328,6 +470,7 @@ function resultMatchAssessment(result, category, query, rank) {
     blacklist,
     blockedDesignAssetHost,
     rank,
+    relevanceMode: strictMatch ? "category-term-match" : trustedTopResult ? "trusted-top-search-result" : "rejected",
   };
 }
 
@@ -787,27 +930,40 @@ async function commandExpandEvalManifest(args) {
 
 async function commandCreateCnManifest(args) {
   const categoriesPayload = await readJson(args.categories || DEFAULT_CATEGORIES);
-  const categories = activeCategories(categoriesPayload, args);
   const galleryPerCategory = Number(args.galleryPerCategory || 3);
   const evalTotal = Number(args.evalTotal || 50);
   const searchLimit = Number(args.searchLimit || 35);
   const threshold = Number(args.threshold || 0.005);
   const imageDir = args.imageDir || DEFAULT_CN_IMAGE_DIR;
-  const samples = [];
+  const mergeExisting = Boolean(args.mergeExisting || args.onlyWithoutExistingSamples);
+  const existingManifestPath = args.input || args.existingManifest || (mergeExisting ? (args.output || DEFAULT_CN_MANIFEST) : "");
+  const existingManifest = mergeExisting ? await readJsonIfExists(existingManifestPath) : null;
+  const samples = mergeExisting ? [...(existingManifest?.samples || [])] : [];
+  const existingGalleryByCategory = new Map();
+  const existingEvalByCategory = new Map();
+  for (const sample of samples) {
+    if (sample.split === "gallery") existingGalleryByCategory.set(sample.categoryId, (existingGalleryByCategory.get(sample.categoryId) || 0) + 1);
+    if (sample.split === "eval") existingEvalByCategory.set(sample.categoryId, (existingEvalByCategory.get(sample.categoryId) || 0) + 1);
+  }
+  let categories = await activeCategories(categoriesPayload, args);
+  if (args.onlyWithoutExistingSamples) {
+    categories = categories.filter((category) => (existingGalleryByCategory.get(category.id) || 0) < galleryPerCategory);
+  }
   const failures = [];
-  const seenUrls = new Set();
+  const seenUrls = new Set(samples.flatMap((sample) => [sample.imageUrl, sample.sourceUrl, sample.imagePath].filter(Boolean)));
   const detectorLoadStart = performance.now();
   const detector = evalTotal > 0
     ? await pipeline("zero-shot-object-detection", MODEL_IDS.owlvit, { dtype: "q8" })
     : null;
-  let evalCount = 0;
+  let evalCount = samples.filter((sample) => sample.split === "eval").length;
   const evalPerCategory = evalTotal > 0 ? Math.ceil(evalTotal / Math.max(1, categories.length)) : 0;
 
   for (const category of categories) {
-    let galleryCount = 0;
-    let categoryEvalCount = 0;
-    let serial = 1;
+    let galleryCount = existingGalleryByCategory.get(category.id) || 0;
+    let categoryEvalCount = existingEvalByCategory.get(category.id) || 0;
+    let serial = samples.filter((sample) => sample.categoryId === category.id).length + 1;
     const display = category.displayName || category.id;
+    console.log(`collecting ${category.id} (${display}) gallery ${galleryCount}/${galleryPerCategory}`);
     const searches = [
       { provider: "taobao", query: display },
       { provider: "duckduckgo-cn", query: `${display} 淘宝 商品图` },
@@ -898,6 +1054,7 @@ async function commandCreateCnManifest(args) {
         }
       }
     }
+    console.log(`  collected gallery ${galleryCount}/${galleryPerCategory}; eval ${categoryEvalCount}/${evalPerCategory || 0}`);
   }
 
   const payload = {
@@ -913,6 +1070,8 @@ async function commandCreateCnManifest(args) {
     },
     generation: {
       categoryCount: categories.length,
+      mergedExistingSamples: mergeExisting ? (existingManifest?.samples || []).length : 0,
+      onlyWithoutExistingSamples: Boolean(args.onlyWithoutExistingSamples),
       galleryPerCategory,
       evalTotal,
       searchLimit,
@@ -944,18 +1103,56 @@ async function commandCreateCnManifest(args) {
   });
 }
 
-async function loadModels() {
-  const detectorStart = performance.now();
-  const detector = await pipeline("zero-shot-object-detection", MODEL_IDS.owlvit, { dtype: "q8" });
-  const detectorModelLoadMs = elapsedMs(detectorStart);
+async function loadGroundingDino() {
+  const start = performance.now();
+  const processor = await AutoProcessor.from_pretrained(MODEL_IDS.groundingDino);
+  const model = await AutoModelForZeroShotObjectDetection.from_pretrained(MODEL_IDS.groundingDino, { dtype: "q8" });
+  return { detectorId: "grounding-dino", processor, model, modelLoadMs: elapsedMs(start) };
+}
+
+async function loadIndexDetector(detectorId) {
+  if (detectorId === "grounding-dino") return loadGroundingDino();
+  if (detectorId === "owlvit") {
+    const start = performance.now();
+    const detector = await pipeline("zero-shot-object-detection", MODEL_IDS.owlvit, { dtype: "q8" });
+    return { detectorId: "owlvit", detector, modelLoadMs: elapsedMs(start) };
+  }
+  throw new Error(`unsupported index detector: ${detectorId}`);
+}
+
+async function loadModels(args = {}) {
+  const detectorId = String(args.detector || args.regionDetector || "grounding-dino").trim().toLowerCase();
+  const detector = await loadIndexDetector(detectorId);
   const clipStart = performance.now();
   const clip = await pipeline("image-feature-extraction", MODEL_IDS.clip, { dtype: "q8" });
   return {
+    detectorId,
     detector,
     clip,
-    detectorModelLoadMs,
+    detectorModelLoadMs: detector.modelLoadMs,
     clipModelLoadMs: elapsedMs(clipStart),
   };
+}
+
+async function runGroundingDinoRegionDetector(rawImage, detector, labels, threshold) {
+  const text = `${labels.map(normalizePromptLabel).filter(Boolean).join(". ")}.`;
+  const inputs = await detector.processor(rawImage, text);
+  const outputs = await detector.model(inputs);
+  let processed = detector.processor.post_process_grounded_object_detection(outputs, inputs.input_ids, {
+    box_threshold: threshold,
+    text_threshold: threshold,
+    target_sizes: [[rawImage.height, rawImage.width]],
+  });
+  if (processed instanceof Promise) processed = await processed;
+  const first = Array.isArray(processed) ? processed[0] : processed;
+  const scores = tensorValues(first?.scores);
+  const boxes = tensorRows(first?.boxes, 4);
+  const resultLabels = tensorValues(first?.labels);
+  return boxes.map((box, index) => ({
+    label: String(resultLabels[index] || ""),
+    score: Number(scores[index]) || 0,
+    region: percentBoxFromPixels(box, rawImage.width, rawImage.height),
+  })).filter((detection) => detection.region && detection.score >= threshold);
 }
 
 async function detectRegion(detector, sample, category, threshold) {
@@ -981,6 +1178,80 @@ async function detectRegion(detector, sample, category, threshold) {
   };
 }
 
+async function normalizedImageForIndex(sample, args) {
+  const targetLongSide = Number(args.targetLongSide || args.maxLongSide || 1024);
+  const variantDir = args.normalizedDir || args.variantDir || DEFAULT_INDEX_NORMALIZED_DIR;
+  const sourcePath = sample.imagePath || sample.sourceImagePath;
+  const sourceMeta = await imageMetadata(sourcePath);
+  const sourceRaw = await RawImage.read(resolveRootPath(sourcePath));
+  const longSide = Math.max(sourceMeta.width, sourceMeta.height);
+  if (longSide <= targetLongSide) {
+    return {
+      rawImage: sourceRaw,
+      variant: {
+        id: `normalized-${targetLongSide}`,
+        path: sourcePath,
+        width: sourceMeta.width,
+        height: sourceMeta.height,
+        bytes: sourceMeta.bytes,
+        sha256: sourceMeta.sha256,
+        transform: "reuse-original-no-upscale",
+        upscaled: false,
+      },
+    };
+  }
+  const scale = targetLongSide / longSide;
+  const width = Math.max(1, Math.round(sourceMeta.width * scale));
+  const height = Math.max(1, Math.round(sourceMeta.height * scale));
+  const outputPath = path.join(variantDir, sample.categoryId || "unknown", `${sample.id}-normalized-${targetLongSide}.png`);
+  const resized = await sourceRaw.resize(width, height);
+  await mkdir(path.dirname(resolveRootPath(outputPath)), { recursive: true });
+  await resized.save(resolveRootPath(outputPath));
+  const normalizedMeta = await imageMetadata(outputPath);
+  return {
+    rawImage: resized,
+    variant: {
+      id: `normalized-${targetLongSide}`,
+      path: outputPath,
+      width: normalizedMeta.width,
+      height: normalizedMeta.height,
+      bytes: normalizedMeta.bytes,
+      sha256: normalizedMeta.sha256,
+      transform: `long-side-${targetLongSide}`,
+      upscaled: false,
+    },
+  };
+}
+
+async function detectIndexRegion(resources, sample, category, options) {
+  const labels = detectorLabelsFor(category);
+  const normalized = await normalizedImageForIndex(sample, options);
+  const start = performance.now();
+  const threshold = Number(options.threshold ?? (resources.detectorId === "grounding-dino" ? 0 : 0.01));
+  const rawDetections = resources.detectorId === "grounding-dino"
+    ? await runGroundingDinoRegionDetector(normalized.rawImage, resources.detector, labels, threshold)
+    : (await resources.detector.detector(resolveRootPath(normalized.variant.path), labels, { threshold, percentage: false }))
+      .map((result) => ({
+        label: String(result.label || ""),
+        score: Number(result.score) || 0,
+        region: percentBoxFromPixels(result.box, normalized.rawImage.width, normalized.rawImage.height),
+      }))
+      .filter((detection) => detection.region && detection.score >= threshold);
+  const detections = nmsDetections(rawDetections, {
+    iouThreshold: Number(options.nmsIou || (resources.detectorId === "grounding-dino" ? 0.85 : 0.5)),
+    maxBoxes: Number(options.maxSubjects || options.maxBoxes || 10),
+  });
+  return {
+    rawImage: normalized.rawImage,
+    imageVariant: normalized.variant,
+    labels,
+    rawDetections,
+    detections,
+    best: detections[0] || null,
+    detectionMs: elapsedMs(start),
+  };
+}
+
 async function embedCrop(clip, rawImage, region) {
   const cropStart = performance.now();
   const crop = await rawImage.crop(pixelBoxFromPercent(region, rawImage.width, rawImage.height, 4));
@@ -998,26 +1269,44 @@ async function commandBuildIndex(args) {
   const manifest = await readJson(args.manifest || DEFAULT_MANIFEST);
   const categoriesPayload = await readJson(args.categories || DEFAULT_CATEGORIES);
   const categories = categoryMap(categoriesPayload);
-  const threshold = Number(args.threshold || 0.01);
+  const selectionRows = await readEmbeddingSelection(args.embeddingSelection || args.categorySelection || "");
+  const selected = selectedCategoryIds(selectionRows);
+  const requested = new Set(String(args.categoryIds || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean));
+  const detectorId = String(args.detector || args.regionDetector || "grounding-dino").trim().toLowerCase();
+  const threshold = Number(args.threshold ?? (detectorId === "grounding-dino" ? 0 : 0.01));
   const limit = Number(args.limit || 0);
-  const { detector, clip, detectorModelLoadMs, clipModelLoadMs } = await loadModels();
+  const modelResources = await loadModels({ ...args, detector: detectorId });
+  const { clip, detectorModelLoadMs, clipModelLoadMs } = modelResources;
   const entries = [];
   const failures = [];
   const timings = [];
   const gallerySamples = (manifest.samples || [])
     .filter((sample) => sample.split === "gallery" && sample.reviewStatus !== "rejected")
+    .filter((sample) => !requested.size || requested.has(sample.categoryId))
+    .filter((sample) => !selected || requested.size || selected.has(sample.categoryId))
     .slice(0, limit > 0 ? limit : undefined);
+  if (selectionRows && !requested.size && !gallerySamples.length) {
+    throw new Error(`no gallery samples match selected embedding categories in ${args.embeddingSelection || args.categorySelection}`);
+  }
 
+  let processedCount = 0;
   for (const sample of gallerySamples) {
+    processedCount += 1;
+    if (processedCount === 1 || processedCount % 25 === 0 || processedCount === gallerySamples.length) {
+      console.log(`indexing ${processedCount}/${gallerySamples.length} ${sample.id}`);
+    }
     const category = categories.get(sample.categoryId);
     if (!category) {
       failures.push({ sampleId: sample.id, categoryId: sample.categoryId, stage: "category", reason: "unknown category" });
       continue;
     }
     try {
-      const detected = await detectRegion(detector, sample, category, threshold);
+      const detected = await detectIndexRegion(modelResources, sample, category, { ...args, threshold });
       if (!detected.best) {
-        failures.push({ sampleId: sample.id, categoryId: sample.categoryId, stage: "region", reason: "no owlvit region above threshold" });
+        failures.push({ sampleId: sample.id, categoryId: sample.categoryId, stage: "region", reason: `no ${detectorId} region after nms`, rawDetections: detected.rawDetections.length });
         continue;
       }
       const embedded = await embedCrop(clip, detected.rawImage, detected.best.region);
@@ -1038,8 +1327,10 @@ async function commandBuildIndex(args) {
         sampleId: sample.id,
         matchedSampleIds: [sample.id],
         sourceImagePath: sample.imagePath,
+        normalizedImagePath: detected.imageVariant.path,
         image: {
           path: sample.imagePath,
+          normalizedPath: detected.imageVariant.path,
           sourceUrl: sample.sourceUrl || "",
           sourceTitle: sample.sourceTitle || "",
           sha256: sample.sha256,
@@ -1050,19 +1341,25 @@ async function commandBuildIndex(args) {
         region: detected.best.region,
         box: detected.best.region,
         crop: {
-          type: "owlvit-region",
+          type: `${detectorId}-normalized-1024-region`,
           paddingPct: 4,
           box: detected.best.region,
+          imageVariant: detected.imageVariant,
         },
         detector: {
-          modelId: MODEL_IDS.owlvit,
+          modelId: detectorId === "grounding-dino" ? MODEL_IDS.groundingDino : MODEL_IDS.owlvit,
+          detectorId,
           label: detected.best.label,
           score: round(detected.best.score, 6),
           promptedLabels: detected.labels,
+          threshold,
+          nmsIou: Number(args.nmsIou || (detectorId === "grounding-dino" ? 0.85 : 0.5)),
+          retainedDetections: detected.detections.length,
+          rawDetections: detected.rawDetections.length,
         },
         embedding: embedded.embedding,
         embeddingModel: MODEL_IDS.clip,
-        buildVersion: args.buildVersion || "20260523-household-owlvit-clip-smoke",
+        buildVersion: args.buildVersion || `20260525-household-${detectorId}-normalized-1024-clip`,
       });
       timings.push({
         sampleId: sample.id,
@@ -1078,8 +1375,8 @@ async function commandBuildIndex(args) {
   const categoriesWithEntries = new Set(entries.map((entry) => entry.categoryId));
   const index = {
     kind: "vision-category-index",
-    version: args.buildVersion || "20260523-household-owlvit-clip-smoke",
-    description: "Actual local OWL-ViT region + CLIP crop embedding household smoke index.",
+    version: args.buildVersion || `20260525-household-${detectorId}-normalized-1024-clip`,
+    description: `Actual local ${detectorId} normalized-1024 region + CLIP crop embedding household index.`,
     algorithm: "flat-inner-product",
     metric: "max-inner-product",
     normalized: true,
@@ -1091,9 +1388,15 @@ async function commandBuildIndex(args) {
       adapter: "transformers-js-local-clip-crop",
     },
     detector: {
-      modelId: MODEL_IDS.owlvit,
-      adapter: "transformers-js-local-owlvit",
+      detectorId,
+      modelId: detectorId === "grounding-dino" ? MODEL_IDS.groundingDino : MODEL_IDS.owlvit,
+      adapter: detectorId === "grounding-dino" ? "transformers-js-local-grounding-dino" : "transformers-js-local-owlvit",
       threshold,
+      imageVariant: `normalized-${Number(args.targetLongSide || args.maxLongSide || 1024)}`,
+      maxLongSide: Number(args.targetLongSide || args.maxLongSide || 1024),
+      nmsIou: Number(args.nmsIou || (detectorId === "grounding-dino" ? 0.85 : 0.5)),
+      maxSubjects: Number(args.maxSubjects || args.maxBoxes || 10),
+      primaryBoxPolicy: "highest-score-after-nms",
     },
     thresholds: {
       acceptScore: Number(args.acceptScore || 0.2),
@@ -1105,6 +1408,8 @@ async function commandBuildIndex(args) {
     taxonomy: categoriesPayload.taxonomy,
     taxonomyVersion: categoriesPayload.version,
     imageManifestVersion: manifest.version,
+    embeddingSelectionPath: args.embeddingSelection || args.categorySelection || null,
+    selectedCategoryCount: selected ? selected.size : null,
     buildTimestamp: new Date().toISOString(),
     productionReady: false,
     entryCount: entries.length,
@@ -1121,6 +1426,7 @@ async function commandBuildIndex(args) {
     timings: {
       detectorModelLoadMs,
       clipModelLoadMs,
+      detectorId,
       samples: timings,
     },
     summary: {
@@ -1129,6 +1435,9 @@ async function commandBuildIndex(args) {
       indexEntries: entries.length,
       failures: failures.length,
       categoriesWithEntries: categoriesWithEntries.size,
+      selectedCategoryCount: selected ? selected.size : null,
+      detectorId,
+      imageVariant: `normalized-${Number(args.targetLongSide || args.maxLongSide || 1024)}`,
     },
     failures,
   };
@@ -1178,6 +1487,8 @@ async function commandReadiness(args) {
   const categoriesPayload = await readJson(args.categories || DEFAULT_CATEGORIES);
   const manifest = await readJson(args.manifest || DEFAULT_MANIFEST);
   const index = await readJson(args.index || DEFAULT_INDEX);
+  const selectionRows = await readEmbeddingSelection(args.embeddingSelection || args.categorySelection || "");
+  const selected = selectedCategoryIds(selectionRows);
   const entriesByCategory = new Map();
   for (const entry of index.entries || []) {
     if (!entriesByCategory.has(entry.categoryId)) entriesByCategory.set(entry.categoryId, []);
@@ -1195,10 +1506,15 @@ async function commandReadiness(args) {
       const entries = entriesByCategory.get(category.id) || [];
       const gallery = samples.filter((sample) => sample.split === "gallery").length;
       const evalCount = samples.filter((sample) => sample.split === "eval").length;
+      const embeddingSelected = selected ? selected.has(category.id) : null;
       return {
         categoryId: category.id,
         displayName: category.displayName,
+        embeddingSelected,
+        annotationStatus: selectionRows?.get(category.id)?.annotationStatus || null,
+        embeddingPriority: selectionRows?.get(category.id)?.embeddingPriority || null,
         taxonomyReady: true,
+        embeddingReady: entries.some((entry) => Array.isArray(entry.embedding) && entry.embedding.length > 0),
         indexReady: entries.length >= 2 && evalCount >= 1,
         gallerySamples: gallery,
         evalSamples: evalCount,
@@ -1212,8 +1528,12 @@ async function commandReadiness(args) {
     version: "20260523-household-index-readiness",
     taxonomyVersion: categoriesPayload.version,
     indexVersion: index.version,
+    embeddingSelectionPath: args.embeddingSelection || args.categorySelection || null,
     summary: {
       leafCount: leaves.length,
+      selectedLeafCount: selected ? leaves.filter((leaf) => leaf.embeddingSelected).length : null,
+      embeddingReadyLeafCount: leaves.filter((leaf) => leaf.embeddingReady).length,
+      notEmbeddingReadyLeafCount: leaves.filter((leaf) => !leaf.embeddingReady).length,
       indexReadyLeafCount: leaves.filter((leaf) => leaf.indexReady).length,
       notIndexReadyLeafCount: leaves.filter((leaf) => !leaf.indexReady).length,
     },

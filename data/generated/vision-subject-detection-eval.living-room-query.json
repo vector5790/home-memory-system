@@ -1,0 +1,127 @@
+{
+  "kind": "vision-subject-detection-eval-report",
+  "version": "2026-05-24-subject-detection-run-report",
+  "generatedAt": "2026-05-24T06:25:06.552Z",
+  "detectionRunVersion": "2026-05-24-subject-detection-run",
+  "reviewVersion": "2026-05-24-subject-detection-review",
+  "manifestVersion": "2026-05-24-living-room-query",
+  "taxonomyVersion": "manual-query-prompts",
+  "metrics": {
+    "byModelVariant": {
+      "grounding-dino | original": {
+        "modelId": "grounding-dino",
+        "imageVariant": "original",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 5,
+        "failureRate": 0,
+        "averageRecognitionMs": 2059.541,
+        "detectionP50Ms": 2059.541,
+        "detectionP95Ms": 2059.541
+      },
+      "owlvit | original": {
+        "modelId": "owlvit",
+        "imageVariant": "original",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 3411,
+        "failureRate": 0,
+        "averageRecognitionMs": 290.448,
+        "detectionP50Ms": 290.448,
+        "detectionP95Ms": 290.448
+      },
+      "grounding-dino | normalized-1024": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 6,
+        "failureRate": 0,
+        "averageRecognitionMs": 2468.825,
+        "detectionP50Ms": 2468.825,
+        "detectionP95Ms": 2468.825
+      },
+      "owlvit | normalized-1024": {
+        "modelId": "owlvit",
+        "imageVariant": "normalized-1024",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 3603,
+        "failureRate": 0,
+        "averageRecognitionMs": 334.279,
+        "detectionP50Ms": 334.279,
+        "detectionP95Ms": 334.279
+      }
+    },
+    "modelSummary": {
+      "grounding-dino": {
+        "resultCount": 2,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 5.5,
+        "failureRate": 0,
+        "averageRecognitionMs": 2264.183,
+        "detectionP50Ms": 2059.541,
+        "detectionP95Ms": 2468.825
+      },
+      "owlvit": {
+        "resultCount": 2,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 3507,
+        "failureRate": 0,
+        "averageRecognitionMs": 312.364,
+        "detectionP50Ms": 290.448,
+        "detectionP95Ms": 334.279
+      }
+    },
+    "grouped": {
+      "categoryId": {
+        "living-room-query": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 1756.25,
+          "failureRate": 0
+        }
+      },
+      "sourceProvider": {
+        "user-local-file": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 1756.25,
+          "failureRate": 0
+        }
+      }
+    }
+  },
+  "recommendations": {
+    "compressionRecommendation": "人工标注不足，暂不判断压缩图是否影响准确性；未标注 smoke 中 normalized variant 平均耗时约为 original 的 1.193 倍。",
+    "modelRecommendation": "人工标注不足，暂不判断哪个模型更准确。未标注 smoke 仅供排障参考：grounding-dino: 平均 2264.183ms, 平均框数 5.5, 失败率 0；owlvit: 平均 312.364ms, 平均框数 3507, 失败率 0。"
+  }
+}

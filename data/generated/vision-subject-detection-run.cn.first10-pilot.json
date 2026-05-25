@@ -1,0 +1,4990 @@
+{
+  "kind": "vision-subject-detection-run",
+  "version": "2026-05-24-subject-detection-cn-first10-pilot-run",
+  "generatedAt": "2026-05-24T16:24:03.408Z",
+  "manifestVersion": "2026-05-24-subject-detection-cn-first10-pilot",
+  "variantVersion": "2026-05-24-subject-detection-cn-first10-pilot-variants-1024",
+  "taxonomyVersion": "20260524-household-expanded",
+  "modelIds": [
+    "grounding-dino",
+    "owlvit"
+  ],
+  "modelNames": {
+    "grounding-dino": "onnx-community/grounding-dino-tiny-ONNX",
+    "owlvit": "Xenova/owlvit-base-patch32"
+  },
+  "thresholds": {
+    "grounding-dino": 0,
+    "owlvit": 0.2
+  },
+  "owlvitNms": {
+    "iouThreshold": 0.5,
+    "maxBoxes": 10
+  },
+  "groundingDinoPolicy": {
+    "thresholdMode": "zero-threshold-top-k",
+    "maxBoxes": 10
+  },
+  "imageVariants": [
+    "original",
+    "normalized-1024"
+  ],
+  "modelLoadFailures": {},
+  "resultCount": 40,
+  "results": [
+    {
+      "id": "storage-box-subject-cn-01:original:grounding-dino",
+      "imageId": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "expectedDisplayName": "收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/akl5r57r/",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 152662
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "storage box",
+        "plastic storage bin",
+        "收纳盒",
+        "storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d01",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.577594,
+          "box": {
+            "x": 10.1902,
+            "y": 46.7617,
+            "w": 43.1783,
+            "h": 30.2841
+          },
+          "areaPct": 13.0762,
+          "rankByScore": 1,
+          "rankByArea": 4
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d02",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.552177,
+          "box": {
+            "x": 44.0103,
+            "y": 53.7546,
+            "w": 49.1936,
+            "h": 34.1288
+          },
+          "areaPct": 16.7892,
+          "rankByScore": 2,
+          "rankByArea": 2
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d03",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.529737,
+          "box": {
+            "x": 15.8646,
+            "y": 31.3848,
+            "w": 31.3975,
+            "h": 22.5111
+          },
+          "areaPct": 7.0679,
+          "rankByScore": 3,
+          "rankByArea": 9
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d04",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.493696,
+          "box": {
+            "x": 50.7659,
+            "y": 36.5792,
+            "w": 34.3316,
+            "h": 24.9673
+          },
+          "areaPct": 8.5717,
+          "rankByScore": 4,
+          "rankByArea": 7
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d05",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.229395,
+          "box": {
+            "x": 50.8376,
+            "y": 36.3125,
+            "w": 34.4143,
+            "h": 25.1212
+          },
+          "areaPct": 8.6453,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d06",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.217487,
+          "box": {
+            "x": 15.7395,
+            "y": 30.8373,
+            "w": 31.4281,
+            "h": 22.5809
+          },
+          "areaPct": 7.0967,
+          "rankByScore": 6,
+          "rankByArea": 8
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d07",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.189841,
+          "box": {
+            "x": 43.7068,
+            "y": 52.9761,
+            "w": 49.2891,
+            "h": 34.5839
+          },
+          "areaPct": 17.0461,
+          "rankByScore": 7,
+          "rankByArea": 1
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d08",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.182048,
+          "box": {
+            "x": 10.44,
+            "y": 46.6191,
+            "w": 43.0015,
+            "h": 30.4243
+          },
+          "areaPct": 13.0829,
+          "rankByScore": 8,
+          "rankByArea": 3
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d09",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.106105,
+          "box": {
+            "x": 2.4054,
+            "y": 68.0614,
+            "w": 41.0478,
+            "h": 31.7847
+          },
+          "areaPct": 13.0469,
+          "rankByScore": 9,
+          "rankByArea": 5
+        },
+        {
+          "id": "storage-box-subject-cn-01:original:grounding-dino:d10",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.099985,
+          "box": {
+            "x": 32.7713,
+            "y": 57.8613,
+            "w": 13.5475,
+            "h": 18.9999
+          },
+          "areaPct": 2.574,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "storage-box-subject-cn-01:original:grounding-dino:d07",
+      "primaryBoxBId": "storage-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1348.144,
+        "endToEndMs": 1369.424
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-box-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "storage-box-subject-cn-01:original:owlvit",
+      "imageId": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "expectedDisplayName": "收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/akl5r57r/",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 152662
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "storage box",
+        "plastic storage bin",
+        "收纳盒",
+        "storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 197.266,
+        "endToEndMs": 218.091
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-box-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "expectedDisplayName": "收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/akl5r57r/",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 152662
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "storage box",
+        "plastic storage bin",
+        "收纳盒",
+        "storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.577594,
+          "box": {
+            "x": 10.1902,
+            "y": 46.7617,
+            "w": 43.1783,
+            "h": 30.2841
+          },
+          "areaPct": 13.0762,
+          "rankByScore": 1,
+          "rankByArea": 4
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.552177,
+          "box": {
+            "x": 44.0103,
+            "y": 53.7546,
+            "w": 49.1936,
+            "h": 34.1288
+          },
+          "areaPct": 16.7892,
+          "rankByScore": 2,
+          "rankByArea": 2
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.529737,
+          "box": {
+            "x": 15.8646,
+            "y": 31.3848,
+            "w": 31.3975,
+            "h": 22.5111
+          },
+          "areaPct": 7.0679,
+          "rankByScore": 3,
+          "rankByArea": 9
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.493696,
+          "box": {
+            "x": 50.7659,
+            "y": 36.5792,
+            "w": 34.3316,
+            "h": 24.9673
+          },
+          "areaPct": 8.5717,
+          "rankByScore": 4,
+          "rankByArea": 7
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.229395,
+          "box": {
+            "x": 50.8376,
+            "y": 36.3125,
+            "w": 34.4143,
+            "h": 25.1212
+          },
+          "areaPct": 8.6453,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.217487,
+          "box": {
+            "x": 15.7395,
+            "y": 30.8373,
+            "w": 31.4281,
+            "h": 22.5809
+          },
+          "areaPct": 7.0967,
+          "rankByScore": 6,
+          "rankByArea": 8
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.189841,
+          "box": {
+            "x": 43.7068,
+            "y": 52.9761,
+            "w": 49.2891,
+            "h": 34.5839
+          },
+          "areaPct": 17.0461,
+          "rankByScore": 7,
+          "rankByArea": 1
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.182048,
+          "box": {
+            "x": 10.44,
+            "y": 46.6191,
+            "w": 43.0015,
+            "h": 30.4243
+          },
+          "areaPct": 13.0829,
+          "rankByScore": 8,
+          "rankByArea": 3
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.106105,
+          "box": {
+            "x": 2.4054,
+            "y": 68.0614,
+            "w": 41.0478,
+            "h": 31.7847
+          },
+          "areaPct": 13.0469,
+          "rankByScore": 9,
+          "rankByArea": 5
+        },
+        {
+          "id": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.099985,
+          "box": {
+            "x": 32.7713,
+            "y": 57.8613,
+            "w": 13.5475,
+            "h": 18.9999
+          },
+          "areaPct": 2.574,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+      "primaryBoxBId": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1788.392,
+        "endToEndMs": 1810.183
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-box-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "storage-box-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "expectedDisplayName": "收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/akl5r57r/",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 152662
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "storage box",
+        "plastic storage bin",
+        "收纳盒",
+        "storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 260.524,
+        "endToEndMs": 301.088
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-box-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "storage-basket-subject-cn-01:original:grounding-dino",
+      "imageId": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "expectedDisplayName": "收纳篮",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/all045ep/",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/storage-basket/storage-basket-subject-cn-01.jpg",
+        "width": 1080,
+        "height": 1080,
+        "bytes": 72952
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "storage basket",
+        "woven storage basket",
+        "收纳篮",
+        "storage baskets"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d01",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.609022,
+          "box": {
+            "x": 21.7423,
+            "y": 45.2093,
+            "w": 33.2701,
+            "h": 23.2928
+          },
+          "areaPct": 7.7495,
+          "rankByScore": 1,
+          "rankByArea": 2
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d02",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.585601,
+          "box": {
+            "x": 70.3414,
+            "y": 45.6044,
+            "w": 18.5723,
+            "h": 23.1151
+          },
+          "areaPct": 4.293,
+          "rankByScore": 2,
+          "rankByArea": 3
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d03",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.579614,
+          "box": {
+            "x": 71.6051,
+            "y": 21.2637,
+            "w": 17.6412,
+            "h": 20.407
+          },
+          "areaPct": 3.6,
+          "rankByScore": 3,
+          "rankByArea": 5
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d04",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.570391,
+          "box": {
+            "x": 55.793,
+            "y": 45.7278,
+            "w": 15.9952,
+            "h": 22.732
+          },
+          "areaPct": 3.636,
+          "rankByScore": 4,
+          "rankByArea": 4
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d05",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.556407,
+          "box": {
+            "x": 55.7984,
+            "y": 21.183,
+            "w": 16.1131,
+            "h": 20.2686
+          },
+          "areaPct": 3.2659,
+          "rankByScore": 5,
+          "rankByArea": 9
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d06",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.555838,
+          "box": {
+            "x": 39.1846,
+            "y": 21.2544,
+            "w": 16.0112,
+            "h": 20.1856
+          },
+          "areaPct": 3.232,
+          "rankByScore": 6,
+          "rankByArea": 10
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d07",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.542459,
+          "box": {
+            "x": 21.8991,
+            "y": 21.0053,
+            "w": 17.3411,
+            "h": 20.5043
+          },
+          "areaPct": 3.5557,
+          "rankByScore": 7,
+          "rankByArea": 6
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d08",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.519411,
+          "box": {
+            "x": 56.7477,
+            "y": 3.0353,
+            "w": 32.805,
+            "h": 10.5672
+          },
+          "areaPct": 3.4666,
+          "rankByScore": 8,
+          "rankByArea": 8
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d09",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.497322,
+          "box": {
+            "x": 23.3329,
+            "y": 2.9519,
+            "w": 32.8877,
+            "h": 10.7977
+          },
+          "areaPct": 3.5511,
+          "rankByScore": 9,
+          "rankByArea": 7
+        },
+        {
+          "id": "storage-basket-subject-cn-01:original:grounding-dino:d10",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.488505,
+          "box": {
+            "x": 56.0498,
+            "y": 70.9504,
+            "w": 33.9215,
+            "h": 27.4947
+          },
+          "areaPct": 9.3266,
+          "rankByScore": 10,
+          "rankByArea": 1
+        }
+      ],
+      "primaryBoxAId": "storage-basket-subject-cn-01:original:grounding-dino:d10",
+      "primaryBoxBId": "storage-basket-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1339.93,
+        "endToEndMs": 1360.836
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-basket-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "storage-basket-subject-cn-01:original:owlvit",
+      "imageId": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "expectedDisplayName": "收纳篮",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/all045ep/",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/storage-basket/storage-basket-subject-cn-01.jpg",
+        "width": 1080,
+        "height": 1080,
+        "bytes": 72952
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "storage basket",
+        "woven storage basket",
+        "收纳篮",
+        "storage baskets"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 192.011,
+        "endToEndMs": 215.157
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-basket-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "expectedDisplayName": "收纳篮",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/all045ep/",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/storage-basket/storage-basket-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1031282
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "storage basket",
+        "woven storage basket",
+        "收纳篮",
+        "storage baskets"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.629283,
+          "box": {
+            "x": 21.7315,
+            "y": 45.2929,
+            "w": 33.3047,
+            "h": 23.2861
+          },
+          "areaPct": 7.7554,
+          "rankByScore": 1,
+          "rankByArea": 2
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.611808,
+          "box": {
+            "x": 71.6302,
+            "y": 21.1625,
+            "w": 17.5666,
+            "h": 20.3846
+          },
+          "areaPct": 3.5809,
+          "rankByScore": 2,
+          "rankByArea": 5
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.609806,
+          "box": {
+            "x": 70.5134,
+            "y": 45.5925,
+            "w": 18.3435,
+            "h": 23.0636
+          },
+          "areaPct": 4.2307,
+          "rankByScore": 3,
+          "rankByArea": 3
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.589059,
+          "box": {
+            "x": 55.8273,
+            "y": 45.6869,
+            "w": 16.0218,
+            "h": 22.8055
+          },
+          "areaPct": 3.6539,
+          "rankByScore": 4,
+          "rankByArea": 4
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.572192,
+          "box": {
+            "x": 39.1903,
+            "y": 21.1549,
+            "w": 16.0053,
+            "h": 20.2168
+          },
+          "areaPct": 3.2358,
+          "rankByScore": 5,
+          "rankByArea": 10
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.570814,
+          "box": {
+            "x": 55.8476,
+            "y": 21.1924,
+            "w": 16.0466,
+            "h": 20.325
+          },
+          "areaPct": 3.2615,
+          "rankByScore": 6,
+          "rankByArea": 9
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.557927,
+          "box": {
+            "x": 21.8403,
+            "y": 20.9639,
+            "w": 17.3797,
+            "h": 20.4769
+          },
+          "areaPct": 3.5588,
+          "rankByScore": 7,
+          "rankByArea": 7
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.544095,
+          "box": {
+            "x": 56.781,
+            "y": 3.0702,
+            "w": 32.7427,
+            "h": 10.5295
+          },
+          "areaPct": 3.4476,
+          "rankByScore": 8,
+          "rankByArea": 8
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.529125,
+          "box": {
+            "x": 23.3636,
+            "y": 2.9378,
+            "w": 32.8438,
+            "h": 10.8376
+          },
+          "areaPct": 3.5595,
+          "rankByScore": 9,
+          "rankByArea": 6
+        },
+        {
+          "id": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+          "categoryKey": "",
+          "score": 0.507657,
+          "box": {
+            "x": 56.0228,
+            "y": 70.9093,
+            "w": 33.9339,
+            "h": 27.5046
+          },
+          "areaPct": 9.3334,
+          "rankByScore": 10,
+          "rankByArea": 1
+        }
+      ],
+      "primaryBoxAId": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d10",
+      "primaryBoxBId": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1272.606,
+        "endToEndMs": 1285.955
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-basket-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "storage-basket-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "expectedDisplayName": "收纳篮",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://post.smzdm.com/p/all045ep/",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/storage-basket/storage-basket-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1031282
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "storage basket",
+        "woven storage basket",
+        "收纳篮",
+        "storage baskets"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 180.248,
+        "endToEndMs": 191.435
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/storage-basket-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "cable-organizer-box-subject-cn-01:original:grounding-dino",
+      "imageId": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "expectedDisplayName": "线缆收纳盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://post.smzdm.com/p/avwvxdnn/",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/cable-organizer-box/cable-organizer-box-subject-cn-01.jpg",
+        "width": 1080,
+        "height": 648,
+        "bytes": 202472
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "cable organizer box",
+        "cord storage box",
+        "线缆收纳盒",
+        "cable organizer boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d01",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.461033,
+          "box": {
+            "x": 4.6165,
+            "y": 3.9979,
+            "w": 63.1087,
+            "h": 86.7115
+          },
+          "areaPct": 54.7225,
+          "rankByScore": 1,
+          "rankByArea": 3
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d02",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.390663,
+          "box": {
+            "x": 5.0362,
+            "y": 3.8418,
+            "w": 86.9432,
+            "h": 93.8499
+          },
+          "areaPct": 81.5961,
+          "rankByScore": 2,
+          "rankByArea": 1
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d03",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.302355,
+          "box": {
+            "x": 43.6546,
+            "y": 27.1943,
+            "w": 47.9091,
+            "h": 70.6168
+          },
+          "areaPct": 33.8319,
+          "rankByScore": 3,
+          "rankByArea": 7
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d04",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.204248,
+          "box": {
+            "x": 44.0413,
+            "y": 26.8403,
+            "w": 47.7633,
+            "h": 70.4853
+          },
+          "areaPct": 33.6661,
+          "rankByScore": 4,
+          "rankByArea": 8
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d05",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.153503,
+          "box": {
+            "x": 4.8554,
+            "y": 3.9327,
+            "w": 62.992,
+            "h": 86.3705
+          },
+          "areaPct": 54.4065,
+          "rankByScore": 5,
+          "rankByArea": 4
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d06",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.130842,
+          "box": {
+            "x": 5.2081,
+            "y": 3.3031,
+            "w": 86.7429,
+            "h": 93.5856
+          },
+          "areaPct": 81.1789,
+          "rankByScore": 6,
+          "rankByArea": 2
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d07",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.092406,
+          "box": {
+            "x": 16.2736,
+            "y": 21.0655,
+            "w": 44.672,
+            "h": 55.9407
+          },
+          "areaPct": 24.9898,
+          "rankByScore": 7,
+          "rankByArea": 9
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d08",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.084319,
+          "box": {
+            "x": 16.5745,
+            "y": 21.2887,
+            "w": 44.2315,
+            "h": 55.6389
+          },
+          "areaPct": 24.6099,
+          "rankByScore": 8,
+          "rankByArea": 10
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d09",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.041652,
+          "box": {
+            "x": 4.9508,
+            "y": 3.7482,
+            "w": 62.8354,
+            "h": 86.3236
+          },
+          "areaPct": 54.2418,
+          "rankByScore": 9,
+          "rankByArea": 5
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:original:grounding-dino:d10",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.037179,
+          "box": {
+            "x": 11.1934,
+            "y": 9.5349,
+            "w": 52.9402,
+            "h": 70.313
+          },
+          "areaPct": 37.2238,
+          "rankByScore": 10,
+          "rankByArea": 6
+        }
+      ],
+      "primaryBoxAId": "cable-organizer-box-subject-cn-01:original:grounding-dino:d02",
+      "primaryBoxBId": "cable-organizer-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1549.914,
+        "endToEndMs": 1567.794
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cable-organizer-box-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "cable-organizer-box-subject-cn-01:original:owlvit",
+      "imageId": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "expectedDisplayName": "线缆收纳盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://post.smzdm.com/p/avwvxdnn/",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/cable-organizer-box/cable-organizer-box-subject-cn-01.jpg",
+        "width": 1080,
+        "height": 648,
+        "bytes": 202472
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "cable organizer box",
+        "cord storage box",
+        "线缆收纳盒",
+        "cable organizer boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 186.114,
+        "endToEndMs": 204.185
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cable-organizer-box-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "expectedDisplayName": "线缆收纳盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://post.smzdm.com/p/avwvxdnn/",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/cable-organizer-box/cable-organizer-box-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 614,
+        "bytes": 1393836
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "cable organizer box",
+        "cord storage box",
+        "线缆收纳盒",
+        "cable organizer boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.468306,
+          "box": {
+            "x": 4.6308,
+            "y": 3.8643,
+            "w": 63.118,
+            "h": 86.8343
+          },
+          "areaPct": 54.8081,
+          "rankByScore": 1,
+          "rankByArea": 3
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.383576,
+          "box": {
+            "x": 4.9361,
+            "y": 3.7928,
+            "w": 86.9946,
+            "h": 93.9236
+          },
+          "areaPct": 81.7085,
+          "rankByScore": 2,
+          "rankByArea": 1
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.294022,
+          "box": {
+            "x": 43.7016,
+            "y": 27.1105,
+            "w": 47.9333,
+            "h": 70.6466
+          },
+          "areaPct": 33.8632,
+          "rankByScore": 3,
+          "rankByArea": 7
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.20366,
+          "box": {
+            "x": 43.8501,
+            "y": 27.0093,
+            "w": 47.825,
+            "h": 70.4505
+          },
+          "areaPct": 33.693,
+          "rankByScore": 4,
+          "rankByArea": 8
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.165447,
+          "box": {
+            "x": 4.8606,
+            "y": 3.8848,
+            "w": 62.8646,
+            "h": 86.4609
+          },
+          "areaPct": 54.3533,
+          "rankByScore": 5,
+          "rankByArea": 4
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.129404,
+          "box": {
+            "x": 4.8793,
+            "y": 3.6217,
+            "w": 86.8926,
+            "h": 93.5243
+          },
+          "areaPct": 81.2657,
+          "rankByScore": 6,
+          "rankByArea": 2
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.092939,
+          "box": {
+            "x": 16.3304,
+            "y": 21.3243,
+            "w": 44.7011,
+            "h": 55.7487
+          },
+          "areaPct": 24.9203,
+          "rankByScore": 7,
+          "rankByArea": 9
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.059994,
+          "box": {
+            "x": 16.5469,
+            "y": 21.3529,
+            "w": 44.4192,
+            "h": 55.6872
+          },
+          "areaPct": 24.7358,
+          "rankByScore": 8,
+          "rankByArea": 10
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.05654,
+          "box": {
+            "x": 4.8758,
+            "y": 3.6762,
+            "w": 62.7773,
+            "h": 86.3352
+          },
+          "areaPct": 54.1989,
+          "rankByScore": 9,
+          "rankByArea": 5
+        },
+        {
+          "id": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.041278,
+          "box": {
+            "x": 43.8009,
+            "y": 27.1975,
+            "w": 48.0329,
+            "h": 70.5422
+          },
+          "areaPct": 33.8835,
+          "rankByScore": 10,
+          "rankByArea": 6
+        }
+      ],
+      "primaryBoxAId": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+      "primaryBoxBId": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1269.217,
+        "endToEndMs": 1280.26
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cable-organizer-box-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "cable-organizer-box-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "expectedDisplayName": "线缆收纳盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://post.smzdm.com/p/avwvxdnn/",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/cable-organizer-box/cable-organizer-box-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 614,
+        "bytes": 1393836
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "cable organizer box",
+        "cord storage box",
+        "线缆收纳盒",
+        "cable organizer boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 174.256,
+        "endToEndMs": 183.644
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cable-organizer-box-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "shoe-box-subject-cn-01:original:grounding-dino",
+      "imageId": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "expectedDisplayName": "鞋盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://bk.taobao.com/k/baobaoshounadai_4624/4c4e1eb5fddc9974ec672a2dceee2cd2.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 90364
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "shoe storage box",
+        "clear shoe box",
+        "鞋盒",
+        "shoe storage boxes",
+        "shoe box"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d01",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.424018,
+          "box": {
+            "x": 10.0884,
+            "y": 16.8076,
+            "w": 78.1513,
+            "h": 77.4488
+          },
+          "areaPct": 60.5272,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d02",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.341649,
+          "box": {
+            "x": 55.6996,
+            "y": 30.1052,
+            "w": 16.614,
+            "h": 11.5944
+          },
+          "areaPct": 1.9263,
+          "rankByScore": 2,
+          "rankByArea": 9
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d03",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.338644,
+          "box": {
+            "x": 37.4813,
+            "y": 16.8904,
+            "w": 18.0088,
+            "h": 12.6615
+          },
+          "areaPct": 2.2802,
+          "rankByScore": 3,
+          "rankByArea": 3
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d04",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.324319,
+          "box": {
+            "x": 18.6856,
+            "y": 29.8163,
+            "w": 18.4082,
+            "h": 11.9761
+          },
+          "areaPct": 2.2046,
+          "rankByScore": 4,
+          "rankByArea": 5
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d05",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.323747,
+          "box": {
+            "x": 55.6026,
+            "y": 42.4251,
+            "w": 16.2099,
+            "h": 11.1874
+          },
+          "areaPct": 1.8135,
+          "rankByScore": 5,
+          "rankByArea": 10
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d06",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.31923,
+          "box": {
+            "x": 18.5502,
+            "y": 42.3732,
+            "w": 18.3937,
+            "h": 12.0715
+          },
+          "areaPct": 2.2204,
+          "rankByScore": 6,
+          "rankByArea": 4
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d07",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.318744,
+          "box": {
+            "x": 37.6621,
+            "y": 42.2625,
+            "w": 17.2234,
+            "h": 11.6546
+          },
+          "areaPct": 2.0073,
+          "rankByScore": 7,
+          "rankByArea": 7
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d08",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.314289,
+          "box": {
+            "x": 37.8186,
+            "y": 30.1888,
+            "w": 17.1928,
+            "h": 11.6234
+          },
+          "areaPct": 1.9984,
+          "rankByScore": 8,
+          "rankByArea": 8
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d09",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.30501,
+          "box": {
+            "x": 18.6671,
+            "y": 16.7644,
+            "w": 18.5024,
+            "h": 12.4593
+          },
+          "areaPct": 2.3053,
+          "rankByScore": 9,
+          "rankByArea": 2
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:grounding-dino:d10",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.304389,
+          "box": {
+            "x": 18.5966,
+            "y": 54.6839,
+            "w": 18.2439,
+            "h": 12.029
+          },
+          "areaPct": 2.1946,
+          "rankByScore": 10,
+          "rankByArea": 6
+        }
+      ],
+      "primaryBoxAId": "shoe-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxBId": "shoe-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1250.074,
+        "endToEndMs": 1262.781
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/shoe-box-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "shoe-box-subject-cn-01:original:owlvit",
+      "imageId": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "expectedDisplayName": "鞋盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://bk.taobao.com/k/baobaoshounadai_4624/4c4e1eb5fddc9974ec672a2dceee2cd2.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 90364
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "shoe storage box",
+        "clear shoe box",
+        "鞋盒",
+        "shoe storage boxes",
+        "shoe box"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "shoe-box-subject-cn-01:original:owlvit:d01",
+          "label": "shoe storage box",
+          "categoryKey": "shoe-box",
+          "score": 0.3728,
+          "box": {
+            "x": 56.25,
+            "y": 30.5,
+            "w": 16,
+            "h": 11
+          },
+          "areaPct": 1.76,
+          "rankByScore": 1,
+          "rankByArea": 4
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:owlvit:d02",
+          "label": "shoe storage boxes",
+          "categoryKey": "shoe-box",
+          "score": 0.277065,
+          "box": {
+            "x": 54,
+            "y": 42.75,
+            "w": 17.875,
+            "h": 11
+          },
+          "areaPct": 1.9663,
+          "rankByScore": 2,
+          "rankByArea": 3
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:owlvit:d03",
+          "label": "shoe box",
+          "categoryKey": "shoe-box",
+          "score": 0.226193,
+          "box": {
+            "x": 18,
+            "y": 17.625,
+            "w": 18.5,
+            "h": 10.875
+          },
+          "areaPct": 2.0119,
+          "rankByScore": 3,
+          "rankByArea": 1
+        },
+        {
+          "id": "shoe-box-subject-cn-01:original:owlvit:d04",
+          "label": "shoe storage box",
+          "categoryKey": "shoe-box",
+          "score": 0.223565,
+          "box": {
+            "x": 54.5,
+            "y": 66,
+            "w": 17.375,
+            "h": 11.375
+          },
+          "areaPct": 1.9764,
+          "rankByScore": 4,
+          "rankByArea": 2
+        }
+      ],
+      "primaryBoxAId": "shoe-box-subject-cn-01:original:owlvit:d03",
+      "primaryBoxBId": "shoe-box-subject-cn-01:original:owlvit:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 13,
+          "outputCount": 4,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 178.566,
+        "endToEndMs": 190.512
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/shoe-box-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "expectedDisplayName": "鞋盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://bk.taobao.com/k/baobaoshounadai_4624/4c4e1eb5fddc9974ec672a2dceee2cd2.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 90364
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "shoe storage box",
+        "clear shoe box",
+        "鞋盒",
+        "shoe storage boxes",
+        "shoe box"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.424018,
+          "box": {
+            "x": 10.0884,
+            "y": 16.8076,
+            "w": 78.1513,
+            "h": 77.4488
+          },
+          "areaPct": 60.5272,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.341649,
+          "box": {
+            "x": 55.6996,
+            "y": 30.1052,
+            "w": 16.614,
+            "h": 11.5944
+          },
+          "areaPct": 1.9263,
+          "rankByScore": 2,
+          "rankByArea": 9
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.338644,
+          "box": {
+            "x": 37.4813,
+            "y": 16.8904,
+            "w": 18.0088,
+            "h": 12.6615
+          },
+          "areaPct": 2.2802,
+          "rankByScore": 3,
+          "rankByArea": 3
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.324319,
+          "box": {
+            "x": 18.6856,
+            "y": 29.8163,
+            "w": 18.4082,
+            "h": 11.9761
+          },
+          "areaPct": 2.2046,
+          "rankByScore": 4,
+          "rankByArea": 5
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.323747,
+          "box": {
+            "x": 55.6026,
+            "y": 42.4251,
+            "w": 16.2099,
+            "h": 11.1874
+          },
+          "areaPct": 1.8135,
+          "rankByScore": 5,
+          "rankByArea": 10
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.31923,
+          "box": {
+            "x": 18.5502,
+            "y": 42.3732,
+            "w": 18.3937,
+            "h": 12.0715
+          },
+          "areaPct": 2.2204,
+          "rankByScore": 6,
+          "rankByArea": 4
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.318744,
+          "box": {
+            "x": 37.6621,
+            "y": 42.2625,
+            "w": 17.2234,
+            "h": 11.6546
+          },
+          "areaPct": 2.0073,
+          "rankByScore": 7,
+          "rankByArea": 7
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.314289,
+          "box": {
+            "x": 37.8186,
+            "y": 30.1888,
+            "w": 17.1928,
+            "h": 11.6234
+          },
+          "areaPct": 1.9984,
+          "rankByScore": 8,
+          "rankByArea": 8
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.30501,
+          "box": {
+            "x": 18.6671,
+            "y": 16.7644,
+            "w": 18.5024,
+            "h": 12.4593
+          },
+          "areaPct": 2.3053,
+          "rankByScore": 9,
+          "rankByArea": 2
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+          "categoryKey": "",
+          "score": 0.304389,
+          "box": {
+            "x": 18.5966,
+            "y": 54.6839,
+            "w": 18.2439,
+            "h": 12.029
+          },
+          "areaPct": 2.1946,
+          "rankByScore": 10,
+          "rankByArea": 6
+        }
+      ],
+      "primaryBoxAId": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxBId": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1258.732,
+        "endToEndMs": 1271.756
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/shoe-box-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "shoe-box-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "expectedDisplayName": "鞋盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://bk.taobao.com/k/baobaoshounadai_4624/4c4e1eb5fddc9974ec672a2dceee2cd2.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 90364
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "shoe storage box",
+        "clear shoe box",
+        "鞋盒",
+        "shoe storage boxes",
+        "shoe box"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "label": "shoe storage box",
+          "categoryKey": "shoe-box",
+          "score": 0.3728,
+          "box": {
+            "x": 56.25,
+            "y": 30.5,
+            "w": 16,
+            "h": 11
+          },
+          "areaPct": 1.76,
+          "rankByScore": 1,
+          "rankByArea": 4
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:owlvit:d02",
+          "label": "shoe storage boxes",
+          "categoryKey": "shoe-box",
+          "score": 0.277065,
+          "box": {
+            "x": 54,
+            "y": 42.75,
+            "w": 17.875,
+            "h": 11
+          },
+          "areaPct": 1.9663,
+          "rankByScore": 2,
+          "rankByArea": 3
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:owlvit:d03",
+          "label": "shoe box",
+          "categoryKey": "shoe-box",
+          "score": 0.226193,
+          "box": {
+            "x": 18,
+            "y": 17.625,
+            "w": 18.5,
+            "h": 10.875
+          },
+          "areaPct": 2.0119,
+          "rankByScore": 3,
+          "rankByArea": 1
+        },
+        {
+          "id": "shoe-box-subject-cn-01:normalized-1024:owlvit:d04",
+          "label": "shoe storage box",
+          "categoryKey": "shoe-box",
+          "score": 0.223565,
+          "box": {
+            "x": 54.5,
+            "y": 66,
+            "w": 17.375,
+            "h": 11.375
+          },
+          "areaPct": 1.9764,
+          "rankByScore": 4,
+          "rankByArea": 2
+        }
+      ],
+      "primaryBoxAId": "shoe-box-subject-cn-01:normalized-1024:owlvit:d03",
+      "primaryBoxBId": "shoe-box-subject-cn-01:normalized-1024:owlvit:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 13,
+          "outputCount": 4,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 181.73,
+        "endToEndMs": 194.155
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/shoe-box-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "underbed-storage-box-subject-cn-01:original:grounding-dino",
+      "imageId": "underbed-storage-box-subject-cn-01",
+      "categoryId": "underbed-storage-box",
+      "expectedDisplayName": "床底收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/ZlpoNmI4NjY3eGRhemFXZ3FyOXJIUT09.htm",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 51448
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "underbed storage box",
+        "under bed storage container",
+        "床底收纳箱",
+        "underbed storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d01",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.48878,
+          "box": {
+            "x": 53.0702,
+            "y": 23.8061,
+            "w": 41.0713,
+            "h": 17.0157
+          },
+          "areaPct": 6.9886,
+          "rankByScore": 1,
+          "rankByArea": 4
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d02",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.36892,
+          "box": {
+            "x": 53.7373,
+            "y": 61.6345,
+            "w": 38.5239,
+            "h": 31.2357
+          },
+          "areaPct": 12.0332,
+          "rankByScore": 2,
+          "rankByArea": 1
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d03",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.36338,
+          "box": {
+            "x": 5.8069,
+            "y": 17.0445,
+            "w": 39.8212,
+            "h": 23.1008
+          },
+          "areaPct": 9.199,
+          "rankByScore": 3,
+          "rankByArea": 2
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d04",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.342109,
+          "box": {
+            "x": 10.0056,
+            "y": 66.7703,
+            "w": 36.3574,
+            "h": 25.0573
+          },
+          "areaPct": 9.1102,
+          "rankByScore": 4,
+          "rankByArea": 3
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d05",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.278865,
+          "box": {
+            "x": 10.4416,
+            "y": 75.5587,
+            "w": 35.765,
+            "h": 15.5524
+          },
+          "areaPct": 5.5623,
+          "rankByScore": 5,
+          "rankByArea": 8
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d06",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.265993,
+          "box": {
+            "x": 11.1415,
+            "y": 66.7086,
+            "w": 35.3626,
+            "h": 7.867
+          },
+          "areaPct": 2.782,
+          "rankByScore": 6,
+          "rankByArea": 10
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d07",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.245964,
+          "box": {
+            "x": 54.2516,
+            "y": 61.9905,
+            "w": 38.4029,
+            "h": 16.3883
+          },
+          "areaPct": 6.2936,
+          "rankByScore": 7,
+          "rankByArea": 5
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d08",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.216951,
+          "box": {
+            "x": 54.3572,
+            "y": 77.8735,
+            "w": 36.5209,
+            "h": 15.3145
+          },
+          "areaPct": 5.593,
+          "rankByScore": 8,
+          "rankByArea": 7
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d09",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.209519,
+          "box": {
+            "x": 54.052,
+            "y": 70.3953,
+            "w": 37.6159,
+            "h": 15.2673
+          },
+          "areaPct": 5.7429,
+          "rankByScore": 9,
+          "rankByArea": 6
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:original:grounding-dino:d10",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.20722,
+          "box": {
+            "x": 10.8342,
+            "y": 75.3528,
+            "w": 35.4148,
+            "h": 9.0239
+          },
+          "areaPct": 3.1958,
+          "rankByScore": 10,
+          "rankByArea": 9
+        }
+      ],
+      "primaryBoxAId": "underbed-storage-box-subject-cn-01:original:grounding-dino:d02",
+      "primaryBoxBId": "underbed-storage-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1273.66,
+        "endToEndMs": 1284.183
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/underbed-storage-box-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "underbed-storage-box-subject-cn-01:original:owlvit",
+      "imageId": "underbed-storage-box-subject-cn-01",
+      "categoryId": "underbed-storage-box",
+      "expectedDisplayName": "床底收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/ZlpoNmI4NjY3eGRhemFXZ3FyOXJIUT09.htm",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 51448
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "underbed storage box",
+        "under bed storage container",
+        "床底收纳箱",
+        "underbed storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 172.662,
+        "endToEndMs": 182.637
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/underbed-storage-box-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "underbed-storage-box-subject-cn-01",
+      "categoryId": "underbed-storage-box",
+      "expectedDisplayName": "床底收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/ZlpoNmI4NjY3eGRhemFXZ3FyOXJIUT09.htm",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 51448
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "underbed storage box",
+        "under bed storage container",
+        "床底收纳箱",
+        "underbed storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.48878,
+          "box": {
+            "x": 53.0702,
+            "y": 23.8061,
+            "w": 41.0713,
+            "h": 17.0157
+          },
+          "areaPct": 6.9886,
+          "rankByScore": 1,
+          "rankByArea": 4
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.36892,
+          "box": {
+            "x": 53.7373,
+            "y": 61.6345,
+            "w": 38.5239,
+            "h": 31.2357
+          },
+          "areaPct": 12.0332,
+          "rankByScore": 2,
+          "rankByArea": 1
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.36338,
+          "box": {
+            "x": 5.8069,
+            "y": 17.0445,
+            "w": 39.8212,
+            "h": 23.1008
+          },
+          "areaPct": 9.199,
+          "rankByScore": 3,
+          "rankByArea": 2
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.342109,
+          "box": {
+            "x": 10.0056,
+            "y": 66.7703,
+            "w": 36.3574,
+            "h": 25.0573
+          },
+          "areaPct": 9.1102,
+          "rankByScore": 4,
+          "rankByArea": 3
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.278865,
+          "box": {
+            "x": 10.4416,
+            "y": 75.5587,
+            "w": 35.765,
+            "h": 15.5524
+          },
+          "areaPct": 5.5623,
+          "rankByScore": 5,
+          "rankByArea": 8
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.265993,
+          "box": {
+            "x": 11.1415,
+            "y": 66.7086,
+            "w": 35.3626,
+            "h": 7.867
+          },
+          "areaPct": 2.782,
+          "rankByScore": 6,
+          "rankByArea": 10
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.245964,
+          "box": {
+            "x": 54.2516,
+            "y": 61.9905,
+            "w": 38.4029,
+            "h": 16.3883
+          },
+          "areaPct": 6.2936,
+          "rankByScore": 7,
+          "rankByArea": 5
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.216951,
+          "box": {
+            "x": 54.3572,
+            "y": 77.8735,
+            "w": 36.5209,
+            "h": 15.3145
+          },
+          "areaPct": 5.593,
+          "rankByScore": 8,
+          "rankByArea": 7
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.209519,
+          "box": {
+            "x": 54.052,
+            "y": 70.3953,
+            "w": 37.6159,
+            "h": 15.2673
+          },
+          "areaPct": 5.7429,
+          "rankByScore": 9,
+          "rankByArea": 6
+        },
+        {
+          "id": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "underbed storage box. under bed storage container. [UNK] [UNK] [UNK] [UNK] [UNK]. underbed storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.20722,
+          "box": {
+            "x": 10.8342,
+            "y": 75.3528,
+            "w": 35.4148,
+            "h": 9.0239
+          },
+          "areaPct": 3.1958,
+          "rankByScore": 10,
+          "rankByArea": 9
+        }
+      ],
+      "primaryBoxAId": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+      "primaryBoxBId": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1298.199,
+        "endToEndMs": 1309.87
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/underbed-storage-box-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "underbed-storage-box-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "underbed-storage-box-subject-cn-01",
+      "categoryId": "underbed-storage-box",
+      "expectedDisplayName": "床底收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/ZlpoNmI4NjY3eGRhemFXZ3FyOXJIUT09.htm",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 51448
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "underbed storage box",
+        "under bed storage container",
+        "床底收纳箱",
+        "underbed storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 187.488,
+        "endToEndMs": 197.165
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/underbed-storage-box-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "folding-storage-crate-subject-cn-01:original:grounding-dino",
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "expectedDisplayName": "折叠收纳筐",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/RWt2QjhBS1k5RWJhQ08rblhDcm0rdz09.htm",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/folding-storage-crate/folding-storage-crate-subject-cn-01.jpg",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 232510
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "folding storage crate",
+        "collapsible storage crate",
+        "折叠收纳筐",
+        "folding storage crates"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d01",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.483992,
+          "box": {
+            "x": 30.6422,
+            "y": 34.8151,
+            "w": 49.3596,
+            "h": 61.7202
+          },
+          "areaPct": 30.4648,
+          "rankByScore": 1,
+          "rankByArea": 3
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d02",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.310403,
+          "box": {
+            "x": 17.3341,
+            "y": 34.0486,
+            "w": 62.1029,
+            "h": 63.8952
+          },
+          "areaPct": 39.6808,
+          "rankByScore": 2,
+          "rankByArea": 1
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d03",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.245121,
+          "box": {
+            "x": 17.7632,
+            "y": 48.7605,
+            "w": 25.2638,
+            "h": 49.8703
+          },
+          "areaPct": 12.5991,
+          "rankByScore": 3,
+          "rankByArea": 5
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d04",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.234097,
+          "box": {
+            "x": 30.5635,
+            "y": 34.4053,
+            "w": 48.4301,
+            "h": 18.8059
+          },
+          "areaPct": 9.1077,
+          "rankByScore": 4,
+          "rankByArea": 9
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d05",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.176339,
+          "box": {
+            "x": 34.9589,
+            "y": 69.8798,
+            "w": 44.5547,
+            "h": 25.8314
+          },
+          "areaPct": 11.5091,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d06",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.14042,
+          "box": {
+            "x": 40.3049,
+            "y": 51.3193,
+            "w": 39.1869,
+            "h": 23.8147
+          },
+          "areaPct": 9.3322,
+          "rankByScore": 6,
+          "rankByArea": 8
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d07",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.128258,
+          "box": {
+            "x": 30.7245,
+            "y": 34.69,
+            "w": 49.1189,
+            "h": 61.6596
+          },
+          "areaPct": 30.2865,
+          "rankByScore": 7,
+          "rankByArea": 4
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d08",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.112548,
+          "box": {
+            "x": 34.9808,
+            "y": 70.6357,
+            "w": 44.5435,
+            "h": 25.3967
+          },
+          "areaPct": 11.3126,
+          "rankByScore": 8,
+          "rankByArea": 7
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d09",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.103911,
+          "box": {
+            "x": 17.6425,
+            "y": 34.0435,
+            "w": 61.8552,
+            "h": 63.9327
+          },
+          "areaPct": 39.5457,
+          "rankByScore": 9,
+          "rankByArea": 2
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:original:grounding-dino:d10",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.095963,
+          "box": {
+            "x": 42.4504,
+            "y": 34.8733,
+            "w": 36.5918,
+            "h": 18.5385
+          },
+          "areaPct": 6.7836,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "folding-storage-crate-subject-cn-01:original:grounding-dino:d02",
+      "primaryBoxBId": "folding-storage-crate-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1272.092,
+        "endToEndMs": 1296.055
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/folding-storage-crate-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "folding-storage-crate-subject-cn-01:original:owlvit",
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "expectedDisplayName": "折叠收纳筐",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/RWt2QjhBS1k5RWJhQ08rblhDcm0rdz09.htm",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/folding-storage-crate/folding-storage-crate-subject-cn-01.jpg",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 232510
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "folding storage crate",
+        "collapsible storage crate",
+        "折叠收纳筐",
+        "folding storage crates"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 190.558,
+        "endToEndMs": 214.213
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/folding-storage-crate-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "expectedDisplayName": "折叠收纳筐",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/RWt2QjhBS1k5RWJhQ08rblhDcm0rdz09.htm",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/folding-storage-crate/folding-storage-crate-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1748313
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "folding storage crate",
+        "collapsible storage crate",
+        "折叠收纳筐",
+        "folding storage crates"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.515498,
+          "box": {
+            "x": 30.6311,
+            "y": 34.9096,
+            "w": 49.3083,
+            "h": 61.6895
+          },
+          "areaPct": 30.418,
+          "rankByScore": 1,
+          "rankByArea": 2
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.273583,
+          "box": {
+            "x": 17.368,
+            "y": 33.8418,
+            "w": 62.1459,
+            "h": 64.008
+          },
+          "areaPct": 39.7783,
+          "rankByScore": 2,
+          "rankByArea": 1
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.255006,
+          "box": {
+            "x": 30.5515,
+            "y": 34.3178,
+            "w": 48.4271,
+            "h": 18.8187
+          },
+          "areaPct": 9.1134,
+          "rankByScore": 3,
+          "rankByArea": 9
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.24933,
+          "box": {
+            "x": 17.7819,
+            "y": 48.6788,
+            "w": 25.2604,
+            "h": 49.8877
+          },
+          "areaPct": 12.6018,
+          "rankByScore": 4,
+          "rankByArea": 5
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.180773,
+          "box": {
+            "x": 35.1496,
+            "y": 69.7689,
+            "w": 44.4744,
+            "h": 25.791
+          },
+          "areaPct": 11.4704,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.146826,
+          "box": {
+            "x": 40.6637,
+            "y": 51.0072,
+            "w": 38.6442,
+            "h": 24.0589
+          },
+          "areaPct": 9.2974,
+          "rankByScore": 6,
+          "rankByArea": 8
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.135369,
+          "box": {
+            "x": 30.652,
+            "y": 34.7031,
+            "w": 49.2522,
+            "h": 61.6442
+          },
+          "areaPct": 30.3611,
+          "rankByScore": 7,
+          "rankByArea": 3
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.115917,
+          "box": {
+            "x": 34.9212,
+            "y": 70.2012,
+            "w": 44.456,
+            "h": 25.4364
+          },
+          "areaPct": 11.308,
+          "rankByScore": 8,
+          "rankByArea": 7
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.107308,
+          "box": {
+            "x": 42.5245,
+            "y": 34.75,
+            "w": 36.5624,
+            "h": 18.6511
+          },
+          "areaPct": 6.8193,
+          "rankByScore": 9,
+          "rankByArea": 10
+        },
+        {
+          "id": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+          "categoryKey": "",
+          "score": 0.097429,
+          "box": {
+            "x": 35.8001,
+            "y": 51.2155,
+            "w": 44.2166,
+            "h": 44.9325
+          },
+          "areaPct": 19.8676,
+          "rankByScore": 10,
+          "rankByArea": 4
+        }
+      ],
+      "primaryBoxAId": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d02",
+      "primaryBoxBId": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1272.176,
+        "endToEndMs": 1287.039
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/folding-storage-crate-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "folding-storage-crate-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "expectedDisplayName": "折叠收纳筐",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://www.taobao.com/list/item/RWt2QjhBS1k5RWJhQ08rblhDcm0rdz09.htm",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/folding-storage-crate/folding-storage-crate-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1748313
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "folding storage crate",
+        "collapsible storage crate",
+        "折叠收纳筐",
+        "folding storage crates"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 184.102,
+        "endToEndMs": 198.254
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/folding-storage-crate-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "document-storage-box-subject-cn-01:original:grounding-dino",
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "expectedDisplayName": "文件收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://goods.taobao.com/t/zhuomianshounahe_4774/e2722ed0788a81a40b15d64fba133245.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/document-storage-box/document-storage-box-subject-cn-01.jpg",
+        "width": 1440,
+        "height": 1440,
+        "bytes": 161098
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "document storage box",
+        "file storage box",
+        "文件收纳箱",
+        "document storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d01",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.620091,
+          "box": {
+            "x": 7.6448,
+            "y": 24.5093,
+            "w": 84.3853,
+            "h": 59.2607
+          },
+          "areaPct": 50.0073,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d02",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.327905,
+          "box": {
+            "x": 7.8643,
+            "y": 23.6866,
+            "w": 84.2677,
+            "h": 24.7666
+          },
+          "areaPct": 20.8702,
+          "rankByScore": 2,
+          "rankByArea": 5
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d03",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.271138,
+          "box": {
+            "x": 8.7556,
+            "y": 60.9462,
+            "w": 82.5923,
+            "h": 23.5448
+          },
+          "areaPct": 19.4462,
+          "rankByScore": 3,
+          "rankByArea": 9
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d04",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.241062,
+          "box": {
+            "x": 9.0302,
+            "y": 60.2822,
+            "w": 82.4716,
+            "h": 23.6173
+          },
+          "areaPct": 19.4776,
+          "rankByScore": 4,
+          "rankByArea": 8
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d05",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.227548,
+          "box": {
+            "x": 8.2516,
+            "y": 23.9268,
+            "w": 84.1359,
+            "h": 59.3661
+          },
+          "areaPct": 49.9482,
+          "rankByScore": 5,
+          "rankByArea": 2
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d06",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.18078,
+          "box": {
+            "x": 8.3776,
+            "y": 49.6549,
+            "w": 83.0623,
+            "h": 23.7529
+          },
+          "areaPct": 19.7297,
+          "rankByScore": 6,
+          "rankByArea": 7
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d07",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.163543,
+          "box": {
+            "x": 8.1038,
+            "y": 23.7728,
+            "w": 84.0427,
+            "h": 24.6
+          },
+          "areaPct": 20.6745,
+          "rankByScore": 7,
+          "rankByArea": 6
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d08",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.151192,
+          "box": {
+            "x": 8.1893,
+            "y": 24.5652,
+            "w": 83.9391,
+            "h": 47.9346
+          },
+          "areaPct": 40.2359,
+          "rankByScore": 8,
+          "rankByArea": 3
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d09",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.124773,
+          "box": {
+            "x": 7.9519,
+            "y": 40.1656,
+            "w": 83.3306,
+            "h": 22.1935
+          },
+          "areaPct": 18.494,
+          "rankByScore": 9,
+          "rankByArea": 10
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:original:grounding-dino:d10",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.118828,
+          "box": {
+            "x": 8.2268,
+            "y": 41.5105,
+            "w": 83.2833,
+            "h": 31.808
+          },
+          "areaPct": 26.4908,
+          "rankByScore": 10,
+          "rankByArea": 4
+        }
+      ],
+      "primaryBoxAId": "document-storage-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxBId": "document-storage-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1285.402,
+        "endToEndMs": 1309.804
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/document-storage-box-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "document-storage-box-subject-cn-01:original:owlvit",
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "expectedDisplayName": "文件收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://goods.taobao.com/t/zhuomianshounahe_4774/e2722ed0788a81a40b15d64fba133245.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/document-storage-box/document-storage-box-subject-cn-01.jpg",
+        "width": 1440,
+        "height": 1440,
+        "bytes": 161098
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "document storage box",
+        "file storage box",
+        "文件收纳箱",
+        "document storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 192.234,
+        "endToEndMs": 217.379
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/document-storage-box-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "expectedDisplayName": "文件收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://goods.taobao.com/t/zhuomianshounahe_4774/e2722ed0788a81a40b15d64fba133245.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/document-storage-box/document-storage-box-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1457392
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "document storage box",
+        "file storage box",
+        "文件收纳箱",
+        "document storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.63685,
+          "box": {
+            "x": 7.6056,
+            "y": 24.1414,
+            "w": 84.577,
+            "h": 59.4395
+          },
+          "areaPct": 50.2721,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.319887,
+          "box": {
+            "x": 7.9211,
+            "y": 23.7401,
+            "w": 84.2613,
+            "h": 24.7917
+          },
+          "areaPct": 20.8898,
+          "rankByScore": 2,
+          "rankByArea": 4
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.272679,
+          "box": {
+            "x": 8.6937,
+            "y": 61.0066,
+            "w": 82.611,
+            "h": 23.4963
+          },
+          "areaPct": 19.4105,
+          "rankByScore": 3,
+          "rankByArea": 8
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.211751,
+          "box": {
+            "x": 8.231,
+            "y": 23.6047,
+            "w": 84.1666,
+            "h": 59.4594
+          },
+          "areaPct": 50.045,
+          "rankByScore": 4,
+          "rankByArea": 2
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.188045,
+          "box": {
+            "x": 8.9935,
+            "y": 60.3105,
+            "w": 82.5366,
+            "h": 23.583
+          },
+          "areaPct": 19.4646,
+          "rankByScore": 5,
+          "rankByArea": 7
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.172404,
+          "box": {
+            "x": 8.0039,
+            "y": 49.8406,
+            "w": 83.2509,
+            "h": 23.6796
+          },
+          "areaPct": 19.7135,
+          "rankByScore": 6,
+          "rankByArea": 6
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.164893,
+          "box": {
+            "x": 8.072,
+            "y": 23.6647,
+            "w": 84.1422,
+            "h": 24.6509
+          },
+          "areaPct": 20.7418,
+          "rankByScore": 7,
+          "rankByArea": 5
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.163177,
+          "box": {
+            "x": 8.095,
+            "y": 24.2702,
+            "w": 84.1235,
+            "h": 48.1081
+          },
+          "areaPct": 40.4702,
+          "rankByScore": 8,
+          "rankByArea": 3
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.138245,
+          "box": {
+            "x": 8.0633,
+            "y": 40.0489,
+            "w": 83.3422,
+            "h": 22.3315
+          },
+          "areaPct": 18.6116,
+          "rankByScore": 9,
+          "rankByArea": 9
+        },
+        {
+          "id": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.118937,
+          "box": {
+            "x": 31.1786,
+            "y": 89.2504,
+            "w": 68.1022,
+            "h": 10.515
+          },
+          "areaPct": 7.1609,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxBId": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1254.35,
+        "endToEndMs": 1269.374
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/document-storage-box-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "document-storage-box-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "expectedDisplayName": "文件收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "sourceUrl": "https://goods.taobao.com/t/zhuomianshounahe_4774/e2722ed0788a81a40b15d64fba133245.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/document-storage-box/document-storage-box-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1457392
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "document storage box",
+        "file storage box",
+        "文件收纳箱",
+        "document storage boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 175.758,
+        "endToEndMs": 188.081
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/document-storage-box-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "jewelry-box-subject-cn-01:original:grounding-dino",
+      "imageId": "jewelry-box-subject-cn-01",
+      "categoryId": "jewelry-box",
+      "expectedDisplayName": "首饰盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/685282549621.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 258125
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "jewelry box",
+        "jewellery case",
+        "首饰盒",
+        "jewelry boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d01",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.664923,
+          "box": {
+            "x": 12.0374,
+            "y": 6.6489,
+            "w": 82.4804,
+            "h": 93.3511
+          },
+          "areaPct": 76.9964,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d02",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.151671,
+          "box": {
+            "x": 14.2036,
+            "y": 31.87,
+            "w": 68.2289,
+            "h": 44.7893
+          },
+          "areaPct": 30.5592,
+          "rankByScore": 2,
+          "rankByArea": 7
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d03",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.141213,
+          "box": {
+            "x": 16.1595,
+            "y": 19.4207,
+            "w": 70.6222,
+            "h": 62.0995
+          },
+          "areaPct": 43.856,
+          "rankByScore": 3,
+          "rankByArea": 5
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d04",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.138371,
+          "box": {
+            "x": 12.2648,
+            "y": 6.9747,
+            "w": 82.0257,
+            "h": 93.0253
+          },
+          "areaPct": 76.3047,
+          "rankByScore": 4,
+          "rankByArea": 2
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d05",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.125984,
+          "box": {
+            "x": 12.9068,
+            "y": 31.8388,
+            "w": 70.6354,
+            "h": 57.4446
+          },
+          "areaPct": 40.5762,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d06",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.094337,
+          "box": {
+            "x": 12.782,
+            "y": 29.2905,
+            "w": 71.8747,
+            "h": 67.85
+          },
+          "areaPct": 48.767,
+          "rankByScore": 6,
+          "rankByArea": 4
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d07",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.093737,
+          "box": {
+            "x": 15.8188,
+            "y": 17.023,
+            "w": 71.9782,
+            "h": 71.995
+          },
+          "areaPct": 51.8207,
+          "rankByScore": 7,
+          "rankByArea": 3
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d08",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.08794,
+          "box": {
+            "x": 44.3374,
+            "y": 16.1819,
+            "w": 42.058,
+            "h": 42.5348
+          },
+          "areaPct": 17.8893,
+          "rankByScore": 8,
+          "rankByArea": 8
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d09",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.084261,
+          "box": {
+            "x": 17.4484,
+            "y": 33.5762,
+            "w": 26.5475,
+            "h": 21.5386
+          },
+          "areaPct": 5.718,
+          "rankByScore": 9,
+          "rankByArea": 9
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:original:grounding-dino:d10",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.080249,
+          "box": {
+            "x": 4.651,
+            "y": 12.997,
+            "w": 16.3449,
+            "h": 28.5479
+          },
+          "areaPct": 4.6661,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "jewelry-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxBId": "jewelry-box-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1251.577,
+        "endToEndMs": 1259.595
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/jewelry-box-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "jewelry-box-subject-cn-01:original:owlvit",
+      "imageId": "jewelry-box-subject-cn-01",
+      "categoryId": "jewelry-box",
+      "expectedDisplayName": "首饰盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/685282549621.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 258125
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "jewelry box",
+        "jewellery case",
+        "首饰盒",
+        "jewelry boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 175.152,
+        "endToEndMs": 181.734
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/jewelry-box-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "jewelry-box-subject-cn-01",
+      "categoryId": "jewelry-box",
+      "expectedDisplayName": "首饰盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/685282549621.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 258125
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "jewelry box",
+        "jewellery case",
+        "首饰盒",
+        "jewelry boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.664923,
+          "box": {
+            "x": 12.0374,
+            "y": 6.6489,
+            "w": 82.4804,
+            "h": 93.3511
+          },
+          "areaPct": 76.9964,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.151671,
+          "box": {
+            "x": 14.2036,
+            "y": 31.87,
+            "w": 68.2289,
+            "h": 44.7893
+          },
+          "areaPct": 30.5592,
+          "rankByScore": 2,
+          "rankByArea": 7
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.141213,
+          "box": {
+            "x": 16.1595,
+            "y": 19.4207,
+            "w": 70.6222,
+            "h": 62.0995
+          },
+          "areaPct": 43.856,
+          "rankByScore": 3,
+          "rankByArea": 5
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.138371,
+          "box": {
+            "x": 12.2648,
+            "y": 6.9747,
+            "w": 82.0257,
+            "h": 93.0253
+          },
+          "areaPct": 76.3047,
+          "rankByScore": 4,
+          "rankByArea": 2
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.125984,
+          "box": {
+            "x": 12.9068,
+            "y": 31.8388,
+            "w": 70.6354,
+            "h": 57.4446
+          },
+          "areaPct": 40.5762,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.094337,
+          "box": {
+            "x": 12.782,
+            "y": 29.2905,
+            "w": 71.8747,
+            "h": 67.85
+          },
+          "areaPct": 48.767,
+          "rankByScore": 6,
+          "rankByArea": 4
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.093737,
+          "box": {
+            "x": 15.8188,
+            "y": 17.023,
+            "w": 71.9782,
+            "h": 71.995
+          },
+          "areaPct": 51.8207,
+          "rankByScore": 7,
+          "rankByArea": 3
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.08794,
+          "box": {
+            "x": 44.3374,
+            "y": 16.1819,
+            "w": 42.058,
+            "h": 42.5348
+          },
+          "areaPct": 17.8893,
+          "rankByScore": 8,
+          "rankByArea": 8
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.084261,
+          "box": {
+            "x": 17.4484,
+            "y": 33.5762,
+            "w": 26.5475,
+            "h": 21.5386
+          },
+          "areaPct": 5.718,
+          "rankByScore": 9,
+          "rankByArea": 9
+        },
+        {
+          "id": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "jewelry box. jewellery case. [UNK] [UNK] [UNK]. jewelry boxes. [SEP]",
+          "categoryKey": "",
+          "score": 0.080249,
+          "box": {
+            "x": 4.651,
+            "y": 12.997,
+            "w": 16.3449,
+            "h": 28.5479
+          },
+          "areaPct": 4.6661,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxBId": "jewelry-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1235.735,
+        "endToEndMs": 1242.561
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/jewelry-box-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "jewelry-box-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "jewelry-box-subject-cn-01",
+      "categoryId": "jewelry-box",
+      "expectedDisplayName": "首饰盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/685282549621.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 258125
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "jewelry box",
+        "jewellery case",
+        "首饰盒",
+        "jewelry boxes"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 168.667,
+        "endToEndMs": 175.552
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/jewelry-box-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino",
+      "imageId": "cosmetic-organizer-subject-cn-01",
+      "categoryId": "cosmetic-organizer",
+      "expectedDisplayName": "化妆品收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://www.shejijia.com/design/detail/picture/355602016264.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/cosmetic-organizer/cosmetic-organizer-subject-cn-01.jpg",
+        "width": 1146,
+        "height": 1146,
+        "bytes": 667473
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "cosmetic organizer",
+        "makeup organizer",
+        "化妆品收纳盒",
+        "cosmetic organizers"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d01",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.379466,
+          "box": {
+            "x": 8.6043,
+            "y": 22.8471,
+            "w": 72.9296,
+            "h": 77.1529
+          },
+          "areaPct": 56.2673,
+          "rankByScore": 1,
+          "rankByArea": 3
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d02",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.357075,
+          "box": {
+            "x": 86.4806,
+            "y": 60.7089,
+            "w": 13.3521,
+            "h": 34.8597
+          },
+          "areaPct": 4.6545,
+          "rankByScore": 2,
+          "rankByArea": 8
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d03",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.264259,
+          "box": {
+            "x": 9.4578,
+            "y": 0.6388,
+            "w": 79.1657,
+            "h": 99.3612
+          },
+          "areaPct": 78.66,
+          "rankByScore": 3,
+          "rankByArea": 1
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d04",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.212912,
+          "box": {
+            "x": 15.0124,
+            "y": 27.4527,
+            "w": 64.867,
+            "h": 68.0411
+          },
+          "areaPct": 44.1362,
+          "rankByScore": 4,
+          "rankByArea": 4
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d05",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.176642,
+          "box": {
+            "x": 9.2922,
+            "y": 65.1713,
+            "w": 62.3745,
+            "h": 34.4003
+          },
+          "areaPct": 21.457,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d06",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.167858,
+          "box": {
+            "x": 41.4794,
+            "y": 57.8795,
+            "w": 27.3955,
+            "h": 21.5021
+          },
+          "areaPct": 5.8906,
+          "rankByScore": 6,
+          "rankByArea": 7
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d07",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.164916,
+          "box": {
+            "x": 10.0728,
+            "y": 11.5333,
+            "w": 74.7526,
+            "h": 87.3635
+          },
+          "areaPct": 65.3065,
+          "rankByScore": 7,
+          "rankByArea": 2
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d08",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.164552,
+          "box": {
+            "x": 8.7707,
+            "y": 48.7826,
+            "w": 71.4282,
+            "h": 50.7095
+          },
+          "areaPct": 36.2209,
+          "rankByScore": 8,
+          "rankByArea": 5
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d09",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.160934,
+          "box": {
+            "x": 77.091,
+            "y": 79.6889,
+            "w": 18.3326,
+            "h": 20.0172
+          },
+          "areaPct": 3.6697,
+          "rankByScore": 9,
+          "rankByArea": 9
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d10",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.152619,
+          "box": {
+            "x": 30.6726,
+            "y": 28.8685,
+            "w": 8.9036,
+            "h": 28.5729
+          },
+          "areaPct": 2.544,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d03",
+      "primaryBoxBId": "cosmetic-organizer-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1300.653,
+        "endToEndMs": 1313.722
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cosmetic-organizer-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "cosmetic-organizer-subject-cn-01:original:owlvit",
+      "imageId": "cosmetic-organizer-subject-cn-01",
+      "categoryId": "cosmetic-organizer",
+      "expectedDisplayName": "化妆品收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://www.shejijia.com/design/detail/picture/355602016264.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/cosmetic-organizer/cosmetic-organizer-subject-cn-01.jpg",
+        "width": 1146,
+        "height": 1146,
+        "bytes": 667473
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "cosmetic organizer",
+        "makeup organizer",
+        "化妆品收纳盒",
+        "cosmetic organizers"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "cosmetic-organizer-subject-cn-01:original:owlvit:d01",
+          "label": "cosmetic organizer",
+          "categoryKey": "cosmetic-organizer",
+          "score": 0.3357,
+          "box": {
+            "x": 7.8534,
+            "y": 0.4363,
+            "w": 80.4538,
+            "h": 99.5637
+          },
+          "areaPct": 80.1028,
+          "rankByScore": 1,
+          "rankByArea": 1
+        }
+      ],
+      "primaryBoxAId": "cosmetic-organizer-subject-cn-01:original:owlvit:d01",
+      "primaryBoxBId": "cosmetic-organizer-subject-cn-01:original:owlvit:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 2,
+          "outputCount": 1,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 172.535,
+        "endToEndMs": 184.408
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cosmetic-organizer-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "cosmetic-organizer-subject-cn-01",
+      "categoryId": "cosmetic-organizer",
+      "expectedDisplayName": "化妆品收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://www.shejijia.com/design/detail/picture/355602016264.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/cosmetic-organizer/cosmetic-organizer-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1939028
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "cosmetic organizer",
+        "makeup organizer",
+        "化妆品收纳盒",
+        "cosmetic organizers"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.352962,
+          "box": {
+            "x": 86.5185,
+            "y": 60.6475,
+            "w": 13.3263,
+            "h": 34.9111
+          },
+          "areaPct": 4.6524,
+          "rankByScore": 1,
+          "rankByArea": 8
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.340197,
+          "box": {
+            "x": 8.4664,
+            "y": 23.2519,
+            "w": 73.0705,
+            "h": 76.7481
+          },
+          "areaPct": 56.0802,
+          "rankByScore": 2,
+          "rankByArea": 2
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.312372,
+          "box": {
+            "x": 8.9589,
+            "y": 0.3418,
+            "w": 79.4066,
+            "h": 99.6582
+          },
+          "areaPct": 79.1352,
+          "rankByScore": 3,
+          "rankByArea": 1
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.205904,
+          "box": {
+            "x": 14.3325,
+            "y": 28.2047,
+            "w": 64.8544,
+            "h": 68.0052
+          },
+          "areaPct": 44.1044,
+          "rankByScore": 4,
+          "rankByArea": 3
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.185443,
+          "box": {
+            "x": 8.813,
+            "y": 65.2592,
+            "w": 63.3544,
+            "h": 34.3272
+          },
+          "areaPct": 21.7478,
+          "rankByScore": 5,
+          "rankByArea": 6
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.164263,
+          "box": {
+            "x": 41.1352,
+            "y": 57.8882,
+            "w": 27.5961,
+            "h": 21.4886
+          },
+          "areaPct": 5.93,
+          "rankByScore": 6,
+          "rankByArea": 7
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.159549,
+          "box": {
+            "x": 8.8034,
+            "y": 48.2646,
+            "w": 71.4743,
+            "h": 51.3974
+          },
+          "areaPct": 36.7359,
+          "rankByScore": 7,
+          "rankByArea": 4
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.15877,
+          "box": {
+            "x": 77.0474,
+            "y": 79.6971,
+            "w": 18.3423,
+            "h": 19.999
+          },
+          "areaPct": 3.6683,
+          "rankByScore": 8,
+          "rankByArea": 9
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.136643,
+          "box": {
+            "x": 8.5485,
+            "y": 55.9163,
+            "w": 71.441,
+            "h": 44.0837
+          },
+          "areaPct": 31.4938,
+          "rankByScore": 9,
+          "rankByArea": 5
+        },
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "cosmetic organizer. makeup organizer. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. cosmetic organizers. [SEP]",
+          "categoryKey": "",
+          "score": 0.135148,
+          "box": {
+            "x": 30.7101,
+            "y": 28.8587,
+            "w": 8.891,
+            "h": 28.5109
+          },
+          "areaPct": 2.5349,
+          "rankByScore": 10,
+          "rankByArea": 10
+        }
+      ],
+      "primaryBoxAId": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d03",
+      "primaryBoxBId": "cosmetic-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1257.984,
+        "endToEndMs": 1275.228
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cosmetic-organizer-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "cosmetic-organizer-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "cosmetic-organizer-subject-cn-01",
+      "categoryId": "cosmetic-organizer",
+      "expectedDisplayName": "化妆品收纳盒",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://www.shejijia.com/design/detail/picture/355602016264.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/variants-first10-pilot/cosmetic-organizer/cosmetic-organizer-subject-cn-01-normalized-1024.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 1939028
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "cosmetic organizer",
+        "makeup organizer",
+        "化妆品收纳盒",
+        "cosmetic organizers"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "cosmetic-organizer-subject-cn-01:normalized-1024:owlvit:d01",
+          "label": "makeup organizer",
+          "categoryKey": "cosmetic-organizer",
+          "score": 0.208042,
+          "box": {
+            "x": 12.3047,
+            "y": 51.9531,
+            "w": 68.6523,
+            "h": 48.0469
+          },
+          "areaPct": 32.9853,
+          "rankByScore": 1,
+          "rankByArea": 1
+        }
+      ],
+      "primaryBoxAId": "cosmetic-organizer-subject-cn-01:normalized-1024:owlvit:d01",
+      "primaryBoxBId": "cosmetic-organizer-subject-cn-01:normalized-1024:owlvit:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 1,
+          "outputCount": 1,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 180.447,
+        "endToEndMs": 195.527
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/cosmetic-organizer-subject-cn-01__normalized-1024__owlvit.json"
+    },
+    {
+      "id": "bowl-subject-cn-01:original:grounding-dino",
+      "imageId": "bowl-subject-cn-01",
+      "categoryId": "bowl",
+      "expectedDisplayName": "碗",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/599276966794.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 82205
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "bowl",
+        "ceramic bowl",
+        "bowls"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d01",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.706008,
+          "box": {
+            "x": 12.7519,
+            "y": 25.7316,
+            "w": 73.6239,
+            "h": 52.6433
+          },
+          "areaPct": 38.7581,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d02",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.12337,
+          "box": {
+            "x": 35.3864,
+            "y": 43.3867,
+            "w": 29.3581,
+            "h": 6.5041
+          },
+          "areaPct": 1.9095,
+          "rankByScore": 2,
+          "rankByArea": 6
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d03",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.113291,
+          "box": {
+            "x": 13.0362,
+            "y": 25.6816,
+            "w": 73.3771,
+            "h": 52.8071
+          },
+          "areaPct": 38.7483,
+          "rankByScore": 3,
+          "rankByArea": 2
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d04",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.112904,
+          "box": {
+            "x": 15.4047,
+            "y": 71.389,
+            "w": 67.7225,
+            "h": 28.5401
+          },
+          "areaPct": 19.3281,
+          "rankByScore": 4,
+          "rankByArea": 3
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d05",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.07941,
+          "box": {
+            "x": 33.6212,
+            "y": 71.1179,
+            "w": 32.4214,
+            "h": 6.9049
+          },
+          "areaPct": 2.2387,
+          "rankByScore": 5,
+          "rankByArea": 4
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d06",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.06033,
+          "box": {
+            "x": 4.2593,
+            "y": 3.601,
+            "w": 11.1179,
+            "h": 11.0129
+          },
+          "areaPct": 1.2244,
+          "rankByScore": 6,
+          "rankByArea": 8
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d07",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.049431,
+          "box": {
+            "x": 4.0138,
+            "y": 3.5533,
+            "w": 16.9092,
+            "h": 11.2947
+          },
+          "areaPct": 1.9098,
+          "rankByScore": 7,
+          "rankByArea": 5
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d08",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.046964,
+          "box": {
+            "x": 5.856,
+            "y": 3.9603,
+            "w": 2.7553,
+            "h": 4.4769
+          },
+          "areaPct": 0.1234,
+          "rankByScore": 8,
+          "rankByArea": 10
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d09",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.041013,
+          "box": {
+            "x": 35.1523,
+            "y": 43.3791,
+            "w": 29.2267,
+            "h": 6.4264
+          },
+          "areaPct": 1.8782,
+          "rankByScore": 9,
+          "rankByArea": 7
+        },
+        {
+          "id": "bowl-subject-cn-01:original:grounding-dino:d10",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.040816,
+          "box": {
+            "x": 12.1384,
+            "y": 8.4424,
+            "w": 8.9352,
+            "h": 6.5169
+          },
+          "areaPct": 0.5823,
+          "rankByScore": 10,
+          "rankByArea": 9
+        }
+      ],
+      "primaryBoxAId": "bowl-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxBId": "bowl-subject-cn-01:original:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1229.523,
+        "endToEndMs": 1235.542
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/bowl-subject-cn-01__original__grounding-dino.json"
+    },
+    {
+      "id": "bowl-subject-cn-01:original:owlvit",
+      "imageId": "bowl-subject-cn-01",
+      "categoryId": "bowl",
+      "expectedDisplayName": "碗",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/599276966794.html",
+      "imageVariant": "original",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 82205
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "bowl",
+        "ceramic bowl",
+        "bowls"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 164.698,
+        "endToEndMs": 169.717
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/bowl-subject-cn-01__original__owlvit.json"
+    },
+    {
+      "id": "bowl-subject-cn-01:normalized-1024:grounding-dino",
+      "imageId": "bowl-subject-cn-01",
+      "categoryId": "bowl",
+      "expectedDisplayName": "碗",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/599276966794.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 82205
+      },
+      "modelId": "grounding-dino",
+      "modelName": "onnx-community/grounding-dino-tiny-ONNX",
+      "threshold": 0,
+      "promptedLabels": [
+        "bowl",
+        "ceramic bowl",
+        "bowls"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.706008,
+          "box": {
+            "x": 12.7519,
+            "y": 25.7316,
+            "w": 73.6239,
+            "h": 52.6433
+          },
+          "areaPct": 38.7581,
+          "rankByScore": 1,
+          "rankByArea": 1
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.12337,
+          "box": {
+            "x": 35.3864,
+            "y": 43.3867,
+            "w": 29.3581,
+            "h": 6.5041
+          },
+          "areaPct": 1.9095,
+          "rankByScore": 2,
+          "rankByArea": 6
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d03",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.113291,
+          "box": {
+            "x": 13.0362,
+            "y": 25.6816,
+            "w": 73.3771,
+            "h": 52.8071
+          },
+          "areaPct": 38.7483,
+          "rankByScore": 3,
+          "rankByArea": 2
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.112904,
+          "box": {
+            "x": 15.4047,
+            "y": 71.389,
+            "w": 67.7225,
+            "h": 28.5401
+          },
+          "areaPct": 19.3281,
+          "rankByScore": 4,
+          "rankByArea": 3
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.07941,
+          "box": {
+            "x": 33.6212,
+            "y": 71.1179,
+            "w": 32.4214,
+            "h": 6.9049
+          },
+          "areaPct": 2.2387,
+          "rankByScore": 5,
+          "rankByArea": 4
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d06",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.06033,
+          "box": {
+            "x": 4.2593,
+            "y": 3.601,
+            "w": 11.1179,
+            "h": 11.0129
+          },
+          "areaPct": 1.2244,
+          "rankByScore": 6,
+          "rankByArea": 8
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d07",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.049431,
+          "box": {
+            "x": 4.0138,
+            "y": 3.5533,
+            "w": 16.9092,
+            "h": 11.2947
+          },
+          "areaPct": 1.9098,
+          "rankByScore": 7,
+          "rankByArea": 5
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d08",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.046964,
+          "box": {
+            "x": 5.856,
+            "y": 3.9603,
+            "w": 2.7553,
+            "h": 4.4769
+          },
+          "areaPct": 0.1234,
+          "rankByScore": 8,
+          "rankByArea": 10
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.041013,
+          "box": {
+            "x": 35.1523,
+            "y": 43.3791,
+            "w": 29.2267,
+            "h": 6.4264
+          },
+          "areaPct": 1.8782,
+          "rankByScore": 9,
+          "rankByArea": 7
+        },
+        {
+          "id": "bowl-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "label": "bowl. ceramic bowl. bowls. [SEP]",
+          "categoryKey": "",
+          "score": 0.040816,
+          "box": {
+            "x": 12.1384,
+            "y": 8.4424,
+            "w": 8.9352,
+            "h": 6.5169
+          },
+          "areaPct": 0.5823,
+          "rankByScore": 10,
+          "rankByArea": 9
+        }
+      ],
+      "primaryBoxAId": "bowl-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxBId": "bowl-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "primaryBoxesSame": true,
+      "postProcessing": {
+        "groundingDinoTopK": {
+          "applied": true,
+          "inputCount": 900,
+          "outputCount": 10,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 647.118,
+        "detectionMs": 1227.58,
+        "endToEndMs": 1233.06
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/bowl-subject-cn-01__normalized-1024__grounding-dino.json"
+    },
+    {
+      "id": "bowl-subject-cn-01:normalized-1024:owlvit",
+      "imageId": "bowl-subject-cn-01",
+      "categoryId": "bowl",
+      "expectedDisplayName": "碗",
+      "sourceProvider": "Bing Images",
+      "sourceUrl": "https://detail.1688.com/offer/599276966794.html",
+      "imageVariant": "normalized-1024",
+      "image": {
+        "path": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+        "width": 800,
+        "height": 800,
+        "bytes": 82205
+      },
+      "modelId": "owlvit",
+      "modelName": "Xenova/owlvit-base-patch32",
+      "threshold": 0.2,
+      "promptedLabels": [
+        "bowl",
+        "ceramic bowl",
+        "bowls"
+      ],
+      "status": "ok",
+      "failureReason": "",
+      "detections": [],
+      "primaryBoxAId": "",
+      "primaryBoxBId": "",
+      "primaryBoxesSame": false,
+      "postProcessing": {
+        "owlvitCategoryNms": {
+          "applied": true,
+          "inputCount": 0,
+          "outputCount": 0,
+          "iouThreshold": 0.5,
+          "maxSubjects": 10
+        }
+      },
+      "timings": {
+        "modelLoadMs": 463.801,
+        "detectionMs": 179.997,
+        "endToEndMs": 185.442
+      },
+      "rawOutputPath": "data/generated/vision-subject-detection-raw-cn-first10-pilot/2026-05-24-subject-detection-cn-first10-pilot-run/bowl-subject-cn-01__normalized-1024__owlvit.json"
+    }
+  ]
+}

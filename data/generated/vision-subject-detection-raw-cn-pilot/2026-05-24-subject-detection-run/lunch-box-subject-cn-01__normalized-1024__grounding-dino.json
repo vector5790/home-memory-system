@@ -1,0 +1,32 @@
+{
+  "resultId": "lunch-box-subject-cn-01:normalized-1024:grounding-dino",
+  "rawDetections": [
+    {
+      "label": "lunch box",
+      "score": 0.7532650828361511,
+      "box": {
+        "x": 11.1506,
+        "y": 20.0859,
+        "w": 73.0401,
+        "h": 63.1704
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "lunch-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "label": "lunch box",
+      "score": 0.753265,
+      "box": {
+        "x": 11.1506,
+        "y": 20.0859,
+        "w": 73.0401,
+        "h": 63.1704
+      },
+      "areaPct": 46.1397,
+      "rankByScore": 1,
+      "rankByArea": 1
+    }
+  ],
+  "failureReason": ""
+}

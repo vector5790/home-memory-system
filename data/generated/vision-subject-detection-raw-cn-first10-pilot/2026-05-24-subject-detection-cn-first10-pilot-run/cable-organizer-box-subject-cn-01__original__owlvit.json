@@ -1,0 +1,15 @@
+{
+  "resultId": "cable-organizer-box-subject-cn-01:original:owlvit",
+  "rawDetections": [],
+  "normalizedDetections": [],
+  "postProcessing": {
+    "owlvitCategoryNms": {
+      "applied": true,
+      "inputCount": 0,
+      "outputCount": 0,
+      "iouThreshold": 0.5,
+      "maxSubjects": 10
+    }
+  },
+  "failureReason": ""
+}

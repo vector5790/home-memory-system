@@ -1,0 +1,1886 @@
+{
+  "kind": "vision-naming-retrieval-eval-report",
+  "version": "2026-05-25-subject-detection-cn-first10-v3-nms-run-naming-retrieval-report",
+  "generatedAt": "2026-05-25T15:31:18.405Z",
+  "detectionRunVersion": "2026-05-25-subject-detection-cn-first10-v3-nms-run",
+  "reviewVersion": "2026-05-25-subject-detection-review",
+  "manifestVersion": "2026-05-25-subject-detection-cn-first10",
+  "indexVersion": "20260523-household-cn-owlvit-clip",
+  "existingNamingEvalVersion": "20260522-seed-report",
+  "summary": {
+    "selectedPrimaryCount": 7,
+    "selectedPrimaryWithIndexEmbeddingCount": 5,
+    "subjectReviewRetrievalEvaluableRate": 0.7143,
+    "existingEvalImageCount": 50,
+    "existingEvalObjectCount": 50,
+    "existingBoxRecallAtIoU": 0.6,
+    "existingTop1RetrievalAccuracy": 0.44,
+    "existingTop3RetrievalAccuracy": 0.5,
+    "existingNameAccuracy": 0.44,
+    "existingCombinedAccuracy": 0.34,
+    "existingAverageDetectionMs": 2724.855,
+    "existingAverageEmbeddingMs": 18.251,
+    "existingAverageRetrievalMs": 0.594,
+    "note": "主体标注集当前用于检查 selected crop 是否具备命名检索条件；实际 topK 命名准确率引用已有 50 张 household-index 本地 OWL-ViT + CLIP benchmark。"
+  },
+  "selectedRows": [
+    {
+      "imageId": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "displayName": "线缆收纳盒",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+      "detectionScore": 0.746192,
+      "indexEntryCount": 3,
+      "embeddingCount": 3,
+      "retrievalEvaluable": true
+    },
+    {
+      "imageId": "closet-organizer-subject-cn-01",
+      "categoryId": "closet-organizer",
+      "displayName": "衣柜收纳格",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "closet-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "closet organizer. hanging closet organizer. [UNK] [UNK] [UNK] [UNK] [UNK]. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. [UNK] [UNK] [UNK] [UNK] [UNK]. [UNK] [UNK] 分 [UNK] [UNK] [UNK]. closet organizers. [SEP]",
+      "detectionScore": 0.670138,
+      "indexEntryCount": 3,
+      "embeddingCount": 3,
+      "retrievalEvaluable": true
+    },
+    {
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "displayName": "文件收纳箱",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+      "detectionScore": 0.63685,
+      "indexEntryCount": 0,
+      "embeddingCount": 0,
+      "retrievalEvaluable": false
+    },
+    {
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "displayName": "折叠收纳筐",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+      "detectionScore": 0.515498,
+      "indexEntryCount": 0,
+      "embeddingCount": 0,
+      "retrievalEvaluable": false
+    },
+    {
+      "imageId": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "displayName": "鞋盒",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+      "detectionScore": 0.656917,
+      "indexEntryCount": 3,
+      "embeddingCount": 3,
+      "retrievalEvaluable": true
+    },
+    {
+      "imageId": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "displayName": "收纳篮",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+      "detectionScore": 0.629283,
+      "indexEntryCount": 3,
+      "embeddingCount": 3,
+      "retrievalEvaluable": true
+    },
+    {
+      "imageId": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "displayName": "收纳盒",
+      "selectedModel": "grounding-dino:normalized-1024",
+      "detectionId": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+      "detectionLabel": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+      "detectionScore": 0.577594,
+      "indexEntryCount": 3,
+      "embeddingCount": 3,
+      "retrievalEvaluable": true
+    }
+  ],
+  "subjectCategoriesMissingIndex": [
+    {
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "displayName": "文件收纳箱"
+    },
+    {
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "displayName": "折叠收纳筐"
+    }
+  ],
+  "existingNamingCases": [
+    {
+      "imageId": "storage-box-cn-eval-004",
+      "expectedName": "收纳盒",
+      "expectedCategoryId": "storage-box",
+      "predictedName": "旅行收纳袋",
+      "predictedCategoryId": "packing-cube",
+      "iou": 0.5021,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "packing-cube:packing-cube-cn-gallery-002:r0",
+          "categoryId": "packing-cube",
+          "displayName": "旅行收纳袋",
+          "score": 0.728912,
+          "imagePath": "fixtures/vision-household/cn/packing-cube/packing-cube-cn-gallery-002-9.jpg"
+        },
+        {
+          "entryId": "closet-organizer:closet-organizer-cn-gallery-002:r0",
+          "categoryId": "closet-organizer",
+          "displayName": "衣柜收纳格",
+          "score": 0.725362,
+          "imagePath": "fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-gallery-002-t.jpg"
+        },
+        {
+          "entryId": "shower-cap:shower-cap-cn-gallery-001:r0",
+          "categoryId": "shower-cap",
+          "displayName": "浴帽",
+          "score": 0.68656,
+          "imagePath": "fixtures/vision-household/cn/shower-cap/shower-cap-cn-gallery-001-5.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "storage-basket-cn-eval-004",
+      "expectedName": "收纳篮",
+      "expectedCategoryId": "storage-basket",
+      "predictedName": "装饰篮",
+      "predictedCategoryId": "decorative-basket",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "decorative-basket:decorative-basket-cn-gallery-003:r0",
+          "categoryId": "decorative-basket",
+          "displayName": "装饰篮",
+          "score": 0.786837,
+          "imagePath": "fixtures/vision-household/cn/decorative-basket/decorative-basket-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "toiletry-bag:toiletry-bag-cn-gallery-002:r0",
+          "categoryId": "toiletry-bag",
+          "displayName": "洗漱包",
+          "score": 0.771377,
+          "imagePath": "fixtures/vision-household/cn/toiletry-bag/toiletry-bag-cn-gallery-002-muju.jpg"
+        },
+        {
+          "entryId": "decorative-basket:decorative-basket-cn-gallery-002:r0",
+          "categoryId": "decorative-basket",
+          "displayName": "装饰篮",
+          "score": 0.766047,
+          "imagePath": "fixtures/vision-household/cn/decorative-basket/decorative-basket-cn-gallery-002-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "drawer-organizer-cn-eval-004",
+      "expectedName": "抽屉分隔盒",
+      "expectedCategoryId": "drawer-organizer",
+      "predictedName": "抽屉分隔盒",
+      "predictedCategoryId": "drawer-organizer",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "drawer-organizer:drawer-organizer-cn-gallery-001:r0",
+          "categoryId": "drawer-organizer",
+          "displayName": "抽屉分隔盒",
+          "score": 0.795894,
+          "imagePath": "fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "luggage-tag:luggage-tag-cn-gallery-001:r0",
+          "categoryId": "luggage-tag",
+          "displayName": "行李牌",
+          "score": 0.722157,
+          "imagePath": "fixtures/vision-household/cn/luggage-tag/luggage-tag-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "storage-box:storage-box-cn-gallery-002:r0",
+          "categoryId": "storage-box",
+          "displayName": "收纳盒",
+          "score": 0.716252,
+          "imagePath": "fixtures/vision-household/cn/storage-box/storage-box-cn-gallery-002-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "vacuum-storage-bag-cn-eval-004",
+      "expectedName": "真空压缩袋",
+      "expectedCategoryId": "vacuum-storage-bag",
+      "predictedName": "",
+      "predictedCategoryId": "",
+      "iou": 0,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": []
+    },
+    {
+      "imageId": "closet-organizer-cn-eval-004",
+      "expectedName": "衣柜收纳格",
+      "expectedCategoryId": "closet-organizer",
+      "predictedName": "衣柜收纳格",
+      "predictedCategoryId": "closet-organizer",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "closet-organizer:closet-organizer-cn-gallery-003:r0",
+          "categoryId": "closet-organizer",
+          "displayName": "衣柜收纳格",
+          "score": 0.877949,
+          "imagePath": "fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-gallery-003-image.png"
+        },
+        {
+          "entryId": "closet-organizer:closet-organizer-cn-gallery-002:r0",
+          "categoryId": "closet-organizer",
+          "displayName": "衣柜收纳格",
+          "score": 0.83923,
+          "imagePath": "fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-gallery-002-t.jpg"
+        },
+        {
+          "entryId": "wet-wipes-pack:wet-wipes-pack-cn-gallery-001:r0",
+          "categoryId": "wet-wipes-pack",
+          "displayName": "湿巾包",
+          "score": 0.78686,
+          "imagePath": "fixtures/vision-household/cn/wet-wipes-pack/wet-wipes-pack-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "cable-organizer-box-cn-eval-004",
+      "expectedName": "线缆收纳盒",
+      "expectedCategoryId": "cable-organizer-box",
+      "predictedName": "衣柜收纳格",
+      "predictedCategoryId": "closet-organizer",
+      "iou": 0.4067,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "closet-organizer:closet-organizer-cn-gallery-002:r0",
+          "categoryId": "closet-organizer",
+          "displayName": "衣柜收纳格",
+          "score": 0.790328,
+          "imagePath": "fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-gallery-002-t.jpg"
+        },
+        {
+          "entryId": "screwdriver:screwdriver-cn-gallery-001:r0",
+          "categoryId": "screwdriver",
+          "displayName": "螺丝刀",
+          "score": 0.735376,
+          "imagePath": "fixtures/vision-household/cn/screwdriver/screwdriver-cn-gallery-001-8.jpg"
+        },
+        {
+          "entryId": "wet-wipes-pack:wet-wipes-pack-cn-gallery-001:r0",
+          "categoryId": "wet-wipes-pack",
+          "displayName": "湿巾包",
+          "score": 0.734771,
+          "imagePath": "fixtures/vision-household/cn/wet-wipes-pack/wet-wipes-pack-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "shoe-box-cn-eval-004",
+      "expectedName": "鞋盒",
+      "expectedCategoryId": "shoe-box",
+      "predictedName": "",
+      "predictedCategoryId": "",
+      "iou": 0,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": []
+    },
+    {
+      "imageId": "bowl-cn-eval-004",
+      "expectedName": "碗",
+      "expectedCategoryId": "bowl",
+      "predictedName": "眼镜盒",
+      "predictedCategoryId": "glasses-case",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "glasses-case:glasses-case-cn-gallery-003:r0",
+          "categoryId": "glasses-case",
+          "displayName": "眼镜盒",
+          "score": 0.784479,
+          "imagePath": "fixtures/vision-household/cn/glasses-case/glasses-case-cn-gallery-003-ins.jpg"
+        },
+        {
+          "entryId": "trash-bag-roll:trash-bag-roll-cn-gallery-002:r0",
+          "categoryId": "trash-bag-roll",
+          "displayName": "垃圾袋卷",
+          "score": 0.783663,
+          "imagePath": "fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-gallery-002-45cm-55cm-30-50.jpg"
+        },
+        {
+          "entryId": "tissue-box:tissue-box-cn-gallery-003:r0",
+          "categoryId": "tissue-box",
+          "displayName": "纸巾盒",
+          "score": 0.763861,
+          "imagePath": "fixtures/vision-household/cn/tissue-box/tissue-box-cn-gallery-003-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "plate-cn-eval-004",
+      "expectedName": "盘子",
+      "expectedCategoryId": "plate",
+      "predictedName": "",
+      "predictedCategoryId": "",
+      "iou": 0,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": []
+    },
+    {
+      "imageId": "mug-cn-eval-004",
+      "expectedName": "马克杯",
+      "expectedCategoryId": "mug",
+      "predictedName": "马克杯",
+      "predictedCategoryId": "mug",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "mug:mug-cn-gallery-002:r0",
+          "categoryId": "mug",
+          "displayName": "马克杯",
+          "score": 0.85782,
+          "imagePath": "fixtures/vision-household/cn/mug/mug-cn-gallery-002-logo.jpg"
+        },
+        {
+          "entryId": "mug:mug-cn-gallery-003:r0",
+          "categoryId": "mug",
+          "displayName": "马克杯",
+          "score": 0.855642,
+          "imagePath": "fixtures/vision-household/cn/mug/mug-cn-gallery-003-diy.jpg"
+        },
+        {
+          "entryId": "mug:mug-cn-gallery-001:r0",
+          "categoryId": "mug",
+          "displayName": "马克杯",
+          "score": 0.810432,
+          "imagePath": "fixtures/vision-household/cn/mug/mug-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "drinking-glass-cn-eval-004",
+      "expectedName": "玻璃杯",
+      "expectedCategoryId": "drinking-glass",
+      "predictedName": "玻璃杯",
+      "predictedCategoryId": "drinking-glass",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "drinking-glass:drinking-glass-cn-gallery-003:r0",
+          "categoryId": "drinking-glass",
+          "displayName": "玻璃杯",
+          "score": 0.910945,
+          "imagePath": "fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "cable-organizer-box:cable-organizer-box-cn-gallery-003:r0",
+          "categoryId": "cable-organizer-box",
+          "displayName": "线缆收纳盒",
+          "score": 0.763621,
+          "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "spice-jar:spice-jar-cn-gallery-002:r0",
+          "categoryId": "spice-jar",
+          "displayName": "调料瓶",
+          "score": 0.755976,
+          "imagePath": "fixtures/vision-household/cn/spice-jar/spice-jar-cn-gallery-002-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "saucepan-cn-eval-004",
+      "expectedName": "奶锅",
+      "expectedCategoryId": "saucepan",
+      "predictedName": "奶锅",
+      "predictedCategoryId": "saucepan",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "saucepan:saucepan-cn-gallery-003:r0",
+          "categoryId": "saucepan",
+          "displayName": "奶锅",
+          "score": 0.830635,
+          "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-003-316l.jpg"
+        },
+        {
+          "entryId": "frying-pan:frying-pan-cn-gallery-003:r0",
+          "categoryId": "frying-pan",
+          "displayName": "煎锅",
+          "score": 0.823541,
+          "imagePath": "fixtures/vision-household/cn/frying-pan/frying-pan-cn-gallery-003-22-24-26-28cm.jpg"
+        },
+        {
+          "entryId": "saucepan:saucepan-cn-gallery-001:r0",
+          "categoryId": "saucepan",
+          "displayName": "奶锅",
+          "score": 0.817448,
+          "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-001-316l.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "frying-pan-cn-eval-004",
+      "expectedName": "煎锅",
+      "expectedCategoryId": "frying-pan",
+      "predictedName": "煎锅",
+      "predictedCategoryId": "frying-pan",
+      "iou": 0.0584,
+      "boxMatch": false,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "frying-pan:frying-pan-cn-gallery-002:r0",
+          "categoryId": "frying-pan",
+          "displayName": "煎锅",
+          "score": 0.755729,
+          "imagePath": "fixtures/vision-household/cn/frying-pan/frying-pan-cn-gallery-002-image.jpg"
+        },
+        {
+          "entryId": "frying-pan:frying-pan-cn-gallery-003:r0",
+          "categoryId": "frying-pan",
+          "displayName": "煎锅",
+          "score": 0.727001,
+          "imagePath": "fixtures/vision-household/cn/frying-pan/frying-pan-cn-gallery-003-22-24-26-28cm.jpg"
+        },
+        {
+          "entryId": "cutting-board:cutting-board-cn-gallery-001:r0",
+          "categoryId": "cutting-board",
+          "displayName": "菜板",
+          "score": 0.686761,
+          "imagePath": "fixtures/vision-household/cn/cutting-board/cutting-board-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "cutting-board-cn-eval-004",
+      "expectedName": "菜板",
+      "expectedCategoryId": "cutting-board",
+      "predictedName": "玻璃杯",
+      "predictedCategoryId": "drinking-glass",
+      "iou": 0.2916,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "drinking-glass:drinking-glass-cn-gallery-003:r0",
+          "categoryId": "drinking-glass",
+          "displayName": "玻璃杯",
+          "score": 0.753802,
+          "imagePath": "fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "cable-organizer-box:cable-organizer-box-cn-gallery-003:r0",
+          "categoryId": "cable-organizer-box",
+          "displayName": "线缆收纳盒",
+          "score": 0.751794,
+          "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "shampoo-bottle:shampoo-bottle-cn-gallery-001:r0",
+          "categoryId": "shampoo-bottle",
+          "displayName": "洗发水",
+          "score": 0.739172,
+          "imagePath": "fixtures/vision-household/cn/shampoo-bottle/shampoo-bottle-cn-gallery-001-100.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "rice-bag-cn-eval-004",
+      "expectedName": "米袋",
+      "expectedCategoryId": "rice-bag",
+      "predictedName": "米袋",
+      "predictedCategoryId": "rice-bag",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "rice-bag:rice-bag-cn-gallery-002:r0",
+          "categoryId": "rice-bag",
+          "displayName": "米袋",
+          "score": 0.831983,
+          "imagePath": "fixtures/vision-household/cn/rice-bag/rice-bag-cn-gallery-002-10-2-5kg5kg.jpg"
+        },
+        {
+          "entryId": "rice-bag:rice-bag-cn-gallery-003:r0",
+          "categoryId": "rice-bag",
+          "displayName": "米袋",
+          "score": 0.815819,
+          "imagePath": "fixtures/vision-household/cn/rice-bag/rice-bag-cn-gallery-003-image.png"
+        },
+        {
+          "entryId": "snack-bag:snack-bag-cn-gallery-001:r0",
+          "categoryId": "snack-bag",
+          "displayName": "零食袋",
+          "score": 0.811594,
+          "imagePath": "fixtures/vision-household/cn/snack-bag/snack-bag-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "noodle-pack-cn-eval-004",
+      "expectedName": "面条包装",
+      "expectedCategoryId": "noodle-pack",
+      "predictedName": "垃圾袋卷",
+      "predictedCategoryId": "trash-bag-roll",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "trash-bag-roll:trash-bag-roll-cn-gallery-003:r0",
+          "categoryId": "trash-bag-roll",
+          "displayName": "垃圾袋卷",
+          "score": 0.795531,
+          "imagePath": "fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "soap-bar:soap-bar-cn-gallery-003:r0",
+          "categoryId": "soap-bar",
+          "displayName": "香皂",
+          "score": 0.79528,
+          "imagePath": "fixtures/vision-household/cn/soap-bar/soap-bar-cn-gallery-003-125g.jpg"
+        },
+        {
+          "entryId": "rice-bag:rice-bag-cn-gallery-001:r0",
+          "categoryId": "rice-bag",
+          "displayName": "米袋",
+          "score": 0.776532,
+          "imagePath": "fixtures/vision-household/cn/rice-bag/rice-bag-cn-gallery-001-10-20-30-50.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "canned-food-cn-eval-004",
+      "expectedName": "罐头",
+      "expectedCategoryId": "canned-food",
+      "predictedName": "垃圾袋卷",
+      "predictedCategoryId": "trash-bag-roll",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "trash-bag-roll:trash-bag-roll-cn-gallery-003:r0",
+          "categoryId": "trash-bag-roll",
+          "displayName": "垃圾袋卷",
+          "score": 0.801413,
+          "imagePath": "fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "dish-soap:dish-soap-cn-gallery-002:r0",
+          "categoryId": "dish-soap",
+          "displayName": "洗洁精",
+          "score": 0.763536,
+          "imagePath": "fixtures/vision-household/cn/dish-soap/dish-soap-cn-gallery-002-4-68kg.jpg"
+        },
+        {
+          "entryId": "toilet-cleaner-bottle:toilet-cleaner-bottle-cn-gallery-001:r0",
+          "categoryId": "toilet-cleaner-bottle",
+          "displayName": "洁厕剂",
+          "score": 0.762421,
+          "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-001-500g.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "snack-bag-cn-eval-004",
+      "expectedName": "零食袋",
+      "expectedCategoryId": "snack-bag",
+      "predictedName": "驱蚊液",
+      "predictedCategoryId": "mosquito-repellent",
+      "iou": 0.0514,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "mosquito-repellent:mosquito-repellent-cn-gallery-003:r0",
+          "categoryId": "mosquito-repellent",
+          "displayName": "驱蚊液",
+          "score": 0.833075,
+          "imagePath": "fixtures/vision-household/cn/mosquito-repellent/mosquito-repellent-cn-gallery-003-ars-saratect-200ml.jpg"
+        },
+        {
+          "entryId": "face-mask-pack:face-mask-pack-cn-gallery-001:r0",
+          "categoryId": "face-mask-pack",
+          "displayName": "口罩包",
+          "score": 0.831278,
+          "imagePath": "fixtures/vision-household/cn/face-mask-pack/face-mask-pack-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "rice-bag:rice-bag-cn-gallery-001:r0",
+          "categoryId": "rice-bag",
+          "displayName": "米袋",
+          "score": 0.814631,
+          "imagePath": "fixtures/vision-household/cn/rice-bag/rice-bag-cn-gallery-001-10-20-30-50.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "beverage-bottle-cn-eval-004",
+      "expectedName": "饮料瓶",
+      "expectedCategoryId": "beverage-bottle",
+      "predictedName": "饮料瓶",
+      "predictedCategoryId": "beverage-bottle",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "beverage-bottle:beverage-bottle-cn-gallery-002:r0",
+          "categoryId": "beverage-bottle",
+          "displayName": "饮料瓶",
+          "score": 0.896921,
+          "imagePath": "fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-gallery-002-13-500ml.jpg"
+        },
+        {
+          "entryId": "sponge:sponge-cn-gallery-001:r0",
+          "categoryId": "sponge",
+          "displayName": "海绵",
+          "score": 0.821413,
+          "imagePath": "fixtures/vision-household/cn/sponge/sponge-cn-gallery-001-2-3-4-diy.png"
+        },
+        {
+          "entryId": "pill-bottle:pill-bottle-cn-gallery-002:r0",
+          "categoryId": "pill-bottle",
+          "displayName": "药瓶",
+          "score": 0.805393,
+          "imagePath": "fixtures/vision-household/cn/pill-bottle/pill-bottle-cn-gallery-002-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "spice-jar-cn-eval-004",
+      "expectedName": "调料瓶",
+      "expectedCategoryId": "spice-jar",
+      "predictedName": "吸尘器",
+      "predictedCategoryId": "vacuum-cleaner",
+      "iou": 0.9365,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "vacuum-cleaner:vacuum-cleaner-cn-gallery-003:r0",
+          "categoryId": "vacuum-cleaner",
+          "displayName": "吸尘器",
+          "score": 0.798547,
+          "imagePath": "fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "mosquito-repellent:mosquito-repellent-cn-gallery-001:r0",
+          "categoryId": "mosquito-repellent",
+          "displayName": "驱蚊液",
+          "score": 0.785614,
+          "imagePath": "fixtures/vision-household/cn/mosquito-repellent/mosquito-repellent-cn-gallery-001-100ml-5.jpg"
+        },
+        {
+          "entryId": "charger:charger-cn-gallery-003:r0",
+          "categoryId": "charger",
+          "displayName": "充电器",
+          "score": 0.783263,
+          "imagePath": "fixtures/vision-household/cn/charger/charger-cn-gallery-003-100w-120w-66w.png"
+        }
+      ]
+    },
+    {
+      "imageId": "medicine-box-cn-eval-004",
+      "expectedName": "药盒",
+      "expectedCategoryId": "medicine-box",
+      "predictedName": "充电器",
+      "predictedCategoryId": "charger",
+      "iou": 0.0358,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "charger:charger-cn-gallery-002:r0",
+          "categoryId": "charger",
+          "displayName": "充电器",
+          "score": 0.793742,
+          "imagePath": "fixtures/vision-household/cn/charger/charger-cn-gallery-002-100w-nova9-10-11-pro-ultra-90-70-50-magic4-pro.jpg"
+        },
+        {
+          "entryId": "cable-organizer-box:cable-organizer-box-cn-gallery-001:r0",
+          "categoryId": "cable-organizer-box",
+          "displayName": "线缆收纳盒",
+          "score": 0.782775,
+          "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "usb-flash-drive:usb-flash-drive-cn-gallery-001:r0",
+          "categoryId": "usb-flash-drive",
+          "displayName": "U盘",
+          "score": 0.778292,
+          "imagePath": "fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-gallery-001-u-usb3-2-128g-64g-u.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "pill-bottle-cn-eval-004",
+      "expectedName": "药瓶",
+      "expectedCategoryId": "pill-bottle",
+      "predictedName": "电饭煲",
+      "predictedCategoryId": "rice-cooker",
+      "iou": 0.1874,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "rice-cooker:rice-cooker-cn-gallery-002:r0",
+          "categoryId": "rice-cooker",
+          "displayName": "电饭煲",
+          "score": 0.800105,
+          "imagePath": "fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-gallery-002-image.jpg"
+        },
+        {
+          "entryId": "pill-bottle:pill-bottle-cn-gallery-002:r0",
+          "categoryId": "pill-bottle",
+          "displayName": "药瓶",
+          "score": 0.790658,
+          "imagePath": "fixtures/vision-household/cn/pill-bottle/pill-bottle-cn-gallery-002-image.jpg"
+        },
+        {
+          "entryId": "spice-jar:spice-jar-cn-gallery-003:r0",
+          "categoryId": "spice-jar",
+          "displayName": "调料瓶",
+          "score": 0.789121,
+          "imagePath": "fixtures/vision-household/cn/spice-jar/spice-jar-cn-gallery-003-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "thermometer-cn-eval-004",
+      "expectedName": "体温计",
+      "expectedCategoryId": "thermometer",
+      "predictedName": "垃圾袋卷",
+      "predictedCategoryId": "trash-bag-roll",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "trash-bag-roll:trash-bag-roll-cn-gallery-002:r0",
+          "categoryId": "trash-bag-roll",
+          "displayName": "垃圾袋卷",
+          "score": 0.834297,
+          "imagePath": "fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-gallery-002-45cm-55cm-30-50.jpg"
+        },
+        {
+          "entryId": "toilet-brush:toilet-brush-cn-gallery-003:r0",
+          "categoryId": "toilet-brush",
+          "displayName": "马桶刷",
+          "score": 0.832173,
+          "imagePath": "fixtures/vision-household/cn/toilet-brush/toilet-brush-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "mosquito-repellent:mosquito-repellent-cn-gallery-001:r0",
+          "categoryId": "mosquito-repellent",
+          "displayName": "驱蚊液",
+          "score": 0.818085,
+          "imagePath": "fixtures/vision-household/cn/mosquito-repellent/mosquito-repellent-cn-gallery-001-100ml-5.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "bandage-box-cn-eval-004",
+      "expectedName": "创可贴盒",
+      "expectedCategoryId": "bandage-box",
+      "predictedName": "",
+      "predictedCategoryId": "",
+      "iou": 0,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": []
+    },
+    {
+      "imageId": "first-aid-kit-cn-eval-004",
+      "expectedName": "急救包",
+      "expectedCategoryId": "first-aid-kit",
+      "predictedName": "",
+      "predictedCategoryId": "",
+      "iou": 0,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": []
+    },
+    {
+      "imageId": "face-mask-pack-cn-eval-004",
+      "expectedName": "口罩包",
+      "expectedCategoryId": "face-mask-pack",
+      "predictedName": "剃须刀",
+      "predictedCategoryId": "razor",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "razor:razor-cn-gallery-003:r0",
+          "categoryId": "razor",
+          "displayName": "剃须刀",
+          "score": 0.800902,
+          "imagePath": "fixtures/vision-household/cn/razor/razor-cn-gallery-003-s5166.jpg"
+        },
+        {
+          "entryId": "charger:charger-cn-gallery-003:r0",
+          "categoryId": "charger",
+          "displayName": "充电器",
+          "score": 0.783035,
+          "imagePath": "fixtures/vision-household/cn/charger/charger-cn-gallery-003-100w-120w-66w.png"
+        },
+        {
+          "entryId": "toilet-paper-roll:toilet-paper-roll-cn-gallery-001:r0",
+          "categoryId": "toilet-paper-roll",
+          "displayName": "卷纸",
+          "score": 0.771337,
+          "imagePath": "fixtures/vision-household/cn/toilet-paper-roll/toilet-paper-roll-cn-gallery-001-12-240.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "disinfectant-wipes-cn-eval-004",
+      "expectedName": "消毒湿巾",
+      "expectedCategoryId": "disinfectant-wipes",
+      "predictedName": "洗衣液",
+      "predictedCategoryId": "laundry-detergent",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "laundry-detergent:laundry-detergent-cn-gallery-002:r0",
+          "categoryId": "laundry-detergent",
+          "displayName": "洗衣液",
+          "score": 0.821484,
+          "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-gallery-002-10.jpg"
+        },
+        {
+          "entryId": "pen:pen-cn-gallery-003:r0",
+          "categoryId": "pen",
+          "displayName": "笔",
+          "score": 0.818024,
+          "imagePath": "fixtures/vision-household/cn/pen/pen-cn-gallery-003-720.jpg"
+        },
+        {
+          "entryId": "toilet-cleaner-bottle:toilet-cleaner-bottle-cn-gallery-001:r0",
+          "categoryId": "toilet-cleaner-bottle",
+          "displayName": "洁厕剂",
+          "score": 0.813198,
+          "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-001-500g.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "laundry-detergent-cn-eval-004",
+      "expectedName": "洗衣液",
+      "expectedCategoryId": "laundry-detergent",
+      "predictedName": "洗衣液",
+      "predictedCategoryId": "laundry-detergent",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "laundry-detergent:laundry-detergent-cn-gallery-001:r0",
+          "categoryId": "laundry-detergent",
+          "displayName": "洗衣液",
+          "score": 0.911018,
+          "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-gallery-001-1-1kg.jpg"
+        },
+        {
+          "entryId": "laundry-detergent:laundry-detergent-cn-gallery-002:r0",
+          "categoryId": "laundry-detergent",
+          "displayName": "洗衣液",
+          "score": 0.887906,
+          "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-gallery-002-10.jpg"
+        },
+        {
+          "entryId": "toilet-cleaner-bottle:toilet-cleaner-bottle-cn-gallery-003:r0",
+          "categoryId": "toilet-cleaner-bottle",
+          "displayName": "洁厕剂",
+          "score": 0.874752,
+          "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-003-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "dish-soap-cn-eval-004",
+      "expectedName": "洗洁精",
+      "expectedCategoryId": "dish-soap",
+      "predictedName": "驱蚊液",
+      "predictedCategoryId": "mosquito-repellent",
+      "iou": 0.865,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "mosquito-repellent:mosquito-repellent-cn-gallery-003:r0",
+          "categoryId": "mosquito-repellent",
+          "displayName": "驱蚊液",
+          "score": 0.906811,
+          "imagePath": "fixtures/vision-household/cn/mosquito-repellent/mosquito-repellent-cn-gallery-003-ars-saratect-200ml.jpg"
+        },
+        {
+          "entryId": "dish-soap:dish-soap-cn-gallery-003:r0",
+          "categoryId": "dish-soap",
+          "displayName": "洗洁精",
+          "score": 0.851613,
+          "imagePath": "fixtures/vision-household/cn/dish-soap/dish-soap-cn-gallery-003-25-3.jpg"
+        },
+        {
+          "entryId": "toilet-cleaner-bottle:toilet-cleaner-bottle-cn-gallery-003:r0",
+          "categoryId": "toilet-cleaner-bottle",
+          "displayName": "洁厕剂",
+          "score": 0.846538,
+          "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-003-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "cleaning-spray-bottle-cn-eval-004",
+      "expectedName": "清洁喷瓶",
+      "expectedCategoryId": "cleaning-spray-bottle",
+      "predictedName": "清洁喷瓶",
+      "predictedCategoryId": "cleaning-spray-bottle",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "cleaning-spray-bottle:cleaning-spray-bottle-cn-gallery-001:r0",
+          "categoryId": "cleaning-spray-bottle",
+          "displayName": "清洁喷瓶",
+          "score": 0.829741,
+          "imagePath": "fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-gallery-001-84.jpg"
+        },
+        {
+          "entryId": "cleaning-spray-bottle:cleaning-spray-bottle-cn-gallery-003:r0",
+          "categoryId": "cleaning-spray-bottle",
+          "displayName": "清洁喷瓶",
+          "score": 0.817589,
+          "imagePath": "fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-gallery-003-500-b.jpg"
+        },
+        {
+          "entryId": "shampoo-bottle:shampoo-bottle-cn-gallery-001:r0",
+          "categoryId": "shampoo-bottle",
+          "displayName": "洗发水",
+          "score": 0.795956,
+          "imagePath": "fixtures/vision-household/cn/shampoo-bottle/shampoo-bottle-cn-gallery-001-100.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "sponge-cn-eval-004",
+      "expectedName": "海绵",
+      "expectedCategoryId": "sponge",
+      "predictedName": "湿巾包",
+      "predictedCategoryId": "wet-wipes-pack",
+      "iou": 0.0408,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "wet-wipes-pack:wet-wipes-pack-cn-gallery-001:r0",
+          "categoryId": "wet-wipes-pack",
+          "displayName": "湿巾包",
+          "score": 0.771769,
+          "imagePath": "fixtures/vision-household/cn/wet-wipes-pack/wet-wipes-pack-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "vacuum-storage-bag:vacuum-storage-bag-cn-gallery-001:r0",
+          "categoryId": "vacuum-storage-bag",
+          "displayName": "真空压缩袋",
+          "score": 0.753252,
+          "imagePath": "fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "shampoo-bottle:shampoo-bottle-cn-gallery-001:r0",
+          "categoryId": "shampoo-bottle",
+          "displayName": "洗发水",
+          "score": 0.7429,
+          "imagePath": "fixtures/vision-household/cn/shampoo-bottle/shampoo-bottle-cn-gallery-001-100.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "trash-bag-roll-cn-eval-004",
+      "expectedName": "垃圾袋卷",
+      "expectedCategoryId": "trash-bag-roll",
+      "predictedName": "洗发水",
+      "predictedCategoryId": "shampoo-bottle",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "shampoo-bottle:shampoo-bottle-cn-gallery-001:r0",
+          "categoryId": "shampoo-bottle",
+          "displayName": "洗发水",
+          "score": 0.847142,
+          "imagePath": "fixtures/vision-household/cn/shampoo-bottle/shampoo-bottle-cn-gallery-001-100.jpg"
+        },
+        {
+          "entryId": "pen:pen-cn-gallery-003:r0",
+          "categoryId": "pen",
+          "displayName": "笔",
+          "score": 0.826679,
+          "imagePath": "fixtures/vision-household/cn/pen/pen-cn-gallery-003-720.jpg"
+        },
+        {
+          "entryId": "toilet-cleaner-bottle:toilet-cleaner-bottle-cn-gallery-001:r0",
+          "categoryId": "toilet-cleaner-bottle",
+          "displayName": "洁厕剂",
+          "score": 0.822019,
+          "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-001-500g.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "toilet-cleaner-bottle-cn-eval-004",
+      "expectedName": "洁厕剂",
+      "expectedCategoryId": "toilet-cleaner-bottle",
+      "predictedName": "洁厕剂",
+      "predictedCategoryId": "toilet-cleaner-bottle",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "toilet-cleaner-bottle:toilet-cleaner-bottle-cn-gallery-003:r0",
+          "categoryId": "toilet-cleaner-bottle",
+          "displayName": "洁厕剂",
+          "score": 0.89033,
+          "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "laundry-detergent:laundry-detergent-cn-gallery-002:r0",
+          "categoryId": "laundry-detergent",
+          "displayName": "洗衣液",
+          "score": 0.873658,
+          "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-gallery-002-10.jpg"
+        },
+        {
+          "entryId": "laundry-detergent:laundry-detergent-cn-gallery-001:r0",
+          "categoryId": "laundry-detergent",
+          "displayName": "洗衣液",
+          "score": 0.86867,
+          "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-gallery-001-1-1kg.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "mop-head-cn-eval-004",
+      "expectedName": "拖把头",
+      "expectedCategoryId": "mop-head",
+      "predictedName": "线缆收纳盒",
+      "predictedCategoryId": "cable-organizer-box",
+      "iou": 0.0514,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "cable-organizer-box:cable-organizer-box-cn-gallery-001:r0",
+          "categoryId": "cable-organizer-box",
+          "displayName": "线缆收纳盒",
+          "score": 0.705507,
+          "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "bowl:bowl-cn-gallery-002:r0",
+          "categoryId": "bowl",
+          "displayName": "碗",
+          "score": 0.69669,
+          "imagePath": "fixtures/vision-household/cn/bowl/bowl-cn-gallery-002-2024.jpg"
+        },
+        {
+          "entryId": "portable-fan:portable-fan-cn-gallery-003:r0",
+          "categoryId": "portable-fan",
+          "displayName": "小风扇",
+          "score": 0.69319,
+          "imagePath": "fixtures/vision-household/cn/portable-fan/portable-fan-cn-gallery-003-2022-usb.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "charging-cable-cn-eval-004",
+      "expectedName": "数据线",
+      "expectedCategoryId": "charging-cable",
+      "predictedName": "数据线",
+      "predictedCategoryId": "charging-cable",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "charging-cable:charging-cable-cn-gallery-001:r0",
+          "categoryId": "charging-cable",
+          "displayName": "数据线",
+          "score": 0.80522,
+          "imagePath": "fixtures/vision-household/cn/charging-cable/charging-cable-cn-gallery-001-pd27w-65w-type-c.jpg"
+        },
+        {
+          "entryId": "cable-organizer-box:cable-organizer-box-cn-gallery-003:r0",
+          "categoryId": "cable-organizer-box",
+          "displayName": "线缆收纳盒",
+          "score": 0.775169,
+          "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "disinfectant-wipes:disinfectant-wipes-cn-gallery-002:r0",
+          "categoryId": "disinfectant-wipes",
+          "displayName": "消毒湿巾",
+          "score": 0.767915,
+          "imagePath": "fixtures/vision-household/cn/disinfectant-wipes/disinfectant-wipes-cn-gallery-002-80-75.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "charger-cn-eval-004",
+      "expectedName": "充电器",
+      "expectedCategoryId": "charger",
+      "predictedName": "哑铃",
+      "predictedCategoryId": "dumbbell",
+      "iou": 0.1608,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "dumbbell:dumbbell-cn-gallery-003:r0",
+          "categoryId": "dumbbell",
+          "displayName": "哑铃",
+          "score": 0.783043,
+          "imagePath": "fixtures/vision-household/cn/dumbbell/dumbbell-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "saucepan:saucepan-cn-gallery-001:r0",
+          "categoryId": "saucepan",
+          "displayName": "奶锅",
+          "score": 0.776955,
+          "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-001-316l.jpg"
+        },
+        {
+          "entryId": "hammer:hammer-cn-gallery-003:r0",
+          "categoryId": "hammer",
+          "displayName": "锤子",
+          "score": 0.775988,
+          "imagePath": "fixtures/vision-household/cn/hammer/hammer-cn-gallery-003-diy.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "battery-cn-eval-004",
+      "expectedName": "电池",
+      "expectedCategoryId": "battery",
+      "predictedName": "充电器",
+      "predictedCategoryId": "charger",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "charger:charger-cn-gallery-001:r0",
+          "categoryId": "charger",
+          "displayName": "充电器",
+          "score": 0.721061,
+          "imagePath": "fixtures/vision-household/cn/charger/charger-cn-gallery-001-anker-737-24000mah-140w.jpg"
+        },
+        {
+          "entryId": "travel-adapter:travel-adapter-cn-gallery-002:r0",
+          "categoryId": "travel-adapter",
+          "displayName": "旅行转换插头",
+          "score": 0.7078,
+          "imagePath": "fixtures/vision-household/cn/travel-adapter/travel-adapter-cn-gallery-002-usb.jpg"
+        },
+        {
+          "entryId": "travel-adapter:travel-adapter-cn-gallery-003:r0",
+          "categoryId": "travel-adapter",
+          "displayName": "旅行转换插头",
+          "score": 0.701311,
+          "imagePath": "fixtures/vision-household/cn/travel-adapter/travel-adapter-cn-gallery-003-usb.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "power-bank-cn-eval-004",
+      "expectedName": "充电宝",
+      "expectedCategoryId": "power-bank",
+      "predictedName": "",
+      "predictedCategoryId": "",
+      "iou": 0,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": []
+    },
+    {
+      "imageId": "earphones-cn-eval-004",
+      "expectedName": "耳机",
+      "expectedCategoryId": "earphones",
+      "predictedName": "数据线",
+      "predictedCategoryId": "charging-cable",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "charging-cable:charging-cable-cn-gallery-001:r0",
+          "categoryId": "charging-cable",
+          "displayName": "数据线",
+          "score": 0.751419,
+          "imagePath": "fixtures/vision-household/cn/charging-cable/charging-cable-cn-gallery-001-pd27w-65w-type-c.jpg"
+        },
+        {
+          "entryId": "earphones:earphones-cn-gallery-002:r0",
+          "categoryId": "earphones",
+          "displayName": "耳机",
+          "score": 0.744337,
+          "imagePath": "fixtures/vision-household/cn/earphones/earphones-cn-gallery-002-w860nb-pro-5-3.jpg"
+        },
+        {
+          "entryId": "yoga-mat:yoga-mat-cn-gallery-001:r0",
+          "categoryId": "yoga-mat",
+          "displayName": "瑜伽垫",
+          "score": 0.705523,
+          "imagePath": "fixtures/vision-household/cn/yoga-mat/yoga-mat-cn-gallery-001-yoga-15mm.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "usb-flash-drive-cn-eval-004",
+      "expectedName": "U盘",
+      "expectedCategoryId": "usb-flash-drive",
+      "predictedName": "U盘",
+      "predictedCategoryId": "usb-flash-drive",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "usb-flash-drive:usb-flash-drive-cn-gallery-001:r0",
+          "categoryId": "usb-flash-drive",
+          "displayName": "U盘",
+          "score": 0.796711,
+          "imagePath": "fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-gallery-001-u-usb3-2-128g-64g-u.jpg"
+        },
+        {
+          "entryId": "charging-cable:charging-cable-cn-gallery-002:r0",
+          "categoryId": "charging-cable",
+          "displayName": "数据线",
+          "score": 0.789075,
+          "imagePath": "fixtures/vision-household/cn/charging-cable/charging-cable-cn-gallery-002-ex-zr-usb-z80-1m.jpg"
+        },
+        {
+          "entryId": "usb-flash-drive:usb-flash-drive-cn-gallery-002:r0",
+          "categoryId": "usb-flash-drive",
+          "displayName": "U盘",
+          "score": 0.755276,
+          "imagePath": "fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-gallery-002-u-cz73-u.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "memory-card-case-cn-eval-004",
+      "expectedName": "存储卡盒",
+      "expectedCategoryId": "memory-card-case",
+      "predictedName": "存储卡盒",
+      "predictedCategoryId": "memory-card-case",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "memory-card-case:memory-card-case-cn-gallery-001:r0",
+          "categoryId": "memory-card-case",
+          "displayName": "存储卡盒",
+          "score": 0.744428,
+          "imagePath": "fixtures/vision-household/cn/memory-card-case/memory-card-case-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "drawer-organizer:drawer-organizer-cn-gallery-002:r0",
+          "categoryId": "drawer-organizer",
+          "displayName": "抽屉分隔盒",
+          "score": 0.737486,
+          "imagePath": "fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-gallery-002-image.jpg"
+        },
+        {
+          "entryId": "vacuum-storage-bag:vacuum-storage-bag-cn-gallery-001:r0",
+          "categoryId": "vacuum-storage-bag",
+          "displayName": "真空压缩袋",
+          "score": 0.734408,
+          "imagePath": "fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "remote-control-cn-eval-004",
+      "expectedName": "遥控器",
+      "expectedCategoryId": "remote-control",
+      "predictedName": "遥控器",
+      "predictedCategoryId": "remote-control",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "remote-control:remote-control-cn-gallery-003:r0",
+          "categoryId": "remote-control",
+          "displayName": "遥控器",
+          "score": 0.891729,
+          "imagePath": "fixtures/vision-household/cn/remote-control/remote-control-cn-gallery-003-le43e7900-le32e7900.jpg"
+        },
+        {
+          "entryId": "remote-control:remote-control-cn-gallery-002:r0",
+          "categoryId": "remote-control",
+          "displayName": "遥控器",
+          "score": 0.845731,
+          "imagePath": "fixtures/vision-household/cn/remote-control/remote-control-cn-gallery-002-arc480a4-2-3-5.jpg"
+        },
+        {
+          "entryId": "remote-control:remote-control-cn-gallery-001:r0",
+          "categoryId": "remote-control",
+          "displayName": "遥控器",
+          "score": 0.807399,
+          "imagePath": "fixtures/vision-household/cn/remote-control/remote-control-cn-gallery-001-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "electric-kettle-cn-eval-004",
+      "expectedName": "电水壶",
+      "expectedCategoryId": "electric-kettle",
+      "predictedName": "电水壶",
+      "predictedCategoryId": "electric-kettle",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "electric-kettle:electric-kettle-cn-gallery-003:r0",
+          "categoryId": "electric-kettle",
+          "displayName": "电水壶",
+          "score": 0.770814,
+          "imagePath": "fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-gallery-003-304.jpg"
+        },
+        {
+          "entryId": "rice-cooker:rice-cooker-cn-gallery-003:r0",
+          "categoryId": "rice-cooker",
+          "displayName": "电饭煲",
+          "score": 0.768704,
+          "imagePath": "fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-gallery-003-cuckoo-ih-3-2-4.png"
+        },
+        {
+          "entryId": "saucepan:saucepan-cn-gallery-003:r0",
+          "categoryId": "saucepan",
+          "displayName": "奶锅",
+          "score": 0.731701,
+          "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-003-316l.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "rice-cooker-cn-eval-004",
+      "expectedName": "电饭煲",
+      "expectedCategoryId": "rice-cooker",
+      "predictedName": "电饭煲",
+      "predictedCategoryId": "rice-cooker",
+      "iou": 0.0184,
+      "boxMatch": false,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "rice-cooker:rice-cooker-cn-gallery-003:r0",
+          "categoryId": "rice-cooker",
+          "displayName": "电饭煲",
+          "score": 0.846157,
+          "imagePath": "fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-gallery-003-cuckoo-ih-3-2-4.png"
+        },
+        {
+          "entryId": "saucepan:saucepan-cn-gallery-001:r0",
+          "categoryId": "saucepan",
+          "displayName": "奶锅",
+          "score": 0.787528,
+          "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-001-316l.jpg"
+        },
+        {
+          "entryId": "saucepan:saucepan-cn-gallery-003:r0",
+          "categoryId": "saucepan",
+          "displayName": "奶锅",
+          "score": 0.776323,
+          "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-003-316l.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "air-purifier-filter-cn-eval-004",
+      "expectedName": "空气净化器滤芯",
+      "expectedCategoryId": "air-purifier-filter",
+      "predictedName": "卷尺",
+      "predictedCategoryId": "measuring-tape",
+      "iou": 0.1643,
+      "boxMatch": false,
+      "categoryMatch": false,
+      "nameMatch": false,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "measuring-tape:measuring-tape-cn-gallery-003:r0",
+          "categoryId": "measuring-tape",
+          "displayName": "卷尺",
+          "score": 0.749982,
+          "imagePath": "fixtures/vision-household/cn/measuring-tape/measuring-tape-cn-gallery-003-5.jpg"
+        },
+        {
+          "entryId": "hammer:hammer-cn-gallery-001:r0",
+          "categoryId": "hammer",
+          "displayName": "锤子",
+          "score": 0.747444,
+          "imagePath": "fixtures/vision-household/cn/hammer/hammer-cn-gallery-001-image.jpg"
+        },
+        {
+          "entryId": "scarf:scarf-cn-gallery-003:r0",
+          "categoryId": "scarf",
+          "displayName": "围巾",
+          "score": 0.742649,
+          "imagePath": "fixtures/vision-household/cn/scarf/scarf-cn-gallery-003-cacuss.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "hair-dryer-cn-eval-004",
+      "expectedName": "吹风机",
+      "expectedCategoryId": "hair-dryer",
+      "predictedName": "吹风机",
+      "predictedCategoryId": "hair-dryer",
+      "iou": 0.2491,
+      "boxMatch": false,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "hair-dryer:hair-dryer-cn-gallery-003:r0",
+          "categoryId": "hair-dryer",
+          "displayName": "吹风机",
+          "score": 0.816095,
+          "imagePath": "fixtures/vision-household/cn/hair-dryer/hair-dryer-cn-gallery-003-5610h-2400w.jpg"
+        },
+        {
+          "entryId": "toilet-brush:toilet-brush-cn-gallery-003:r0",
+          "categoryId": "toilet-brush",
+          "displayName": "马桶刷",
+          "score": 0.757402,
+          "imagePath": "fixtures/vision-household/cn/toilet-brush/toilet-brush-cn-gallery-003-image.jpg"
+        },
+        {
+          "entryId": "hammer:hammer-cn-gallery-002:r0",
+          "categoryId": "hammer",
+          "displayName": "锤子",
+          "score": 0.72206,
+          "imagePath": "fixtures/vision-household/cn/hammer/hammer-cn-gallery-002-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "vacuum-cleaner-cn-eval-004",
+      "expectedName": "吸尘器",
+      "expectedCategoryId": "vacuum-cleaner",
+      "predictedName": "吸尘器",
+      "predictedCategoryId": "vacuum-cleaner",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "vacuum-cleaner:vacuum-cleaner-cn-gallery-001:r0",
+          "categoryId": "vacuum-cleaner",
+          "displayName": "吸尘器",
+          "score": 0.836685,
+          "imagePath": "fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-gallery-001-fc9735.jpg"
+        },
+        {
+          "entryId": "mop-head:mop-head-cn-gallery-002:r0",
+          "categoryId": "mop-head",
+          "displayName": "拖把头",
+          "score": 0.822536,
+          "imagePath": "fixtures/vision-household/cn/mop-head/mop-head-cn-gallery-002-image.jpg"
+        },
+        {
+          "entryId": "cable-organizer-box:cable-organizer-box-cn-gallery-003:r0",
+          "categoryId": "cable-organizer-box",
+          "displayName": "线缆收纳盒",
+          "score": 0.819371,
+          "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-gallery-003-image.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "router-cn-eval-004",
+      "expectedName": "路由器",
+      "expectedCategoryId": "router",
+      "predictedName": "路由器",
+      "predictedCategoryId": "router",
+      "iou": 1,
+      "boxMatch": true,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": true,
+      "top3": [
+        {
+          "entryId": "router:router-cn-gallery-002:r0",
+          "categoryId": "router",
+          "displayName": "路由器",
+          "score": 0.824717,
+          "imagePath": "fixtures/vision-household/cn/router/router-cn-gallery-002-fast-1200m-11ac.jpg"
+        },
+        {
+          "entryId": "router:router-cn-gallery-003:r0",
+          "categoryId": "router",
+          "displayName": "路由器",
+          "score": 0.818988,
+          "imagePath": "fixtures/vision-household/cn/router/router-cn-gallery-003-5g-5g.jpg"
+        },
+        {
+          "entryId": "travel-adapter:travel-adapter-cn-gallery-002:r0",
+          "categoryId": "travel-adapter",
+          "displayName": "旅行转换插头",
+          "score": 0.765335,
+          "imagePath": "fixtures/vision-household/cn/travel-adapter/travel-adapter-cn-gallery-002-usb.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "screwdriver-cn-eval-004",
+      "expectedName": "螺丝刀",
+      "expectedCategoryId": "screwdriver",
+      "predictedName": "螺丝刀",
+      "predictedCategoryId": "screwdriver",
+      "iou": 0.1112,
+      "boxMatch": false,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "screwdriver:screwdriver-cn-gallery-003:r0",
+          "categoryId": "screwdriver",
+          "displayName": "螺丝刀",
+          "score": 0.829802,
+          "imagePath": "fixtures/vision-household/cn/screwdriver/screwdriver-cn-gallery-003-2025-12-1.jpg"
+        },
+        {
+          "entryId": "pen:pen-cn-gallery-003:r0",
+          "categoryId": "pen",
+          "displayName": "笔",
+          "score": 0.79819,
+          "imagePath": "fixtures/vision-household/cn/pen/pen-cn-gallery-003-720.jpg"
+        },
+        {
+          "entryId": "measuring-tape:measuring-tape-cn-gallery-002:r0",
+          "categoryId": "measuring-tape",
+          "displayName": "卷尺",
+          "score": 0.787641,
+          "imagePath": "fixtures/vision-household/cn/measuring-tape/measuring-tape-cn-gallery-002-5.jpg"
+        }
+      ]
+    },
+    {
+      "imageId": "scissors-cn-eval-004",
+      "expectedName": "剪刀",
+      "expectedCategoryId": "scissors",
+      "predictedName": "剪刀",
+      "predictedCategoryId": "scissors",
+      "iou": 0.2659,
+      "boxMatch": false,
+      "categoryMatch": true,
+      "nameMatch": true,
+      "combinedMatch": false,
+      "top3": [
+        {
+          "entryId": "scissors:scissors-cn-gallery-002:r0",
+          "categoryId": "scissors",
+          "displayName": "剪刀",
+          "score": 0.885544,
+          "imagePath": "fixtures/vision-household/cn/scissors/scissors-cn-gallery-002-image.jpg"
+        },
+        {
+          "entryId": "scissors:scissors-cn-gallery-003:r0",
+          "categoryId": "scissors",
+          "displayName": "剪刀",
+          "score": 0.859015,
+          "imagePath": "fixtures/vision-household/cn/scissors/scissors-cn-gallery-003-hewer-hs-3108.jpg"
+        },
+        {
+          "entryId": "hammer:hammer-cn-gallery-002:r0",
+          "categoryId": "hammer",
+          "displayName": "锤子",
+          "score": 0.814271,
+          "imagePath": "fixtures/vision-household/cn/hammer/hammer-cn-gallery-002-image.jpg"
+        }
+      ]
+    }
+  ],
+  "existingNamingConfusions": [
+    {
+      "expectedCategoryId": "storage-box",
+      "predictedCategoryId": "packing-cube",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "storage-basket",
+      "predictedCategoryId": "decorative-basket",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "vacuum-storage-bag",
+      "predictedCategoryId": null,
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "cable-organizer-box",
+      "predictedCategoryId": "closet-organizer",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "shoe-box",
+      "predictedCategoryId": null,
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "bowl",
+      "predictedCategoryId": "glasses-case",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "plate",
+      "predictedCategoryId": null,
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "cutting-board",
+      "predictedCategoryId": "drinking-glass",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "noodle-pack",
+      "predictedCategoryId": "trash-bag-roll",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "canned-food",
+      "predictedCategoryId": "trash-bag-roll",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "snack-bag",
+      "predictedCategoryId": "mosquito-repellent",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "spice-jar",
+      "predictedCategoryId": "vacuum-cleaner",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "medicine-box",
+      "predictedCategoryId": "charger",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "pill-bottle",
+      "predictedCategoryId": "rice-cooker",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "thermometer",
+      "predictedCategoryId": "trash-bag-roll",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "bandage-box",
+      "predictedCategoryId": null,
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "first-aid-kit",
+      "predictedCategoryId": null,
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "face-mask-pack",
+      "predictedCategoryId": "razor",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "disinfectant-wipes",
+      "predictedCategoryId": "laundry-detergent",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "dish-soap",
+      "predictedCategoryId": "mosquito-repellent",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "sponge",
+      "predictedCategoryId": "wet-wipes-pack",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "trash-bag-roll",
+      "predictedCategoryId": "shampoo-bottle",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "mop-head",
+      "predictedCategoryId": "cable-organizer-box",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "charger",
+      "predictedCategoryId": "dumbbell",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "battery",
+      "predictedCategoryId": "charger",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "power-bank",
+      "predictedCategoryId": null,
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "earphones",
+      "predictedCategoryId": "charging-cable",
+      "count": 1
+    },
+    {
+      "expectedCategoryId": "air-purifier-filter",
+      "predictedCategoryId": "measuring-tape",
+      "count": 1
+    }
+  ]
+}

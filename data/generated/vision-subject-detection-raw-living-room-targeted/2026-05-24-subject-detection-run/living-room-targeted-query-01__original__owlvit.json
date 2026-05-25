@@ -1,0 +1,177 @@
+{
+  "resultId": "living-room-targeted-query-01:original:owlvit",
+  "rawDetections": [
+    {
+      "label": "ceiling light",
+      "score": 0.2929123342037201,
+      "box": {
+        "x": 0,
+        "y": 0.5,
+        "w": 12.1875,
+        "h": 17.5
+      }
+    },
+    {
+      "label": "stereo receiver",
+      "score": 0.2617703080177307,
+      "box": {
+        "x": 26.6875,
+        "y": 75.25,
+        "w": 19.8125,
+        "h": 8.5833
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.2379831075668335,
+      "box": {
+        "x": 16.625,
+        "y": 79,
+        "w": 59.6875,
+        "h": 8.8333
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.22707733511924744,
+      "box": {
+        "x": 14.125,
+        "y": 70,
+        "w": 60.75,
+        "h": 29.3333
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.2243407964706421,
+      "box": {
+        "x": 1.125,
+        "y": 39.0833,
+        "w": 16.125,
+        "h": 27.9167
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.2146044224500656,
+      "box": {
+        "x": 14.125,
+        "y": 70,
+        "w": 60.75,
+        "h": 29.3333
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.2138288915157318,
+      "box": {
+        "x": 25.5625,
+        "y": 71.0833,
+        "w": 22.5625,
+        "h": 13.3333
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "living-room-targeted-query-01:original:owlvit:d01",
+      "label": "ceiling light",
+      "categoryKey": "ceiling light",
+      "score": 0.292912,
+      "box": {
+        "x": 0,
+        "y": 0.5,
+        "w": 12.1875,
+        "h": 17.5
+      },
+      "areaPct": 2.1328,
+      "rankByScore": 1,
+      "rankByArea": 5
+    },
+    {
+      "id": "living-room-targeted-query-01:original:owlvit:d02",
+      "label": "stereo receiver",
+      "categoryKey": "stereo receiver",
+      "score": 0.26177,
+      "box": {
+        "x": 26.6875,
+        "y": 75.25,
+        "w": 19.8125,
+        "h": 8.5833
+      },
+      "areaPct": 1.7006,
+      "rankByScore": 2,
+      "rankByArea": 6
+    },
+    {
+      "id": "living-room-targeted-query-01:original:owlvit:d03",
+      "label": "turntable",
+      "categoryKey": "turntable",
+      "score": 0.237983,
+      "box": {
+        "x": 16.625,
+        "y": 79,
+        "w": 59.6875,
+        "h": 8.8333
+      },
+      "areaPct": 5.2724,
+      "rankByScore": 3,
+      "rankByArea": 2
+    },
+    {
+      "id": "living-room-targeted-query-01:original:owlvit:d04",
+      "label": "amplifier",
+      "categoryKey": "amplifier",
+      "score": 0.227077,
+      "box": {
+        "x": 14.125,
+        "y": 70,
+        "w": 60.75,
+        "h": 29.3333
+      },
+      "areaPct": 17.82,
+      "rankByScore": 4,
+      "rankByArea": 1
+    },
+    {
+      "id": "living-room-targeted-query-01:original:owlvit:d05",
+      "label": "amplifier",
+      "categoryKey": "amplifier",
+      "score": 0.224341,
+      "box": {
+        "x": 1.125,
+        "y": 39.0833,
+        "w": 16.125,
+        "h": 27.9167
+      },
+      "areaPct": 4.5016,
+      "rankByScore": 5,
+      "rankByArea": 3
+    },
+    {
+      "id": "living-room-targeted-query-01:original:owlvit:d06",
+      "label": "turntable",
+      "categoryKey": "turntable",
+      "score": 0.213829,
+      "box": {
+        "x": 25.5625,
+        "y": 71.0833,
+        "w": 22.5625,
+        "h": 13.3333
+      },
+      "areaPct": 3.0083,
+      "rankByScore": 6,
+      "rankByArea": 4
+    }
+  ],
+  "postProcessing": {
+    "owlvitCategoryNms": {
+      "applied": true,
+      "inputCount": 7,
+      "outputCount": 6,
+      "iouThreshold": 0.5,
+      "maxSubjects": 10
+    }
+  },
+  "failureReason": ""
+}

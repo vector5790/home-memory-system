@@ -1,0 +1,422 @@
+{
+  "kind": "vision-subject-detection-source-report",
+  "version": "2026-05-24-subject-detection-cn-first10",
+  "generatedAt": "2026-05-24T15:55:55.499Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "providerOrder": [
+    "taobao",
+    "bing",
+    "duckduckgo"
+  ],
+  "categoryCount": 10,
+  "categories": [
+    {
+      "categoryId": "storage-box",
+      "displayName": "收纳盒",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "收纳盒 site:taobao.com",
+          "candidateCount": 2
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "收纳盒 site:taobao.com",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "storage-basket",
+      "displayName": "收纳篮",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "收纳篮 site:taobao.com",
+          "candidateCount": 2
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "收纳篮 site:taobao.com",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "drawer-organizer",
+      "displayName": "抽屉分隔盒",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "抽屉分隔盒 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 site:tmall.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 site:1688.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 淘宝 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 天猫 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 1688 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 家用 实物图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 白底图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉分隔盒 家庭收纳容器",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 site:tmall.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 site:1688.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 淘宝 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 天猫 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 1688 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 家用 实物图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 白底图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉分隔盒 家庭收纳容器",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "vacuum-storage-bag",
+      "displayName": "真空压缩袋",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "真空压缩袋 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 site:tmall.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 site:1688.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 淘宝 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 天猫 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 1688 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 家用 实物图",
+          "candidateCount": 10
+        },
+        {
+          "query": "真空压缩袋 白底图",
+          "candidateCount": 0
+        },
+        {
+          "query": "真空压缩袋 家庭收纳容器",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 site:tmall.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 site:1688.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 淘宝 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 天猫 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 1688 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 家用 实物图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 白底图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "真空压缩袋 家庭收纳容器",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "closet-organizer",
+      "displayName": "衣柜收纳格",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "衣柜收纳格 site:taobao.com",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 site:tmall.com",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 site:1688.com",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 淘宝 商品图",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 天猫 商品图",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 1688 商品图",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 家用 实物图",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 白底图",
+          "candidateCount": 17
+        },
+        {
+          "query": "衣柜收纳格 家庭收纳容器",
+          "candidateCount": 17
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 site:tmall.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 site:1688.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 淘宝 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 天猫 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 1688 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 家用 实物图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 白底图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "衣柜收纳格 家庭收纳容器",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "cable-organizer-box",
+      "displayName": "线缆收纳盒",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "线缆收纳盒 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "线缆收纳盒 site:tmall.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "线缆收纳盒 site:1688.com",
+          "candidateCount": 40
+        },
+        {
+          "query": "线缆收纳盒 淘宝 商品图",
+          "candidateCount": 40
+        },
+        {
+          "query": "线缆收纳盒 天猫 商品图",
+          "candidateCount": 40
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "线缆收纳盒 site:taobao.com",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "shoe-box",
+      "displayName": "鞋盒",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "鞋盒 site:taobao.com",
+          "candidateCount": 40
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "underbed-storage-box",
+      "displayName": "床底收纳箱",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "床底收纳箱 site:taobao.com",
+          "candidateCount": 63
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "folding-storage-crate",
+      "displayName": "折叠收纳筐",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "折叠收纳筐 site:taobao.com",
+          "candidateCount": 40
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "document-storage-box",
+      "displayName": "文件收纳箱",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "文件收纳箱 site:taobao.com",
+          "candidateCount": 40
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": false
+    }
+  ]
+}

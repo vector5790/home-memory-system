@@ -1,0 +1,1037 @@
+{
+  "kind": "vision-subject-recall-eval-report",
+  "version": "2026-05-25-subject-detection-cn-first10-v3-nms-run-subject-recall-report",
+  "generatedAt": "2026-05-25T15:31:18.404Z",
+  "detectionRunVersion": "2026-05-25-subject-detection-cn-first10-v3-nms-run",
+  "reviewVersion": "2026-05-25-subject-detection-review",
+  "manifestVersion": "2026-05-25-subject-detection-cn-first10",
+  "summary": {
+    "sampleCount": 10,
+    "approvedReviewCount": 8,
+    "validReviewedImageCount": 7,
+    "invalidReviewedImageCount": 1,
+    "selectedPrimaryCount": 7,
+    "defaultVerdictPolicy": "query 图默认有效；候选框未显式标为不准确时按准确统计。",
+    "recommendation": "当前标注口径下建议优先使用 grounding-dino 做主体检测；继续关注其主框 A/B 准确率和平均识别耗时。"
+  },
+  "metrics": {
+    "byModelVariant": {
+      "grounding-dino | original": {
+        "modelId": "grounding-dino",
+        "imageVariant": "original",
+        "resultCount": 10,
+        "reviewedImageCount": 8,
+        "ordinaryPrecision": 0.5763,
+        "primaryAAccuracy": 0.7143,
+        "primaryBAccuracy": 1,
+        "imageSuccessRate": 0,
+        "modelWinRate": 0,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 1494.198,
+        "detectionP50Ms": 1426.96,
+        "detectionP95Ms": 1822.219,
+        "accurateBoxMinScore": 0.072969,
+        "inaccurateBoxMaxScore": 0.271138
+      },
+      "owlvit | original": {
+        "modelId": "owlvit",
+        "imageVariant": "original",
+        "resultCount": 10,
+        "reviewedImageCount": 8,
+        "ordinaryPrecision": 0.3667,
+        "primaryAAccuracy": 0.5714,
+        "primaryBAccuracy": 0.7143,
+        "imageSuccessRate": 0,
+        "modelWinRate": 0,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 207.907,
+        "detectionP50Ms": 202.122,
+        "detectionP95Ms": 275.947,
+        "accurateBoxMinScore": 0.012901,
+        "inaccurateBoxMaxScore": 0.086138
+      },
+      "grounding-dino | normalized-1024": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "resultCount": 10,
+        "reviewedImageCount": 8,
+        "ordinaryPrecision": 0.5424,
+        "primaryAAccuracy": 0.7143,
+        "primaryBAccuracy": 1,
+        "imageSuccessRate": 1,
+        "modelWinRate": 1,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 1454.187,
+        "detectionP50Ms": 1335.134,
+        "detectionP95Ms": 1901.002,
+        "accurateBoxMinScore": 0.072969,
+        "inaccurateBoxMaxScore": 0.272679
+      },
+      "owlvit | normalized-1024": {
+        "modelId": "owlvit",
+        "imageVariant": "normalized-1024",
+        "resultCount": 10,
+        "reviewedImageCount": 8,
+        "ordinaryPrecision": 0.3559,
+        "primaryAAccuracy": 0.5714,
+        "primaryBAccuracy": 0.8571,
+        "imageSuccessRate": 0,
+        "modelWinRate": 0,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 204.665,
+        "detectionP50Ms": 199.932,
+        "detectionP95Ms": 239.551,
+        "accurateBoxMinScore": 0.018333,
+        "inaccurateBoxMaxScore": 0.072757
+      }
+    },
+    "modelSummary": {
+      "grounding-dino": {
+        "resultCount": 20,
+        "ordinaryPrecision": 0.5594,
+        "primaryAAccuracy": 0.7143,
+        "primaryBAccuracy": 1,
+        "imageSuccessRate": 0.5,
+        "modelWinRate": 0.5,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 1474.192,
+        "detectionP50Ms": 1424.524,
+        "detectionP95Ms": 1822.219,
+        "accurateBoxMinScore": 0.072969,
+        "inaccurateBoxMaxScore": 0.272679
+      },
+      "owlvit": {
+        "resultCount": 20,
+        "ordinaryPrecision": 0.3613,
+        "primaryAAccuracy": 0.5714,
+        "primaryBAccuracy": 0.7857,
+        "imageSuccessRate": 0,
+        "modelWinRate": 0,
+        "averageBoxCount": 10,
+        "failureRate": 0,
+        "averageRecognitionMs": 206.286,
+        "detectionP50Ms": 202.122,
+        "detectionP95Ms": 239.551,
+        "accurateBoxMinScore": 0.012901,
+        "inaccurateBoxMaxScore": 0.086138
+      }
+    },
+    "grouped": {
+      "categoryId": {
+        "storage-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "storage-basket": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "drawer-organizer": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "vacuum-storage-bag": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "closet-organizer": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "cable-organizer-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "shoe-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "underbed-storage-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "folding-storage-crate": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "document-storage-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        }
+      },
+      "sourceProvider": {
+        "Bing Images": {
+          "resultCount": 20,
+          "imageCount": 5,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        },
+        "DuckDuckGo Images": {
+          "resultCount": 20,
+          "imageCount": 5,
+          "averageBoxCount": 10,
+          "failureRate": 0
+        }
+      }
+    }
+  },
+  "modelVariantRows": [
+    {
+      "key": "grounding-dino | normalized-1024",
+      "modelId": "grounding-dino",
+      "imageVariant": "normalized-1024",
+      "resultCount": 10,
+      "reviewedResultCount": 7,
+      "detectedBoxCount": 100,
+      "reviewedBoxCount": 70,
+      "accurateBoxCount": 41,
+      "inaccurateBoxCount": 29,
+      "boxPrecision": 0.5857,
+      "imageRecallSuccessRate": 1,
+      "selectedPrimaryCount": 7,
+      "modelWinRate": 1,
+      "averageDetectedBoxes": 10,
+      "averageAccurateBoxes": 5.857,
+      "averageDetectionMs": 1454.187,
+      "detectionP50Ms": 1335.134,
+      "detectionP95Ms": 1901.002,
+      "accurateBoxMinScore": 0.072969,
+      "inaccurateBoxMaxScore": 0.272679
+    },
+    {
+      "key": "grounding-dino | original",
+      "modelId": "grounding-dino",
+      "imageVariant": "original",
+      "resultCount": 10,
+      "reviewedResultCount": 7,
+      "detectedBoxCount": 100,
+      "reviewedBoxCount": 70,
+      "accurateBoxCount": 43,
+      "inaccurateBoxCount": 27,
+      "boxPrecision": 0.6143,
+      "imageRecallSuccessRate": 1,
+      "selectedPrimaryCount": 0,
+      "modelWinRate": 0,
+      "averageDetectedBoxes": 10,
+      "averageAccurateBoxes": 6.143,
+      "averageDetectionMs": 1494.198,
+      "detectionP50Ms": 1426.96,
+      "detectionP95Ms": 1822.219,
+      "accurateBoxMinScore": 0.072969,
+      "inaccurateBoxMaxScore": 0.271138
+    },
+    {
+      "key": "owlvit | normalized-1024",
+      "modelId": "owlvit",
+      "imageVariant": "normalized-1024",
+      "resultCount": 10,
+      "reviewedResultCount": 7,
+      "detectedBoxCount": 100,
+      "reviewedBoxCount": 70,
+      "accurateBoxCount": 28,
+      "inaccurateBoxCount": 42,
+      "boxPrecision": 0.4,
+      "imageRecallSuccessRate": 1,
+      "selectedPrimaryCount": 0,
+      "modelWinRate": 0,
+      "averageDetectedBoxes": 10,
+      "averageAccurateBoxes": 4,
+      "averageDetectionMs": 204.665,
+      "detectionP50Ms": 199.932,
+      "detectionP95Ms": 239.551,
+      "accurateBoxMinScore": 0.018333,
+      "inaccurateBoxMaxScore": 0.072757
+    },
+    {
+      "key": "owlvit | original",
+      "modelId": "owlvit",
+      "imageVariant": "original",
+      "resultCount": 10,
+      "reviewedResultCount": 7,
+      "detectedBoxCount": 100,
+      "reviewedBoxCount": 70,
+      "accurateBoxCount": 27,
+      "inaccurateBoxCount": 43,
+      "boxPrecision": 0.3857,
+      "imageRecallSuccessRate": 0.8571,
+      "selectedPrimaryCount": 0,
+      "modelWinRate": 0,
+      "averageDetectedBoxes": 10,
+      "averageAccurateBoxes": 3.857,
+      "averageDetectionMs": 207.907,
+      "detectionP50Ms": 202.122,
+      "detectionP95Ms": 275.947,
+      "accurateBoxMinScore": 0.012901,
+      "inaccurateBoxMaxScore": 0.086138
+    }
+  ],
+  "invalidImages": [
+    {
+      "imageId": "drawer-organizer-subject-cn-01",
+      "categoryId": "drawer-organizer",
+      "displayName": "抽屉分隔盒",
+      "reason": "这是一张毛坯房的照片，不属于抽屉分隔盒"
+    }
+  ],
+  "sampleRows": [
+    {
+      "imageId": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "displayName": "收纳盒",
+      "sourceProvider": "Bing Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 10.1902,
+          "y": 46.7617,
+          "w": 43.1783,
+          "h": 30.2841
+        },
+        "label": "storage box. plastic storage bin. [UNK] [UNK] [UNK]. storage boxes. [SEP]",
+        "score": 0.577594
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 6,
+          "inaccurateBoxCount": 4,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-box-subject-cn-01:original:grounding-dino:d09",
+          "primaryBId": "storage-box-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1822.219
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 6,
+          "inaccurateBoxCount": 4,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-box-subject-cn-01:original:owlvit:d04",
+          "primaryBId": "storage-box-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 275.947
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 6,
+          "inaccurateBoxCount": 4,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d09",
+          "primaryBId": "storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1901.002
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 7,
+          "inaccurateBoxCount": 3,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-box-subject-cn-01:normalized-1024:owlvit:d04",
+          "primaryBId": "storage-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 239.551
+        }
+      ]
+    },
+    {
+      "imageId": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "displayName": "收纳篮",
+      "sourceProvider": "Bing Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 21.7315,
+          "y": 45.2929,
+          "w": 33.3047,
+          "h": 23.2861
+        },
+        "label": "storage basket. woven storage basket. [UNK] [UNK] [UNK]. storage baskets. [SEP]",
+        "score": 0.629283
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 10,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-basket-subject-cn-01:original:grounding-dino:d10",
+          "primaryBId": "storage-basket-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1462.645
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 7,
+          "inaccurateBoxCount": 3,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-basket-subject-cn-01:original:owlvit:d09",
+          "primaryBId": "storage-basket-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 211.367
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 10,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d10",
+          "primaryBId": "storage-basket-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1329.74
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 7,
+          "inaccurateBoxCount": 3,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "storage-basket-subject-cn-01:normalized-1024:owlvit:d05",
+          "primaryBId": "storage-basket-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 218.15
+        }
+      ]
+    },
+    {
+      "imageId": "drawer-organizer-subject-cn-01",
+      "categoryId": "drawer-organizer",
+      "displayName": "抽屉分隔盒",
+      "sourceProvider": "Bing Images",
+      "queryValidity": "invalid",
+      "invalidReason": "这是一张毛坯房的照片，不属于抽屉分隔盒",
+      "reviewStatus": "approved",
+      "bestModel": "",
+      "selectedPrimaryBox": null,
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "drawer-organizer-subject-cn-01:original:grounding-dino:d04",
+          "primaryBId": "drawer-organizer-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1673.041
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "drawer-organizer-subject-cn-01:original:owlvit:d03",
+          "primaryBId": "drawer-organizer-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 204.656
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "drawer-organizer-subject-cn-01:normalized-1024:grounding-dino:d04",
+          "primaryBId": "drawer-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1402.69
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "drawer-organizer-subject-cn-01:normalized-1024:owlvit:d06",
+          "primaryBId": "drawer-organizer-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 209.134
+        }
+      ]
+    },
+    {
+      "imageId": "vacuum-storage-bag-subject-cn-01",
+      "categoryId": "vacuum-storage-bag",
+      "displayName": "真空压缩袋",
+      "sourceProvider": "DuckDuckGo Images",
+      "queryValidity": "unreviewed",
+      "invalidReason": "",
+      "reviewStatus": "not-reviewed",
+      "bestModel": "",
+      "selectedPrimaryBox": null,
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "vacuum-storage-bag-subject-cn-01:original:grounding-dino:d01",
+          "primaryBId": "vacuum-storage-bag-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1424.524
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "vacuum-storage-bag-subject-cn-01:original:owlvit:d01",
+          "primaryBId": "vacuum-storage-bag-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 205.185
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "vacuum-storage-bag-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "primaryBId": "vacuum-storage-bag-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1588.133
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "vacuum-storage-bag-subject-cn-01:normalized-1024:owlvit:d01",
+          "primaryBId": "vacuum-storage-bag-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 205.207
+        }
+      ]
+    },
+    {
+      "imageId": "closet-organizer-subject-cn-01",
+      "categoryId": "closet-organizer",
+      "displayName": "衣柜收纳格",
+      "sourceProvider": "Bing Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "closet-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 14.9565,
+          "y": 11.8862,
+          "w": 72.2056,
+          "h": 73.6564
+        },
+        "label": "closet organizer. hanging closet organizer. [UNK] [UNK] [UNK] [UNK] [UNK]. [UNK] [UNK] [UNK] [UNK] [UNK] [UNK]. [UNK] [UNK] [UNK] [UNK] [UNK]. [UNK] [UNK] 分 [UNK] [UNK] [UNK]. closet organizers. [SEP]",
+        "score": 0.670138
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 8,
+          "inaccurateBoxCount": 2,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "closet-organizer-subject-cn-01:original:grounding-dino:d01",
+          "primaryBId": "closet-organizer-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1662.434
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 3,
+          "inaccurateBoxCount": 7,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "closet-organizer-subject-cn-01:original:owlvit:d01",
+          "primaryBId": "closet-organizer-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 198.845
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 8,
+          "inaccurateBoxCount": 2,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "closet-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "primaryBId": "closet-organizer-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1506.925
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "closet-organizer-subject-cn-01:normalized-1024:owlvit:d01",
+          "primaryBId": "closet-organizer-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 227.998
+        }
+      ]
+    },
+    {
+      "imageId": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "displayName": "线缆收纳盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 8.4415,
+          "y": 27.2272,
+          "w": 84.712,
+          "h": 68.6785
+        },
+        "label": "cable organizer box. cord storage box. [UNK] [UNK] [UNK] [UNK] [UNK]. cable organizer boxes. [SEP]",
+        "score": 0.746192
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "cable-organizer-box-subject-cn-01:original:grounding-dino:d05",
+          "primaryBId": "cable-organizer-box-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1426.96
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 10,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": false,
+          "primaryAId": "cable-organizer-box-subject-cn-01:original:owlvit:d02",
+          "primaryBId": "cable-organizer-box-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 196.142
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d05",
+          "primaryBId": "cable-organizer-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1335.134
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 1,
+          "inaccurateBoxCount": 9,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "cable-organizer-box-subject-cn-01:normalized-1024:owlvit:d02",
+          "primaryBId": "cable-organizer-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 199.932
+        }
+      ]
+    },
+    {
+      "imageId": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "displayName": "鞋盒",
+      "sourceProvider": "DuckDuckGo Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 13.587,
+          "y": 11.123,
+          "w": 79.7066,
+          "h": 84.689
+        },
+        "label": "shoe storage box. clear shoe box. [UNK] [UNK]. shoe storage boxes. shoe box. [SEP]",
+        "score": 0.656917
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 10,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "shoe-box-subject-cn-01:original:grounding-dino:d01",
+          "primaryBId": "shoe-box-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1311.576
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 7,
+          "inaccurateBoxCount": 3,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "shoe-box-subject-cn-01:original:owlvit:d01",
+          "primaryBId": "shoe-box-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 195.477
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 10,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "primaryBId": "shoe-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1488.585
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 7,
+          "inaccurateBoxCount": 3,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "shoe-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "primaryBId": "shoe-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 190.795
+        }
+      ]
+    },
+    {
+      "imageId": "underbed-storage-box-subject-cn-01",
+      "categoryId": "underbed-storage-box",
+      "displayName": "床底收纳箱",
+      "sourceProvider": "Bing Images",
+      "queryValidity": "unreviewed",
+      "invalidReason": "",
+      "reviewStatus": "not-reviewed",
+      "bestModel": "",
+      "selectedPrimaryBox": null,
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "underbed-storage-box-subject-cn-01:original:grounding-dino:d01",
+          "primaryBId": "underbed-storage-box-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1433.857
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "underbed-storage-box-subject-cn-01:original:owlvit:d02",
+          "primaryBId": "underbed-storage-box-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 184.954
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "primaryBId": "underbed-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1332.733
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 0,
+          "inaccurateBoxCount": 0,
+          "reviewedBoxCount": 0,
+          "hasAccurateBox": false,
+          "primaryAId": "underbed-storage-box-subject-cn-01:normalized-1024:owlvit:d02",
+          "primaryBId": "underbed-storage-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 184.425
+        }
+      ]
+    },
+    {
+      "imageId": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "displayName": "折叠收纳筐",
+      "sourceProvider": "DuckDuckGo Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 30.6311,
+          "y": 34.9096,
+          "w": 49.3083,
+          "h": 61.6895
+        },
+        "label": "folding storage crate. collapsible storage crate. [UNK] [UNK] [UNK] [UNK] [UNK]. folding storage crates. [SEP]",
+        "score": 0.515498
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 5,
+          "inaccurateBoxCount": 5,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "folding-storage-crate-subject-cn-01:original:grounding-dino:d02",
+          "primaryBId": "folding-storage-crate-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1346.169
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "folding-storage-crate-subject-cn-01:original:owlvit:d01",
+          "primaryBId": "folding-storage-crate-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 202.122
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 3,
+          "inaccurateBoxCount": 7,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d02",
+          "primaryBId": "folding-storage-crate-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1333.115
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 1,
+          "inaccurateBoxCount": 9,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "folding-storage-crate-subject-cn-01:normalized-1024:owlvit:d09",
+          "primaryBId": "folding-storage-crate-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 186.001
+        }
+      ]
+    },
+    {
+      "imageId": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "displayName": "文件收纳箱",
+      "sourceProvider": "DuckDuckGo Images",
+      "queryValidity": "valid",
+      "invalidReason": "",
+      "reviewStatus": "approved",
+      "bestModel": "grounding-dino:normalized-1024",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "detectionId": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+        "box": {
+          "x": 7.6056,
+          "y": 24.1414,
+          "w": 84.577,
+          "h": 59.4395
+        },
+        "label": "document storage box. file storage box. 文 [UNK] [UNK] [UNK] [UNK]. document storage boxes. [SEP]",
+        "score": 0.63685
+      },
+      "resultRows": [
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "document-storage-box-subject-cn-01:original:grounding-dino:d01",
+          "primaryBId": "document-storage-box-subject-cn-01:original:grounding-dino:d01",
+          "selectedPrimary": false,
+          "detectionMs": 1378.557
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "original",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "document-storage-box-subject-cn-01:original:owlvit:d01",
+          "primaryBId": "document-storage-box-subject-cn-01:original:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 204.377
+        },
+        {
+          "modelId": "grounding-dino",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 2,
+          "inaccurateBoxCount": 8,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "primaryBId": "document-storage-box-subject-cn-01:normalized-1024:grounding-dino:d01",
+          "selectedPrimary": true,
+          "detectionMs": 1323.81
+        },
+        {
+          "modelId": "owlvit",
+          "imageVariant": "normalized-1024",
+          "detectionCount": 10,
+          "accurateBoxCount": 3,
+          "inaccurateBoxCount": 7,
+          "reviewedBoxCount": 10,
+          "hasAccurateBox": true,
+          "primaryAId": "document-storage-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "primaryBId": "document-storage-box-subject-cn-01:normalized-1024:owlvit:d01",
+          "selectedPrimary": false,
+          "detectionMs": 185.459
+        }
+      ]
+    }
+  ]
+}

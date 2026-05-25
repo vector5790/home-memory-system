@@ -1,0 +1,227 @@
+{
+  "kind": "vision-subject-detection-source-report",
+  "version": "2026-05-24-subject-detection-cn-first10-fill2",
+  "generatedAt": "2026-05-24T16:22:23.888Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "providerOrder": [
+    "taobao",
+    "bing",
+    "duckduckgo"
+  ],
+  "categoryCount": 3,
+  "categories": [
+    {
+      "categoryId": "storage-drawer-unit",
+      "displayName": "抽屉式收纳柜",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "抽屉式收纳柜 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 site:tmall.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 site:1688.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 淘宝 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 天猫 商品图",
+          "candidateCount": 2
+        },
+        {
+          "query": "抽屉式收纳柜 1688 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 家用 实物图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 白底图",
+          "candidateCount": 0
+        },
+        {
+          "query": "抽屉式收纳柜 家庭收纳容器",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 site:tmall.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 site:1688.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 淘宝 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 天猫 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 1688 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 家用 实物图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 白底图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "抽屉式收纳柜 家庭收纳容器",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "desktop-organizer",
+      "displayName": "桌面收纳架",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "桌面收纳架 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 site:tmall.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 site:1688.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 淘宝 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 天猫 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 1688 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 家用 实物图",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 白底图",
+          "candidateCount": 0
+        },
+        {
+          "query": "桌面收纳架 家庭收纳容器",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 site:tmall.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 site:1688.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 淘宝 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 天猫 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 1688 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 家用 实物图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 白底图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "桌面收纳架 家庭收纳容器",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "bowl",
+      "displayName": "碗",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "碗 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "碗 site:tmall.com",
+          "candidateCount": 20
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "碗 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "碗 site:tmall.com",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>主体检测评估报告</title>
+  <style>
+    body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#172033; background:#f7f8fb; }
+    header { padding:22px 28px; background:white; border-bottom:1px solid #d8dde6; }
+    main { padding:22px 28px; }
+    h1 { margin:0 0 6px; font-size:24px; }
+    h2 { margin-top:28px; font-size:18px; }
+    h3 { margin:0 0 4px; font-size:15px; }
+    table { border-collapse:collapse; background:white; border:1px solid #d8dde6; width:100%; margin:14px 0; }
+    th, td { border-bottom:1px solid #e8ecf2; padding:8px 10px; text-align:left; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:12px; }
+    .card { background:white; border:1px solid #d8dde6; border-radius:8px; padding:10px; }
+    .card p { margin:0 0 8px; color:#667085; }
+    .stage { background:#111827; display:flex; justify-content:center; align-items:center; overflow:auto; min-height:240px; }
+    .canvas { position:relative; display:inline-block; line-height:0; max-width:100%; }
+    .canvas img { max-width:100%; max-height:520px; display:block; }
+    .box { position:absolute; border:2px solid #2563eb; pointer-events:none; }
+    .box.a { border-color:#169b62; box-shadow:0 0 0 2px rgba(22,155,98,.25); }
+    .box.b { border-color:#d97706; box-shadow:0 0 0 2px rgba(217,119,6,.25); }
+    .box.ab { border-color:#169b62; outline:2px solid #d97706; outline-offset:2px; }
+    .box span { position:absolute; left:0; top:-22px; padding:2px 5px; color:white; background:#2563eb; font-size:12px; white-space:nowrap; }
+    .box.a span { background:#169b62; } .box.b span { background:#d97706; } .box.ab span { background:#394150; }
+    small { color:#667085; font-weight:400; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>主体检测评估报告</h1>
+    <div>2026-05-24-subject-detection-run · 2026-05-24T04:50:15.233Z</div>
+  </header>
+  <main>
+    <h2>结论</h2>
+    <p>人工标注不足，暂不判断哪个模型更准确。未标注 smoke 仅供排障参考：grounding-dino: 平均 1831.242ms, 平均框数 1, 失败率 0；owlvit: 平均 235.558ms, 平均框数 25, 失败率 0。</p>
+    <p>人工标注不足，暂不判断压缩图是否影响准确性；未标注 smoke 中 normalized variant 平均耗时约为 original 的 0.963 倍。</p>
+    <h2>模型平均识别耗时</h2>
+    <table><thead><tr><th>模型</th><th>结果数</th><th>平均识别耗时 ms</th><th>p50 ms</th><th>p95 ms</th><th>主框A准确率</th><th>主框B准确率</th><th>人工胜率</th></tr></thead><tbody><tr>
+    <td>grounding-dino</td><td>2</td><td>1831.242</td><td>1802.331</td><td>1860.154</td>
+    <td>-</td><td>-</td><td>-</td>
+  </tr><tr>
+    <td>owlvit</td><td>2</td><td>235.558</td><td>225.93</td><td>245.185</td>
+    <td>-</td><td>-</td><td>-</td>
+  </tr></tbody></table>
+    <h2>样本明细</h2>
+    <section>
+      <h2>饭盒 <small>lunch-box-subject-cn-01</small></h2>
+      <p>来源 Bing Images · 标注 未标注 · 最佳模型 - · 采用框 -</p>
+      <div class="grid"><article class="card">
+        <h3>grounding-dino / original</h3>
+        <p>耗时 1860.154 ms · 框 1 · ok</p>
+        <div class="stage"><div class="canvas"><img src="file:///Users/guzeyu/.codex/worktrees/85a4/home-memory-system/fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg" /><div class="box ab" style="left:11.1506%;top:20.0859%;width:73.0401%;height:63.1704%"><span>A+B lunch box 0.753265</span></div></div></div>
+      </article><article class="card">
+        <h3>owlvit / original</h3>
+        <p>耗时 245.185 ms · 框 25 · ok</p>
+        <div class="stage"><div class="canvas"><img src="file:///Users/guzeyu/.codex/worktrees/85a4/home-memory-system/fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg" /><div class="box b" style="left:28.625%;top:51.125%;width:34.625%;height:24.25%"><span>B bento box 0.04466</span></div><div class="box o" style="left:27.375%;top:33.75%;width:53.25%;height:41.125%"><span>普通 bento box 0.040737</span></div><div class="box o" style="left:29.25%;top:51.125%;width:37.375%;height:25.375%"><span>普通 lunch boxes 0.039418</span></div><div class="box o" style="left:29.25%;top:51.125%;width:37.375%;height:25.375%"><span>普通 lunch box 0.039338</span></div><div class="box o" style="left:29.25%;top:51.125%;width:37.375%;height:25.375%"><span>普通 bento box 0.036403</span></div><div class="box o" style="left:11.75%;top:20.875%;width:70.75%;height:61.5%"><span>普通 lunch box 0.031388</span></div><div class="box o" style="left:17.5%;top:19.5%;width:68.125%;height:55.25%"><span>普通 lunch box 0.025391</span></div><div class="box o" style="left:17.5%;top:19.5%;width:68.125%;height:55.25%"><span>普通 lunch boxes 0.024908</span></div><div class="box o" style="left:27.375%;top:33.75%;width:53.25%;height:41.125%"><span>普通 lunch box 0.020684</span></div><div class="box o" style="left:11.75%;top:20.875%;width:70.75%;height:61.5%"><span>普通 lunch boxes 0.019741</span></div><div class="box o" style="left:27.375%;top:33.75%;width:53.25%;height:41.125%"><span>普通 lunch boxes 0.018469</span></div><div class="box o" style="left:28.625%;top:51.125%;width:34.625%;height:24.25%"><span>普通 lunch box 0.016693</span></div><div class="box o" style="left:53.625%;top:36.75%;width:26%;height:29.5%"><span>普通 bento box 0.014309</span></div><div class="box o" style="left:0%;top:1.125%;width:26.625%;height:24.625%"><span>普通 lunch boxes 0.014301</span></div><div class="box a" style="left:0.125%;top:0%;width:99.875%;height:99.25%"><span>A bento box 0.014111</span></div><div class="box o" style="left:28.625%;top:51.125%;width:34.625%;height:24.25%"><span>普通 lunch boxes 0.013667</span></div><div class="box o" style="left:0.125%;top:0%;width:99.875%;height:99.25%"><span>普通 lunch box 0.013454</span></div><div class="box o" style="left:17.5%;top:19.5%;width:68.125%;height:55.25%"><span>普通 bento box 0.01312</span></div><div class="box o" style="left:11.75%;top:20.875%;width:70.75%;height:61.5%"><span>普通 bento box 0.012921</span></div><div class="box o" style="left:48.125%;top:33%;width:34.625%;height:35.625%"><span>普通 lunch box 0.012659</span></div><div class="box o" style="left:0%;top:1.5%;width:42.25%;height:45.75%"><span>普通 lunch box 0.012488</span></div><div class="box o" style="left:18.5%;top:21.125%;width:57.75%;height:53.5%"><span>普通 bento box 0.011423</span></div><div class="box o" style="left:10.5%;top:17.5%;width:82.375%;height:79.875%"><span>普通 lunch boxes 0.011267</span></div><div class="box o" style="left:48.125%;top:33%;width:34.625%;height:35.625%"><span>普通 lunch boxes 0.010699</span></div><div class="box o" style="left:0%;top:1.125%;width:26.625%;height:24.625%"><span>普通 lunch box 0.010023</span></div></div></div>
+      </article><article class="card">
+        <h3>grounding-dino / normalized-1024</h3>
+        <p>耗时 1802.331 ms · 框 1 · ok</p>
+        <div class="stage"><div class="canvas"><img src="file:///Users/guzeyu/.codex/worktrees/85a4/home-memory-system/fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg" /><div class="box ab" style="left:11.1506%;top:20.0859%;width:73.0401%;height:63.1704%"><span>A+B lunch box 0.753265</span></div></div></div>
+      </article><article class="card">
+        <h3>owlvit / normalized-1024</h3>
+        <p>耗时 225.93 ms · 框 25 · ok</p>
+        <div class="stage"><div class="canvas"><img src="file:///Users/guzeyu/.codex/worktrees/85a4/home-memory-system/fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg" /><div class="box b" style="left:28.625%;top:51.125%;width:34.625%;height:24.25%"><span>B bento box 0.04466</span></div><div class="box o" style="left:27.375%;top:33.75%;width:53.25%;height:41.125%"><span>普通 bento box 0.040737</span></div><div class="box o" style="left:29.25%;top:51.125%;width:37.375%;height:25.375%"><span>普通 lunch boxes 0.039418</span></div><div class="box o" style="left:29.25%;top:51.125%;width:37.375%;height:25.375%"><span>普通 lunch box 0.039338</span></div><div class="box o" style="left:29.25%;top:51.125%;width:37.375%;height:25.375%"><span>普通 bento box 0.036403</span></div><div class="box o" style="left:11.75%;top:20.875%;width:70.75%;height:61.5%"><span>普通 lunch box 0.031388</span></div><div class="box o" style="left:17.5%;top:19.5%;width:68.125%;height:55.25%"><span>普通 lunch box 0.025391</span></div><div class="box o" style="left:17.5%;top:19.5%;width:68.125%;height:55.25%"><span>普通 lunch boxes 0.024908</span></div><div class="box o" style="left:27.375%;top:33.75%;width:53.25%;height:41.125%"><span>普通 lunch box 0.020684</span></div><div class="box o" style="left:11.75%;top:20.875%;width:70.75%;height:61.5%"><span>普通 lunch boxes 0.019741</span></div><div class="box o" style="left:27.375%;top:33.75%;width:53.25%;height:41.125%"><span>普通 lunch boxes 0.018469</span></div><div class="box o" style="left:28.625%;top:51.125%;width:34.625%;height:24.25%"><span>普通 lunch box 0.016693</span></div><div class="box o" style="left:53.625%;top:36.75%;width:26%;height:29.5%"><span>普通 bento box 0.014309</span></div><div class="box o" style="left:0%;top:1.125%;width:26.625%;height:24.625%"><span>普通 lunch boxes 0.014301</span></div><div class="box a" style="left:0.125%;top:0%;width:99.875%;height:99.25%"><span>A bento box 0.014111</span></div><div class="box o" style="left:28.625%;top:51.125%;width:34.625%;height:24.25%"><span>普通 lunch boxes 0.013667</span></div><div class="box o" style="left:0.125%;top:0%;width:99.875%;height:99.25%"><span>普通 lunch box 0.013454</span></div><div class="box o" style="left:17.5%;top:19.5%;width:68.125%;height:55.25%"><span>普通 bento box 0.01312</span></div><div class="box o" style="left:11.75%;top:20.875%;width:70.75%;height:61.5%"><span>普通 bento box 0.012921</span></div><div class="box o" style="left:48.125%;top:33%;width:34.625%;height:35.625%"><span>普通 lunch box 0.012659</span></div><div class="box o" style="left:0%;top:1.5%;width:42.25%;height:45.75%"><span>普通 lunch box 0.012488</span></div><div class="box o" style="left:18.5%;top:21.125%;width:57.75%;height:53.5%"><span>普通 bento box 0.011423</span></div><div class="box o" style="left:10.5%;top:17.5%;width:82.375%;height:79.875%"><span>普通 lunch boxes 0.011267</span></div><div class="box o" style="left:48.125%;top:33%;width:34.625%;height:35.625%"><span>普通 lunch boxes 0.010699</span></div><div class="box o" style="left:0%;top:1.125%;width:26.625%;height:24.625%"><span>普通 lunch box 0.010023</span></div></div></div>
+      </article></div>
+    </section>
+  </main>
+</body>
+</html>

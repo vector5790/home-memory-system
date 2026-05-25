@@ -1,0 +1,146 @@
+{
+  "kind": "vision-subject-detection-source-report",
+  "version": "2026-05-24-subject-detection-cn-first10-fill",
+  "generatedAt": "2026-05-24T16:21:56.935Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "providerOrder": [
+    "taobao",
+    "bing",
+    "duckduckgo"
+  ],
+  "categoryCount": 3,
+  "categories": [
+    {
+      "categoryId": "jewelry-box",
+      "displayName": "首饰盒",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "首饰盒 site:taobao.com",
+          "candidateCount": 32
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "首饰盒 site:taobao.com",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "cosmetic-organizer",
+      "displayName": "化妆品收纳盒",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "化妆品收纳盒 site:taobao.com",
+          "candidateCount": 32
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "化妆品收纳盒 site:taobao.com",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": false
+    },
+    {
+      "categoryId": "hanging-storage-bag",
+      "displayName": "挂式收纳袋",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "挂式收纳袋 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 site:tmall.com",
+          "candidateCount": 2
+        },
+        {
+          "query": "挂式收纳袋 site:1688.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 淘宝 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 天猫 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 1688 商品图",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 家用 实物图",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 白底图",
+          "candidateCount": 0
+        },
+        {
+          "query": "挂式收纳袋 家庭收纳容器",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 site:taobao.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 site:tmall.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 site:1688.com",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 淘宝 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 天猫 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 1688 商品图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 家用 实物图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 白底图",
+          "reason": "fetch failed"
+        },
+        {
+          "provider": "duckduckgo",
+          "query": "挂式收纳袋 家庭收纳容器",
+          "reason": "fetch failed"
+        }
+      ],
+      "insufficientSamples": true
+    }
+  ]
+}

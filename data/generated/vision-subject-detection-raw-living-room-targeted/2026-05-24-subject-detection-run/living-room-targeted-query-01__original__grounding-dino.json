@@ -1,0 +1,884 @@
+{
+  "resultId": "living-room-targeted-query-01:original:grounding-dino",
+  "rawDetections": [
+    {
+      "label": "amplifier stereo. ceiling.table. player.",
+      "score": 0.29724588990211487,
+      "box": {
+        "x": 1.9261,
+        "y": 41.4027,
+        "w": 15.2704,
+        "h": 26.9915
+      }
+    },
+    {
+      "label": "amplifier stereo receiver..table. record player.",
+      "score": 0.30983397364616394,
+      "box": {
+        "x": 26.0913,
+        "y": 71.1927,
+        "w": 22.0466,
+        "h": 12.5023
+      }
+    },
+    {
+      "label": "amplifier stereo receiver..table. record player.",
+      "score": 0.2662256956100464,
+      "box": {
+        "x": 47.8414,
+        "y": 70.9786,
+        "w": 19.2537,
+        "h": 12.3818
+      }
+    },
+    {
+      "label": "amplifier stereo receiver..table. record player.",
+      "score": 0.19242249429225922,
+      "box": {
+        "x": 13.3914,
+        "y": 77.8321,
+        "w": 62.2085,
+        "h": 22.0356
+      }
+    },
+    {
+      "label": "amplifier player",
+      "score": 0.19432613253593445,
+      "box": {
+        "x": 1.8374,
+        "y": 41.213,
+        "w": 15.3354,
+        "h": 58.787
+      }
+    },
+    {
+      "label": "amplifier. ceiling.table. player.",
+      "score": 0.16393497586250305,
+      "box": {
+        "x": 32.9171,
+        "y": 32.2002,
+        "w": 40.6421,
+        "h": 34.5319
+      }
+    },
+    {
+      "label": "ceiling light player",
+      "score": 0.16137956082820892,
+      "box": {
+        "x": 0.348,
+        "y": 0.0199,
+        "w": 12.765,
+        "h": 16.9613
+      }
+    },
+    {
+      "label": "amplifier... player.",
+      "score": 0.11059296876192093,
+      "box": {
+        "x": 77.3077,
+        "y": 47.1,
+        "w": 10.9594,
+        "h": 22.6279
+      }
+    },
+    {
+      "label": "amplifier stereo receivertable player",
+      "score": 0.1811852902173996,
+      "box": {
+        "x": 13.686,
+        "y": 71.4002,
+        "w": 62.2633,
+        "h": 28.3623
+      }
+    },
+    {
+      "label": "player",
+      "score": 0.05114837363362312,
+      "box": {
+        "x": 13.7488,
+        "y": 77.6189,
+        "w": 62.0673,
+        "h": 22.2643
+      }
+    },
+    {
+      "label": "amplifier player",
+      "score": 0.09077273309230804,
+      "box": {
+        "x": 28.0123,
+        "y": 90.2026,
+        "w": 4.3416,
+        "h": 7.6702
+      }
+    },
+    {
+      "label": "ceiling light player",
+      "score": 0.18330661952495575,
+      "box": {
+        "x": 0.2052,
+        "y": 0,
+        "w": 19.4162,
+        "h": 17.9093
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.11307765543460846,
+      "box": {
+        "x": 76.8456,
+        "y": 46.9592,
+        "w": 11.2829,
+        "h": 53.0408
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.052165865898132324,
+      "box": {
+        "x": 37.1148,
+        "y": 78.7721,
+        "w": 38.8794,
+        "h": 20.3346
+      }
+    },
+    {
+      "label": "stereo receivertable record player",
+      "score": 0.11595048010349274,
+      "box": {
+        "x": 26.5275,
+        "y": 70.9775,
+        "w": 41.9551,
+        "h": 12.7253
+      }
+    },
+    {
+      "label": "amplifier player",
+      "score": 0.06658588349819183,
+      "box": {
+        "x": 82.8305,
+        "y": 1.338,
+        "w": 16.8522,
+        "h": 8.7869
+      }
+    },
+    {
+      "label": "ceiling",
+      "score": 0.09407392144203186,
+      "box": {
+        "x": 4.1429,
+        "y": 0.0016,
+        "w": 4.1298,
+        "h": 1.9254
+      }
+    },
+    {
+      "label": "player",
+      "score": 0.06271344423294067,
+      "box": {
+        "x": 47.9808,
+        "y": 70.5853,
+        "w": 18.8358,
+        "h": 12.5063
+      }
+    },
+    {
+      "label": "amplifier stereotable player",
+      "score": 0.07871508598327637,
+      "box": {
+        "x": 26.22,
+        "y": 71.0507,
+        "w": 21.8555,
+        "h": 12.2952
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.057653363794088364,
+      "box": {
+        "x": 13.5566,
+        "y": 80.7502,
+        "w": 14.8611,
+        "h": 19.0923
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.07881473749876022,
+      "box": {
+        "x": 78.2995,
+        "y": 3.0225,
+        "w": 21.4808,
+        "h": 93.3311
+      }
+    },
+    {
+      "label": "amplifiertable player",
+      "score": 0.06832129508256912,
+      "box": {
+        "x": 2.0206,
+        "y": 41.2899,
+        "w": 15.0459,
+        "h": 26.6306
+      }
+    },
+    {
+      "label": "ceiling",
+      "score": 0.05765621364116669,
+      "box": {
+        "x": 0.5011,
+        "y": 11.163,
+        "w": 19.0987,
+        "h": 6.8366
+      }
+    },
+    {
+      "label": "ceiling",
+      "score": 0.07777432352304459,
+      "box": {
+        "x": 12.6865,
+        "y": 13.6839,
+        "w": 7.0224,
+        "h": 4.0723
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.06280317157506943,
+      "box": {
+        "x": 13.8133,
+        "y": 85.8883,
+        "w": 14.6313,
+        "h": 13.9007
+      }
+    },
+    {
+      "label": "player",
+      "score": 0.05852795019745827,
+      "box": {
+        "x": 15.3825,
+        "y": 71.0843,
+        "w": 59.2358,
+        "h": 13.8678
+      }
+    },
+    {
+      "label": "player",
+      "score": 0.05187206715345383,
+      "box": {
+        "x": 0,
+        "y": 0.1069,
+        "w": 99.2169,
+        "h": 99.8931
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.055710501968860626,
+      "box": {
+        "x": 78.9788,
+        "y": 2.1594,
+        "w": 20.6045,
+        "h": 52.6427
+      }
+    },
+    {
+      "label": "....",
+      "score": 0.05829494446516037,
+      "box": {
+        "x": 10.5658,
+        "y": 30.9272,
+        "w": 3.45,
+        "h": 4.0062
+      }
+    },
+    {
+      "label": "amplifier player",
+      "score": 0.06411285698413849,
+      "box": {
+        "x": 49.8452,
+        "y": 76.4249,
+        "w": 16.3818,
+        "h": 6.7837
+      }
+    },
+    {
+      "label": "player",
+      "score": 0.05092683807015419,
+      "box": {
+        "x": 48.2518,
+        "y": 71.2069,
+        "w": 16.8775,
+        "h": 7.6457
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.06812208890914917,
+      "box": {
+        "x": 36.8057,
+        "y": 85.6529,
+        "w": 21.1295,
+        "h": 13.2892
+      }
+    },
+    {
+      "label": "##table player",
+      "score": 0.06849125027656555,
+      "box": {
+        "x": 14.3215,
+        "y": 78.0917,
+        "w": 61.7913,
+        "h": 10.5584
+      }
+    },
+    {
+      "label": "ceiling",
+      "score": 0.050865259021520615,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 99.9776,
+        "h": 18.2953
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.07014915347099304,
+      "box": {
+        "x": 77.4792,
+        "y": 2.74,
+        "w": 22.3081,
+        "h": 97.26
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d02",
+      "label": "amplifier stereo receiver..table. record player.",
+      "categoryKey": "",
+      "score": 0.309834,
+      "box": {
+        "x": 26.0913,
+        "y": 71.1927,
+        "w": 22.0466,
+        "h": 12.5023
+      },
+      "areaPct": 2.7563,
+      "rankByScore": 1,
+      "rankByArea": 21
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d01",
+      "label": "amplifier stereo. ceiling.table. player.",
+      "categoryKey": "",
+      "score": 0.297246,
+      "box": {
+        "x": 1.9261,
+        "y": 41.4027,
+        "w": 15.2704,
+        "h": 26.9915
+      },
+      "areaPct": 4.1217,
+      "rankByScore": 2,
+      "rankByArea": 16
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d03",
+      "label": "amplifier stereo receiver..table. record player.",
+      "categoryKey": "",
+      "score": 0.266226,
+      "box": {
+        "x": 47.8414,
+        "y": 70.9786,
+        "w": 19.2537,
+        "h": 12.3818
+      },
+      "areaPct": 2.384,
+      "rankByScore": 3,
+      "rankByArea": 24
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d05",
+      "label": "amplifier player",
+      "categoryKey": "",
+      "score": 0.194326,
+      "box": {
+        "x": 1.8374,
+        "y": 41.213,
+        "w": 15.3354,
+        "h": 58.787
+      },
+      "areaPct": 9.0152,
+      "rankByScore": 4,
+      "rankByArea": 10
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d04",
+      "label": "amplifier stereo receiver..table. record player.",
+      "categoryKey": "",
+      "score": 0.192422,
+      "box": {
+        "x": 13.3914,
+        "y": 77.8321,
+        "w": 62.2085,
+        "h": 22.0356
+      },
+      "areaPct": 13.708,
+      "rankByScore": 5,
+      "rankByArea": 8
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d12",
+      "label": "ceiling light player",
+      "categoryKey": "",
+      "score": 0.183307,
+      "box": {
+        "x": 0.2052,
+        "y": 0,
+        "w": 19.4162,
+        "h": 17.9093
+      },
+      "areaPct": 3.4773,
+      "rankByScore": 6,
+      "rankByArea": 18
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d09",
+      "label": "amplifier stereo receivertable player",
+      "categoryKey": "",
+      "score": 0.181185,
+      "box": {
+        "x": 13.686,
+        "y": 71.4002,
+        "w": 62.2633,
+        "h": 28.3623
+      },
+      "areaPct": 17.6593,
+      "rankByScore": 7,
+      "rankByArea": 5
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d06",
+      "label": "amplifier. ceiling.table. player.",
+      "categoryKey": "",
+      "score": 0.163935,
+      "box": {
+        "x": 32.9171,
+        "y": 32.2002,
+        "w": 40.6421,
+        "h": 34.5319
+      },
+      "areaPct": 14.0345,
+      "rankByScore": 8,
+      "rankByArea": 6
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d07",
+      "label": "ceiling light player",
+      "categoryKey": "",
+      "score": 0.16138,
+      "box": {
+        "x": 0.348,
+        "y": 0.0199,
+        "w": 12.765,
+        "h": 16.9613
+      },
+      "areaPct": 2.1651,
+      "rankByScore": 9,
+      "rankByArea": 26
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d15",
+      "label": "stereo receivertable record player",
+      "categoryKey": "",
+      "score": 0.11595,
+      "box": {
+        "x": 26.5275,
+        "y": 70.9775,
+        "w": 41.9551,
+        "h": 12.7253
+      },
+      "areaPct": 5.3389,
+      "rankByScore": 10,
+      "rankByArea": 15
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d13",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.113078,
+      "box": {
+        "x": 76.8456,
+        "y": 46.9592,
+        "w": 11.2829,
+        "h": 53.0408
+      },
+      "areaPct": 5.9845,
+      "rankByScore": 11,
+      "rankByArea": 14
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d08",
+      "label": "amplifier... player.",
+      "categoryKey": "",
+      "score": 0.110593,
+      "box": {
+        "x": 77.3077,
+        "y": 47.1,
+        "w": 10.9594,
+        "h": 22.6279
+      },
+      "areaPct": 2.4799,
+      "rankByScore": 12,
+      "rankByArea": 23
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d17",
+      "label": "ceiling",
+      "categoryKey": "",
+      "score": 0.094074,
+      "box": {
+        "x": 4.1429,
+        "y": 0.0016,
+        "w": 4.1298,
+        "h": 1.9254
+      },
+      "areaPct": 0.0795,
+      "rankByScore": 13,
+      "rankByArea": 35
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d11",
+      "label": "amplifier player",
+      "categoryKey": "",
+      "score": 0.090773,
+      "box": {
+        "x": 28.0123,
+        "y": 90.2026,
+        "w": 4.3416,
+        "h": 7.6702
+      },
+      "areaPct": 0.333,
+      "rankByScore": 14,
+      "rankByArea": 32
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d21",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.078815,
+      "box": {
+        "x": 78.2995,
+        "y": 3.0225,
+        "w": 21.4808,
+        "h": 93.3311
+      },
+      "areaPct": 20.0483,
+      "rankByScore": 15,
+      "rankByArea": 3
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d19",
+      "label": "amplifier stereotable player",
+      "categoryKey": "",
+      "score": 0.078715,
+      "box": {
+        "x": 26.22,
+        "y": 71.0507,
+        "w": 21.8555,
+        "h": 12.2952
+      },
+      "areaPct": 2.6872,
+      "rankByScore": 16,
+      "rankByArea": 22
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d24",
+      "label": "ceiling",
+      "categoryKey": "",
+      "score": 0.077774,
+      "box": {
+        "x": 12.6865,
+        "y": 13.6839,
+        "w": 7.0224,
+        "h": 4.0723
+      },
+      "areaPct": 0.286,
+      "rankByScore": 17,
+      "rankByArea": 33
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d35",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.070149,
+      "box": {
+        "x": 77.4792,
+        "y": 2.74,
+        "w": 22.3081,
+        "h": 97.26
+      },
+      "areaPct": 21.6969,
+      "rankByScore": 18,
+      "rankByArea": 2
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d33",
+      "label": "##table player",
+      "categoryKey": "",
+      "score": 0.068491,
+      "box": {
+        "x": 14.3215,
+        "y": 78.0917,
+        "w": 61.7913,
+        "h": 10.5584
+      },
+      "areaPct": 6.5242,
+      "rankByScore": 19,
+      "rankByArea": 13
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d22",
+      "label": "amplifiertable player",
+      "categoryKey": "",
+      "score": 0.068321,
+      "box": {
+        "x": 2.0206,
+        "y": 41.2899,
+        "w": 15.0459,
+        "h": 26.6306
+      },
+      "areaPct": 4.0068,
+      "rankByScore": 20,
+      "rankByArea": 17
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d32",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.068122,
+      "box": {
+        "x": 36.8057,
+        "y": 85.6529,
+        "w": 21.1295,
+        "h": 13.2892
+      },
+      "areaPct": 2.8079,
+      "rankByScore": 21,
+      "rankByArea": 20
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d16",
+      "label": "amplifier player",
+      "categoryKey": "",
+      "score": 0.066586,
+      "box": {
+        "x": 82.8305,
+        "y": 1.338,
+        "w": 16.8522,
+        "h": 8.7869
+      },
+      "areaPct": 1.4808,
+      "rankByScore": 22,
+      "rankByArea": 28
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d30",
+      "label": "amplifier player",
+      "categoryKey": "",
+      "score": 0.064113,
+      "box": {
+        "x": 49.8452,
+        "y": 76.4249,
+        "w": 16.3818,
+        "h": 6.7837
+      },
+      "areaPct": 1.1113,
+      "rankByScore": 23,
+      "rankByArea": 31
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d25",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.062803,
+      "box": {
+        "x": 13.8133,
+        "y": 85.8883,
+        "w": 14.6313,
+        "h": 13.9007
+      },
+      "areaPct": 2.0339,
+      "rankByScore": 24,
+      "rankByArea": 27
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d18",
+      "label": "player",
+      "categoryKey": "",
+      "score": 0.062713,
+      "box": {
+        "x": 47.9808,
+        "y": 70.5853,
+        "w": 18.8358,
+        "h": 12.5063
+      },
+      "areaPct": 2.3557,
+      "rankByScore": 25,
+      "rankByArea": 25
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d26",
+      "label": "player",
+      "categoryKey": "",
+      "score": 0.058528,
+      "box": {
+        "x": 15.3825,
+        "y": 71.0843,
+        "w": 59.2358,
+        "h": 13.8678
+      },
+      "areaPct": 8.2147,
+      "rankByScore": 26,
+      "rankByArea": 11
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d29",
+      "label": "....",
+      "categoryKey": "",
+      "score": 0.058295,
+      "box": {
+        "x": 10.5658,
+        "y": 30.9272,
+        "w": 3.45,
+        "h": 4.0062
+      },
+      "areaPct": 0.1382,
+      "rankByScore": 27,
+      "rankByArea": 34
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d23",
+      "label": "ceiling",
+      "categoryKey": "",
+      "score": 0.057656,
+      "box": {
+        "x": 0.5011,
+        "y": 11.163,
+        "w": 19.0987,
+        "h": 6.8366
+      },
+      "areaPct": 1.3057,
+      "rankByScore": 28,
+      "rankByArea": 29
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d20",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.057653,
+      "box": {
+        "x": 13.5566,
+        "y": 80.7502,
+        "w": 14.8611,
+        "h": 19.0923
+      },
+      "areaPct": 2.8373,
+      "rankByScore": 29,
+      "rankByArea": 19
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d28",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.055711,
+      "box": {
+        "x": 78.9788,
+        "y": 2.1594,
+        "w": 20.6045,
+        "h": 52.6427
+      },
+      "areaPct": 10.8468,
+      "rankByScore": 30,
+      "rankByArea": 9
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d14",
+      "label": "amplifier",
+      "categoryKey": "",
+      "score": 0.052166,
+      "box": {
+        "x": 37.1148,
+        "y": 78.7721,
+        "w": 38.8794,
+        "h": 20.3346
+      },
+      "areaPct": 7.906,
+      "rankByScore": 31,
+      "rankByArea": 12
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d27",
+      "label": "player",
+      "categoryKey": "",
+      "score": 0.051872,
+      "box": {
+        "x": 0,
+        "y": 0.1069,
+        "w": 99.2169,
+        "h": 99.8931
+      },
+      "areaPct": 99.1108,
+      "rankByScore": 32,
+      "rankByArea": 1
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d10",
+      "label": "player",
+      "categoryKey": "",
+      "score": 0.051148,
+      "box": {
+        "x": 13.7488,
+        "y": 77.6189,
+        "w": 62.0673,
+        "h": 22.2643
+      },
+      "areaPct": 13.8188,
+      "rankByScore": 33,
+      "rankByArea": 7
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d31",
+      "label": "player",
+      "categoryKey": "",
+      "score": 0.050927,
+      "box": {
+        "x": 48.2518,
+        "y": 71.2069,
+        "w": 16.8775,
+        "h": 7.6457
+      },
+      "areaPct": 1.2904,
+      "rankByScore": 34,
+      "rankByArea": 30
+    },
+    {
+      "id": "living-room-targeted-query-01:original:grounding-dino:d34",
+      "label": "ceiling",
+      "categoryKey": "",
+      "score": 0.050865,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 99.9776,
+        "h": 18.2953
+      },
+      "areaPct": 18.2912,
+      "rankByScore": 35,
+      "rankByArea": 4
+    }
+  ],
+  "postProcessing": {},
+  "failureReason": ""
+}

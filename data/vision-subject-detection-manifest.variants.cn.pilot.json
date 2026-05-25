@@ -1,0 +1,157 @@
+{
+  "kind": "vision-subject-detection-manifest-with-variants",
+  "version": "2026-05-24-subject-detection-cn",
+  "generatedAt": "2026-05-24T03:54:25.182Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "categorySelection": {
+    "categoryIds": [
+      "cosmetic-organizer",
+      "wok",
+      "lunch-box"
+    ],
+    "selectionFile": "",
+    "onlyWithoutExistingSamples": false,
+    "excludeManifest": ""
+  },
+  "sourcePolicy": {
+    "productionReady": false,
+    "usage": "Local evaluation only. Images are collected from Chinese mainland commerce/search sources and need rights review before production use.",
+    "preferredSource": "Taobao/Tmall/1688 product images"
+  },
+  "categories": [
+    {
+      "id": "cosmetic-organizer",
+      "displayName": "化妆品收纳盒",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "化妆品收纳盒"
+      ],
+      "detectorLabels": [
+        "cosmetic organizer",
+        "makeup organizer",
+        "化妆品收纳盒",
+        "cosmetic organizers"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0012"
+    },
+    {
+      "id": "wok",
+      "displayName": "炒锅",
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "锅具刀具与小工具",
+        "炒锅"
+      ],
+      "detectorLabels": [
+        "wok",
+        "chinese wok pan",
+        "炒锅",
+        "woks"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-KITCHEN-COOKWARE-0001"
+    },
+    {
+      "id": "lunch-box",
+      "displayName": "饭盒",
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "锅具刀具与小工具",
+        "饭盒"
+      ],
+      "detectorLabels": [
+        "lunch box",
+        "bento box",
+        "饭盒",
+        "lunch boxes"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-KITCHEN-COOKWARE-0011"
+    }
+  ],
+  "samples": [
+    {
+      "id": "lunch-box-subject-cn-01",
+      "categoryId": "lunch-box",
+      "displayName": "饭盒",
+      "categoryPath": [
+        "厨房器具",
+        "厨房用品",
+        "锅具刀具与小工具",
+        "饭盒"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg",
+      "sourceUrl": "https://detail.1688.com/offer/602682637956.html",
+      "sourceTitle": "304不锈钢保温饭盒学生分隔方形便当盒带盖上班族备餐盒午餐盒-阿里巴巴",
+      "sourceHost": "detail.1688.com",
+      "imageUrl": "https://cbu01.alicdn.com/img/ibank/2019/233/428/12019824332_417119831.jpg",
+      "imageHost": "cbu01.alicdn.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "饭盒 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 10,
+        "termHits": [
+          "饭盒"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "192509426650d1e0dc5b63bb4243b9880c48a2dbdb3b747139f6cd1d21613243",
+      "width": 800,
+      "height": 800,
+      "bytes": 229934,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 229934,
+          "sha256": "192509426650d1e0dc5b63bb4243b9880c48a2dbdb3b747139f6cd1d21613243",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/cn-pilot/lunch-box/lunch-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 229934,
+          "sha256": "192509426650d1e0dc5b63bb4243b9880c48a2dbdb3b747139f6cd1d21613243",
+          "generationMs": 0.015,
+          "transform": "reuse-original-no-upscale",
+          "upscaled": false
+        }
+      ]
+    }
+  ],
+  "variantVersion": "2026-05-24-subject-detection-cn-variants-1024",
+  "variantGeneratedAt": "2026-05-24T03:54:42.817Z",
+  "variantPolicy": {
+    "targetLongSide": 1024,
+    "keepAspectRatio": true,
+    "noUpscale": true,
+    "variants": [
+      "original",
+      "normalized-1024"
+    ]
+  }
+}

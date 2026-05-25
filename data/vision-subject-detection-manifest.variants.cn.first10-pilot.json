@@ -1,0 +1,895 @@
+{
+  "kind": "vision-subject-detection-manifest-with-variants",
+  "version": "2026-05-24-subject-detection-cn-first10-pilot",
+  "generatedAt": "2026-05-24T16:23:02.872Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "categorySelection": {
+    "categoryIds": [
+      "storage-box",
+      "storage-basket",
+      "cable-organizer-box",
+      "shoe-box",
+      "underbed-storage-box",
+      "folding-storage-crate",
+      "document-storage-box",
+      "jewelry-box",
+      "cosmetic-organizer",
+      "bowl"
+    ],
+    "selectionFile": "",
+    "onlyWithoutExistingSamples": false,
+    "excludeManifest": "",
+    "note": "First-10-category pilot used 7 collected samples from the first 10 categories plus 3 supplemental easy categories because 3 first-10 categories had no accepted samples."
+  },
+  "sourcePolicy": {
+    "productionReady": false,
+    "usage": "Local evaluation only. Images are collected from Chinese mainland commerce/search sources and need rights review before production use.",
+    "preferredSource": "Taobao/Tmall/1688 product images"
+  },
+  "categories": [
+    {
+      "id": "storage-box",
+      "displayName": "收纳盒",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "收纳盒"
+      ],
+      "detectorLabels": [
+        "storage box",
+        "plastic storage bin",
+        "收纳盒",
+        "storage boxes"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0001"
+    },
+    {
+      "id": "storage-basket",
+      "displayName": "收纳篮",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "收纳篮"
+      ],
+      "detectorLabels": [
+        "storage basket",
+        "woven storage basket",
+        "收纳篮",
+        "storage baskets"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0002"
+    },
+    {
+      "id": "cable-organizer-box",
+      "displayName": "线缆收纳盒",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "线缆收纳盒"
+      ],
+      "detectorLabels": [
+        "cable organizer box",
+        "cord storage box",
+        "线缆收纳盒",
+        "cable organizer boxes"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0006"
+    },
+    {
+      "id": "shoe-box",
+      "displayName": "鞋盒",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "鞋盒"
+      ],
+      "detectorLabels": [
+        "shoe storage box",
+        "clear shoe box",
+        "鞋盒",
+        "shoe storage boxes",
+        "shoe box"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0007"
+    },
+    {
+      "id": "underbed-storage-box",
+      "displayName": "床底收纳箱",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "床底收纳箱"
+      ],
+      "detectorLabels": [
+        "underbed storage box",
+        "under bed storage container",
+        "床底收纳箱",
+        "underbed storage boxes"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0008"
+    },
+    {
+      "id": "folding-storage-crate",
+      "displayName": "折叠收纳筐",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "折叠收纳筐"
+      ],
+      "detectorLabels": [
+        "folding storage crate",
+        "collapsible storage crate",
+        "折叠收纳筐",
+        "folding storage crates"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0009"
+    },
+    {
+      "id": "document-storage-box",
+      "displayName": "文件收纳箱",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "文件收纳箱"
+      ],
+      "detectorLabels": [
+        "document storage box",
+        "file storage box",
+        "文件收纳箱",
+        "document storage boxes"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0010"
+    },
+    {
+      "id": "jewelry-box",
+      "displayName": "首饰盒",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "首饰盒"
+      ],
+      "detectorLabels": [
+        "jewelry box",
+        "jewellery case",
+        "首饰盒",
+        "jewelry boxes"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0011"
+    },
+    {
+      "id": "cosmetic-organizer",
+      "displayName": "化妆品收纳盒",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "化妆品收纳盒"
+      ],
+      "detectorLabels": [
+        "cosmetic organizer",
+        "makeup organizer",
+        "化妆品收纳盒",
+        "cosmetic organizers"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0012"
+    },
+    {
+      "id": "bowl",
+      "displayName": "碗",
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "碗"
+      ],
+      "detectorLabels": [
+        "bowl",
+        "ceramic bowl",
+        "bowls"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-KITCHEN-0001"
+    }
+  ],
+  "samples": [
+    {
+      "id": "storage-box-subject-cn-01",
+      "categoryId": "storage-box",
+      "displayName": "收纳盒",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "收纳盒"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+      "sourceUrl": "https://post.smzdm.com/p/akl5r57r/",
+      "sourceTitle": "收纳整理技巧4个原则，轻松搞定家庭收纳_收纳用品_什么值得买",
+      "sourceHost": "post.smzdm.com",
+      "imageUrl": "https://am.zdmimg.com/202404/24/6628328e128624429.jpg_e1080.jpg",
+      "imageHost": "am.zdmimg.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "收纳盒 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 4,
+        "termHits": [
+          "收纳"
+        ],
+        "mainland": true,
+        "commerce": false,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "c1cc190f4d03e01fc27b82eff9b05ef4aaa99d80e630536f4c1be1e49119a1d7",
+      "width": 1080,
+      "height": 1424,
+      "bytes": 141098,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 152662,
+          "sha256": "8197959ab9e815a4e7cc6b45e42663fd32b87496c5a3c9f9c8fb56656d6202ce",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/cn-first10/storage-box/storage-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 152662,
+          "sha256": "8197959ab9e815a4e7cc6b45e42663fd32b87496c5a3c9f9c8fb56656d6202ce",
+          "generationMs": 0.018,
+          "transform": "reuse-original-no-upscale",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "storage-basket-subject-cn-01",
+      "categoryId": "storage-basket",
+      "displayName": "收纳篮",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "收纳篮"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/storage-basket/storage-basket-subject-cn-01.jpg",
+      "sourceUrl": "https://post.smzdm.com/p/all045ep/",
+      "sourceTitle": "高颜值收纳箱，拯救你的凌乱生活_收纳箱_什么值得买",
+      "sourceHost": "post.smzdm.com",
+      "imageUrl": "https://qna.smzdm.com/202304/09/643258d6cb25a7288.jpg_e1080.jpg",
+      "imageHost": "qna.smzdm.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "收纳篮 site:taobao.com",
+      "searchRank": 2,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 4,
+        "termHits": [
+          "收纳"
+        ],
+        "mainland": true,
+        "commerce": false,
+        "blacklist": false,
+        "rank": 2
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "672577535049cdb8732c8d6b94e07cedad85541581b30ad5f0c5526c9a5c8bcd",
+      "width": 1080,
+      "height": 1080,
+      "bytes": 312494,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/storage-basket/storage-basket-subject-cn-01.jpg",
+          "width": 1080,
+          "height": 1080,
+          "bytes": 72952,
+          "sha256": "c84d127aed6b3d12829df15c23dafe3323b7791faafb282c2314c59d64b52c68",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/variants-first10-pilot/storage-basket/storage-basket-subject-cn-01-normalized-1024.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1031282,
+          "sha256": "fa7d85da2a15b5a744a14c2fad4309ad660ca9753156ab7e64c5b8f86f487b99",
+          "generationMs": 57.943,
+          "transform": "long-side-1024",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "cable-organizer-box-subject-cn-01",
+      "categoryId": "cable-organizer-box",
+      "displayName": "线缆收纳盒",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "线缆收纳盒"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/cable-organizer-box/cable-organizer-box-subject-cn-01.jpg",
+      "sourceUrl": "https://post.smzdm.com/p/avwvxdnn/",
+      "sourceTitle": "线缆收纳全靠它、用电安全值得夸——ORICO一体式收纳盒排插测评_收纳用品_什么值得买",
+      "sourceHost": "post.smzdm.com",
+      "imageUrl": "https://am.zdmimg.com/202108/09/6110bd18ea3ea4009.jpg_e1080.jpg",
+      "imageHost": "am.zdmimg.com",
+      "sourceProvider": "DuckDuckGo Images",
+      "searchQuery": "线缆收纳盒 天猫 商品图",
+      "searchRank": 2,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 4,
+        "termHits": [
+          "线缆收纳"
+        ],
+        "mainland": true,
+        "commerce": false,
+        "blacklist": false,
+        "rank": 2
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "93f352f2d9eccf76bc132fc5e09cd2e4e4f49ad966c4a6c35fe94714a5d338e5",
+      "width": 1080,
+      "height": 648,
+      "bytes": 202472,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/cable-organizer-box/cable-organizer-box-subject-cn-01.jpg",
+          "width": 1080,
+          "height": 648,
+          "bytes": 202472,
+          "sha256": "93f352f2d9eccf76bc132fc5e09cd2e4e4f49ad966c4a6c35fe94714a5d338e5",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/variants-first10-pilot/cable-organizer-box/cable-organizer-box-subject-cn-01-normalized-1024.png",
+          "width": 1024,
+          "height": 614,
+          "bytes": 1393836,
+          "sha256": "4a02c6bc3508358efd490a11cd9cfff5a307f09fcd1fba5c83ca226dc162a81c",
+          "generationMs": 57.947,
+          "transform": "long-side-1024",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "shoe-box-subject-cn-01",
+      "categoryId": "shoe-box",
+      "displayName": "鞋盒",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "鞋盒"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+      "sourceUrl": "https://bk.taobao.com/k/baobaoshounadai_4624/4c4e1eb5fddc9974ec672a2dceee2cd2.html",
+      "sourceTitle": "耐奔透明鞋盒：宿舍必备神器，男女鞋柜整理大法!-包包收纳袋-淘宝百科网",
+      "sourceHost": "bk.taobao.com",
+      "imageUrl": "https://img.alicdn.com/imgextra/i1/2428520925/O1CN01CEtdCa1IhgyJTsWXX_!!2428520925.jpg",
+      "imageHost": "img.alicdn.com",
+      "sourceProvider": "DuckDuckGo Images",
+      "searchQuery": "鞋盒 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 10,
+        "termHits": [
+          "鞋盒"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "73f104c63004805af862b12aef2b98ecd4460eefd45a36c2c741f1f7cba9e75f",
+      "width": 800,
+      "height": 800,
+      "bytes": 90364,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 90364,
+          "sha256": "73f104c63004805af862b12aef2b98ecd4460eefd45a36c2c741f1f7cba9e75f",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/cn-first10/shoe-box/shoe-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 90364,
+          "sha256": "73f104c63004805af862b12aef2b98ecd4460eefd45a36c2c741f1f7cba9e75f",
+          "generationMs": 0.003,
+          "transform": "reuse-original-no-upscale",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "underbed-storage-box-subject-cn-01",
+      "categoryId": "underbed-storage-box",
+      "displayName": "床底收纳箱",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "床底收纳箱"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+      "sourceUrl": "https://www.taobao.com/list/item/ZlpoNmI4NjY3eGRhemFXZ3FyOXJIUT09.htm",
+      "sourceTitle": "床底收纳箱塑料带滑轮衣物被子床底扁平储物整理箱鞋子床下收纳C",
+      "sourceHost": "www.taobao.com",
+      "imageUrl": "https://img.alicdn.com/imgextra/i3/2219680724760/O1CN011U52Xo1nMP2yW3zId_!!4611686018427386387-0-item_pic.jpg",
+      "imageHost": "img.alicdn.com",
+      "sourceProvider": "DuckDuckGo Images",
+      "searchQuery": "床底收纳箱 site:taobao.com",
+      "searchRank": 25,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 10,
+        "termHits": [
+          "床底收纳箱",
+          "床底收纳"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 25
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "2c36de48fa3bbf44f1f7cc2a26fceaf5ce24d1bc0bc2289311415c1cb8053f8c",
+      "width": 800,
+      "height": 800,
+      "bytes": 51448,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 51448,
+          "sha256": "2c36de48fa3bbf44f1f7cc2a26fceaf5ce24d1bc0bc2289311415c1cb8053f8c",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/cn-first10/underbed-storage-box/underbed-storage-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 51448,
+          "sha256": "2c36de48fa3bbf44f1f7cc2a26fceaf5ce24d1bc0bc2289311415c1cb8053f8c",
+          "generationMs": 0.003,
+          "transform": "reuse-original-no-upscale",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "folding-storage-crate-subject-cn-01",
+      "categoryId": "folding-storage-crate",
+      "displayName": "折叠收纳筐",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "折叠收纳筐"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/folding-storage-crate/folding-storage-crate-subject-cn-01.jpg",
+      "sourceUrl": "https://www.taobao.com/list/item/RWt2QjhBS1k5RWJhQ08rblhDcm0rdz09.htm",
+      "sourceTitle": "日本MUJIΕ超市仿木纹折叠收纳筐带盖大号储物整理箱户外家用杂物",
+      "sourceHost": "www.taobao.com",
+      "imageUrl": "https://img.alicdn.com/imgextra/i1/2212427759502/O1CN01IQwHPV2K3yVHFE9CB_!!2212427759502.jpg",
+      "imageHost": "img.alicdn.com",
+      "sourceProvider": "DuckDuckGo Images",
+      "searchQuery": "折叠收纳筐 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 10,
+        "termHits": [
+          "折叠收纳筐"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "266fa1c55346b3facaa76bb3424e98a0dd6e3207757b1f9647cdef7ac92e59fb",
+      "width": 1200,
+      "height": 1200,
+      "bytes": 232510,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/folding-storage-crate/folding-storage-crate-subject-cn-01.jpg",
+          "width": 1200,
+          "height": 1200,
+          "bytes": 232510,
+          "sha256": "266fa1c55346b3facaa76bb3424e98a0dd6e3207757b1f9647cdef7ac92e59fb",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/variants-first10-pilot/folding-storage-crate/folding-storage-crate-subject-cn-01-normalized-1024.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1748313,
+          "sha256": "ce9b080b6dfba79b7d44ec0efe7c66496207f765eb3d8fc7016355e909799d51",
+          "generationMs": 80.601,
+          "transform": "long-side-1024",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "document-storage-box-subject-cn-01",
+      "categoryId": "document-storage-box",
+      "displayName": "文件收纳箱",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "文件收纳箱"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/document-storage-box/document-storage-box-subject-cn-01.jpg",
+      "sourceUrl": "https://goods.taobao.com/t/zhuomianshounahe_4774/e2722ed0788a81a40b15d64fba133245.html",
+      "sourceTitle": "文件收纳盒打印纸盒子A3透明塑料收纳办公室A4文件盒纸资料档案盒有哪些好处？-桌面收纳盒-淘宝好物网",
+      "sourceHost": "goods.taobao.com",
+      "imageUrl": "https://img.alicdn.com/imgextra/i2/2201196370410/O1CN01ePKAgp1EtpTGKuUIA_!!2201196370410.jpg",
+      "imageHost": "img.alicdn.com",
+      "sourceProvider": "DuckDuckGo Images",
+      "searchQuery": "文件收纳箱 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 6,
+        "termHits": [
+          "文件收纳"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "957acf221baf3358db064c9456d32296bda5a351d7b6ecf1ddaf8787b0bf263b",
+      "width": 1440,
+      "height": 1440,
+      "bytes": 161098,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/document-storage-box/document-storage-box-subject-cn-01.jpg",
+          "width": 1440,
+          "height": 1440,
+          "bytes": 161098,
+          "sha256": "957acf221baf3358db064c9456d32296bda5a351d7b6ecf1ddaf8787b0bf263b",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/variants-first10-pilot/document-storage-box/document-storage-box-subject-cn-01-normalized-1024.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1457392,
+          "sha256": "63688ea177ae2d2b9ce305e1f8b6c93abff8ae7326481c346282d20aa74cb675",
+          "generationMs": 80.315,
+          "transform": "long-side-1024",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "jewelry-box-subject-cn-01",
+      "categoryId": "jewelry-box",
+      "displayName": "首饰盒",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "首饰盒"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+      "sourceUrl": "https://detail.1688.com/offer/685282549621.html",
+      "sourceTitle": "双层首饰盒收纳盒戒指项链珠宝首饰收纳盒带锁pu皮革饰品收纳盒子-阿里巴巴",
+      "sourceHost": "detail.1688.com",
+      "imageUrl": "https://cbu01.alicdn.com/img/ibank/O1CN01jgjukH1HTfOf5cV4y_!!2214815280759-0-cib.jpg",
+      "imageHost": "cbu01.alicdn.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "首饰盒 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 11,
+        "termHits": [
+          "首饰盒",
+          "首饰"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "0b6f19c09619391a2764d32e70019e7a0c4108aeadad1d058ad4a3f7371209c7",
+      "width": 800,
+      "height": 800,
+      "bytes": 258125,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 258125,
+          "sha256": "0b6f19c09619391a2764d32e70019e7a0c4108aeadad1d058ad4a3f7371209c7",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/cn-first10/jewelry-box/jewelry-box-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 258125,
+          "sha256": "0b6f19c09619391a2764d32e70019e7a0c4108aeadad1d058ad4a3f7371209c7",
+          "generationMs": 0.002,
+          "transform": "reuse-original-no-upscale",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "cosmetic-organizer-subject-cn-01",
+      "categoryId": "cosmetic-organizer",
+      "displayName": "化妆品收纳盒",
+      "categoryPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "化妆品收纳盒"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/cosmetic-organizer/cosmetic-organizer-subject-cn-01.jpg",
+      "sourceUrl": "https://www.shejijia.com/design/detail/picture/355602016264.html",
+      "sourceTitle": "超能装的化妆品收纳盒！ - 教你打造温馨的家设计效果图 - 居然设计家",
+      "sourceHost": "www.shejijia.com",
+      "imageUrl": "https://ossgw.alicdn.com/homeai-inner/homeai_fe_production/b3a75e79-4171-48e4-8ed0-947fe342dd40.jpg?x-oss-process=image/resize,m_fill,h_1146,w_1146",
+      "imageHost": "ossgw.alicdn.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "化妆品收纳盒 site:taobao.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 11,
+        "termHits": [
+          "化妆品收纳盒",
+          "化妆品收纳"
+        ],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "3aa7adb4d0549a2a07cd5953e73635b604e6d91eed606b902d122b4d5d39a6b0",
+      "width": 1146,
+      "height": 1146,
+      "bytes": 667473,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/cosmetic-organizer/cosmetic-organizer-subject-cn-01.jpg",
+          "width": 1146,
+          "height": 1146,
+          "bytes": 667473,
+          "sha256": "3aa7adb4d0549a2a07cd5953e73635b604e6d91eed606b902d122b4d5d39a6b0",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/variants-first10-pilot/cosmetic-organizer/cosmetic-organizer-subject-cn-01-normalized-1024.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 1939028,
+          "sha256": "62007f817888b94040aa30ca581b456e1d0d8f927448931734016f82385137c3",
+          "generationMs": 80.621,
+          "transform": "long-side-1024",
+          "upscaled": false
+        }
+      ]
+    },
+    {
+      "id": "bowl-subject-cn-01",
+      "categoryId": "bowl",
+      "displayName": "碗",
+      "categoryPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "碗"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+      "sourceUrl": "https://detail.1688.com/offer/599276966794.html",
+      "sourceTitle": "白色碗具餐具潮州陶瓷面碗饭碗汤碗日式套装日用厨房家用外贸批发-阿里巴巴",
+      "sourceHost": "detail.1688.com",
+      "imageUrl": "https://cbu01.alicdn.com/img/ibank/2015/613/519/2343915316_391758772.jpg",
+      "imageHost": "cbu01.alicdn.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "碗 site:tmall.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 9,
+        "termHits": [],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "3c6a28b8200dd63c4a1d86b8a1d4efb8d976a53b6bcb5c2e55fb418a470e6212",
+      "width": 800,
+      "height": 800,
+      "bytes": 82205,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 82205,
+          "sha256": "3c6a28b8200dd63c4a1d86b8a1d4efb8d976a53b6bcb5c2e55fb418a470e6212",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+          "width": 800,
+          "height": 800,
+          "bytes": 82205,
+          "sha256": "3c6a28b8200dd63c4a1d86b8a1d4efb8d976a53b6bcb5c2e55fb418a470e6212",
+          "generationMs": 0.011,
+          "transform": "reuse-original-no-upscale",
+          "upscaled": false
+        }
+      ]
+    }
+  ],
+  "variantVersion": "2026-05-24-subject-detection-cn-first10-pilot-variants-1024",
+  "variantGeneratedAt": "2026-05-24T16:23:19.945Z",
+  "variantPolicy": {
+    "targetLongSide": 1024,
+    "keepAspectRatio": true,
+    "noUpscale": true,
+    "variants": [
+      "original",
+      "normalized-1024"
+    ]
+  }
+}

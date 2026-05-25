@@ -1,0 +1,62 @@
+{
+  "kind": "vision-subject-detection-source-report",
+  "version": "2026-05-24-subject-detection-cn",
+  "generatedAt": "2026-05-24T03:54:23.710Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "providerOrder": [
+    "bing"
+  ],
+  "categoryCount": 3,
+  "categories": [
+    {
+      "categoryId": "cosmetic-organizer",
+      "displayName": "化妆品收纳盒",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "化妆品收纳盒 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "化妆品收纳盒 site:tmall.com",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "wok",
+      "displayName": "炒锅",
+      "requestedSamples": 1,
+      "collectedSamples": 0,
+      "queries": [
+        {
+          "query": "炒锅 site:taobao.com",
+          "candidateCount": 0
+        },
+        {
+          "query": "炒锅 site:tmall.com",
+          "candidateCount": 0
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": true
+    },
+    {
+      "categoryId": "lunch-box",
+      "displayName": "饭盒",
+      "requestedSamples": 1,
+      "collectedSamples": 1,
+      "queries": [
+        {
+          "query": "饭盒 site:taobao.com",
+          "candidateCount": 8
+        }
+      ],
+      "failures": [],
+      "insufficientSamples": false
+    }
+  ]
+}

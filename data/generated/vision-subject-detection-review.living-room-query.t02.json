@@ -1,0 +1,42 @@
+{
+  "kind": "vision-subject-detection-review",
+  "version": "2026-05-24-subject-detection-review",
+  "generatedAt": "2026-05-24T11:07:03.173Z",
+  "updatedAt": "2026-05-24T13:14:27.652Z",
+  "detectionRunVersion": "2026-05-24-subject-detection-run",
+  "imageManifestVersion": "2026-05-24-living-room-query",
+  "taxonomyVersion": "manual-query-prompts",
+  "reviews": [
+    {
+      "imageId": "living-room-query-01",
+      "categoryId": "living-room-query",
+      "reviewStatus": "approved",
+      "modelVerdicts": {},
+      "boxVerdicts": {
+        "living-room-query-01:original:grounding-dino:d01": "accurate",
+        "living-room-query-01:original:grounding-dino:d02": "accurate",
+        "living-room-query-01:original:grounding-dino:d03": "accurate",
+        "living-room-query-01:original:grounding-dino:d05": "accurate",
+        "living-room-query-01:original:grounding-dino:d04": "accurate"
+      },
+      "bestModel": "grounding-dino",
+      "selectedPrimaryBox": {
+        "modelId": "grounding-dino",
+        "imageVariant": "original",
+        "detectionId": "living-room-query-01:original:grounding-dino:d01",
+        "box": {
+          "x": 33.0932,
+          "y": 32.4215,
+          "w": 40.684,
+          "h": 34.5819
+        },
+        "label": "television",
+        "score": 0.830934
+      },
+      "noUsableBox": false,
+      "notes": "",
+      "reviewer": "local-reviewer",
+      "timestamp": "2026-05-24T13:14:27.636Z"
+    }
+  ]
+}

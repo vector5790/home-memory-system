@@ -27,27 +27,29 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260523-owlvit-default",
+  appVersion: "20260525-grounding-dino-normalized-index",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
   allowRemoteVisionModels: false,
-  catalogIndex: "/data/vision-index.generated.json",
-  catalogIndexFallback: "/data/vision-index.seed.json",
+  catalogIndex: "/data/vision-index.household-cn.grounding-dino-clip.json",
+  catalogIndexFallback: "/data/vision-index.generated.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
   samModel: "Xenova/slimsam-77-uniform",
   catalogModel: "Xenova/clip-vit-base-patch32",
   detectionThreshold: 0.05,
-  groundingThreshold: 0.08,
+  groundingThreshold: 0,
   detectionNameThreshold: 0.11,
   catalogThreshold: 0.26,
   catalogMarginThreshold: 0.03,
   catalogTopK: 5,
   maxDetectedObjects: 28,
-  maxUploadDimension: 1600,
+  maxModelDetections: 48,
+  detectionNmsIou: 0.85,
+  maxUploadDimension: 1024,
   maxUploadDataUrlLength: 850000,
   uploadJpegQuality: 0.82,
   uploadDecodeTimeoutMs: 18000,
@@ -1096,15 +1098,15 @@ function warmCaptureDetectionModel() {
   window.setTimeout(async () => {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.local) return;
-    if (assetMode.owlReady) {
-      getSmallModelDetector().catch((error) => {
-        console.info("OWL-ViT prewarm skipped.", error);
-      });
-      return;
-    }
     if (assetMode.groundingReady) {
       getGroundingDinoDetector().catch((error) => {
         console.info("Grounding DINO prewarm skipped.", error);
+      });
+      return;
+    }
+    if (assetMode.owlReady) {
+      getSmallModelDetector().catch((error) => {
+        console.info("OWL-ViT prewarm skipped.", error);
       });
     }
   }, 120);
@@ -1365,6 +1367,20 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
   };
 }
 
+function nmsDetections(detections, source, iouThreshold, maxItems) {
+  const selected = [];
+  const sorted = (Array.isArray(detections) ? detections : [])
+    .filter((detection) => detection?.box)
+    .sort((left, right) => Number(right.score || 0) - Number(left.score || 0));
+  for (const detection of sorted) {
+    const box = detectionBoxToPercent(detection.box, source.naturalWidth, source.naturalHeight);
+    if (selected.some((existing) => boxIou(existing.box, box) >= iouThreshold)) continue;
+    selected.push({ detection, box });
+    if (selected.length >= maxItems) break;
+  }
+  return selected.map((entry) => entry.detection);
+}
+
 async function runZeroShotDetector({ image, source, detector, provider, threshold }) {
   const labels = getDetectionLabelEntries().map((entry) => entry.label);
   const detectionStart = performance.now();
@@ -1372,10 +1388,10 @@ async function runZeroShotDetector({ image, source, detector, provider, threshol
     ? await runGroundingDinoDetector({ image, source, detector, labels, threshold })
     : await runPipelineObjectDetector({ image, detector, labels: labels.slice(0, visionConfig.owlVitLabelLimit), threshold });
   const detectionMs = Math.round((performance.now() - detectionStart) * 1000) / 1000;
-  return (Array.isArray(detections) ? detections : [])
+  const filtered = (Array.isArray(detections) ? detections : [])
     .filter((detection) => detection?.box && Number(detection.score) >= threshold)
-    .sort((a, b) => Number(b.score) - Number(a.score))
-    .slice(0, 48)
+    .sort((a, b) => Number(b.score) - Number(a.score));
+  return nmsDetections(filtered, source, visionConfig.detectionNmsIou, visionConfig.maxModelDetections)
     .map((detection, index) => detectionToCandidate({
       ...detection,
       timings: { detectionMs },
@@ -1628,18 +1644,18 @@ async function recognizeWithSmallModel(image) {
   const source = await loadImage(image);
   const assetMode = await getVisionAssetMode();
   const detectorAttempts = [];
-  if (assetMode.owlReady) {
-    detectorAttempts.push({
-      getDetector: getSmallModelDetector,
-      provider: "local-owlvit",
-      threshold: visionConfig.detectionThreshold,
-    });
-  }
   if (assetMode.groundingReady) {
     detectorAttempts.push({
       getDetector: getGroundingDinoDetector,
       provider: "local-grounding-dino",
       threshold: visionConfig.groundingThreshold,
+    });
+  }
+  if (assetMode.owlReady) {
+    detectorAttempts.push({
+      getDetector: getSmallModelDetector,
+      provider: "local-owlvit",
+      threshold: visionConfig.detectionThreshold,
     });
   }
   if (!detectorAttempts.length) {

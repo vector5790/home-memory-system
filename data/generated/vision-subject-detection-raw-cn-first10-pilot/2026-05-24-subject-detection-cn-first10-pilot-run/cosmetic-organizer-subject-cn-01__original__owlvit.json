@@ -1,0 +1,52 @@
+{
+  "resultId": "cosmetic-organizer-subject-cn-01:original:owlvit",
+  "rawDetections": [
+    {
+      "label": "cosmetic organizer",
+      "score": 0.3357004225254059,
+      "box": {
+        "x": 7.8534,
+        "y": 0.4363,
+        "w": 80.4538,
+        "h": 99.5637
+      }
+    },
+    {
+      "label": "makeup organizer",
+      "score": 0.28453633189201355,
+      "box": {
+        "x": 7.8534,
+        "y": 0.4363,
+        "w": 80.4538,
+        "h": 99.5637
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "cosmetic-organizer-subject-cn-01:original:owlvit:d01",
+      "label": "cosmetic organizer",
+      "categoryKey": "cosmetic-organizer",
+      "score": 0.3357,
+      "box": {
+        "x": 7.8534,
+        "y": 0.4363,
+        "w": 80.4538,
+        "h": 99.5637
+      },
+      "areaPct": 80.1028,
+      "rankByScore": 1,
+      "rankByArea": 1
+    }
+  ],
+  "postProcessing": {
+    "owlvitCategoryNms": {
+      "applied": true,
+      "inputCount": 2,
+      "outputCount": 1,
+      "iouThreshold": 0.5,
+      "maxSubjects": 10
+    }
+  },
+  "failureReason": ""
+}

@@ -1,0 +1,81 @@
+{
+  "kind": "vision-subject-detection-manifest-with-variants",
+  "version": "2026-05-24-living-room-targeted-query",
+  "generatedAt": "2026-05-24T06:24:35.346Z",
+  "taxonomyVersion": "manual-query-prompts",
+  "categories": [
+    {
+      "id": "living-room-targeted-query",
+      "displayName": "客厅 targeted Query",
+      "detectorLabels": [
+        "amplifier",
+        "stereo receiver",
+        "ceiling light",
+        "turntable",
+        "record player"
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "id": "living-room-targeted-query-01",
+      "categoryId": "living-room-targeted-query",
+      "displayName": "客厅 targeted Query",
+      "categoryPath": [
+        "用户图片",
+        "客厅"
+      ],
+      "split": "query-simulation",
+      "role": "query",
+      "localPath": "data/generated/query-images/living-room-query.jpg",
+      "sourceProvider": "user-local-file",
+      "sourceUrl": "/Users/guzeyu/Downloads/客厅.PNG",
+      "sourceTitle": "客厅.PNG",
+      "sha256": "cac7a7b6aa9e8ed3d3f0f41de72dcb2150f3099bb0ed49459416d542d44be03d",
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true,
+      "promptLabels": [
+        "amplifier",
+        "stereo receiver",
+        "ceiling light",
+        "turntable",
+        "record player"
+      ],
+      "imageVariants": [
+        {
+          "id": "original",
+          "path": "data/generated/query-images/living-room-query.jpg",
+          "width": 1600,
+          "height": 1200,
+          "bytes": 312832,
+          "sha256": "cac7a7b6aa9e8ed3d3f0f41de72dcb2150f3099bb0ed49459416d542d44be03d",
+          "generationMs": 0,
+          "transform": "none",
+          "upscaled": false
+        },
+        {
+          "id": "normalized-1024",
+          "path": "fixtures/vision-subject-detection/variants/living-room-targeted-query/living-room-targeted-query-01-normalized-1024.png",
+          "width": 1024,
+          "height": 768,
+          "bytes": 1127180,
+          "sha256": "ffd8fad4830c7facada25a8a7ab832c81c661ddbb3c69da234f6dd320471d151",
+          "generationMs": 63.922,
+          "transform": "long-side-1024",
+          "upscaled": false
+        }
+      ]
+    }
+  ],
+  "variantVersion": "2026-05-24-living-room-targeted-query-variants-1024",
+  "variantGeneratedAt": "2026-05-24T13:31:23.862Z",
+  "variantPolicy": {
+    "targetLongSide": 1024,
+    "keepAspectRatio": true,
+    "noUpscale": true,
+    "variants": [
+      "original",
+      "normalized-1024"
+    ]
+  }
+}

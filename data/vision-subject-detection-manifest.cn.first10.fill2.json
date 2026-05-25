@@ -1,0 +1,119 @@
+{
+  "kind": "vision-subject-detection-manifest",
+  "version": "2026-05-24-subject-detection-cn-first10-fill2",
+  "generatedAt": "2026-05-24T16:22:44.920Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "categorySelection": {
+    "categoryIds": [
+      "storage-drawer-unit",
+      "desktop-organizer",
+      "bowl"
+    ],
+    "selectionFile": "",
+    "onlyWithoutExistingSamples": false,
+    "excludeManifest": ""
+  },
+  "sourcePolicy": {
+    "productionReady": false,
+    "usage": "Local evaluation only. Images are collected from Chinese mainland commerce/search sources and need rights review before production use.",
+    "preferredSource": "Taobao/Tmall/1688 product images"
+  },
+  "categories": [
+    {
+      "id": "storage-drawer-unit",
+      "displayName": "抽屉式收纳柜",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "抽屉式收纳柜"
+      ],
+      "detectorLabels": [
+        "storage drawer unit",
+        "plastic drawer cabinet",
+        "抽屉式收纳柜",
+        "storage drawer units"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0014"
+    },
+    {
+      "id": "desktop-organizer",
+      "displayName": "桌面收纳架",
+      "displayPath": [
+        "居家收纳",
+        "收纳整理",
+        "家庭收纳容器",
+        "桌面收纳架"
+      ],
+      "detectorLabels": [
+        "desktop organizer",
+        "desk organizer tray",
+        "桌面收纳架",
+        "desktop organizers"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-STORAGE-0015"
+    },
+    {
+      "id": "bowl",
+      "displayName": "碗",
+      "displayPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "碗"
+      ],
+      "detectorLabels": [
+        "bowl",
+        "ceramic bowl",
+        "bowls"
+      ],
+      "source": "GS1 GPC",
+      "sourceId": "GPC-HH-KITCHEN-0001"
+    }
+  ],
+  "samples": [
+    {
+      "id": "bowl-subject-cn-01",
+      "categoryId": "bowl",
+      "displayName": "碗",
+      "categoryPath": [
+        "厨房器具",
+        "厨房用品",
+        "备餐与餐具",
+        "碗"
+      ],
+      "split": "subject-detection-eval",
+      "role": "query",
+      "localPath": "fixtures/vision-subject-detection/cn-first10/bowl/bowl-subject-cn-01.jpg",
+      "sourceUrl": "https://detail.1688.com/offer/599276966794.html",
+      "sourceTitle": "白色碗具餐具潮州陶瓷面碗饭碗汤碗日式套装日用厨房家用外贸批发-阿里巴巴",
+      "sourceHost": "detail.1688.com",
+      "imageUrl": "https://cbu01.alicdn.com/img/ibank/2015/613/519/2343915316_391758772.jpg",
+      "imageHost": "cbu01.alicdn.com",
+      "sourceProvider": "Bing Images",
+      "searchQuery": "碗 site:tmall.com",
+      "searchRank": 1,
+      "matchAssessment": {
+        "accepted": true,
+        "score": 9,
+        "termHits": [],
+        "mainland": true,
+        "commerce": true,
+        "blacklist": false,
+        "rank": 1
+      },
+      "license": {
+        "name": "Unverified Chinese mainland web image",
+        "usage": "For local subject-detection evaluation only. Check source rights before production or redistribution."
+      },
+      "sha256": "3c6a28b8200dd63c4a1d86b8a1d4efb8d976a53b6bcb5c2e55fb418a470e6212",
+      "width": 800,
+      "height": 800,
+      "bytes": 82205,
+      "reviewStatus": "pending-human-review",
+      "nonProductionReady": true
+    }
+  ]
+}

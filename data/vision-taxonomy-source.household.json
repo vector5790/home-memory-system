@@ -1,19 +1,29 @@
 {
   "kind": "vision-taxonomy-source",
-  "version": "20260523-household-expanded-source",
+  "version": "20260524-household-expanded-source",
   "taxonomy": {
     "primarySource": "GS1 GPC",
-    "primaryVersion": "2026-household-authoring-slice",
-    "canonicalLineageLevels": ["Segment", "Family", "Class", "Brick"],
-    "coverageTiers": ["seed", "mvp", "common", "long-tail"],
+    "primaryVersion": "2026-household-authoring-slice-v2",
+    "canonicalLineageLevels": [
+      "Segment",
+      "Family",
+      "Class",
+      "Brick"
+    ],
+    "coverageTiers": [
+      "seed",
+      "mvp",
+      "common",
+      "long-tail"
+    ],
     "sourceStrategy": {
       "canonical": "GS1 GPC Segment / Family / Class / Brick is the authoritative four-level lineage.",
       "googleProductTaxonomy": "Auxiliary open taxonomy used for aliases, search queries, detector labels, and supplemental mapping only.",
       "unspsc": "Not used as the first canonical visual household taxonomy; optional mapping is reserved for later procurement or service scenarios."
     },
     "coverageTargets": {
-      "minActiveLeaves": 120,
-      "minLevel1Domains": 12,
+      "minActiveLeaves": 320,
+      "minLevel1Domains": 22,
       "domainMinimums": {
         "居家收纳": 6,
         "厨房器具": 6,
@@ -33,28 +43,122 @@
         "季节物品": 6,
         "家纺": 6,
         "卫浴用品": 6,
-        "家居装饰": 6
+        "家居装饰": 6,
+        "家具": 6,
+        "照明与电工": 6,
+        "绿植园艺": 6
       },
       "domainExamples": {
-        "居家收纳": ["收纳盒", "收纳篮", "抽屉分隔盒"],
-        "厨房器具": ["碗", "盘子", "菜板"],
-        "食品与囤货": ["米袋", "罐头", "调料瓶"],
-        "药品与健康": ["药盒", "体温计", "急救包"],
-        "清洁与洗护": ["洗衣液", "清洁喷瓶", "海绵"],
-        "电子配件": ["数据线", "充电器", "电池"],
-        "家电": ["电水壶", "电饭煲", "路由器"],
-        "工具五金": ["螺丝刀", "剪刀", "胶带"],
-        "文件与办公": ["护照", "笔记本", "票据"],
-        "衣物配饰": ["T恤", "袜子", "帽子"],
-        "个人护理": ["洗发水", "牙膏", "剃须刀"],
-        "母婴儿童": ["奶瓶", "纸尿裤", "积木"],
-        "宠物用品": ["宠物粮", "宠物碗", "牵引绳"],
-        "运动户外": ["瑜伽垫", "哑铃", "跳绳"],
-        "旅行用品": ["行李箱", "背包", "洗漱包"],
-        "季节物品": ["雨伞", "暖宝宝", "节日灯串"],
-        "家纺": ["毛巾", "床单", "毯子"],
-        "卫浴用品": ["卷纸", "纸巾盒", "浴垫"],
-        "家居装饰": ["相框", "花瓶", "香薰瓶"]
+        "居家收纳": [
+          "收纳盒",
+          "收纳篮",
+          "抽屉分隔盒"
+        ],
+        "厨房器具": [
+          "碗",
+          "盘子",
+          "菜板"
+        ],
+        "食品与囤货": [
+          "米袋",
+          "罐头",
+          "调料瓶"
+        ],
+        "药品与健康": [
+          "药盒",
+          "体温计",
+          "急救包"
+        ],
+        "清洁与洗护": [
+          "洗衣液",
+          "清洁喷瓶",
+          "海绵"
+        ],
+        "电子配件": [
+          "数据线",
+          "充电器",
+          "电池"
+        ],
+        "家电": [
+          "电水壶",
+          "电饭煲",
+          "路由器"
+        ],
+        "工具五金": [
+          "螺丝刀",
+          "剪刀",
+          "胶带"
+        ],
+        "文件与办公": [
+          "护照",
+          "笔记本",
+          "票据"
+        ],
+        "衣物配饰": [
+          "T恤",
+          "袜子",
+          "帽子"
+        ],
+        "个人护理": [
+          "洗发水",
+          "牙膏",
+          "剃须刀"
+        ],
+        "母婴儿童": [
+          "奶瓶",
+          "纸尿裤",
+          "积木"
+        ],
+        "宠物用品": [
+          "宠物粮",
+          "宠物碗",
+          "牵引绳"
+        ],
+        "运动户外": [
+          "瑜伽垫",
+          "哑铃",
+          "跳绳"
+        ],
+        "旅行用品": [
+          "行李箱",
+          "背包",
+          "洗漱包"
+        ],
+        "季节物品": [
+          "雨伞",
+          "暖宝宝",
+          "节日灯串"
+        ],
+        "家纺": [
+          "毛巾",
+          "床单",
+          "毯子"
+        ],
+        "卫浴用品": [
+          "卷纸",
+          "纸巾盒",
+          "浴垫"
+        ],
+        "家居装饰": [
+          "相框",
+          "花瓶",
+          "香薰瓶"
+        ],
+        "家具": [
+          "椅子",
+          "餐桌",
+          "书架"
+        ],
+        "照明与电工": [
+          "台灯",
+          "灯泡",
+          "插线板"
+        ],
+        "绿植园艺": [
+          "盆栽",
+          "花盆",
+          "浇水壶"
+        ]
       }
     },
     "auxiliarySources": [
@@ -80,21 +184,178 @@
         {
           "id": "household-storage-containers",
           "sourceIdPrefix": "GPC-HH-STORAGE",
-          "levels": ["Home & Garden", "Storage & Organization", "Household Storage Containers"],
-          "displayPath": ["居家收纳", "收纳整理", "家庭收纳容器"],
-          "googlePath": ["Home & Garden", "Household Supplies", "Storage & Organization"],
+          "levels": [
+            "Home & Garden",
+            "Storage & Organization",
+            "Household Storage Containers"
+          ],
+          "displayPath": [
+            "居家收纳",
+            "收纳整理",
+            "家庭收纳容器"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Household Supplies",
+            "Storage & Organization"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "storage-box", "brick": "Storage Boxes", "displayName": "收纳盒", "labels": ["storage box", "plastic storage bin"], "coverageTier": "seed", "gpt": "google:storage-boxes"},
-            {"id": "storage-basket", "brick": "Storage Baskets", "displayName": "收纳篮", "labels": ["storage basket", "woven storage basket"], "gpt": "google:storage-baskets"},
-            {"id": "drawer-organizer", "brick": "Drawer Organizers", "displayName": "抽屉分隔盒", "labels": ["drawer organizer", "drawer divider tray"], "gpt": "google:drawer-organizers"},
-            {"id": "vacuum-storage-bag", "brick": "Vacuum Storage Bags", "displayName": "真空压缩袋", "labels": ["vacuum storage bag", "space saver bag"], "gpt": "google:vacuum-storage-bags"},
-            {"id": "closet-organizer", "brick": "Closet Organizers", "displayName": "衣柜收纳格", "labels": ["closet organizer", "hanging closet organizer"], "gpt": "google:closet-organizers"},
-            {"id": "cable-organizer-box", "brick": "Cable Organizer Boxes", "displayName": "线缆收纳盒", "labels": ["cable organizer box", "cord storage box"], "gpt": "google:cable-management"},
-            {"id": "shoe-box", "brick": "Shoe Storage Boxes", "displayName": "鞋盒", "labels": ["shoe storage box", "clear shoe box"], "gpt": "google:shoe-storage"}
+            {
+              "id": "storage-box",
+              "brick": "Storage Boxes",
+              "displayName": "收纳盒",
+              "labels": [
+                "storage box",
+                "plastic storage bin"
+              ],
+              "coverageTier": "seed",
+              "gpt": "google:storage-boxes"
+            },
+            {
+              "id": "storage-basket",
+              "brick": "Storage Baskets",
+              "displayName": "收纳篮",
+              "labels": [
+                "storage basket",
+                "woven storage basket"
+              ],
+              "gpt": "google:storage-baskets"
+            },
+            {
+              "id": "drawer-organizer",
+              "brick": "Drawer Organizers",
+              "displayName": "抽屉分隔盒",
+              "labels": [
+                "drawer organizer",
+                "drawer divider tray"
+              ],
+              "gpt": "google:drawer-organizers"
+            },
+            {
+              "id": "vacuum-storage-bag",
+              "brick": "Vacuum Storage Bags",
+              "displayName": "真空压缩袋",
+              "labels": [
+                "vacuum storage bag",
+                "space saver bag"
+              ],
+              "gpt": "google:vacuum-storage-bags"
+            },
+            {
+              "id": "closet-organizer",
+              "brick": "Closet Organizers",
+              "displayName": "衣柜收纳格",
+              "labels": [
+                "closet organizer",
+                "hanging closet organizer"
+              ],
+              "gpt": "google:closet-organizers"
+            },
+            {
+              "id": "cable-organizer-box",
+              "brick": "Cable Organizer Boxes",
+              "displayName": "线缆收纳盒",
+              "labels": [
+                "cable organizer box",
+                "cord storage box"
+              ],
+              "gpt": "google:cable-management"
+            },
+            {
+              "id": "shoe-box",
+              "brick": "Shoe Storage Boxes",
+              "displayName": "鞋盒",
+              "labels": [
+                "shoe storage box",
+                "clear shoe box"
+              ],
+              "gpt": "google:shoe-storage"
+            },
+            {
+              "id": "underbed-storage-box",
+              "brick": "Underbed Storage Boxes",
+              "displayName": "床底收纳箱",
+              "labels": [
+                "underbed storage box",
+                "under bed storage container"
+              ],
+              "gpt": "google:underbed-storage"
+            },
+            {
+              "id": "folding-storage-crate",
+              "brick": "Folding Storage Crates",
+              "displayName": "折叠收纳筐",
+              "labels": [
+                "folding storage crate",
+                "collapsible storage crate"
+              ],
+              "gpt": "google:storage-crates"
+            },
+            {
+              "id": "document-storage-box",
+              "brick": "Document Storage Boxes",
+              "displayName": "文件收纳箱",
+              "labels": [
+                "document storage box",
+                "file storage box"
+              ],
+              "gpt": "google:file-boxes"
+            },
+            {
+              "id": "jewelry-box",
+              "brick": "Jewelry Boxes",
+              "displayName": "首饰盒",
+              "labels": [
+                "jewelry box",
+                "jewellery case"
+              ],
+              "gpt": "google:jewelry-boxes"
+            },
+            {
+              "id": "cosmetic-organizer",
+              "brick": "Cosmetic Organizers",
+              "displayName": "化妆品收纳盒",
+              "labels": [
+                "cosmetic organizer",
+                "makeup organizer"
+              ],
+              "gpt": "google:cosmetic-organizers"
+            },
+            {
+              "id": "hanging-storage-bag",
+              "brick": "Hanging Storage Bags",
+              "displayName": "挂式收纳袋",
+              "labels": [
+                "hanging storage bag",
+                "wall hanging organizer"
+              ],
+              "gpt": "google:hanging-organizers"
+            },
+            {
+              "id": "storage-drawer-unit",
+              "brick": "Storage Drawer Units",
+              "displayName": "抽屉式收纳柜",
+              "labels": [
+                "storage drawer unit",
+                "plastic drawer cabinet"
+              ],
+              "gpt": "google:drawer-storage"
+            },
+            {
+              "id": "desktop-organizer",
+              "brick": "Desktop Organizers",
+              "displayName": "桌面收纳架",
+              "labels": [
+                "desktop organizer",
+                "desk organizer tray"
+              ],
+              "gpt": "google:desk-organizers"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "kitchenware",
@@ -103,22 +364,289 @@
         {
           "id": "kitchen-tools",
           "sourceIdPrefix": "GPC-HH-KITCHEN",
-          "levels": ["Kitchen & Dining", "Kitchenware", "Food Preparation & Serving"],
-          "displayPath": ["厨房器具", "厨房用品", "备餐与餐具"],
-          "googlePath": ["Home & Garden", "Kitchen & Dining"],
+          "levels": [
+            "Kitchen & Dining",
+            "Kitchenware",
+            "Food Preparation & Serving"
+          ],
+          "displayPath": [
+            "厨房器具",
+            "厨房用品",
+            "备餐与餐具"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Kitchen & Dining"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "bowl", "brick": "Bowls", "displayName": "碗", "labels": ["bowl", "ceramic bowl"], "gpt": "google:bowls"},
-            {"id": "plate", "brick": "Plates", "displayName": "盘子", "labels": ["plate", "dinner plate"], "gpt": "google:plates"},
-            {"id": "mug", "brick": "Mugs", "displayName": "马克杯", "labels": ["mug", "coffee mug"], "gpt": "google:mugs"},
-            {"id": "drinking-glass", "brick": "Drinking Glasses", "displayName": "玻璃杯", "labels": ["drinking glass", "water glass"], "gpt": "google:drinking-glasses"},
-            {"id": "saucepan", "brick": "Saucepans", "displayName": "奶锅", "labels": ["saucepan", "small cooking pot"], "gpt": "google:saucepans"},
-            {"id": "frying-pan", "brick": "Frying Pans", "displayName": "煎锅", "labels": ["frying pan", "skillet pan"], "gpt": "google:frying-pans"},
-            {"id": "cutting-board", "brick": "Cutting Boards", "displayName": "菜板", "labels": ["cutting board", "chopping board"], "gpt": "google:cutting-boards"},
-            {"id": "sous-vide-machine", "brick": "Sous Vide Cookers", "displayName": "低温慢煮机", "labels": ["sous vide cooker", "immersion circulator"], "coverageTier": "common", "gpt": "google:sous-vide-cookers"}
+            {
+              "id": "bowl",
+              "brick": "Bowls",
+              "displayName": "碗",
+              "labels": [
+                "bowl",
+                "ceramic bowl"
+              ],
+              "gpt": "google:bowls"
+            },
+            {
+              "id": "plate",
+              "brick": "Plates",
+              "displayName": "盘子",
+              "labels": [
+                "plate",
+                "dinner plate"
+              ],
+              "gpt": "google:plates"
+            },
+            {
+              "id": "mug",
+              "brick": "Mugs",
+              "displayName": "马克杯",
+              "labels": [
+                "mug",
+                "coffee mug"
+              ],
+              "gpt": "google:mugs"
+            },
+            {
+              "id": "drinking-glass",
+              "brick": "Drinking Glasses",
+              "displayName": "玻璃杯",
+              "labels": [
+                "drinking glass",
+                "water glass"
+              ],
+              "gpt": "google:drinking-glasses"
+            },
+            {
+              "id": "saucepan",
+              "brick": "Saucepans",
+              "displayName": "奶锅",
+              "labels": [
+                "saucepan",
+                "small cooking pot"
+              ],
+              "gpt": "google:saucepans"
+            },
+            {
+              "id": "frying-pan",
+              "brick": "Frying Pans",
+              "displayName": "煎锅",
+              "labels": [
+                "frying pan",
+                "skillet pan"
+              ],
+              "gpt": "google:frying-pans"
+            },
+            {
+              "id": "cutting-board",
+              "brick": "Cutting Boards",
+              "displayName": "菜板",
+              "labels": [
+                "cutting board",
+                "chopping board"
+              ],
+              "gpt": "google:cutting-boards"
+            },
+            {
+              "id": "sous-vide-machine",
+              "brick": "Sous Vide Cookers",
+              "displayName": "低温慢煮机",
+              "labels": [
+                "sous vide cooker",
+                "immersion circulator"
+              ],
+              "coverageTier": "common",
+              "gpt": "google:sous-vide-cookers"
+            }
+          ]
+        },
+        {
+          "id": "cookware-utensils",
+          "sourceIdPrefix": "GPC-HH-KITCHEN-COOKWARE",
+          "levels": [
+            "Kitchen & Dining",
+            "Kitchenware",
+            "Cookware & Kitchen Utensils"
+          ],
+          "displayPath": [
+            "厨房器具",
+            "厨房用品",
+            "锅具刀具与小工具"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Kitchen & Dining",
+            "Cookware & Utensils"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "wok",
+              "brick": "Woks",
+              "displayName": "炒锅",
+              "labels": [
+                "wok",
+                "chinese wok pan"
+              ],
+              "gpt": "google:woks"
+            },
+            {
+              "id": "stock-pot",
+              "brick": "Stock Pots",
+              "displayName": "汤锅",
+              "labels": [
+                "stock pot",
+                "soup pot"
+              ],
+              "gpt": "google:stock-pots"
+            },
+            {
+              "id": "steamer-pot",
+              "brick": "Steamer Pots",
+              "displayName": "蒸锅",
+              "labels": [
+                "steamer pot",
+                "food steamer pot"
+              ],
+              "gpt": "google:steamers"
+            },
+            {
+              "id": "rice-spoon",
+              "brick": "Rice Spoons",
+              "displayName": "饭勺",
+              "labels": [
+                "rice spoon",
+                "rice paddle"
+              ],
+              "gpt": "google:serving-spoons"
+            },
+            {
+              "id": "spatula",
+              "brick": "Spatulas",
+              "displayName": "锅铲",
+              "labels": [
+                "spatula",
+                "cooking spatula"
+              ],
+              "gpt": "google:spatulas"
+            },
+            {
+              "id": "ladle",
+              "brick": "Ladles",
+              "displayName": "汤勺",
+              "labels": [
+                "ladle",
+                "soup ladle"
+              ],
+              "gpt": "google:ladles"
+            },
+            {
+              "id": "kitchen-knife",
+              "brick": "Kitchen Knives",
+              "displayName": "菜刀",
+              "labels": [
+                "kitchen knife",
+                "chef knife"
+              ],
+              "gpt": "google:kitchen-knives"
+            },
+            {
+              "id": "peeler",
+              "brick": "Peelers",
+              "displayName": "削皮器",
+              "labels": [
+                "vegetable peeler",
+                "kitchen peeler"
+              ],
+              "gpt": "google:peelers"
+            },
+            {
+              "id": "colander",
+              "brick": "Colanders",
+              "displayName": "沥水篮",
+              "labels": [
+                "colander",
+                "strainer basket"
+              ],
+              "gpt": "google:colanders"
+            },
+            {
+              "id": "food-storage-container",
+              "brick": "Food Storage Containers",
+              "displayName": "保鲜盒",
+              "labels": [
+                "food storage container",
+                "plastic food container"
+              ],
+              "gpt": "google:food-storage-containers"
+            },
+            {
+              "id": "lunch-box",
+              "brick": "Lunch Boxes",
+              "displayName": "饭盒",
+              "labels": [
+                "lunch box",
+                "bento box"
+              ],
+              "gpt": "google:lunch-boxes"
+            },
+            {
+              "id": "thermos-bottle",
+              "brick": "Vacuum Flasks",
+              "displayName": "保温杯",
+              "labels": [
+                "thermos bottle",
+                "vacuum flask"
+              ],
+              "gpt": "google:vacuum-flasks"
+            },
+            {
+              "id": "chopsticks",
+              "brick": "Chopsticks",
+              "displayName": "筷子",
+              "labels": [
+                "chopsticks",
+                "pair of chopsticks"
+              ],
+              "gpt": "google:chopsticks"
+            },
+            {
+              "id": "spoon",
+              "brick": "Spoons",
+              "displayName": "勺子",
+              "labels": [
+                "spoon",
+                "table spoon"
+              ],
+              "gpt": "google:spoons"
+            },
+            {
+              "id": "fork",
+              "brick": "Forks",
+              "displayName": "叉子",
+              "labels": [
+                "fork",
+                "dining fork"
+              ],
+              "gpt": "google:forks"
+            },
+            {
+              "id": "kitchen-scale",
+              "brick": "Kitchen Scales",
+              "displayName": "厨房秤",
+              "labels": [
+                "kitchen scale",
+                "digital kitchen scale"
+              ],
+              "gpt": "google:kitchen-scales"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "food-pantry",
@@ -127,21 +655,257 @@
         {
           "id": "packaged-food",
           "sourceIdPrefix": "GPC-HH-FOOD",
-          "levels": ["Food & Beverage", "Shelf Stable Food", "Packaged Food & Pantry Staples"],
-          "displayPath": ["食品与囤货", "常温食品", "包装食品与主食"],
-          "googlePath": ["Food, Beverages & Tobacco", "Food Items"],
+          "levels": [
+            "Food & Beverage",
+            "Shelf Stable Food",
+            "Packaged Food & Pantry Staples"
+          ],
+          "displayPath": [
+            "食品与囤货",
+            "常温食品",
+            "包装食品与主食"
+          ],
+          "googlePath": [
+            "Food, Beverages & Tobacco",
+            "Food Items"
+          ],
           "appCategory": "food",
           "leaves": [
-            {"id": "rice-bag", "brick": "Rice Bags", "displayName": "米袋", "labels": ["rice bag", "bag of rice"], "gpt": "google:rice"},
-            {"id": "noodle-pack", "brick": "Noodle Packs", "displayName": "面条包装", "labels": ["noodle pack", "instant noodle package"], "gpt": "google:noodles"},
-            {"id": "canned-food", "brick": "Canned Food", "displayName": "罐头", "labels": ["canned food", "food can"], "gpt": "google:canned-food"},
-            {"id": "snack-bag", "brick": "Snack Bags", "displayName": "零食袋", "labels": ["snack bag", "chips bag"], "gpt": "google:snack-food"},
-            {"id": "beverage-bottle", "brick": "Beverage Bottles", "displayName": "饮料瓶", "labels": ["beverage bottle", "soft drink bottle"], "gpt": "google:beverages"},
-            {"id": "spice-jar", "brick": "Spice Jars", "displayName": "调料瓶", "labels": ["spice jar", "seasoning jar"], "gpt": "google:herbs-spices"},
-            {"id": "cereal-box", "brick": "Cereal Boxes", "displayName": "麦片盒", "labels": ["cereal box", "breakfast cereal box"], "gpt": "google:breakfast-cereal"}
+            {
+              "id": "rice-bag",
+              "brick": "Rice Bags",
+              "displayName": "米袋",
+              "labels": [
+                "rice bag",
+                "bag of rice"
+              ],
+              "gpt": "google:rice"
+            },
+            {
+              "id": "noodle-pack",
+              "brick": "Noodle Packs",
+              "displayName": "面条包装",
+              "labels": [
+                "noodle pack",
+                "instant noodle package"
+              ],
+              "gpt": "google:noodles"
+            },
+            {
+              "id": "canned-food",
+              "brick": "Canned Food",
+              "displayName": "罐头",
+              "labels": [
+                "canned food",
+                "food can"
+              ],
+              "gpt": "google:canned-food"
+            },
+            {
+              "id": "snack-bag",
+              "brick": "Snack Bags",
+              "displayName": "零食袋",
+              "labels": [
+                "snack bag",
+                "chips bag"
+              ],
+              "gpt": "google:snack-food"
+            },
+            {
+              "id": "beverage-bottle",
+              "brick": "Beverage Bottles",
+              "displayName": "饮料瓶",
+              "labels": [
+                "beverage bottle",
+                "soft drink bottle"
+              ],
+              "gpt": "google:beverages"
+            },
+            {
+              "id": "spice-jar",
+              "brick": "Spice Jars",
+              "displayName": "调料瓶",
+              "labels": [
+                "spice jar",
+                "seasoning jar"
+              ],
+              "gpt": "google:herbs-spices"
+            },
+            {
+              "id": "cereal-box",
+              "brick": "Cereal Boxes",
+              "displayName": "麦片盒",
+              "labels": [
+                "cereal box",
+                "breakfast cereal box"
+              ],
+              "gpt": "google:breakfast-cereal"
+            }
+          ]
+        },
+        {
+          "id": "condiments-dry-goods",
+          "sourceIdPrefix": "GPC-HH-FOOD-CONDIMENTS",
+          "levels": [
+            "Food & Beverage",
+            "Shelf Stable Food",
+            "Condiments, Dry Goods & Drinks"
+          ],
+          "displayPath": [
+            "食品与囤货",
+            "常温食品",
+            "调味干货与饮品"
+          ],
+          "googlePath": [
+            "Food, Beverages & Tobacco",
+            "Food Items"
+          ],
+          "appCategory": "food",
+          "leaves": [
+            {
+              "id": "cooking-oil-bottle",
+              "brick": "Cooking Oil Bottles",
+              "displayName": "食用油瓶",
+              "labels": [
+                "cooking oil bottle",
+                "vegetable oil bottle"
+              ],
+              "gpt": "google:cooking-oils"
+            },
+            {
+              "id": "soy-sauce-bottle",
+              "brick": "Soy Sauce Bottles",
+              "displayName": "酱油瓶",
+              "labels": [
+                "soy sauce bottle",
+                "sauce bottle"
+              ],
+              "gpt": "google:soy-sauce"
+            },
+            {
+              "id": "vinegar-bottle",
+              "brick": "Vinegar Bottles",
+              "displayName": "醋瓶",
+              "labels": [
+                "vinegar bottle",
+                "bottle of vinegar"
+              ],
+              "gpt": "google:vinegar"
+            },
+            {
+              "id": "salt-container",
+              "brick": "Salt Containers",
+              "displayName": "食盐罐",
+              "labels": [
+                "salt container",
+                "salt shaker"
+              ],
+              "gpt": "google:salt"
+            },
+            {
+              "id": "sugar-jar",
+              "brick": "Sugar Jars",
+              "displayName": "糖罐",
+              "labels": [
+                "sugar jar",
+                "sugar container"
+              ],
+              "gpt": "google:sugar"
+            },
+            {
+              "id": "tea-box",
+              "brick": "Tea Boxes",
+              "displayName": "茶叶盒",
+              "labels": [
+                "tea box",
+                "tea tin"
+              ],
+              "gpt": "google:tea"
+            },
+            {
+              "id": "coffee-jar",
+              "brick": "Coffee Jars",
+              "displayName": "咖啡罐",
+              "labels": [
+                "coffee jar",
+                "instant coffee jar"
+              ],
+              "gpt": "google:coffee"
+            },
+            {
+              "id": "milk-carton",
+              "brick": "Milk Cartons",
+              "displayName": "牛奶盒",
+              "labels": [
+                "milk carton",
+                "carton of milk"
+              ],
+              "gpt": "google:milk"
+            },
+            {
+              "id": "water-jug",
+              "brick": "Water Jugs",
+              "displayName": "饮水壶",
+              "labels": [
+                "water jug",
+                "drinking water jug"
+              ],
+              "gpt": "google:water-containers"
+            },
+            {
+              "id": "biscuit-tin",
+              "brick": "Biscuit Tins",
+              "displayName": "饼干盒",
+              "labels": [
+                "biscuit tin",
+                "cookie tin"
+              ],
+              "gpt": "google:cookies"
+            },
+            {
+              "id": "flour-bag",
+              "brick": "Flour Bags",
+              "displayName": "面粉袋",
+              "labels": [
+                "flour bag",
+                "bag of flour"
+              ],
+              "gpt": "google:flour"
+            },
+            {
+              "id": "pet-bottle-water",
+              "brick": "Bottled Water",
+              "displayName": "瓶装水",
+              "labels": [
+                "bottled water",
+                "water bottle pack"
+              ],
+              "gpt": "google:bottled-water"
+            },
+            {
+              "id": "sauce-pouch",
+              "brick": "Sauce Pouches",
+              "displayName": "酱料袋",
+              "labels": [
+                "sauce pouch",
+                "condiment pouch"
+              ],
+              "gpt": "google:sauces"
+            },
+            {
+              "id": "dried-fruit-bag",
+              "brick": "Dried Fruit Bags",
+              "displayName": "果干袋",
+              "labels": [
+                "dried fruit bag",
+                "dried fruit package"
+              ],
+              "gpt": "google:dried-fruit"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "health-medicine",
@@ -150,21 +914,197 @@
         {
           "id": "health-supplies",
           "sourceIdPrefix": "GPC-HH-HEALTH",
-          "levels": ["Healthcare", "Health Care Supplies", "Medicine & First Aid Supplies"],
-          "displayPath": ["药品与健康", "健康护理", "药品与急救用品"],
-          "googlePath": ["Health & Beauty", "Health Care"],
+          "levels": [
+            "Healthcare",
+            "Health Care Supplies",
+            "Medicine & First Aid Supplies"
+          ],
+          "displayPath": [
+            "药品与健康",
+            "健康护理",
+            "药品与急救用品"
+          ],
+          "googlePath": [
+            "Health & Beauty",
+            "Health Care"
+          ],
           "appCategory": "medicine",
           "leaves": [
-            {"id": "medicine-box", "brick": "Medicine Boxes", "displayName": "药盒", "labels": ["medicine box", "pill organizer"], "coverageTier": "seed", "gpt": "google:medicine-boxes"},
-            {"id": "pill-bottle", "brick": "Pill Bottles", "displayName": "药瓶", "labels": ["pill bottle", "medicine bottle"], "gpt": "google:medicine-bottles"},
-            {"id": "thermometer", "brick": "Thermometers", "displayName": "体温计", "labels": ["thermometer", "digital thermometer"], "gpt": "google:thermometers"},
-            {"id": "bandage-box", "brick": "Bandage Boxes", "displayName": "创可贴盒", "labels": ["bandage box", "adhesive bandage box"], "gpt": "google:bandages"},
-            {"id": "first-aid-kit", "brick": "First Aid Kits", "displayName": "急救包", "labels": ["first aid kit", "medical first aid box"], "gpt": "google:first-aid-kits"},
-            {"id": "face-mask-pack", "brick": "Face Mask Packs", "displayName": "口罩包", "labels": ["face mask pack", "disposable mask box"], "gpt": "google:face-masks"},
-            {"id": "disinfectant-wipes", "brick": "Disinfectant Wipes", "displayName": "消毒湿巾", "labels": ["disinfectant wipes", "sanitizing wipes pack"], "gpt": "google:disinfectant-wipes"}
+            {
+              "id": "medicine-box",
+              "brick": "Medicine Boxes",
+              "displayName": "药盒",
+              "labels": [
+                "medicine box",
+                "pill organizer"
+              ],
+              "coverageTier": "seed",
+              "gpt": "google:medicine-boxes"
+            },
+            {
+              "id": "pill-bottle",
+              "brick": "Pill Bottles",
+              "displayName": "药瓶",
+              "labels": [
+                "pill bottle",
+                "medicine bottle"
+              ],
+              "gpt": "google:medicine-bottles"
+            },
+            {
+              "id": "thermometer",
+              "brick": "Thermometers",
+              "displayName": "体温计",
+              "labels": [
+                "thermometer",
+                "digital thermometer"
+              ],
+              "gpt": "google:thermometers"
+            },
+            {
+              "id": "bandage-box",
+              "brick": "Bandage Boxes",
+              "displayName": "创可贴盒",
+              "labels": [
+                "bandage box",
+                "adhesive bandage box"
+              ],
+              "gpt": "google:bandages"
+            },
+            {
+              "id": "first-aid-kit",
+              "brick": "First Aid Kits",
+              "displayName": "急救包",
+              "labels": [
+                "first aid kit",
+                "medical first aid box"
+              ],
+              "gpt": "google:first-aid-kits"
+            },
+            {
+              "id": "face-mask-pack",
+              "brick": "Face Mask Packs",
+              "displayName": "口罩包",
+              "labels": [
+                "face mask pack",
+                "disposable mask box"
+              ],
+              "gpt": "google:face-masks"
+            },
+            {
+              "id": "disinfectant-wipes",
+              "brick": "Disinfectant Wipes",
+              "displayName": "消毒湿巾",
+              "labels": [
+                "disinfectant wipes",
+                "sanitizing wipes pack"
+              ],
+              "gpt": "google:disinfectant-wipes"
+            },
+            {
+              "id": "blood-pressure-monitor",
+              "brick": "Blood Pressure Monitors",
+              "displayName": "血压计",
+              "labels": [
+                "blood pressure monitor",
+                "digital blood pressure meter"
+              ],
+              "gpt": "google:blood-pressure-monitors"
+            },
+            {
+              "id": "pulse-oximeter",
+              "brick": "Pulse Oximeters",
+              "displayName": "血氧仪",
+              "labels": [
+                "pulse oximeter",
+                "finger oximeter"
+              ],
+              "gpt": "google:pulse-oximeters"
+            },
+            {
+              "id": "glucose-meter",
+              "brick": "Blood Glucose Meters",
+              "displayName": "血糖仪",
+              "labels": [
+                "blood glucose meter",
+                "glucose monitor"
+              ],
+              "gpt": "google:glucose-meters"
+            },
+            {
+              "id": "heating-pad",
+              "brick": "Heating Pads",
+              "displayName": "热敷垫",
+              "labels": [
+                "heating pad",
+                "electric heating pad"
+              ],
+              "gpt": "google:heating-pads"
+            },
+            {
+              "id": "ice-pack",
+              "brick": "Ice Packs",
+              "displayName": "冰袋",
+              "labels": [
+                "ice pack",
+                "reusable cold pack"
+              ],
+              "gpt": "google:ice-packs"
+            },
+            {
+              "id": "medicine-syrup-bottle",
+              "brick": "Medicine Syrup Bottles",
+              "displayName": "药水瓶",
+              "labels": [
+                "medicine syrup bottle",
+                "cough syrup bottle"
+              ],
+              "gpt": "google:medicine"
+            },
+            {
+              "id": "vitamin-bottle",
+              "brick": "Vitamin Bottles",
+              "displayName": "维生素瓶",
+              "labels": [
+                "vitamin bottle",
+                "supplement bottle"
+              ],
+              "gpt": "google:vitamins"
+            },
+            {
+              "id": "medical-tape-roll",
+              "brick": "Medical Tape Rolls",
+              "displayName": "医用胶带",
+              "labels": [
+                "medical tape roll",
+                "adhesive medical tape"
+              ],
+              "gpt": "google:medical-tape"
+            },
+            {
+              "id": "gauze-pack",
+              "brick": "Gauze Packs",
+              "displayName": "纱布包",
+              "labels": [
+                "gauze pack",
+                "sterile gauze pad"
+              ],
+              "gpt": "google:gauze"
+            },
+            {
+              "id": "hand-sanitizer-bottle",
+              "brick": "Hand Sanitizer Bottles",
+              "displayName": "免洗洗手液",
+              "labels": [
+                "hand sanitizer bottle",
+                "sanitizer pump bottle"
+              ],
+              "gpt": "google:hand-sanitizer"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "cleaning-laundry",
@@ -173,21 +1113,239 @@
         {
           "id": "cleaning-products",
           "sourceIdPrefix": "GPC-HH-CLEANING",
-          "levels": ["Household Supplies", "Cleaning & Laundry", "Cleaning Products & Accessories"],
-          "displayPath": ["清洁与洗护", "清洁洗护", "清洁用品与配件"],
-          "googlePath": ["Home & Garden", "Household Supplies", "Cleaning Supplies"],
+          "levels": [
+            "Household Supplies",
+            "Cleaning & Laundry",
+            "Cleaning Products & Accessories"
+          ],
+          "displayPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "清洁用品与配件"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Household Supplies",
+            "Cleaning Supplies"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "laundry-detergent", "brick": "Laundry Detergent", "displayName": "洗衣液", "labels": ["laundry detergent", "detergent bottle"], "gpt": "google:laundry-detergent"},
-            {"id": "dish-soap", "brick": "Dish Soap", "displayName": "洗洁精", "labels": ["dish soap", "dishwashing liquid bottle"], "gpt": "google:dish-soap"},
-            {"id": "cleaning-spray-bottle", "brick": "Cleaning Spray Bottles", "displayName": "清洁喷瓶", "labels": ["cleaning spray bottle", "spray cleaner bottle"], "gpt": "google:household-cleaners"},
-            {"id": "sponge", "brick": "Cleaning Sponges", "displayName": "海绵", "labels": ["cleaning sponge", "dish sponge"], "gpt": "google:sponges"},
-            {"id": "trash-bag-roll", "brick": "Trash Bag Rolls", "displayName": "垃圾袋卷", "labels": ["trash bag roll", "garbage bag roll"], "gpt": "google:trash-bags"},
-            {"id": "toilet-cleaner-bottle", "brick": "Toilet Cleaner Bottles", "displayName": "洁厕剂", "labels": ["toilet cleaner bottle", "bathroom cleaner bottle"], "gpt": "google:toilet-cleaners"},
-            {"id": "mop-head", "brick": "Mop Heads", "displayName": "拖把头", "labels": ["mop head", "replacement mop head"], "gpt": "google:mop-heads"}
+            {
+              "id": "laundry-detergent",
+              "brick": "Laundry Detergent",
+              "displayName": "洗衣液",
+              "labels": [
+                "laundry detergent",
+                "detergent bottle"
+              ],
+              "gpt": "google:laundry-detergent"
+            },
+            {
+              "id": "dish-soap",
+              "brick": "Dish Soap",
+              "displayName": "洗洁精",
+              "labels": [
+                "dish soap",
+                "dishwashing liquid bottle"
+              ],
+              "gpt": "google:dish-soap"
+            },
+            {
+              "id": "cleaning-spray-bottle",
+              "brick": "Cleaning Spray Bottles",
+              "displayName": "清洁喷瓶",
+              "labels": [
+                "cleaning spray bottle",
+                "spray cleaner bottle"
+              ],
+              "gpt": "google:household-cleaners"
+            },
+            {
+              "id": "sponge",
+              "brick": "Cleaning Sponges",
+              "displayName": "海绵",
+              "labels": [
+                "cleaning sponge",
+                "dish sponge"
+              ],
+              "gpt": "google:sponges"
+            },
+            {
+              "id": "trash-bag-roll",
+              "brick": "Trash Bag Rolls",
+              "displayName": "垃圾袋卷",
+              "labels": [
+                "trash bag roll",
+                "garbage bag roll"
+              ],
+              "gpt": "google:trash-bags"
+            },
+            {
+              "id": "toilet-cleaner-bottle",
+              "brick": "Toilet Cleaner Bottles",
+              "displayName": "洁厕剂",
+              "labels": [
+                "toilet cleaner bottle",
+                "bathroom cleaner bottle"
+              ],
+              "gpt": "google:toilet-cleaners"
+            },
+            {
+              "id": "mop-head",
+              "brick": "Mop Heads",
+              "displayName": "拖把头",
+              "labels": [
+                "mop head",
+                "replacement mop head"
+              ],
+              "gpt": "google:mop-heads"
+            }
+          ]
+        },
+        {
+          "id": "laundry-cleaning-tools",
+          "sourceIdPrefix": "GPC-HH-CLEANING-TOOLS",
+          "levels": [
+            "Household Supplies",
+            "Cleaning & Laundry",
+            "Laundry & Cleaning Tools"
+          ],
+          "displayPath": [
+            "清洁与洗护",
+            "清洁洗护",
+            "洗衣与清洁工具"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Household Supplies",
+            "Cleaning Supplies"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "broom",
+              "brick": "Brooms",
+              "displayName": "扫帚",
+              "labels": [
+                "broom",
+                "household broom"
+              ],
+              "gpt": "google:brooms"
+            },
+            {
+              "id": "dustpan",
+              "brick": "Dustpans",
+              "displayName": "簸箕",
+              "labels": [
+                "dustpan",
+                "dust pan"
+              ],
+              "gpt": "google:dustpans"
+            },
+            {
+              "id": "bucket",
+              "brick": "Buckets",
+              "displayName": "水桶",
+              "labels": [
+                "bucket",
+                "plastic bucket"
+              ],
+              "gpt": "google:buckets"
+            },
+            {
+              "id": "laundry-basket",
+              "brick": "Laundry Baskets",
+              "displayName": "洗衣篮",
+              "labels": [
+                "laundry basket",
+                "clothes hamper"
+              ],
+              "gpt": "google:laundry-baskets"
+            },
+            {
+              "id": "clothes-hanger",
+              "brick": "Clothes Hangers",
+              "displayName": "衣架",
+              "labels": [
+                "clothes hanger",
+                "coat hanger"
+              ],
+              "gpt": "google:clothes-hangers"
+            },
+            {
+              "id": "lint-roller",
+              "brick": "Lint Rollers",
+              "displayName": "粘毛器",
+              "labels": [
+                "lint roller",
+                "clothes lint roller"
+              ],
+              "gpt": "google:lint-rollers"
+            },
+            {
+              "id": "laundry-pods-box",
+              "brick": "Laundry Pod Boxes",
+              "displayName": "洗衣凝珠盒",
+              "labels": [
+                "laundry pods box",
+                "detergent pods container"
+              ],
+              "gpt": "google:laundry-detergent"
+            },
+            {
+              "id": "fabric-softener-bottle",
+              "brick": "Fabric Softener Bottles",
+              "displayName": "柔顺剂瓶",
+              "labels": [
+                "fabric softener bottle",
+                "softener bottle"
+              ],
+              "gpt": "google:fabric-softeners"
+            },
+            {
+              "id": "cleaning-cloth",
+              "brick": "Cleaning Cloths",
+              "displayName": "抹布",
+              "labels": [
+                "cleaning cloth",
+                "microfiber cloth"
+              ],
+              "gpt": "google:cleaning-cloths"
+            },
+            {
+              "id": "rubber-gloves",
+              "brick": "Rubber Cleaning Gloves",
+              "displayName": "清洁手套",
+              "labels": [
+                "rubber gloves",
+                "cleaning gloves"
+              ],
+              "gpt": "google:cleaning-gloves"
+            },
+            {
+              "id": "brush-cleaning",
+              "brick": "Cleaning Brushes",
+              "displayName": "清洁刷",
+              "labels": [
+                "cleaning brush",
+                "scrub brush"
+              ],
+              "gpt": "google:scrub-brushes"
+            },
+            {
+              "id": "floor-wiper",
+              "brick": "Floor Wipers",
+              "displayName": "地刮",
+              "labels": [
+                "floor wiper",
+                "squeegee mop"
+              ],
+              "gpt": "google:squeegees"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "electronics-accessories",
@@ -196,22 +1354,240 @@
         {
           "id": "electronic-accessories",
           "sourceIdPrefix": "GPC-HH-ELECTRONICS",
-          "levels": ["Electronics", "Electronic Accessories", "Cables, Power & Small Accessories"],
-          "displayPath": ["电子配件", "电子附件", "线缆电源与小配件"],
-          "googlePath": ["Electronics", "Electronics Accessories"],
+          "levels": [
+            "Electronics",
+            "Electronic Accessories",
+            "Cables, Power & Small Accessories"
+          ],
+          "displayPath": [
+            "电子配件",
+            "电子附件",
+            "线缆电源与小配件"
+          ],
+          "googlePath": [
+            "Electronics",
+            "Electronics Accessories"
+          ],
           "appCategory": "tool",
           "leaves": [
-            {"id": "charging-cable", "brick": "Charging Cables", "displayName": "数据线", "labels": ["usb cable", "charging cable"], "coverageTier": "seed", "gpt": "500035"},
-            {"id": "charger", "brick": "Power Adapters & Chargers", "displayName": "充电器", "labels": ["charger", "power adapter"], "coverageTier": "seed", "gpt": "google:power-adapters-chargers"},
-            {"id": "battery", "brick": "Household Batteries", "displayName": "电池", "labels": ["battery", "alkaline battery"], "coverageTier": "seed", "gpt": "google:batteries"},
-            {"id": "power-bank", "brick": "Power Banks", "displayName": "充电宝", "labels": ["power bank", "portable charger"], "gpt": "google:power-banks"},
-            {"id": "earphones", "brick": "Earphones", "displayName": "耳机", "labels": ["earphones", "wired earbuds"], "gpt": "google:headphones"},
-            {"id": "usb-flash-drive", "brick": "USB Flash Drives", "displayName": "U盘", "labels": ["usb flash drive", "thumb drive"], "gpt": "google:usb-flash-drives"},
-            {"id": "memory-card-case", "brick": "Memory Card Cases", "displayName": "存储卡盒", "labels": ["memory card case", "sd card case"], "gpt": "google:memory-card-accessories"},
-            {"id": "smart-plug", "brick": "Smart Plugs", "displayName": "智能插座", "labels": ["smart plug", "wifi smart outlet"], "coverageTier": "common", "gpt": "google:smart-plugs"}
+            {
+              "id": "charging-cable",
+              "brick": "Charging Cables",
+              "displayName": "数据线",
+              "labels": [
+                "usb cable",
+                "charging cable"
+              ],
+              "coverageTier": "seed",
+              "gpt": "500035"
+            },
+            {
+              "id": "charger",
+              "brick": "Power Adapters & Chargers",
+              "displayName": "充电器",
+              "labels": [
+                "charger",
+                "power adapter"
+              ],
+              "coverageTier": "seed",
+              "gpt": "google:power-adapters-chargers"
+            },
+            {
+              "id": "battery",
+              "brick": "Household Batteries",
+              "displayName": "电池",
+              "labels": [
+                "battery",
+                "alkaline battery"
+              ],
+              "coverageTier": "seed",
+              "gpt": "google:batteries"
+            },
+            {
+              "id": "power-bank",
+              "brick": "Power Banks",
+              "displayName": "充电宝",
+              "labels": [
+                "power bank",
+                "portable charger"
+              ],
+              "gpt": "google:power-banks"
+            },
+            {
+              "id": "earphones",
+              "brick": "Earphones",
+              "displayName": "耳机",
+              "labels": [
+                "earphones",
+                "wired earbuds"
+              ],
+              "gpt": "google:headphones"
+            },
+            {
+              "id": "usb-flash-drive",
+              "brick": "USB Flash Drives",
+              "displayName": "U盘",
+              "labels": [
+                "usb flash drive",
+                "thumb drive"
+              ],
+              "gpt": "google:usb-flash-drives"
+            },
+            {
+              "id": "memory-card-case",
+              "brick": "Memory Card Cases",
+              "displayName": "存储卡盒",
+              "labels": [
+                "memory card case",
+                "sd card case"
+              ],
+              "gpt": "google:memory-card-accessories"
+            },
+            {
+              "id": "smart-plug",
+              "brick": "Smart Plugs",
+              "displayName": "智能插座",
+              "labels": [
+                "smart plug",
+                "wifi smart outlet"
+              ],
+              "coverageTier": "common",
+              "gpt": "google:smart-plugs"
+            }
+          ]
+        },
+        {
+          "id": "personal-electronics-devices",
+          "sourceIdPrefix": "GPC-HH-ELECTRONICS-DEVICES",
+          "levels": [
+            "Electronics",
+            "Consumer Electronics",
+            "Personal Electronics & Network Devices"
+          ],
+          "displayPath": [
+            "电子配件",
+            "消费电子",
+            "个人电子与网络设备"
+          ],
+          "googlePath": [
+            "Electronics"
+          ],
+          "appCategory": "tool",
+          "leaves": [
+            {
+              "id": "mobile-phone",
+              "brick": "Mobile Phones",
+              "displayName": "手机",
+              "labels": [
+                "mobile phone",
+                "smartphone"
+              ],
+              "gpt": "google:mobile-phones"
+            },
+            {
+              "id": "tablet",
+              "brick": "Tablet Computers",
+              "displayName": "平板电脑",
+              "labels": [
+                "tablet computer",
+                "ipad tablet"
+              ],
+              "gpt": "google:tablet-computers"
+            },
+            {
+              "id": "laptop",
+              "brick": "Laptop Computers",
+              "displayName": "笔记本电脑",
+              "labels": [
+                "laptop computer",
+                "notebook computer"
+              ],
+              "gpt": "google:laptops"
+            },
+            {
+              "id": "computer-mouse",
+              "brick": "Computer Mice",
+              "displayName": "鼠标",
+              "labels": [
+                "computer mouse",
+                "wireless mouse"
+              ],
+              "gpt": "google:computer-mice"
+            },
+            {
+              "id": "keyboard",
+              "brick": "Computer Keyboards",
+              "displayName": "键盘",
+              "labels": [
+                "computer keyboard",
+                "wireless keyboard"
+              ],
+              "gpt": "google:keyboards"
+            },
+            {
+              "id": "camera",
+              "brick": "Cameras",
+              "displayName": "相机",
+              "labels": [
+                "camera",
+                "digital camera"
+              ],
+              "gpt": "google:cameras"
+            },
+            {
+              "id": "game-controller",
+              "brick": "Game Controllers",
+              "displayName": "游戏手柄",
+              "labels": [
+                "game controller",
+                "video game controller"
+              ],
+              "gpt": "google:game-controllers"
+            },
+            {
+              "id": "bluetooth-speaker",
+              "brick": "Bluetooth Speakers",
+              "displayName": "蓝牙音箱",
+              "labels": [
+                "bluetooth speaker",
+                "portable speaker"
+              ],
+              "gpt": "google:speakers"
+            },
+            {
+              "id": "smart-watch",
+              "brick": "Smart Watches",
+              "displayName": "智能手表",
+              "labels": [
+                "smart watch",
+                "smartwatch"
+              ],
+              "gpt": "google:smart-watches"
+            },
+            {
+              "id": "phone-case",
+              "brick": "Phone Cases",
+              "displayName": "手机壳",
+              "labels": [
+                "phone case",
+                "smartphone case"
+              ],
+              "gpt": "google:phone-cases"
+            },
+            {
+              "id": "screen-protector-box",
+              "brick": "Screen Protector Packs",
+              "displayName": "钢化膜包装",
+              "labels": [
+                "screen protector pack",
+                "tempered glass screen protector"
+              ],
+              "gpt": "google:screen-protectors"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "home-appliances",
@@ -220,21 +1596,238 @@
         {
           "id": "small-appliances",
           "sourceIdPrefix": "GPC-HH-APPLIANCE",
-          "levels": ["Appliances", "Small Domestic Appliances", "Household Electrical Appliances"],
-          "displayPath": ["家电", "小家电", "家庭电器"],
-          "googlePath": ["Home & Garden", "Household Appliances"],
+          "levels": [
+            "Appliances",
+            "Small Domestic Appliances",
+            "Household Electrical Appliances"
+          ],
+          "displayPath": [
+            "家电",
+            "小家电",
+            "家庭电器"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Household Appliances"
+          ],
           "appCategory": "appliance",
           "leaves": [
-            {"id": "remote-control", "brick": "Remote Controls", "displayName": "遥控器", "labels": ["remote control", "tv remote"], "coverageTier": "seed", "gpt": "google:remote-controls"},
-            {"id": "electric-kettle", "brick": "Electric Kettles", "displayName": "电水壶", "labels": ["electric kettle", "water kettle"], "gpt": "google:electric-kettles"},
-            {"id": "rice-cooker", "brick": "Rice Cookers", "displayName": "电饭煲", "labels": ["rice cooker", "electric rice cooker"], "gpt": "google:rice-cookers"},
-            {"id": "air-purifier-filter", "brick": "Air Purifier Filters", "displayName": "空气净化器滤芯", "labels": ["air purifier filter", "replacement air filter"], "gpt": "google:air-purifier-filters"},
-            {"id": "hair-dryer", "brick": "Hair Dryers", "displayName": "吹风机", "labels": ["hair dryer", "blow dryer"], "gpt": "google:hair-dryers"},
-            {"id": "vacuum-cleaner", "brick": "Vacuum Cleaners", "displayName": "吸尘器", "labels": ["vacuum cleaner", "stick vacuum"], "gpt": "google:vacuum-cleaners"},
-            {"id": "router", "brick": "Network Routers", "displayName": "路由器", "labels": ["wifi router", "network router"], "gpt": "google:routers"}
+            {
+              "id": "remote-control",
+              "brick": "Remote Controls",
+              "displayName": "遥控器",
+              "labels": [
+                "remote control",
+                "tv remote"
+              ],
+              "coverageTier": "seed",
+              "gpt": "google:remote-controls"
+            },
+            {
+              "id": "electric-kettle",
+              "brick": "Electric Kettles",
+              "displayName": "电水壶",
+              "labels": [
+                "electric kettle",
+                "water kettle"
+              ],
+              "gpt": "google:electric-kettles"
+            },
+            {
+              "id": "rice-cooker",
+              "brick": "Rice Cookers",
+              "displayName": "电饭煲",
+              "labels": [
+                "rice cooker",
+                "electric rice cooker"
+              ],
+              "gpt": "google:rice-cookers"
+            },
+            {
+              "id": "air-purifier-filter",
+              "brick": "Air Purifier Filters",
+              "displayName": "空气净化器滤芯",
+              "labels": [
+                "air purifier filter",
+                "replacement air filter"
+              ],
+              "gpt": "google:air-purifier-filters"
+            },
+            {
+              "id": "hair-dryer",
+              "brick": "Hair Dryers",
+              "displayName": "吹风机",
+              "labels": [
+                "hair dryer",
+                "blow dryer"
+              ],
+              "gpt": "google:hair-dryers"
+            },
+            {
+              "id": "vacuum-cleaner",
+              "brick": "Vacuum Cleaners",
+              "displayName": "吸尘器",
+              "labels": [
+                "vacuum cleaner",
+                "stick vacuum"
+              ],
+              "gpt": "google:vacuum-cleaners"
+            },
+            {
+              "id": "router",
+              "brick": "Network Routers",
+              "displayName": "路由器",
+              "labels": [
+                "wifi router",
+                "network router"
+              ],
+              "gpt": "google:routers"
+            }
+          ]
+        },
+        {
+          "id": "large-home-appliances",
+          "sourceIdPrefix": "GPC-HH-APPLIANCE-LARGE",
+          "levels": [
+            "Home Appliances",
+            "Household Appliances",
+            "Large & Climate Appliances"
+          ],
+          "displayPath": [
+            "家电",
+            "家庭电器",
+            "大家电与环境电器"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Household Appliances"
+          ],
+          "appCategory": "appliance",
+          "leaves": [
+            {
+              "id": "refrigerator",
+              "brick": "Refrigerators",
+              "displayName": "冰箱",
+              "labels": [
+                "refrigerator",
+                "fridge"
+              ],
+              "gpt": "google:refrigerators"
+            },
+            {
+              "id": "washing-machine",
+              "brick": "Washing Machines",
+              "displayName": "洗衣机",
+              "labels": [
+                "washing machine",
+                "clothes washer"
+              ],
+              "gpt": "google:washing-machines"
+            },
+            {
+              "id": "air-conditioner",
+              "brick": "Air Conditioners",
+              "displayName": "空调",
+              "labels": [
+                "air conditioner",
+                "split air conditioner"
+              ],
+              "gpt": "google:air-conditioners"
+            },
+            {
+              "id": "electric-fan",
+              "brick": "Electric Fans",
+              "displayName": "电风扇",
+              "labels": [
+                "electric fan",
+                "standing fan"
+              ],
+              "gpt": "google:fans"
+            },
+            {
+              "id": "air-purifier",
+              "brick": "Air Purifiers",
+              "displayName": "空气净化器",
+              "labels": [
+                "air purifier",
+                "home air purifier"
+              ],
+              "gpt": "google:air-purifiers"
+            },
+            {
+              "id": "dehumidifier",
+              "brick": "Dehumidifiers",
+              "displayName": "除湿机",
+              "labels": [
+                "dehumidifier",
+                "home dehumidifier"
+              ],
+              "gpt": "google:dehumidifiers"
+            },
+            {
+              "id": "humidifier",
+              "brick": "Humidifiers",
+              "displayName": "加湿器",
+              "labels": [
+                "humidifier",
+                "cool mist humidifier"
+              ],
+              "gpt": "google:humidifiers"
+            },
+            {
+              "id": "clothes-steamer",
+              "brick": "Garment Steamers",
+              "displayName": "挂烫机",
+              "labels": [
+                "garment steamer",
+                "clothes steamer"
+              ],
+              "gpt": "google:garment-steamers"
+            },
+            {
+              "id": "electric-iron",
+              "brick": "Electric Irons",
+              "displayName": "电熨斗",
+              "labels": [
+                "electric iron",
+                "clothes iron"
+              ],
+              "gpt": "google:clothing-irons"
+            },
+            {
+              "id": "microwave-oven",
+              "brick": "Microwave Ovens",
+              "displayName": "微波炉",
+              "labels": [
+                "microwave oven",
+                "microwave"
+              ],
+              "gpt": "google:microwave-ovens"
+            },
+            {
+              "id": "induction-cooker",
+              "brick": "Induction Cookers",
+              "displayName": "电磁炉",
+              "labels": [
+                "induction cooker",
+                "induction cooktop"
+              ],
+              "gpt": "google:induction-cooktops"
+            },
+            {
+              "id": "air-fryer",
+              "brick": "Air Fryers",
+              "displayName": "空气炸锅",
+              "labels": [
+                "air fryer",
+                "countertop air fryer"
+              ],
+              "gpt": "google:air-fryers"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "tools-hardware",
@@ -243,22 +1836,237 @@
         {
           "id": "hand-tools",
           "sourceIdPrefix": "GPC-HH-TOOLS",
-          "levels": ["Tools & Hardware", "Hand Tools", "Household Tools & Fastening"],
-          "displayPath": ["工具五金", "手工具", "家庭工具与固定用品"],
-          "googlePath": ["Hardware", "Tools"],
+          "levels": [
+            "Tools & Hardware",
+            "Hand Tools",
+            "Household Tools & Fastening"
+          ],
+          "displayPath": [
+            "工具五金",
+            "手工具",
+            "家庭工具与固定用品"
+          ],
+          "googlePath": [
+            "Hardware",
+            "Tools"
+          ],
           "appCategory": "tool",
           "leaves": [
-            {"id": "screwdriver", "brick": "Screwdrivers", "displayName": "螺丝刀", "labels": ["screwdriver", "phillips screwdriver"], "gpt": "google:screwdrivers"},
-            {"id": "scissors", "brick": "Scissors", "displayName": "剪刀", "labels": ["scissors", "household scissors"], "gpt": "google:scissors"},
-            {"id": "tape-roll", "brick": "Adhesive Tape Rolls", "displayName": "胶带", "labels": ["tape roll", "adhesive tape"], "gpt": "google:tape"},
-            {"id": "hammer", "brick": "Hammers", "displayName": "锤子", "labels": ["hammer", "claw hammer"], "gpt": "google:hammers"},
-            {"id": "wrench", "brick": "Wrenches", "displayName": "扳手", "labels": ["wrench", "adjustable wrench"], "gpt": "google:wrenches"},
-            {"id": "measuring-tape", "brick": "Measuring Tapes", "displayName": "卷尺", "labels": ["measuring tape", "tape measure"], "gpt": "google:measuring-tapes"},
-            {"id": "glue-stick", "brick": "Glue Sticks", "displayName": "胶棒", "labels": ["glue stick", "adhesive glue stick"], "gpt": "google:glues"},
-            {"id": "sewing-kit", "brick": "Sewing Kits", "displayName": "针线包", "labels": ["sewing kit", "needle and thread kit"], "coverageTier": "common", "gpt": "google:sewing-kits"}
+            {
+              "id": "screwdriver",
+              "brick": "Screwdrivers",
+              "displayName": "螺丝刀",
+              "labels": [
+                "screwdriver",
+                "phillips screwdriver"
+              ],
+              "gpt": "google:screwdrivers"
+            },
+            {
+              "id": "scissors",
+              "brick": "Scissors",
+              "displayName": "剪刀",
+              "labels": [
+                "scissors",
+                "household scissors"
+              ],
+              "gpt": "google:scissors"
+            },
+            {
+              "id": "tape-roll",
+              "brick": "Adhesive Tape Rolls",
+              "displayName": "胶带",
+              "labels": [
+                "tape roll",
+                "adhesive tape"
+              ],
+              "gpt": "google:tape"
+            },
+            {
+              "id": "hammer",
+              "brick": "Hammers",
+              "displayName": "锤子",
+              "labels": [
+                "hammer",
+                "claw hammer"
+              ],
+              "gpt": "google:hammers"
+            },
+            {
+              "id": "wrench",
+              "brick": "Wrenches",
+              "displayName": "扳手",
+              "labels": [
+                "wrench",
+                "adjustable wrench"
+              ],
+              "gpt": "google:wrenches"
+            },
+            {
+              "id": "measuring-tape",
+              "brick": "Measuring Tapes",
+              "displayName": "卷尺",
+              "labels": [
+                "measuring tape",
+                "tape measure"
+              ],
+              "gpt": "google:measuring-tapes"
+            },
+            {
+              "id": "glue-stick",
+              "brick": "Glue Sticks",
+              "displayName": "胶棒",
+              "labels": [
+                "glue stick",
+                "adhesive glue stick"
+              ],
+              "gpt": "google:glues"
+            },
+            {
+              "id": "sewing-kit",
+              "brick": "Sewing Kits",
+              "displayName": "针线包",
+              "labels": [
+                "sewing kit",
+                "needle and thread kit"
+              ],
+              "coverageTier": "common",
+              "gpt": "google:sewing-kits"
+            }
+          ]
+        },
+        {
+          "id": "hardware-safety",
+          "sourceIdPrefix": "GPC-HH-TOOLS-HARDWARE",
+          "levels": [
+            "Tools & Hardware",
+            "Household Hardware",
+            "Fasteners, Safety & Small Hardware"
+          ],
+          "displayPath": [
+            "工具五金",
+            "五金工具",
+            "紧固安全与小五金"
+          ],
+          "googlePath": [
+            "Hardware"
+          ],
+          "appCategory": "tool",
+          "leaves": [
+            {
+              "id": "screw-box",
+              "brick": "Screw Boxes",
+              "displayName": "螺丝盒",
+              "labels": [
+                "screw box",
+                "box of screws"
+              ],
+              "gpt": "google:screws"
+            },
+            {
+              "id": "nail-box",
+              "brick": "Nail Boxes",
+              "displayName": "钉子盒",
+              "labels": [
+                "nail box",
+                "box of nails"
+              ],
+              "gpt": "google:nails"
+            },
+            {
+              "id": "wall-hook",
+              "brick": "Wall Hooks",
+              "displayName": "挂钩",
+              "labels": [
+                "wall hook",
+                "adhesive wall hook"
+              ],
+              "gpt": "google:hooks"
+            },
+            {
+              "id": "door-lock",
+              "brick": "Door Locks",
+              "displayName": "门锁",
+              "labels": [
+                "door lock",
+                "security door lock"
+              ],
+              "gpt": "google:door-locks"
+            },
+            {
+              "id": "padlock",
+              "brick": "Padlocks",
+              "displayName": "挂锁",
+              "labels": [
+                "padlock",
+                "combination padlock"
+              ],
+              "gpt": "google:padlocks"
+            },
+            {
+              "id": "keyring",
+              "brick": "Key Rings",
+              "displayName": "钥匙圈",
+              "labels": [
+                "key ring",
+                "keychain ring"
+              ],
+              "gpt": "google:keychains"
+            },
+            {
+              "id": "fire-extinguisher",
+              "brick": "Fire Extinguishers",
+              "displayName": "灭火器",
+              "labels": [
+                "fire extinguisher",
+                "portable fire extinguisher"
+              ],
+              "gpt": "google:fire-extinguishers"
+            },
+            {
+              "id": "smoke-alarm",
+              "brick": "Smoke Alarms",
+              "displayName": "烟雾报警器",
+              "labels": [
+                "smoke alarm",
+                "smoke detector"
+              ],
+              "gpt": "google:smoke-detectors"
+            },
+            {
+              "id": "flashlight",
+              "brick": "Flashlights",
+              "displayName": "手电筒",
+              "labels": [
+                "flashlight",
+                "torch light"
+              ],
+              "gpt": "google:flashlights"
+            },
+            {
+              "id": "utility-knife",
+              "brick": "Utility Knives",
+              "displayName": "美工刀",
+              "labels": [
+                "utility knife",
+                "box cutter"
+              ],
+              "gpt": "google:utility-knives"
+            },
+            {
+              "id": "glue-gun",
+              "brick": "Glue Guns",
+              "displayName": "热熔胶枪",
+              "labels": [
+                "glue gun",
+                "hot glue gun"
+              ],
+              "gpt": "google:glue-guns"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "documents-office",
@@ -267,21 +2075,215 @@
         {
           "id": "documents-stationery",
           "sourceIdPrefix": "GPC-HH-DOCUMENTS",
-          "levels": ["Office & Documents", "Documents & Stationery", "Personal Documents & Office Supplies"],
-          "displayPath": ["文件与办公", "文件文具", "证件与办公用品"],
-          "googlePath": ["Office Supplies"],
+          "levels": [
+            "Office & Documents",
+            "Documents & Stationery",
+            "Personal Documents & Office Supplies"
+          ],
+          "displayPath": [
+            "文件与办公",
+            "文件文具",
+            "证件与办公用品"
+          ],
+          "googlePath": [
+            "Office Supplies"
+          ],
           "appCategory": "document",
           "leaves": [
-            {"id": "passport", "brick": "Passports", "displayName": "护照", "labels": ["passport", "travel passport"], "gpt": "google:personal-documents"},
-            {"id": "id-card", "brick": "Identity Cards", "displayName": "身份证", "labels": ["id card", "identity card"], "gpt": "google:identity-documents"},
-            {"id": "bank-card", "brick": "Bank Cards", "displayName": "银行卡", "labels": ["bank card", "credit card"], "gpt": "google:bank-cards"},
-            {"id": "notebook", "brick": "Notebooks", "displayName": "笔记本", "labels": ["notebook", "paper notebook"], "gpt": "google:notebooks"},
-            {"id": "envelope", "brick": "Envelopes", "displayName": "信封", "labels": ["envelope", "paper envelope"], "gpt": "google:envelopes"},
-            {"id": "receipt", "brick": "Receipts", "displayName": "票据", "labels": ["receipt", "paper receipt"], "gpt": "google:receipts"},
-            {"id": "pen", "brick": "Pens", "displayName": "笔", "labels": ["pen", "ballpoint pen"], "gpt": "google:pens"}
+            {
+              "id": "passport",
+              "brick": "Passports",
+              "displayName": "护照",
+              "labels": [
+                "passport",
+                "travel passport"
+              ],
+              "gpt": "google:personal-documents"
+            },
+            {
+              "id": "id-card",
+              "brick": "Identity Cards",
+              "displayName": "身份证",
+              "labels": [
+                "id card",
+                "identity card"
+              ],
+              "gpt": "google:identity-documents"
+            },
+            {
+              "id": "bank-card",
+              "brick": "Bank Cards",
+              "displayName": "银行卡",
+              "labels": [
+                "bank card",
+                "credit card"
+              ],
+              "gpt": "google:bank-cards"
+            },
+            {
+              "id": "notebook",
+              "brick": "Notebooks",
+              "displayName": "笔记本",
+              "labels": [
+                "notebook",
+                "paper notebook"
+              ],
+              "gpt": "google:notebooks"
+            },
+            {
+              "id": "envelope",
+              "brick": "Envelopes",
+              "displayName": "信封",
+              "labels": [
+                "envelope",
+                "paper envelope"
+              ],
+              "gpt": "google:envelopes"
+            },
+            {
+              "id": "receipt",
+              "brick": "Receipts",
+              "displayName": "票据",
+              "labels": [
+                "receipt",
+                "paper receipt"
+              ],
+              "gpt": "google:receipts"
+            },
+            {
+              "id": "pen",
+              "brick": "Pens",
+              "displayName": "笔",
+              "labels": [
+                "pen",
+                "ballpoint pen"
+              ],
+              "gpt": "google:pens"
+            }
+          ]
+        },
+        {
+          "id": "stationery-books",
+          "sourceIdPrefix": "GPC-HH-OFFICE-STATIONERY",
+          "levels": [
+            "Office Supplies",
+            "Stationery & Books",
+            "Writing, Filing & Reading Items"
+          ],
+          "displayPath": [
+            "文件与办公",
+            "文件文具",
+            "书写收纳与读物"
+          ],
+          "googlePath": [
+            "Office Supplies"
+          ],
+          "appCategory": "document",
+          "leaves": [
+            {
+              "id": "pencil",
+              "brick": "Pencils",
+              "displayName": "铅笔",
+              "labels": [
+                "pencil",
+                "wood pencil"
+              ],
+              "gpt": "google:pencils"
+            },
+            {
+              "id": "marker-pen",
+              "brick": "Marker Pens",
+              "displayName": "马克笔",
+              "labels": [
+                "marker pen",
+                "felt tip marker"
+              ],
+              "gpt": "google:markers"
+            },
+            {
+              "id": "folder",
+              "brick": "Folders",
+              "displayName": "文件夹",
+              "labels": [
+                "folder",
+                "file folder"
+              ],
+              "gpt": "google:file-folders"
+            },
+            {
+              "id": "stapler",
+              "brick": "Staplers",
+              "displayName": "订书机",
+              "labels": [
+                "stapler",
+                "office stapler"
+              ],
+              "gpt": "google:staplers"
+            },
+            {
+              "id": "tape-dispenser",
+              "brick": "Tape Dispensers",
+              "displayName": "胶带座",
+              "labels": [
+                "tape dispenser",
+                "desktop tape dispenser"
+              ],
+              "gpt": "google:tape-dispensers"
+            },
+            {
+              "id": "calculator",
+              "brick": "Calculators",
+              "displayName": "计算器",
+              "labels": [
+                "calculator",
+                "desktop calculator"
+              ],
+              "gpt": "google:calculators"
+            },
+            {
+              "id": "ruler",
+              "brick": "Rulers",
+              "displayName": "尺子",
+              "labels": [
+                "ruler",
+                "measuring ruler"
+              ],
+              "gpt": "google:rulers"
+            },
+            {
+              "id": "printer-paper-pack",
+              "brick": "Printer Paper Packs",
+              "displayName": "打印纸",
+              "labels": [
+                "printer paper pack",
+                "copy paper pack"
+              ],
+              "gpt": "google:printer-paper"
+            },
+            {
+              "id": "book",
+              "brick": "Books",
+              "displayName": "书",
+              "labels": [
+                "book",
+                "printed book"
+              ],
+              "gpt": "google:books"
+            },
+            {
+              "id": "magazine",
+              "brick": "Magazines",
+              "displayName": "杂志",
+              "labels": [
+                "magazine",
+                "printed magazine"
+              ],
+              "gpt": "google:magazines"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "clothing-accessories",
@@ -290,21 +2292,215 @@
         {
           "id": "clothing-accessories",
           "sourceIdPrefix": "GPC-HH-CLOTHING",
-          "levels": ["Apparel & Accessories", "Clothing & Personal Accessories", "Everyday Clothing & Accessories"],
-          "displayPath": ["衣物配饰", "衣物与配件", "日常衣物配饰"],
-          "googlePath": ["Apparel & Accessories"],
+          "levels": [
+            "Apparel & Accessories",
+            "Clothing & Personal Accessories",
+            "Everyday Clothing & Accessories"
+          ],
+          "displayPath": [
+            "衣物配饰",
+            "衣物与配件",
+            "日常衣物配饰"
+          ],
+          "googlePath": [
+            "Apparel & Accessories"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "t-shirt", "brick": "T-Shirts", "displayName": "T恤", "labels": ["t shirt", "short sleeve shirt"], "gpt": "google:t-shirts"},
-            {"id": "socks", "brick": "Socks", "displayName": "袜子", "labels": ["socks", "pair of socks"], "gpt": "google:socks"},
-            {"id": "cap", "brick": "Caps", "displayName": "帽子", "labels": ["cap", "baseball cap"], "gpt": "google:hats"},
-            {"id": "scarf", "brick": "Scarves", "displayName": "围巾", "labels": ["scarf", "winter scarf"], "gpt": "google:scarves"},
-            {"id": "belt", "brick": "Belts", "displayName": "腰带", "labels": ["belt", "leather belt"], "gpt": "google:belts"},
-            {"id": "handbag", "brick": "Handbags", "displayName": "手提包", "labels": ["handbag", "purse bag"], "gpt": "google:handbags"},
-            {"id": "glasses-case", "brick": "Glasses Cases", "displayName": "眼镜盒", "labels": ["glasses case", "eyeglass case"], "gpt": "google:eyewear-cases"}
+            {
+              "id": "t-shirt",
+              "brick": "T-Shirts",
+              "displayName": "T恤",
+              "labels": [
+                "t shirt",
+                "short sleeve shirt"
+              ],
+              "gpt": "google:t-shirts"
+            },
+            {
+              "id": "socks",
+              "brick": "Socks",
+              "displayName": "袜子",
+              "labels": [
+                "socks",
+                "pair of socks"
+              ],
+              "gpt": "google:socks"
+            },
+            {
+              "id": "cap",
+              "brick": "Caps",
+              "displayName": "帽子",
+              "labels": [
+                "cap",
+                "baseball cap"
+              ],
+              "gpt": "google:hats"
+            },
+            {
+              "id": "scarf",
+              "brick": "Scarves",
+              "displayName": "围巾",
+              "labels": [
+                "scarf",
+                "winter scarf"
+              ],
+              "gpt": "google:scarves"
+            },
+            {
+              "id": "belt",
+              "brick": "Belts",
+              "displayName": "腰带",
+              "labels": [
+                "belt",
+                "leather belt"
+              ],
+              "gpt": "google:belts"
+            },
+            {
+              "id": "handbag",
+              "brick": "Handbags",
+              "displayName": "手提包",
+              "labels": [
+                "handbag",
+                "purse bag"
+              ],
+              "gpt": "google:handbags"
+            },
+            {
+              "id": "glasses-case",
+              "brick": "Glasses Cases",
+              "displayName": "眼镜盒",
+              "labels": [
+                "glasses case",
+                "eyeglass case"
+              ],
+              "gpt": "google:eyewear-cases"
+            }
+          ]
+        },
+        {
+          "id": "garments-footwear",
+          "sourceIdPrefix": "GPC-HH-CLOTHING-GARMENTS",
+          "levels": [
+            "Clothing",
+            "Apparel & Accessories",
+            "Garments, Footwear & Personal Accessories"
+          ],
+          "displayPath": [
+            "衣物配饰",
+            "衣物与配件",
+            "服装鞋帽与随身配饰"
+          ],
+          "googlePath": [
+            "Apparel & Accessories"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "jeans",
+              "brick": "Jeans",
+              "displayName": "牛仔裤",
+              "labels": [
+                "jeans",
+                "denim jeans"
+              ],
+              "gpt": "google:jeans"
+            },
+            {
+              "id": "jacket",
+              "brick": "Jackets",
+              "displayName": "外套",
+              "labels": [
+                "jacket",
+                "casual jacket"
+              ],
+              "gpt": "google:jackets"
+            },
+            {
+              "id": "sweater",
+              "brick": "Sweaters",
+              "displayName": "毛衣",
+              "labels": [
+                "sweater",
+                "knitted sweater"
+              ],
+              "gpt": "google:sweaters"
+            },
+            {
+              "id": "dress",
+              "brick": "Dresses",
+              "displayName": "连衣裙",
+              "labels": [
+                "dress",
+                "women dress"
+              ],
+              "gpt": "google:dresses"
+            },
+            {
+              "id": "pajamas",
+              "brick": "Pajamas",
+              "displayName": "睡衣",
+              "labels": [
+                "pajamas",
+                "sleepwear set"
+              ],
+              "gpt": "google:pajamas"
+            },
+            {
+              "id": "underwear",
+              "brick": "Underwear",
+              "displayName": "内衣",
+              "labels": [
+                "underwear",
+                "briefs underwear"
+              ],
+              "gpt": "google:underwear"
+            },
+            {
+              "id": "sneakers",
+              "brick": "Sneakers",
+              "displayName": "运动鞋",
+              "labels": [
+                "sneakers",
+                "athletic shoes"
+              ],
+              "gpt": "google:sneakers"
+            },
+            {
+              "id": "slippers",
+              "brick": "Slippers",
+              "displayName": "拖鞋",
+              "labels": [
+                "slippers",
+                "house slippers"
+              ],
+              "gpt": "google:slippers"
+            },
+            {
+              "id": "gloves",
+              "brick": "Gloves",
+              "displayName": "手套",
+              "labels": [
+                "gloves",
+                "winter gloves"
+              ],
+              "gpt": "google:gloves"
+            },
+            {
+              "id": "wallet",
+              "brick": "Wallets",
+              "displayName": "钱包",
+              "labels": [
+                "wallet",
+                "leather wallet"
+              ],
+              "gpt": "google:wallets"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "personal-care",
@@ -313,21 +2509,207 @@
         {
           "id": "personal-care-products",
           "sourceIdPrefix": "GPC-HH-PERSONAL",
-          "levels": ["Health & Beauty", "Personal Care", "Personal Care Products"],
-          "displayPath": ["个人护理", "个人洗护", "个人护理用品"],
-          "googlePath": ["Health & Beauty", "Personal Care"],
+          "levels": [
+            "Health & Beauty",
+            "Personal Care",
+            "Personal Care Products"
+          ],
+          "displayPath": [
+            "个人护理",
+            "个人洗护",
+            "个人护理用品"
+          ],
+          "googlePath": [
+            "Health & Beauty",
+            "Personal Care"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "shampoo-bottle", "brick": "Shampoo Bottles", "displayName": "洗发水", "labels": ["shampoo bottle", "bottle of shampoo"], "gpt": "google:shampoo"},
-            {"id": "body-wash-bottle", "brick": "Body Wash Bottles", "displayName": "沐浴露", "labels": ["body wash bottle", "shower gel bottle"], "gpt": "google:body-wash"},
-            {"id": "toothpaste", "brick": "Toothpaste Tubes", "displayName": "牙膏", "labels": ["toothpaste", "toothpaste tube"], "gpt": "google:toothpaste"},
-            {"id": "toothbrush", "brick": "Toothbrushes", "displayName": "牙刷", "labels": ["toothbrush", "manual toothbrush"], "gpt": "google:toothbrushes"},
-            {"id": "skincare-cream-jar", "brick": "Skin Cream Jars", "displayName": "面霜罐", "labels": ["skin cream jar", "face cream jar"], "gpt": "google:skin-care"},
-            {"id": "razor", "brick": "Razors", "displayName": "剃须刀", "labels": ["razor", "shaving razor"], "gpt": "google:razors"},
-            {"id": "comb", "brick": "Combs", "displayName": "梳子", "labels": ["comb", "hair comb"], "gpt": "google:combs"}
+            {
+              "id": "shampoo-bottle",
+              "brick": "Shampoo Bottles",
+              "displayName": "洗发水",
+              "labels": [
+                "shampoo bottle",
+                "bottle of shampoo"
+              ],
+              "gpt": "google:shampoo"
+            },
+            {
+              "id": "body-wash-bottle",
+              "brick": "Body Wash Bottles",
+              "displayName": "沐浴露",
+              "labels": [
+                "body wash bottle",
+                "shower gel bottle"
+              ],
+              "gpt": "google:body-wash"
+            },
+            {
+              "id": "toothpaste",
+              "brick": "Toothpaste Tubes",
+              "displayName": "牙膏",
+              "labels": [
+                "toothpaste",
+                "toothpaste tube"
+              ],
+              "gpt": "google:toothpaste"
+            },
+            {
+              "id": "toothbrush",
+              "brick": "Toothbrushes",
+              "displayName": "牙刷",
+              "labels": [
+                "toothbrush",
+                "manual toothbrush"
+              ],
+              "gpt": "google:toothbrushes"
+            },
+            {
+              "id": "skincare-cream-jar",
+              "brick": "Skin Cream Jars",
+              "displayName": "面霜罐",
+              "labels": [
+                "skin cream jar",
+                "face cream jar"
+              ],
+              "gpt": "google:skin-care"
+            },
+            {
+              "id": "razor",
+              "brick": "Razors",
+              "displayName": "剃须刀",
+              "labels": [
+                "razor",
+                "shaving razor"
+              ],
+              "gpt": "google:razors"
+            },
+            {
+              "id": "comb",
+              "brick": "Combs",
+              "displayName": "梳子",
+              "labels": [
+                "comb",
+                "hair comb"
+              ],
+              "gpt": "google:combs"
+            }
+          ]
+        },
+        {
+          "id": "cosmetics-grooming",
+          "sourceIdPrefix": "GPC-HH-PERSONAL-COSMETICS",
+          "levels": [
+            "Health & Beauty",
+            "Personal Care",
+            "Cosmetics & Grooming Products"
+          ],
+          "displayPath": [
+            "个人护理",
+            "个人洗护",
+            "美妆护肤与修剪用品"
+          ],
+          "googlePath": [
+            "Health & Beauty",
+            "Personal Care"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "lotion-bottle",
+              "brick": "Lotion Bottles",
+              "displayName": "身体乳瓶",
+              "labels": [
+                "lotion bottle",
+                "body lotion bottle"
+              ],
+              "gpt": "google:lotion"
+            },
+            {
+              "id": "perfume-bottle",
+              "brick": "Perfume Bottles",
+              "displayName": "香水瓶",
+              "labels": [
+                "perfume bottle",
+                "fragrance bottle"
+              ],
+              "gpt": "google:perfume"
+            },
+            {
+              "id": "makeup-palette",
+              "brick": "Makeup Palettes",
+              "displayName": "眼影盘",
+              "labels": [
+                "makeup palette",
+                "eyeshadow palette"
+              ],
+              "gpt": "google:makeup-palettes"
+            },
+            {
+              "id": "lipstick",
+              "brick": "Lipstick",
+              "displayName": "口红",
+              "labels": [
+                "lipstick",
+                "lipstick tube"
+              ],
+              "gpt": "google:lipstick"
+            },
+            {
+              "id": "nail-clipper",
+              "brick": "Nail Clippers",
+              "displayName": "指甲剪",
+              "labels": [
+                "nail clipper",
+                "fingernail clipper"
+              ],
+              "gpt": "google:nail-clippers"
+            },
+            {
+              "id": "cotton-swabs-box",
+              "brick": "Cotton Swab Boxes",
+              "displayName": "棉签盒",
+              "labels": [
+                "cotton swabs box",
+                "cotton buds box"
+              ],
+              "gpt": "google:cotton-swabs"
+            },
+            {
+              "id": "hair-brush",
+              "brick": "Hair Brushes",
+              "displayName": "发刷",
+              "labels": [
+                "hair brush",
+                "detangling brush"
+              ],
+              "gpt": "google:hair-brushes"
+            },
+            {
+              "id": "electric-toothbrush",
+              "brick": "Electric Toothbrushes",
+              "displayName": "电动牙刷",
+              "labels": [
+                "electric toothbrush",
+                "powered toothbrush"
+              ],
+              "gpt": "google:electric-toothbrushes"
+            },
+            {
+              "id": "shaver",
+              "brick": "Electric Shavers",
+              "displayName": "剃须刀",
+              "labels": [
+                "electric shaver",
+                "razor shaver"
+              ],
+              "gpt": "google:electric-shavers"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "baby-kids",
@@ -336,21 +2718,186 @@
         {
           "id": "baby-kids-products",
           "sourceIdPrefix": "GPC-HH-BABY",
-          "levels": ["Baby & Children", "Baby Care & Toys", "Baby Supplies & Children's Toys"],
-          "displayPath": ["母婴儿童", "婴童用品", "婴童护理与玩具"],
-          "googlePath": ["Baby & Toddler"],
+          "levels": [
+            "Baby & Children",
+            "Baby Care & Toys",
+            "Baby Supplies & Children's Toys"
+          ],
+          "displayPath": [
+            "母婴儿童",
+            "婴童用品",
+            "婴童护理与玩具"
+          ],
+          "googlePath": [
+            "Baby & Toddler"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "baby-bottle", "brick": "Baby Bottles", "displayName": "奶瓶", "labels": ["baby bottle", "infant feeding bottle"], "gpt": "google:baby-bottles"},
-            {"id": "diaper-pack", "brick": "Diaper Packs", "displayName": "纸尿裤", "labels": ["diaper pack", "pack of diapers"], "gpt": "google:diapers"},
-            {"id": "wet-wipes-pack", "brick": "Wet Wipes Packs", "displayName": "湿巾包", "labels": ["wet wipes pack", "baby wipes pack"], "gpt": "google:baby-wipes"},
-            {"id": "toy-blocks", "brick": "Toy Blocks", "displayName": "积木", "labels": ["toy blocks", "building blocks"], "gpt": "google:toy-blocks"},
-            {"id": "plush-toy", "brick": "Plush Toys", "displayName": "毛绒玩具", "labels": ["plush toy", "stuffed toy"], "gpt": "google:plush-toys"},
-            {"id": "pacifier", "brick": "Pacifiers", "displayName": "安抚奶嘴", "labels": ["pacifier", "baby pacifier"], "gpt": "google:pacifiers"},
-            {"id": "childrens-book", "brick": "Children's Books", "displayName": "儿童书", "labels": ["children's book", "picture book"], "gpt": "google:childrens-books"}
+            {
+              "id": "baby-bottle",
+              "brick": "Baby Bottles",
+              "displayName": "奶瓶",
+              "labels": [
+                "baby bottle",
+                "infant feeding bottle"
+              ],
+              "gpt": "google:baby-bottles"
+            },
+            {
+              "id": "diaper-pack",
+              "brick": "Diaper Packs",
+              "displayName": "纸尿裤",
+              "labels": [
+                "diaper pack",
+                "pack of diapers"
+              ],
+              "gpt": "google:diapers"
+            },
+            {
+              "id": "wet-wipes-pack",
+              "brick": "Wet Wipes Packs",
+              "displayName": "湿巾包",
+              "labels": [
+                "wet wipes pack",
+                "baby wipes pack"
+              ],
+              "gpt": "google:baby-wipes"
+            },
+            {
+              "id": "toy-blocks",
+              "brick": "Toy Blocks",
+              "displayName": "积木",
+              "labels": [
+                "toy blocks",
+                "building blocks"
+              ],
+              "gpt": "google:toy-blocks"
+            },
+            {
+              "id": "plush-toy",
+              "brick": "Plush Toys",
+              "displayName": "毛绒玩具",
+              "labels": [
+                "plush toy",
+                "stuffed toy"
+              ],
+              "gpt": "google:plush-toys"
+            },
+            {
+              "id": "pacifier",
+              "brick": "Pacifiers",
+              "displayName": "安抚奶嘴",
+              "labels": [
+                "pacifier",
+                "baby pacifier"
+              ],
+              "gpt": "google:pacifiers"
+            },
+            {
+              "id": "childrens-book",
+              "brick": "Children's Books",
+              "displayName": "儿童书",
+              "labels": [
+                "children's book",
+                "picture book"
+              ],
+              "gpt": "google:childrens-books"
+            }
+          ]
+        },
+        {
+          "id": "kids-toys-learning",
+          "sourceIdPrefix": "GPC-HH-KIDS-TOYS",
+          "levels": [
+            "Baby & Kids",
+            "Children Products",
+            "Toys, Learning & Feeding Items"
+          ],
+          "displayPath": [
+            "母婴儿童",
+            "婴童用品",
+            "玩具学习与喂养用品"
+          ],
+          "googlePath": [
+            "Baby & Toddler",
+            "Toys & Games"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "sippy-cup",
+              "brick": "Sippy Cups",
+              "displayName": "吸管杯",
+              "labels": [
+                "sippy cup",
+                "baby straw cup"
+              ],
+              "gpt": "google:sippy-cups"
+            },
+            {
+              "id": "baby-bowl",
+              "brick": "Baby Bowls",
+              "displayName": "儿童碗",
+              "labels": [
+                "baby bowl",
+                "toddler bowl"
+              ],
+              "gpt": "google:baby-tableware"
+            },
+            {
+              "id": "toy-car",
+              "brick": "Toy Cars",
+              "displayName": "玩具车",
+              "labels": [
+                "toy car",
+                "diecast toy car"
+              ],
+              "gpt": "google:toy-cars"
+            },
+            {
+              "id": "doll",
+              "brick": "Dolls",
+              "displayName": "娃娃",
+              "labels": [
+                "doll",
+                "toy doll"
+              ],
+              "gpt": "google:dolls"
+            },
+            {
+              "id": "puzzle-box",
+              "brick": "Puzzle Boxes",
+              "displayName": "拼图盒",
+              "labels": [
+                "puzzle box",
+                "jigsaw puzzle box"
+              ],
+              "gpt": "google:puzzles"
+            },
+            {
+              "id": "crayon-box",
+              "brick": "Crayon Boxes",
+              "displayName": "蜡笔盒",
+              "labels": [
+                "crayon box",
+                "box of crayons"
+              ],
+              "gpt": "google:crayons"
+            },
+            {
+              "id": "school-bag",
+              "brick": "School Bags",
+              "displayName": "书包",
+              "labels": [
+                "school bag",
+                "kids backpack"
+              ],
+              "gpt": "google:school-bags"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "pet-supplies",
@@ -359,22 +2906,179 @@
         {
           "id": "pet-supplies",
           "sourceIdPrefix": "GPC-HH-PET",
-          "levels": ["Pets", "Pet Supplies", "Pet Food, Care & Accessories"],
-          "displayPath": ["宠物用品", "宠物用品", "宠物食品护理与配件"],
-          "googlePath": ["Animals & Pet Supplies", "Pet Supplies"],
+          "levels": [
+            "Pets",
+            "Pet Supplies",
+            "Pet Food, Care & Accessories"
+          ],
+          "displayPath": [
+            "宠物用品",
+            "宠物用品",
+            "宠物食品护理与配件"
+          ],
+          "googlePath": [
+            "Animals & Pet Supplies",
+            "Pet Supplies"
+          ],
           "appCategory": "pet",
           "leaves": [
-            {"id": "pet-food-bag", "brick": "Pet Food Bags", "displayName": "宠物粮袋", "labels": ["pet food bag", "dog food bag"], "gpt": "google:pet-food"},
-            {"id": "pet-bowl", "brick": "Pet Bowls", "displayName": "宠物碗", "labels": ["pet bowl", "dog bowl"], "gpt": "google:pet-bowls"},
-            {"id": "leash", "brick": "Pet Leashes", "displayName": "牵引绳", "labels": ["pet leash", "dog leash"], "gpt": "google:pet-leashes"},
-            {"id": "pet-toy", "brick": "Pet Toys", "displayName": "宠物玩具", "labels": ["pet toy", "dog toy"], "gpt": "google:pet-toys"},
-            {"id": "litter-bag", "brick": "Cat Litter Bags", "displayName": "猫砂袋", "labels": ["cat litter bag", "bag of cat litter"], "gpt": "google:cat-litter"},
-            {"id": "grooming-brush", "brick": "Pet Grooming Brushes", "displayName": "宠物梳", "labels": ["pet grooming brush", "dog brush"], "gpt": "google:pet-grooming"},
-            {"id": "waste-bag-roll", "brick": "Pet Waste Bag Rolls", "displayName": "宠物拾便袋", "labels": ["pet waste bag roll", "dog poop bag roll"], "gpt": "google:pet-waste-bags"},
-            {"id": "cat-teaser-toy", "brick": "Cat Teaser Toys", "displayName": "逗猫棒", "labels": ["cat teaser toy", "cat wand toy"], "active": false, "coverageTier": "mvp", "exclusionReason": "Held out from the first active expanded household subset until enough reviewed cat toy images are available.", "gpt": "google:cat-toys"}
+            {
+              "id": "pet-food-bag",
+              "brick": "Pet Food Bags",
+              "displayName": "宠物粮袋",
+              "labels": [
+                "pet food bag",
+                "dog food bag"
+              ],
+              "gpt": "google:pet-food"
+            },
+            {
+              "id": "pet-bowl",
+              "brick": "Pet Bowls",
+              "displayName": "宠物碗",
+              "labels": [
+                "pet bowl",
+                "dog bowl"
+              ],
+              "gpt": "google:pet-bowls"
+            },
+            {
+              "id": "leash",
+              "brick": "Pet Leashes",
+              "displayName": "牵引绳",
+              "labels": [
+                "pet leash",
+                "dog leash"
+              ],
+              "gpt": "google:pet-leashes"
+            },
+            {
+              "id": "pet-toy",
+              "brick": "Pet Toys",
+              "displayName": "宠物玩具",
+              "labels": [
+                "pet toy",
+                "dog toy"
+              ],
+              "gpt": "google:pet-toys"
+            },
+            {
+              "id": "litter-bag",
+              "brick": "Cat Litter Bags",
+              "displayName": "猫砂袋",
+              "labels": [
+                "cat litter bag",
+                "bag of cat litter"
+              ],
+              "gpt": "google:cat-litter"
+            },
+            {
+              "id": "grooming-brush",
+              "brick": "Pet Grooming Brushes",
+              "displayName": "宠物梳",
+              "labels": [
+                "pet grooming brush",
+                "dog brush"
+              ],
+              "gpt": "google:pet-grooming"
+            },
+            {
+              "id": "waste-bag-roll",
+              "brick": "Pet Waste Bag Rolls",
+              "displayName": "宠物拾便袋",
+              "labels": [
+                "pet waste bag roll",
+                "dog poop bag roll"
+              ],
+              "gpt": "google:pet-waste-bags"
+            },
+            {
+              "id": "cat-teaser-toy",
+              "brick": "Cat Teaser Toys",
+              "displayName": "逗猫棒",
+              "labels": [
+                "cat teaser toy",
+                "cat wand toy"
+              ],
+              "active": false,
+              "coverageTier": "mvp",
+              "exclusionReason": "Held out from the first active expanded household subset until enough reviewed cat toy images are available.",
+              "gpt": "google:cat-toys"
+            }
+          ]
+        },
+        {
+          "id": "pet-care-habitat",
+          "sourceIdPrefix": "GPC-HH-PET-HABITAT",
+          "levels": [
+            "Pet Supplies",
+            "Pet Care",
+            "Pet Care, Feeding & Habitat Items"
+          ],
+          "displayPath": [
+            "宠物用品",
+            "宠物用品",
+            "宠物护理喂养与居住用品"
+          ],
+          "googlePath": [
+            "Animals & Pet Supplies"
+          ],
+          "appCategory": "pet",
+          "leaves": [
+            {
+              "id": "pet-bed",
+              "brick": "Pet Beds",
+              "displayName": "宠物窝",
+              "labels": [
+                "pet bed",
+                "dog bed"
+              ],
+              "gpt": "google:pet-beds"
+            },
+            {
+              "id": "pet-shampoo-bottle",
+              "brick": "Pet Shampoo Bottles",
+              "displayName": "宠物沐浴露",
+              "labels": [
+                "pet shampoo bottle",
+                "dog shampoo bottle"
+              ],
+              "gpt": "google:pet-shampoo"
+            },
+            {
+              "id": "aquarium-tank",
+              "brick": "Aquariums",
+              "displayName": "鱼缸",
+              "labels": [
+                "aquarium tank",
+                "fish tank"
+              ],
+              "gpt": "google:aquariums"
+            },
+            {
+              "id": "fish-food-container",
+              "brick": "Fish Food Containers",
+              "displayName": "鱼食盒",
+              "labels": [
+                "fish food container",
+                "fish food jar"
+              ],
+              "gpt": "google:fish-food"
+            },
+            {
+              "id": "pet-carrier",
+              "brick": "Pet Carriers",
+              "displayName": "宠物航空箱",
+              "labels": [
+                "pet carrier",
+                "cat carrier"
+              ],
+              "gpt": "google:pet-carriers"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "sports-outdoor",
@@ -383,21 +3087,185 @@
         {
           "id": "sports-outdoor-gear",
           "sourceIdPrefix": "GPC-HH-SPORTS",
-          "levels": ["Sports & Outdoors", "Fitness & Outdoor Recreation", "Fitness Equipment & Outdoor Gear"],
-          "displayPath": ["运动户外", "健身户外", "健身器材与户外装备"],
-          "googlePath": ["Sporting Goods"],
+          "levels": [
+            "Sports & Outdoors",
+            "Fitness & Outdoor Recreation",
+            "Fitness Equipment & Outdoor Gear"
+          ],
+          "displayPath": [
+            "运动户外",
+            "健身户外",
+            "健身器材与户外装备"
+          ],
+          "googlePath": [
+            "Sporting Goods"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "yoga-mat", "brick": "Yoga Mats", "displayName": "瑜伽垫", "labels": ["yoga mat", "exercise mat"], "gpt": "google:yoga-mats"},
-            {"id": "dumbbell", "brick": "Dumbbells", "displayName": "哑铃", "labels": ["dumbbell", "hand weight"], "gpt": "google:dumbbells"},
-            {"id": "jump-rope", "brick": "Jump Ropes", "displayName": "跳绳", "labels": ["jump rope", "skipping rope"], "gpt": "google:jump-ropes"},
-            {"id": "sports-water-bottle", "brick": "Sports Water Bottles", "displayName": "运动水杯", "labels": ["sports water bottle", "fitness water bottle"], "gpt": "google:water-bottles"},
-            {"id": "bicycle-helmet", "brick": "Bicycle Helmets", "displayName": "骑行头盔", "labels": ["bicycle helmet", "bike helmet"], "gpt": "google:bicycle-helmets"},
-            {"id": "camping-lantern", "brick": "Camping Lanterns", "displayName": "露营灯", "labels": ["camping lantern", "portable camping light"], "gpt": "google:camping-lanterns"},
-            {"id": "rain-poncho", "brick": "Rain Ponchos", "displayName": "雨衣", "labels": ["rain poncho", "waterproof poncho"], "gpt": "google:rain-ponchos"}
+            {
+              "id": "yoga-mat",
+              "brick": "Yoga Mats",
+              "displayName": "瑜伽垫",
+              "labels": [
+                "yoga mat",
+                "exercise mat"
+              ],
+              "gpt": "google:yoga-mats"
+            },
+            {
+              "id": "dumbbell",
+              "brick": "Dumbbells",
+              "displayName": "哑铃",
+              "labels": [
+                "dumbbell",
+                "hand weight"
+              ],
+              "gpt": "google:dumbbells"
+            },
+            {
+              "id": "jump-rope",
+              "brick": "Jump Ropes",
+              "displayName": "跳绳",
+              "labels": [
+                "jump rope",
+                "skipping rope"
+              ],
+              "gpt": "google:jump-ropes"
+            },
+            {
+              "id": "sports-water-bottle",
+              "brick": "Sports Water Bottles",
+              "displayName": "运动水杯",
+              "labels": [
+                "sports water bottle",
+                "fitness water bottle"
+              ],
+              "gpt": "google:water-bottles"
+            },
+            {
+              "id": "bicycle-helmet",
+              "brick": "Bicycle Helmets",
+              "displayName": "骑行头盔",
+              "labels": [
+                "bicycle helmet",
+                "bike helmet"
+              ],
+              "gpt": "google:bicycle-helmets"
+            },
+            {
+              "id": "camping-lantern",
+              "brick": "Camping Lanterns",
+              "displayName": "露营灯",
+              "labels": [
+                "camping lantern",
+                "portable camping light"
+              ],
+              "gpt": "google:camping-lanterns"
+            },
+            {
+              "id": "rain-poncho",
+              "brick": "Rain Ponchos",
+              "displayName": "雨衣",
+              "labels": [
+                "rain poncho",
+                "waterproof poncho"
+              ],
+              "gpt": "google:rain-ponchos"
+            }
+          ]
+        },
+        {
+          "id": "fitness-outdoor-accessories",
+          "sourceIdPrefix": "GPC-HH-SPORTS-ACCESSORIES",
+          "levels": [
+            "Sports & Outdoors",
+            "Fitness & Outdoor Gear",
+            "Fitness, Camping & Cycling Accessories"
+          ],
+          "displayPath": [
+            "运动户外",
+            "健身户外",
+            "健身露营与骑行配件"
+          ],
+          "googlePath": [
+            "Sporting Goods"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "resistance-band",
+              "brick": "Resistance Bands",
+              "displayName": "弹力带",
+              "labels": [
+                "resistance band",
+                "exercise band"
+              ],
+              "gpt": "google:resistance-bands"
+            },
+            {
+              "id": "foam-roller",
+              "brick": "Foam Rollers",
+              "displayName": "泡沫轴",
+              "labels": [
+                "foam roller",
+                "massage foam roller"
+              ],
+              "gpt": "google:foam-rollers"
+            },
+            {
+              "id": "camping-chair",
+              "brick": "Camping Chairs",
+              "displayName": "露营椅",
+              "labels": [
+                "camping chair",
+                "folding camping chair"
+              ],
+              "gpt": "google:camping-chairs"
+            },
+            {
+              "id": "picnic-mat",
+              "brick": "Picnic Mats",
+              "displayName": "野餐垫",
+              "labels": [
+                "picnic mat",
+                "outdoor picnic blanket"
+              ],
+              "gpt": "google:picnic-blankets"
+            },
+            {
+              "id": "bike-pump",
+              "brick": "Bicycle Pumps",
+              "displayName": "打气筒",
+              "labels": [
+                "bicycle pump",
+                "bike floor pump"
+              ],
+              "gpt": "google:bicycle-pumps"
+            },
+            {
+              "id": "swim-goggles",
+              "brick": "Swim Goggles",
+              "displayName": "泳镜",
+              "labels": [
+                "swim goggles",
+                "swimming goggles"
+              ],
+              "gpt": "google:swim-goggles"
+            },
+            {
+              "id": "sports-ball",
+              "brick": "Sports Balls",
+              "displayName": "球",
+              "labels": [
+                "sports ball",
+                "exercise ball"
+              ],
+              "gpt": "google:sports-balls"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "travel",
@@ -406,21 +3274,126 @@
         {
           "id": "travel-accessories",
           "sourceIdPrefix": "GPC-HH-TRAVEL",
-          "levels": ["Travel & Luggage", "Luggage & Travel Accessories", "Travel Bags & Accessories"],
-          "displayPath": ["旅行用品", "箱包旅行", "旅行箱包与配件"],
-          "googlePath": ["Luggage & Bags"],
+          "levels": [
+            "Travel & Luggage",
+            "Luggage & Travel Accessories",
+            "Travel Bags & Accessories"
+          ],
+          "displayPath": [
+            "旅行用品",
+            "箱包旅行",
+            "旅行箱包与配件"
+          ],
+          "googlePath": [
+            "Luggage & Bags"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "suitcase", "brick": "Suitcases", "displayName": "行李箱", "labels": ["suitcase", "rolling luggage"], "gpt": "google:suitcases"},
-            {"id": "backpack", "brick": "Backpacks", "displayName": "背包", "labels": ["backpack", "travel backpack"], "gpt": "google:backpacks"},
-            {"id": "toiletry-bag", "brick": "Toiletry Bags", "displayName": "洗漱包", "labels": ["toiletry bag", "travel toiletry pouch"], "gpt": "google:toiletry-bags"},
-            {"id": "travel-adapter", "brick": "Travel Adapters", "displayName": "旅行转换插头", "labels": ["travel adapter", "universal plug adapter"], "appCategory": "tool", "gpt": "google:travel-adapters"},
-            {"id": "luggage-tag", "brick": "Luggage Tags", "displayName": "行李牌", "labels": ["luggage tag", "suitcase tag"], "gpt": "google:luggage-tags"},
-            {"id": "packing-cube", "brick": "Packing Cubes", "displayName": "旅行收纳袋", "labels": ["packing cube", "travel organizer cube"], "gpt": "google:packing-cubes"},
-            {"id": "passport-holder", "brick": "Passport Holders", "displayName": "护照夹", "labels": ["passport holder", "passport wallet"], "gpt": "google:passport-holders"}
+            {
+              "id": "suitcase",
+              "brick": "Suitcases",
+              "displayName": "行李箱",
+              "labels": [
+                "suitcase",
+                "rolling luggage"
+              ],
+              "gpt": "google:suitcases"
+            },
+            {
+              "id": "backpack",
+              "brick": "Backpacks",
+              "displayName": "背包",
+              "labels": [
+                "backpack",
+                "travel backpack"
+              ],
+              "gpt": "google:backpacks"
+            },
+            {
+              "id": "toiletry-bag",
+              "brick": "Toiletry Bags",
+              "displayName": "洗漱包",
+              "labels": [
+                "toiletry bag",
+                "travel toiletry pouch"
+              ],
+              "gpt": "google:toiletry-bags"
+            },
+            {
+              "id": "travel-adapter",
+              "brick": "Travel Adapters",
+              "displayName": "旅行转换插头",
+              "labels": [
+                "travel adapter",
+                "universal plug adapter"
+              ],
+              "appCategory": "tool",
+              "gpt": "google:travel-adapters"
+            },
+            {
+              "id": "luggage-tag",
+              "brick": "Luggage Tags",
+              "displayName": "行李牌",
+              "labels": [
+                "luggage tag",
+                "suitcase tag"
+              ],
+              "gpt": "google:luggage-tags"
+            },
+            {
+              "id": "packing-cube",
+              "brick": "Packing Cubes",
+              "displayName": "旅行收纳袋",
+              "labels": [
+                "packing cube",
+                "travel organizer cube"
+              ],
+              "gpt": "google:packing-cubes"
+            },
+            {
+              "id": "passport-holder",
+              "brick": "Passport Holders",
+              "displayName": "护照夹",
+              "labels": [
+                "passport holder",
+                "passport wallet"
+              ],
+              "gpt": "google:passport-holders"
+            },
+            {
+              "id": "neck-pillow",
+              "brick": "Travel Neck Pillows",
+              "displayName": "U型枕",
+              "labels": [
+                "travel neck pillow",
+                "u shaped neck pillow"
+              ],
+              "gpt": "google:travel-pillows"
+            },
+            {
+              "id": "travel-bottle-set",
+              "brick": "Travel Bottle Sets",
+              "displayName": "分装瓶",
+              "labels": [
+                "travel bottle set",
+                "toiletry bottle set"
+              ],
+              "gpt": "google:travel-bottles"
+            },
+            {
+              "id": "sleep-mask",
+              "brick": "Sleep Masks",
+              "displayName": "眼罩",
+              "labels": [
+                "sleep mask",
+                "eye mask"
+              ],
+              "gpt": "google:sleep-masks"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "seasonal",
@@ -429,22 +3402,169 @@
         {
           "id": "seasonal-household-items",
           "sourceIdPrefix": "GPC-HH-SEASONAL",
-          "levels": ["Seasonal & Occasion", "Seasonal Household Items", "Weather, Holiday & Seasonal Supplies"],
-          "displayPath": ["季节物品", "季节用品", "天气节日与季节用品"],
-          "googlePath": ["Home & Garden", "Decor", "Seasonal & Holiday Decorations"],
+          "levels": [
+            "Seasonal & Occasion",
+            "Seasonal Household Items",
+            "Weather, Holiday & Seasonal Supplies"
+          ],
+          "displayPath": [
+            "季节物品",
+            "季节用品",
+            "天气节日与季节用品"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Decor",
+            "Seasonal & Holiday Decorations"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "umbrella", "brick": "Umbrellas", "displayName": "雨伞", "labels": ["umbrella", "folding umbrella"], "gpt": "google:umbrellas"},
-            {"id": "christmas-ornament", "brick": "Holiday Ornaments", "displayName": "节日挂饰", "labels": ["holiday ornament", "christmas ornament"], "gpt": "google:holiday-ornaments"},
-            {"id": "hand-warmer", "brick": "Hand Warmers", "displayName": "暖宝宝", "labels": ["hand warmer", "disposable hand warmer"], "gpt": "google:hand-warmers"},
-            {"id": "sunscreen-bottle", "brick": "Sunscreen Bottles", "displayName": "防晒霜", "labels": ["sunscreen bottle", "sunblock bottle"], "gpt": "google:sunscreen"},
-            {"id": "mosquito-repellent", "brick": "Mosquito Repellent", "displayName": "驱蚊液", "labels": ["mosquito repellent", "insect repellent bottle"], "gpt": "google:insect-repellent"},
-            {"id": "holiday-lights", "brick": "Holiday Light Strings", "displayName": "节日灯串", "labels": ["holiday lights", "string lights"], "gpt": "google:string-lights"},
-            {"id": "portable-fan", "brick": "Portable Fans", "displayName": "小风扇", "labels": ["portable fan", "handheld fan"], "appCategory": "appliance", "gpt": "google:portable-fans"},
-            {"id": "holiday-tree-stand", "brick": "Holiday Tree Stands", "displayName": "节日树支架", "labels": ["holiday tree stand", "christmas tree stand"], "coverageTier": "long-tail", "gpt": "google:christmas-tree-stands"}
+            {
+              "id": "umbrella",
+              "brick": "Umbrellas",
+              "displayName": "雨伞",
+              "labels": [
+                "umbrella",
+                "folding umbrella"
+              ],
+              "gpt": "google:umbrellas"
+            },
+            {
+              "id": "christmas-ornament",
+              "brick": "Holiday Ornaments",
+              "displayName": "节日挂饰",
+              "labels": [
+                "holiday ornament",
+                "christmas ornament"
+              ],
+              "gpt": "google:holiday-ornaments"
+            },
+            {
+              "id": "hand-warmer",
+              "brick": "Hand Warmers",
+              "displayName": "暖宝宝",
+              "labels": [
+                "hand warmer",
+                "disposable hand warmer"
+              ],
+              "gpt": "google:hand-warmers"
+            },
+            {
+              "id": "sunscreen-bottle",
+              "brick": "Sunscreen Bottles",
+              "displayName": "防晒霜",
+              "labels": [
+                "sunscreen bottle",
+                "sunblock bottle"
+              ],
+              "gpt": "google:sunscreen"
+            },
+            {
+              "id": "mosquito-repellent",
+              "brick": "Mosquito Repellent",
+              "displayName": "驱蚊液",
+              "labels": [
+                "mosquito repellent",
+                "insect repellent bottle"
+              ],
+              "gpt": "google:insect-repellent"
+            },
+            {
+              "id": "holiday-lights",
+              "brick": "Holiday Light Strings",
+              "displayName": "节日灯串",
+              "labels": [
+                "holiday lights",
+                "string lights"
+              ],
+              "gpt": "google:string-lights"
+            },
+            {
+              "id": "portable-fan",
+              "brick": "Portable Fans",
+              "displayName": "小风扇",
+              "labels": [
+                "portable fan",
+                "handheld fan"
+              ],
+              "appCategory": "appliance",
+              "gpt": "google:portable-fans"
+            },
+            {
+              "id": "holiday-tree-stand",
+              "brick": "Holiday Tree Stands",
+              "displayName": "节日树支架",
+              "labels": [
+                "holiday tree stand",
+                "christmas tree stand"
+              ],
+              "coverageTier": "long-tail",
+              "gpt": "google:christmas-tree-stands"
+            },
+            {
+              "id": "cooling-mat",
+              "brick": "Cooling Mats",
+              "displayName": "凉席",
+              "labels": [
+                "cooling mat",
+                "summer sleeping mat"
+              ],
+              "gpt": "google:cooling-mats"
+            },
+            {
+              "id": "electric-blanket",
+              "brick": "Electric Blankets",
+              "displayName": "电热毯",
+              "labels": [
+                "electric blanket",
+                "heated blanket"
+              ],
+              "gpt": "google:electric-blankets"
+            },
+            {
+              "id": "hot-water-bottle",
+              "brick": "Hot Water Bottles",
+              "displayName": "热水袋",
+              "labels": [
+                "hot water bottle",
+                "rubber hot water bottle"
+              ],
+              "gpt": "google:hot-water-bottles"
+            },
+            {
+              "id": "mosquito-coil-box",
+              "brick": "Mosquito Coil Boxes",
+              "displayName": "蚊香盒",
+              "labels": [
+                "mosquito coil box",
+                "mosquito coil pack"
+              ],
+              "gpt": "google:insect-repellents"
+            },
+            {
+              "id": "holiday-gift-box",
+              "brick": "Holiday Gift Boxes",
+              "displayName": "节日礼盒",
+              "labels": [
+                "holiday gift box",
+                "festival gift box"
+              ],
+              "gpt": "google:gift-boxes"
+            },
+            {
+              "id": "red-envelope-pack",
+              "brick": "Red Envelope Packs",
+              "displayName": "红包",
+              "labels": [
+                "red envelope pack",
+                "lucky red envelope"
+              ],
+              "gpt": "google:red-envelopes"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "home-textiles",
@@ -453,21 +3573,177 @@
         {
           "id": "home-textiles",
           "sourceIdPrefix": "GPC-HH-TEXTILE",
-          "levels": ["Home Textiles", "Household Linens", "Towels, Bedding & Soft Furnishings"],
-          "displayPath": ["家纺", "家庭纺织品", "毛巾床品与软装"],
-          "googlePath": ["Home & Garden", "Linens & Bedding"],
+          "levels": [
+            "Home Textiles",
+            "Household Linens",
+            "Towels, Bedding & Soft Furnishings"
+          ],
+          "displayPath": [
+            "家纺",
+            "家庭纺织品",
+            "毛巾床品与软装"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Linens & Bedding"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "towel", "brick": "Towels", "displayName": "毛巾", "labels": ["towel", "hand towel"], "gpt": "google:towels"},
-            {"id": "bath-towel", "brick": "Bath Towels", "displayName": "浴巾", "labels": ["bath towel", "large bath towel"], "gpt": "google:bath-towels"},
-            {"id": "bed-sheet", "brick": "Bed Sheets", "displayName": "床单", "labels": ["bed sheet", "fitted sheet"], "gpt": "google:bed-sheets"},
-            {"id": "pillowcase", "brick": "Pillowcases", "displayName": "枕套", "labels": ["pillowcase", "pillow cover"], "gpt": "google:pillowcases"},
-            {"id": "blanket", "brick": "Blankets", "displayName": "毯子", "labels": ["blanket", "throw blanket"], "gpt": "google:blankets"},
-            {"id": "cushion-cover", "brick": "Cushion Covers", "displayName": "抱枕套", "labels": ["cushion cover", "pillow cushion cover"], "gpt": "google:cushion-covers"},
-            {"id": "tablecloth", "brick": "Tablecloths", "displayName": "桌布", "labels": ["tablecloth", "dining tablecloth"], "gpt": "google:tablecloths"}
+            {
+              "id": "towel",
+              "brick": "Towels",
+              "displayName": "毛巾",
+              "labels": [
+                "towel",
+                "hand towel"
+              ],
+              "gpt": "google:towels"
+            },
+            {
+              "id": "bath-towel",
+              "brick": "Bath Towels",
+              "displayName": "浴巾",
+              "labels": [
+                "bath towel",
+                "large bath towel"
+              ],
+              "gpt": "google:bath-towels"
+            },
+            {
+              "id": "bed-sheet",
+              "brick": "Bed Sheets",
+              "displayName": "床单",
+              "labels": [
+                "bed sheet",
+                "fitted sheet"
+              ],
+              "gpt": "google:bed-sheets"
+            },
+            {
+              "id": "pillowcase",
+              "brick": "Pillowcases",
+              "displayName": "枕套",
+              "labels": [
+                "pillowcase",
+                "pillow cover"
+              ],
+              "gpt": "google:pillowcases"
+            },
+            {
+              "id": "blanket",
+              "brick": "Blankets",
+              "displayName": "毯子",
+              "labels": [
+                "blanket",
+                "throw blanket"
+              ],
+              "gpt": "google:blankets"
+            },
+            {
+              "id": "cushion-cover",
+              "brick": "Cushion Covers",
+              "displayName": "抱枕套",
+              "labels": [
+                "cushion cover",
+                "pillow cushion cover"
+              ],
+              "gpt": "google:cushion-covers"
+            },
+            {
+              "id": "tablecloth",
+              "brick": "Tablecloths",
+              "displayName": "桌布",
+              "labels": [
+                "tablecloth",
+                "dining tablecloth"
+              ],
+              "gpt": "google:tablecloths"
+            }
+          ]
+        },
+        {
+          "id": "bedding-soft-furnishings",
+          "sourceIdPrefix": "GPC-HH-TEXTILE-BEDDING",
+          "levels": [
+            "Home Textiles",
+            "Household Textiles",
+            "Bedding & Soft Furnishings"
+          ],
+          "displayPath": [
+            "家纺",
+            "家庭纺织品",
+            "床品窗帘与软装"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Linens & Bedding"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "pillow",
+              "brick": "Pillows",
+              "displayName": "枕头",
+              "labels": [
+                "pillow",
+                "sleeping pillow"
+              ],
+              "gpt": "google:pillows"
+            },
+            {
+              "id": "quilt",
+              "brick": "Quilts & Duvets",
+              "displayName": "被子",
+              "labels": [
+                "quilt",
+                "duvet blanket"
+              ],
+              "gpt": "google:duvets"
+            },
+            {
+              "id": "mattress-pad",
+              "brick": "Mattress Pads",
+              "displayName": "床垫保护垫",
+              "labels": [
+                "mattress pad",
+                "mattress protector"
+              ],
+              "gpt": "google:mattress-pads"
+            },
+            {
+              "id": "curtain",
+              "brick": "Curtains",
+              "displayName": "窗帘",
+              "labels": [
+                "curtain",
+                "window curtain"
+              ],
+              "gpt": "google:curtains"
+            },
+            {
+              "id": "apron",
+              "brick": "Aprons",
+              "displayName": "围裙",
+              "labels": [
+                "apron",
+                "kitchen apron"
+              ],
+              "gpt": "google:aprons"
+            },
+            {
+              "id": "doormat",
+              "brick": "Doormats",
+              "displayName": "门垫",
+              "labels": [
+                "doormat",
+                "entrance mat"
+              ],
+              "gpt": "google:doormats"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "bathroom-supplies",
@@ -476,21 +3752,207 @@
         {
           "id": "bathroom-supplies",
           "sourceIdPrefix": "GPC-HH-BATHROOM",
-          "levels": ["Bathroom & Hygiene", "Bathroom Supplies", "Bathroom Paper, Soap & Accessories"],
-          "displayPath": ["卫浴用品", "浴室用品", "纸品皂类与浴室配件"],
-          "googlePath": ["Home & Garden", "Bathroom Accessories"],
+          "levels": [
+            "Bathroom & Hygiene",
+            "Bathroom Supplies",
+            "Bathroom Paper, Soap & Accessories"
+          ],
+          "displayPath": [
+            "卫浴用品",
+            "浴室用品",
+            "纸品皂类与浴室配件"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Bathroom Accessories"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "toilet-paper-roll", "brick": "Toilet Paper Rolls", "displayName": "卷纸", "labels": ["toilet paper roll", "roll of toilet paper"], "gpt": "google:toilet-paper"},
-            {"id": "tissue-box", "brick": "Tissue Boxes", "displayName": "纸巾盒", "labels": ["tissue box", "facial tissue box"], "gpt": "google:tissues"},
-            {"id": "soap-bar", "brick": "Soap Bars", "displayName": "香皂", "labels": ["soap bar", "bar of soap"], "gpt": "google:bar-soap"},
-            {"id": "hand-sanitizer", "brick": "Hand Sanitizer", "displayName": "免洗洗手液", "labels": ["hand sanitizer", "sanitizer bottle"], "gpt": "google:hand-sanitizer"},
-            {"id": "shower-cap", "brick": "Shower Caps", "displayName": "浴帽", "labels": ["shower cap", "plastic shower cap"], "gpt": "google:shower-caps"},
-            {"id": "bath-mat", "brick": "Bath Mats", "displayName": "浴垫", "labels": ["bath mat", "bathroom floor mat"], "gpt": "google:bath-mats"},
-            {"id": "toilet-brush", "brick": "Toilet Brushes", "displayName": "马桶刷", "labels": ["toilet brush", "bathroom toilet brush"], "gpt": "google:toilet-brushes"}
+            {
+              "id": "toilet-paper-roll",
+              "brick": "Toilet Paper Rolls",
+              "displayName": "卷纸",
+              "labels": [
+                "toilet paper roll",
+                "roll of toilet paper"
+              ],
+              "gpt": "google:toilet-paper"
+            },
+            {
+              "id": "tissue-box",
+              "brick": "Tissue Boxes",
+              "displayName": "纸巾盒",
+              "labels": [
+                "tissue box",
+                "facial tissue box"
+              ],
+              "gpt": "google:tissues"
+            },
+            {
+              "id": "soap-bar",
+              "brick": "Soap Bars",
+              "displayName": "香皂",
+              "labels": [
+                "soap bar",
+                "bar of soap"
+              ],
+              "gpt": "google:bar-soap"
+            },
+            {
+              "id": "hand-sanitizer",
+              "brick": "Hand Sanitizer",
+              "displayName": "免洗洗手液",
+              "labels": [
+                "hand sanitizer",
+                "sanitizer bottle"
+              ],
+              "gpt": "google:hand-sanitizer"
+            },
+            {
+              "id": "shower-cap",
+              "brick": "Shower Caps",
+              "displayName": "浴帽",
+              "labels": [
+                "shower cap",
+                "plastic shower cap"
+              ],
+              "gpt": "google:shower-caps"
+            },
+            {
+              "id": "bath-mat",
+              "brick": "Bath Mats",
+              "displayName": "浴垫",
+              "labels": [
+                "bath mat",
+                "bathroom floor mat"
+              ],
+              "gpt": "google:bath-mats"
+            },
+            {
+              "id": "toilet-brush",
+              "brick": "Toilet Brushes",
+              "displayName": "马桶刷",
+              "labels": [
+                "toilet brush",
+                "bathroom toilet brush"
+              ],
+              "gpt": "google:toilet-brushes"
+            }
+          ]
+        },
+        {
+          "id": "bathroom-fixtures-accessories",
+          "sourceIdPrefix": "GPC-HH-BATHROOM-ACCESSORIES",
+          "levels": [
+            "Bathroom Supplies",
+            "Bathroom Accessories",
+            "Bathroom Fixtures & Small Accessories"
+          ],
+          "displayPath": [
+            "卫浴用品",
+            "浴室用品",
+            "卫浴配件与小物"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Bathroom Accessories"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "toothbrush-cup",
+              "brick": "Toothbrush Cups",
+              "displayName": "牙刷杯",
+              "labels": [
+                "toothbrush cup",
+                "bathroom tumbler"
+              ],
+              "gpt": "google:toothbrush-holders"
+            },
+            {
+              "id": "soap-dish",
+              "brick": "Soap Dishes",
+              "displayName": "肥皂盒",
+              "labels": [
+                "soap dish",
+                "soap holder"
+              ],
+              "gpt": "google:soap-dishes"
+            },
+            {
+              "id": "shower-head",
+              "brick": "Shower Heads",
+              "displayName": "花洒",
+              "labels": [
+                "shower head",
+                "handheld shower head"
+              ],
+              "gpt": "google:shower-heads"
+            },
+            {
+              "id": "bathroom-shelf",
+              "brick": "Bathroom Shelves",
+              "displayName": "浴室置物架",
+              "labels": [
+                "bathroom shelf",
+                "shower shelf"
+              ],
+              "gpt": "google:bathroom-shelves"
+            },
+            {
+              "id": "toilet-plunger",
+              "brick": "Toilet Plungers",
+              "displayName": "马桶疏通器",
+              "labels": [
+                "toilet plunger",
+                "bathroom plunger"
+              ],
+              "gpt": "google:plungers"
+            },
+            {
+              "id": "razor-holder",
+              "brick": "Razor Holders",
+              "displayName": "剃须刀架",
+              "labels": [
+                "razor holder",
+                "bathroom razor stand"
+              ],
+              "gpt": "google:razor-accessories"
+            },
+            {
+              "id": "shower-curtain",
+              "brick": "Shower Curtains",
+              "displayName": "浴帘",
+              "labels": [
+                "shower curtain",
+                "bath curtain"
+              ],
+              "gpt": "google:shower-curtains"
+            },
+            {
+              "id": "bathroom-scale",
+              "brick": "Bathroom Scales",
+              "displayName": "体重秤",
+              "labels": [
+                "bathroom scale",
+                "digital body scale"
+              ],
+              "gpt": "google:bathroom-scales"
+            },
+            {
+              "id": "toilet-seat-cover",
+              "brick": "Toilet Seat Covers",
+              "displayName": "马桶垫",
+              "labels": [
+                "toilet seat cover",
+                "toilet lid cover"
+              ],
+              "gpt": "google:toilet-seat-covers"
+            }
           ]
         }
-      ]
+      ],
+      "coverageTier": "mvp"
     },
     {
       "id": "home-decor",
@@ -499,18 +3961,607 @@
         {
           "id": "home-decor",
           "sourceIdPrefix": "GPC-HH-DECOR",
-          "levels": ["Home Decor", "Decorative Accessories", "Household Decorative Objects"],
-          "displayPath": ["家居装饰", "装饰用品", "家庭装饰物"],
-          "googlePath": ["Home & Garden", "Decor"],
+          "levels": [
+            "Home Decor",
+            "Decorative Accessories",
+            "Household Decorative Objects"
+          ],
+          "displayPath": [
+            "家居装饰",
+            "装饰用品",
+            "家庭装饰物"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Decor"
+          ],
           "appCategory": "daily",
           "leaves": [
-            {"id": "photo-frame", "brick": "Photo Frames", "displayName": "相框", "labels": ["photo frame", "picture frame"], "gpt": "google:picture-frames"},
-            {"id": "vase", "brick": "Vases", "displayName": "花瓶", "labels": ["vase", "flower vase"], "gpt": "google:vases"},
-            {"id": "candle", "brick": "Candles", "displayName": "蜡烛", "labels": ["candle", "decorative candle"], "gpt": "google:candles"},
-            {"id": "wall-clock", "brick": "Wall Clocks", "displayName": "挂钟", "labels": ["wall clock", "round wall clock"], "gpt": "google:clocks"},
-            {"id": "decorative-basket", "brick": "Decorative Baskets", "displayName": "装饰篮", "labels": ["decorative basket", "woven decorative basket"], "gpt": "google:decorative-baskets"},
-            {"id": "artificial-flower", "brick": "Artificial Flowers", "displayName": "仿真花", "labels": ["artificial flower", "fake flower"], "gpt": "google:artificial-flora"},
-            {"id": "diffuser-bottle", "brick": "Diffuser Bottles", "displayName": "香薰瓶", "labels": ["diffuser bottle", "reed diffuser bottle"], "gpt": "google:home-fragrance"}
+            {
+              "id": "photo-frame",
+              "brick": "Photo Frames",
+              "displayName": "相框",
+              "labels": [
+                "photo frame",
+                "picture frame"
+              ],
+              "gpt": "google:picture-frames"
+            },
+            {
+              "id": "vase",
+              "brick": "Vases",
+              "displayName": "花瓶",
+              "labels": [
+                "vase",
+                "flower vase"
+              ],
+              "gpt": "google:vases"
+            },
+            {
+              "id": "candle",
+              "brick": "Candles",
+              "displayName": "蜡烛",
+              "labels": [
+                "candle",
+                "decorative candle"
+              ],
+              "gpt": "google:candles"
+            },
+            {
+              "id": "wall-clock",
+              "brick": "Wall Clocks",
+              "displayName": "挂钟",
+              "labels": [
+                "wall clock",
+                "round wall clock"
+              ],
+              "gpt": "google:clocks"
+            },
+            {
+              "id": "decorative-basket",
+              "brick": "Decorative Baskets",
+              "displayName": "装饰篮",
+              "labels": [
+                "decorative basket",
+                "woven decorative basket"
+              ],
+              "gpt": "google:decorative-baskets"
+            },
+            {
+              "id": "artificial-flower",
+              "brick": "Artificial Flowers",
+              "displayName": "仿真花",
+              "labels": [
+                "artificial flower",
+                "fake flower"
+              ],
+              "gpt": "google:artificial-flora"
+            },
+            {
+              "id": "diffuser-bottle",
+              "brick": "Diffuser Bottles",
+              "displayName": "香薰瓶",
+              "labels": [
+                "diffuser bottle",
+                "reed diffuser bottle"
+              ],
+              "gpt": "google:home-fragrance"
+            }
+          ]
+        },
+        {
+          "id": "decorative-home-items",
+          "sourceIdPrefix": "GPC-HH-DECOR-ITEMS",
+          "levels": [
+            "Home Decor",
+            "Decorative Accessories",
+            "Decorative Objects & Fragrance Items"
+          ],
+          "displayPath": [
+            "家居装饰",
+            "装饰用品",
+            "摆件香氛与墙面装饰"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Decor"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "mirror",
+              "brick": "Mirrors",
+              "displayName": "镜子",
+              "labels": [
+                "mirror",
+                "wall mirror"
+              ],
+              "gpt": "google:mirrors"
+            },
+            {
+              "id": "wall-art",
+              "brick": "Wall Art",
+              "displayName": "装饰画",
+              "labels": [
+                "wall art",
+                "framed wall art"
+              ],
+              "gpt": "google:wall-art"
+            },
+            {
+              "id": "decorative-figurine",
+              "brick": "Decorative Figurines",
+              "displayName": "摆件",
+              "labels": [
+                "decorative figurine",
+                "home decor figurine"
+              ],
+              "gpt": "google:figurines"
+            },
+            {
+              "id": "incense-holder",
+              "brick": "Incense Holders",
+              "displayName": "香插",
+              "labels": [
+                "incense holder",
+                "incense burner"
+              ],
+              "gpt": "google:incense-holders"
+            },
+            {
+              "id": "aroma-diffuser",
+              "brick": "Aroma Diffusers",
+              "displayName": "香薰机",
+              "labels": [
+                "aroma diffuser",
+                "essential oil diffuser"
+              ],
+              "gpt": "google:aroma-diffusers"
+            },
+            {
+              "id": "essential-oil-bottle",
+              "brick": "Essential Oil Bottles",
+              "displayName": "精油瓶",
+              "labels": [
+                "essential oil bottle",
+                "aromatherapy oil bottle"
+              ],
+              "gpt": "google:essential-oils"
+            },
+            {
+              "id": "plant-vase",
+              "brick": "Decorative Plant Vases",
+              "displayName": "装饰花器",
+              "labels": [
+                "decorative vase",
+                "plant vase"
+              ],
+              "gpt": "google:vases"
+            },
+            {
+              "id": "clock-table",
+              "brick": "Table Clocks",
+              "displayName": "台钟",
+              "labels": [
+                "table clock",
+                "desk clock"
+              ],
+              "gpt": "google:clocks"
+            },
+            {
+              "id": "photo-album",
+              "brick": "Photo Albums",
+              "displayName": "相册",
+              "labels": [
+                "photo album",
+                "family photo album"
+              ],
+              "gpt": "google:photo-albums"
+            }
+          ]
+        }
+      ],
+      "coverageTier": "mvp"
+    },
+    {
+      "id": "furniture",
+      "displayName": "家具",
+      "coverageTier": "mvp",
+      "groups": [
+        {
+          "id": "home-furniture",
+          "sourceIdPrefix": "GPC-HH-FURNITURE",
+          "levels": [
+            "Furniture",
+            "Household Furniture",
+            "Seating, Tables & Storage Furniture"
+          ],
+          "displayPath": [
+            "家具",
+            "家庭家具",
+            "座椅桌柜与架类"
+          ],
+          "googlePath": [
+            "Furniture"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "chair",
+              "brick": "Chairs",
+              "displayName": "椅子",
+              "labels": [
+                "chair",
+                "dining chair"
+              ],
+              "gpt": "google:chairs"
+            },
+            {
+              "id": "stool",
+              "brick": "Stools",
+              "displayName": "凳子",
+              "labels": [
+                "stool",
+                "small stool"
+              ],
+              "gpt": "google:stools"
+            },
+            {
+              "id": "dining-table",
+              "brick": "Dining Tables",
+              "displayName": "餐桌",
+              "labels": [
+                "dining table",
+                "kitchen table"
+              ],
+              "gpt": "google:dining-tables"
+            },
+            {
+              "id": "desk",
+              "brick": "Desks",
+              "displayName": "书桌",
+              "labels": [
+                "desk",
+                "writing desk"
+              ],
+              "gpt": "google:desks"
+            },
+            {
+              "id": "coffee-table",
+              "brick": "Coffee Tables",
+              "displayName": "茶几",
+              "labels": [
+                "coffee table",
+                "living room coffee table"
+              ],
+              "gpt": "google:coffee-tables"
+            },
+            {
+              "id": "bedside-table",
+              "brick": "Bedside Tables",
+              "displayName": "床头柜",
+              "labels": [
+                "bedside table",
+                "nightstand"
+              ],
+              "gpt": "google:nightstands"
+            },
+            {
+              "id": "bookshelf",
+              "brick": "Bookshelves",
+              "displayName": "书架",
+              "labels": [
+                "bookshelf",
+                "bookcase"
+              ],
+              "gpt": "google:bookcases"
+            },
+            {
+              "id": "shoe-rack",
+              "brick": "Shoe Racks",
+              "displayName": "鞋架",
+              "labels": [
+                "shoe rack",
+                "shoe shelf"
+              ],
+              "gpt": "google:shoe-racks"
+            },
+            {
+              "id": "clothes-rack",
+              "brick": "Clothes Racks",
+              "displayName": "晾衣架",
+              "labels": [
+                "clothes rack",
+                "garment rack"
+              ],
+              "gpt": "google:clothing-racks"
+            },
+            {
+              "id": "cabinet",
+              "brick": "Cabinets",
+              "displayName": "柜子",
+              "labels": [
+                "cabinet",
+                "storage cabinet"
+              ],
+              "gpt": "google:cabinets"
+            },
+            {
+              "id": "tv-stand",
+              "brick": "TV Stands",
+              "displayName": "电视柜",
+              "labels": [
+                "tv stand",
+                "television cabinet"
+              ],
+              "gpt": "google:tv-stands"
+            },
+            {
+              "id": "sofa",
+              "brick": "Sofas",
+              "displayName": "沙发",
+              "labels": [
+                "sofa",
+                "couch"
+              ],
+              "gpt": "google:sofas"
+            },
+            {
+              "id": "ottoman",
+              "brick": "Ottomans",
+              "displayName": "脚凳",
+              "labels": [
+                "ottoman",
+                "foot stool"
+              ],
+              "gpt": "google:ottomans"
+            },
+            {
+              "id": "folding-chair",
+              "brick": "Folding Chairs",
+              "displayName": "折叠椅",
+              "labels": [
+                "folding chair",
+                "portable folding chair"
+              ],
+              "gpt": "google:folding-chairs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lighting-electrical",
+      "displayName": "照明与电工",
+      "coverageTier": "mvp",
+      "groups": [
+        {
+          "id": "lighting-electrical-items",
+          "sourceIdPrefix": "GPC-HH-LIGHTING-ELECTRICAL",
+          "levels": [
+            "Lighting & Electrical",
+            "Household Electrical",
+            "Lighting, Power Strips & Electrical Accessories"
+          ],
+          "displayPath": [
+            "照明与电工",
+            "家用电工",
+            "照明插排与电工配件"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Lighting"
+          ],
+          "appCategory": "tool",
+          "leaves": [
+            {
+              "id": "desk-lamp",
+              "brick": "Desk Lamps",
+              "displayName": "台灯",
+              "labels": [
+                "desk lamp",
+                "table lamp"
+              ],
+              "gpt": "google:desk-lamps"
+            },
+            {
+              "id": "floor-lamp",
+              "brick": "Floor Lamps",
+              "displayName": "落地灯",
+              "labels": [
+                "floor lamp",
+                "standing lamp"
+              ],
+              "gpt": "google:floor-lamps"
+            },
+            {
+              "id": "ceiling-light",
+              "brick": "Ceiling Lights",
+              "displayName": "吸顶灯",
+              "labels": [
+                "ceiling light",
+                "led ceiling light"
+              ],
+              "gpt": "google:ceiling-lights"
+            },
+            {
+              "id": "light-bulb",
+              "brick": "Light Bulbs",
+              "displayName": "灯泡",
+              "labels": [
+                "light bulb",
+                "led bulb"
+              ],
+              "gpt": "google:light-bulbs"
+            },
+            {
+              "id": "night-light",
+              "brick": "Night Lights",
+              "displayName": "小夜灯",
+              "labels": [
+                "night light",
+                "plug in night light"
+              ],
+              "gpt": "google:night-lights"
+            },
+            {
+              "id": "power-strip",
+              "brick": "Power Strips",
+              "displayName": "插线板",
+              "labels": [
+                "power strip",
+                "extension power strip"
+              ],
+              "gpt": "google:power-strips"
+            },
+            {
+              "id": "extension-cord",
+              "brick": "Extension Cords",
+              "displayName": "延长线",
+              "labels": [
+                "extension cord",
+                "electrical extension cable"
+              ],
+              "gpt": "google:extension-cords"
+            },
+            {
+              "id": "wall-switch-panel",
+              "brick": "Wall Switch Panels",
+              "displayName": "开关面板",
+              "labels": [
+                "wall switch panel",
+                "light switch plate"
+              ],
+              "gpt": "google:light-switches"
+            },
+            {
+              "id": "plug-adapter",
+              "brick": "Plug Adapters",
+              "displayName": "转换插头",
+              "labels": [
+                "plug adapter",
+                "electrical plug adapter"
+              ],
+              "gpt": "google:power-adapters"
+            },
+            {
+              "id": "rechargeable-battery-charger",
+              "brick": "Battery Chargers",
+              "displayName": "电池充电器",
+              "labels": [
+                "battery charger",
+                "rechargeable battery charger"
+              ],
+              "gpt": "google:battery-chargers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plants-garden",
+      "displayName": "绿植园艺",
+      "coverageTier": "mvp",
+      "groups": [
+        {
+          "id": "plants-garden-care",
+          "sourceIdPrefix": "GPC-HH-GARDEN-PLANTS",
+          "levels": [
+            "Garden & Outdoor",
+            "Plants & Garden Care",
+            "Indoor Plants & Garden Tools"
+          ],
+          "displayPath": [
+            "绿植园艺",
+            "植物园艺",
+            "室内绿植与园艺工具"
+          ],
+          "googlePath": [
+            "Home & Garden",
+            "Plants"
+          ],
+          "appCategory": "daily",
+          "leaves": [
+            {
+              "id": "potted-plant",
+              "brick": "Potted Plants",
+              "displayName": "盆栽",
+              "labels": [
+                "potted plant",
+                "indoor potted plant"
+              ],
+              "gpt": "google:potted-plants"
+            },
+            {
+              "id": "flower-pot",
+              "brick": "Flower Pots",
+              "displayName": "花盆",
+              "labels": [
+                "flower pot",
+                "plant pot"
+              ],
+              "gpt": "google:flower-pots"
+            },
+            {
+              "id": "watering-can",
+              "brick": "Watering Cans",
+              "displayName": "浇水壶",
+              "labels": [
+                "watering can",
+                "plant watering can"
+              ],
+              "gpt": "google:watering-cans"
+            },
+            {
+              "id": "plant-saucer",
+              "brick": "Plant Saucers",
+              "displayName": "花盆托盘",
+              "labels": [
+                "plant saucer",
+                "flower pot saucer"
+              ],
+              "gpt": "google:plant-saucers"
+            },
+            {
+              "id": "garden-shears",
+              "brick": "Garden Shears",
+              "displayName": "园艺剪",
+              "labels": [
+                "garden shears",
+                "pruning shears"
+              ],
+              "gpt": "google:garden-shears"
+            },
+            {
+              "id": "fertilizer-bottle",
+              "brick": "Fertilizer Bottles",
+              "displayName": "营养液瓶",
+              "labels": [
+                "fertilizer bottle",
+                "plant fertilizer bottle"
+              ],
+              "gpt": "google:fertilizers"
+            },
+            {
+              "id": "plant-label",
+              "brick": "Plant Labels",
+              "displayName": "植物标签",
+              "labels": [
+                "plant label",
+                "garden plant marker"
+              ],
+              "gpt": "google:plant-labels"
+            },
+            {
+              "id": "spray-mister",
+              "brick": "Plant Misters",
+              "displayName": "喷雾壶",
+              "labels": [
+                "plant mister",
+                "spray mister bottle"
+              ],
+              "gpt": "google:spray-bottles"
+            }
           ]
         }
       ]

@@ -1,0 +1,608 @@
+{
+  "resultId": "lunch-box-subject-cn-01:original:owlvit",
+  "rawDetections": [
+    {
+      "label": "bento box",
+      "score": 0.04465986043214798,
+      "box": {
+        "x": 28.625,
+        "y": 51.125,
+        "w": 34.625,
+        "h": 24.25
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.04073683172464371,
+      "box": {
+        "x": 27.375,
+        "y": 33.75,
+        "w": 53.25,
+        "h": 41.125
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.03941754251718521,
+      "box": {
+        "x": 29.25,
+        "y": 51.125,
+        "w": 37.375,
+        "h": 25.375
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.03933778032660484,
+      "box": {
+        "x": 29.25,
+        "y": 51.125,
+        "w": 37.375,
+        "h": 25.375
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.036403317004442215,
+      "box": {
+        "x": 29.25,
+        "y": 51.125,
+        "w": 37.375,
+        "h": 25.375
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.03138764202594757,
+      "box": {
+        "x": 11.75,
+        "y": 20.875,
+        "w": 70.75,
+        "h": 61.5
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.02539089135825634,
+      "box": {
+        "x": 17.5,
+        "y": 19.5,
+        "w": 68.125,
+        "h": 55.25
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.024907585233449936,
+      "box": {
+        "x": 17.5,
+        "y": 19.5,
+        "w": 68.125,
+        "h": 55.25
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.02068352699279785,
+      "box": {
+        "x": 27.375,
+        "y": 33.75,
+        "w": 53.25,
+        "h": 41.125
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.01974078267812729,
+      "box": {
+        "x": 11.75,
+        "y": 20.875,
+        "w": 70.75,
+        "h": 61.5
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.018469011411070824,
+      "box": {
+        "x": 27.375,
+        "y": 33.75,
+        "w": 53.25,
+        "h": 41.125
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.016692621633410454,
+      "box": {
+        "x": 28.625,
+        "y": 51.125,
+        "w": 34.625,
+        "h": 24.25
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.01430884376168251,
+      "box": {
+        "x": 53.625,
+        "y": 36.75,
+        "w": 26,
+        "h": 29.5
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.014300527051091194,
+      "box": {
+        "x": 0,
+        "y": 1.125,
+        "w": 26.625,
+        "h": 24.625
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.014111264608800411,
+      "box": {
+        "x": 0.125,
+        "y": 0,
+        "w": 99.875,
+        "h": 99.25
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.013666781596839428,
+      "box": {
+        "x": 28.625,
+        "y": 51.125,
+        "w": 34.625,
+        "h": 24.25
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.013453710824251175,
+      "box": {
+        "x": 0.125,
+        "y": 0,
+        "w": 99.875,
+        "h": 99.25
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.013120110146701336,
+      "box": {
+        "x": 17.5,
+        "y": 19.5,
+        "w": 68.125,
+        "h": 55.25
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.012921306304633617,
+      "box": {
+        "x": 11.75,
+        "y": 20.875,
+        "w": 70.75,
+        "h": 61.5
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.012658541090786457,
+      "box": {
+        "x": 48.125,
+        "y": 33,
+        "w": 34.625,
+        "h": 35.625
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.012487764470279217,
+      "box": {
+        "x": 0,
+        "y": 1.5,
+        "w": 42.25,
+        "h": 45.75
+      }
+    },
+    {
+      "label": "bento box",
+      "score": 0.011422812938690186,
+      "box": {
+        "x": 18.5,
+        "y": 21.125,
+        "w": 57.75,
+        "h": 53.5
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.01126656774431467,
+      "box": {
+        "x": 10.5,
+        "y": 17.5,
+        "w": 82.375,
+        "h": 79.875
+      }
+    },
+    {
+      "label": "lunch boxes",
+      "score": 0.010698884725570679,
+      "box": {
+        "x": 48.125,
+        "y": 33,
+        "w": 34.625,
+        "h": 35.625
+      }
+    },
+    {
+      "label": "lunch box",
+      "score": 0.010023255832493305,
+      "box": {
+        "x": 0,
+        "y": 1.125,
+        "w": 26.625,
+        "h": 24.625
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d01",
+      "label": "bento box",
+      "score": 0.04466,
+      "box": {
+        "x": 28.625,
+        "y": 51.125,
+        "w": 34.625,
+        "h": 24.25
+      },
+      "areaPct": 8.3966,
+      "rankByScore": 1,
+      "rankByArea": 20
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d02",
+      "label": "bento box",
+      "score": 0.040737,
+      "box": {
+        "x": 27.375,
+        "y": 33.75,
+        "w": 53.25,
+        "h": 41.125
+      },
+      "areaPct": 21.8991,
+      "rankByScore": 2,
+      "rankByArea": 11
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d03",
+      "label": "lunch boxes",
+      "score": 0.039418,
+      "box": {
+        "x": 29.25,
+        "y": 51.125,
+        "w": 37.375,
+        "h": 25.375
+      },
+      "areaPct": 9.4839,
+      "rankByScore": 3,
+      "rankByArea": 17
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d04",
+      "label": "lunch box",
+      "score": 0.039338,
+      "box": {
+        "x": 29.25,
+        "y": 51.125,
+        "w": 37.375,
+        "h": 25.375
+      },
+      "areaPct": 9.4839,
+      "rankByScore": 4,
+      "rankByArea": 18
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d05",
+      "label": "bento box",
+      "score": 0.036403,
+      "box": {
+        "x": 29.25,
+        "y": 51.125,
+        "w": 37.375,
+        "h": 25.375
+      },
+      "areaPct": 9.4839,
+      "rankByScore": 5,
+      "rankByArea": 19
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d06",
+      "label": "lunch box",
+      "score": 0.031388,
+      "box": {
+        "x": 11.75,
+        "y": 20.875,
+        "w": 70.75,
+        "h": 61.5
+      },
+      "areaPct": 43.5112,
+      "rankByScore": 6,
+      "rankByArea": 4
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d07",
+      "label": "lunch box",
+      "score": 0.025391,
+      "box": {
+        "x": 17.5,
+        "y": 19.5,
+        "w": 68.125,
+        "h": 55.25
+      },
+      "areaPct": 37.6391,
+      "rankByScore": 7,
+      "rankByArea": 7
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d08",
+      "label": "lunch boxes",
+      "score": 0.024908,
+      "box": {
+        "x": 17.5,
+        "y": 19.5,
+        "w": 68.125,
+        "h": 55.25
+      },
+      "areaPct": 37.6391,
+      "rankByScore": 8,
+      "rankByArea": 8
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d09",
+      "label": "lunch box",
+      "score": 0.020684,
+      "box": {
+        "x": 27.375,
+        "y": 33.75,
+        "w": 53.25,
+        "h": 41.125
+      },
+      "areaPct": 21.8991,
+      "rankByScore": 9,
+      "rankByArea": 12
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d10",
+      "label": "lunch boxes",
+      "score": 0.019741,
+      "box": {
+        "x": 11.75,
+        "y": 20.875,
+        "w": 70.75,
+        "h": 61.5
+      },
+      "areaPct": 43.5112,
+      "rankByScore": 10,
+      "rankByArea": 5
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d11",
+      "label": "lunch boxes",
+      "score": 0.018469,
+      "box": {
+        "x": 27.375,
+        "y": 33.75,
+        "w": 53.25,
+        "h": 41.125
+      },
+      "areaPct": 21.8991,
+      "rankByScore": 11,
+      "rankByArea": 13
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d12",
+      "label": "lunch box",
+      "score": 0.016693,
+      "box": {
+        "x": 28.625,
+        "y": 51.125,
+        "w": 34.625,
+        "h": 24.25
+      },
+      "areaPct": 8.3966,
+      "rankByScore": 12,
+      "rankByArea": 21
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d13",
+      "label": "bento box",
+      "score": 0.014309,
+      "box": {
+        "x": 53.625,
+        "y": 36.75,
+        "w": 26,
+        "h": 29.5
+      },
+      "areaPct": 7.67,
+      "rankByScore": 13,
+      "rankByArea": 23
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d14",
+      "label": "lunch boxes",
+      "score": 0.014301,
+      "box": {
+        "x": 0,
+        "y": 1.125,
+        "w": 26.625,
+        "h": 24.625
+      },
+      "areaPct": 6.5564,
+      "rankByScore": 14,
+      "rankByArea": 24
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d15",
+      "label": "bento box",
+      "score": 0.014111,
+      "box": {
+        "x": 0.125,
+        "y": 0,
+        "w": 99.875,
+        "h": 99.25
+      },
+      "areaPct": 99.1259,
+      "rankByScore": 15,
+      "rankByArea": 1
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d16",
+      "label": "lunch boxes",
+      "score": 0.013667,
+      "box": {
+        "x": 28.625,
+        "y": 51.125,
+        "w": 34.625,
+        "h": 24.25
+      },
+      "areaPct": 8.3966,
+      "rankByScore": 16,
+      "rankByArea": 22
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d17",
+      "label": "lunch box",
+      "score": 0.013454,
+      "box": {
+        "x": 0.125,
+        "y": 0,
+        "w": 99.875,
+        "h": 99.25
+      },
+      "areaPct": 99.1259,
+      "rankByScore": 17,
+      "rankByArea": 2
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d18",
+      "label": "bento box",
+      "score": 0.01312,
+      "box": {
+        "x": 17.5,
+        "y": 19.5,
+        "w": 68.125,
+        "h": 55.25
+      },
+      "areaPct": 37.6391,
+      "rankByScore": 18,
+      "rankByArea": 9
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d19",
+      "label": "bento box",
+      "score": 0.012921,
+      "box": {
+        "x": 11.75,
+        "y": 20.875,
+        "w": 70.75,
+        "h": 61.5
+      },
+      "areaPct": 43.5112,
+      "rankByScore": 19,
+      "rankByArea": 6
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d20",
+      "label": "lunch box",
+      "score": 0.012659,
+      "box": {
+        "x": 48.125,
+        "y": 33,
+        "w": 34.625,
+        "h": 35.625
+      },
+      "areaPct": 12.3352,
+      "rankByScore": 20,
+      "rankByArea": 15
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d21",
+      "label": "lunch box",
+      "score": 0.012488,
+      "box": {
+        "x": 0,
+        "y": 1.5,
+        "w": 42.25,
+        "h": 45.75
+      },
+      "areaPct": 19.3294,
+      "rankByScore": 21,
+      "rankByArea": 14
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d22",
+      "label": "bento box",
+      "score": 0.011423,
+      "box": {
+        "x": 18.5,
+        "y": 21.125,
+        "w": 57.75,
+        "h": 53.5
+      },
+      "areaPct": 30.8963,
+      "rankByScore": 22,
+      "rankByArea": 10
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d23",
+      "label": "lunch boxes",
+      "score": 0.011267,
+      "box": {
+        "x": 10.5,
+        "y": 17.5,
+        "w": 82.375,
+        "h": 79.875
+      },
+      "areaPct": 65.797,
+      "rankByScore": 23,
+      "rankByArea": 3
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d24",
+      "label": "lunch boxes",
+      "score": 0.010699,
+      "box": {
+        "x": 48.125,
+        "y": 33,
+        "w": 34.625,
+        "h": 35.625
+      },
+      "areaPct": 12.3352,
+      "rankByScore": 24,
+      "rankByArea": 16
+    },
+    {
+      "id": "lunch-box-subject-cn-01:original:owlvit:d25",
+      "label": "lunch box",
+      "score": 0.010023,
+      "box": {
+        "x": 0,
+        "y": 1.125,
+        "w": 26.625,
+        "h": 24.625
+      },
+      "areaPct": 6.5564,
+      "rankByScore": 25,
+      "rankByArea": 25
+    }
+  ],
+  "failureReason": ""
+}

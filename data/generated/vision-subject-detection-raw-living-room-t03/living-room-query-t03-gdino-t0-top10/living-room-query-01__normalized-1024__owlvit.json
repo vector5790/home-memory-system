@@ -1,0 +1,757 @@
+{
+  "resultId": "living-room-query-01:normalized-1024:owlvit",
+  "rawDetections": [
+    {
+      "label": "television",
+      "score": 0.6815632581710815,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      }
+    },
+    {
+      "label": "tv",
+      "score": 0.6354997158050537,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.48512664437294006,
+      "box": {
+        "x": 48.2422,
+        "y": 51.1719,
+        "w": 28.6133,
+        "h": 30.9896
+      }
+    },
+    {
+      "label": "television cabinet",
+      "score": 0.4598580598831177,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      }
+    },
+    {
+      "label": "speaker",
+      "score": 0.44218766689300537,
+      "box": {
+        "x": 77.3438,
+        "y": 45.5729,
+        "w": 10.3516,
+        "h": 22.3958
+      }
+    },
+    {
+      "label": "flat screen tv",
+      "score": 0.40643689036369324,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      }
+    },
+    {
+      "label": "tv stand",
+      "score": 0.3926168978214264,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      }
+    },
+    {
+      "label": "ceiling light",
+      "score": 0.3896164298057556,
+      "box": {
+        "x": 0,
+        "y": 0.1302,
+        "w": 12.3047,
+        "h": 17.9688
+      }
+    },
+    {
+      "label": "speaker stand",
+      "score": 0.3661195933818817,
+      "box": {
+        "x": 77.3438,
+        "y": 45.5729,
+        "w": 10.3516,
+        "h": 22.3958
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.35719290375709534,
+      "box": {
+        "x": 46.1914,
+        "y": 70.7031,
+        "w": 22.8516,
+        "h": 12.3698
+      }
+    },
+    {
+      "label": "lamp",
+      "score": 0.35576221346855164,
+      "box": {
+        "x": 0,
+        "y": 0.1302,
+        "w": 12.3047,
+        "h": 17.9688
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.346307635307312,
+      "box": {
+        "x": 77.1484,
+        "y": 45.8333,
+        "w": 22.4609,
+        "h": 54.1667
+      }
+    },
+    {
+      "label": "speaker",
+      "score": 0.3217492401599884,
+      "box": {
+        "x": 61.5234,
+        "y": 47.9167,
+        "w": 11.1328,
+        "h": 17.3177
+      }
+    },
+    {
+      "label": "stereo receiver",
+      "score": 0.31778255105018616,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "window",
+      "score": 0.3171997368335724,
+      "box": {
+        "x": 6.0547,
+        "y": 22.1354,
+        "w": 13.4766,
+        "h": 29.6875
+      }
+    },
+    {
+      "label": "speaker stand",
+      "score": 0.31153011322021484,
+      "box": {
+        "x": 61.5234,
+        "y": 47.9167,
+        "w": 11.1328,
+        "h": 17.3177
+      }
+    },
+    {
+      "label": "audio speaker",
+      "score": 0.3105120062828064,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "bluetooth speaker",
+      "score": 0.30970925092697144,
+      "box": {
+        "x": 77.3438,
+        "y": 45.5729,
+        "w": 10.3516,
+        "h": 22.3958
+      }
+    },
+    {
+      "label": "remote control",
+      "score": 0.30743342638015747,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "audio speaker",
+      "score": 0.2940080165863037,
+      "box": {
+        "x": 77.3438,
+        "y": 45.5729,
+        "w": 10.3516,
+        "h": 22.3958
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.2939378321170807,
+      "box": {
+        "x": 0,
+        "y": 0.1302,
+        "w": 12.3047,
+        "h": 17.9688
+      }
+    },
+    {
+      "label": "stereo receiver",
+      "score": 0.28448233008384705,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      }
+    },
+    {
+      "label": "bluetooth speaker",
+      "score": 0.28415703773498535,
+      "box": {
+        "x": 28.125,
+        "y": 90.8854,
+        "w": 4.3945,
+        "h": 6.7708
+      }
+    },
+    {
+      "label": "pillow",
+      "score": 0.2792263925075531,
+      "box": {
+        "x": 11.4258,
+        "y": 66.0156,
+        "w": 6.6406,
+        "h": 9.7656
+      }
+    },
+    {
+      "label": "remote control",
+      "score": 0.276121586561203,
+      "box": {
+        "x": 77.3438,
+        "y": 45.5729,
+        "w": 10.3516,
+        "h": 22.3958
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.27260422706604004,
+      "box": {
+        "x": 13.6719,
+        "y": 71.4844,
+        "w": 62.1094,
+        "h": 27.9948
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.26829299330711365,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      }
+    },
+    {
+      "label": "record player",
+      "score": 0.26567086577415466,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "air conditioner",
+      "score": 0.26301121711730957,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      }
+    },
+    {
+      "label": "storage cabinet",
+      "score": 0.2575662434101105,
+      "box": {
+        "x": 78.2227,
+        "y": 0.2604,
+        "w": 21.7773,
+        "h": 99.2188
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.2570742666721344,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "cable",
+      "score": 0.2489624172449112,
+      "box": {
+        "x": 47.8516,
+        "y": 58.0729,
+        "w": 27.3438,
+        "h": 20.3125
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.24568422138690948,
+      "box": {
+        "x": 13.6719,
+        "y": 71.4844,
+        "w": 62.1094,
+        "h": 27.9948
+      }
+    },
+    {
+      "label": "remote control",
+      "score": 0.24287857115268707,
+      "box": {
+        "x": 48.6328,
+        "y": 77.0833,
+        "w": 18.1641,
+        "h": 5.8594
+      }
+    },
+    {
+      "label": "cabinet",
+      "score": 0.24076113104820251,
+      "box": {
+        "x": 78.2227,
+        "y": 0.2604,
+        "w": 21.7773,
+        "h": 99.2188
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.2401198148727417,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.23844730854034424,
+      "box": {
+        "x": 12.3047,
+        "y": 78.3854,
+        "w": 63.6719,
+        "h": 9.2448
+      }
+    },
+    {
+      "label": "audio speaker",
+      "score": 0.23392529785633087,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      }
+    },
+    {
+      "label": "cable",
+      "score": 0.23375672101974487,
+      "box": {
+        "x": 65.332,
+        "y": 47.2656,
+        "w": 11.7188,
+        "h": 28.776
+      }
+    },
+    {
+      "label": "power strip",
+      "score": 0.23235571384429932,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.23164667189121246,
+      "box": {
+        "x": 25.6836,
+        "y": 71.224,
+        "w": 22.0703,
+        "h": 12.7604
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.2307586520910263,
+      "box": {
+        "x": 25.6836,
+        "y": 71.224,
+        "w": 22.0703,
+        "h": 12.7604
+      }
+    },
+    {
+      "label": "remote control",
+      "score": 0.2307461053133011,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.22847266495227814,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      }
+    },
+    {
+      "label": "pillow",
+      "score": 0.2266882210969925,
+      "box": {
+        "x": 2.4414,
+        "y": 65.7552,
+        "w": 14.6484,
+        "h": 10.9375
+      }
+    },
+    {
+      "label": "cushion",
+      "score": 0.2190866470336914,
+      "box": {
+        "x": 80.4688,
+        "y": 84.6354,
+        "w": 17.5781,
+        "h": 14.5833
+      }
+    },
+    {
+      "label": "flat screen tv",
+      "score": 0.21778155863285065,
+      "box": {
+        "x": 33.3008,
+        "y": 33.5938,
+        "w": 39.2578,
+        "h": 33.5938
+      }
+    },
+    {
+      "label": "cushion",
+      "score": 0.21728040277957916,
+      "box": {
+        "x": 11.4258,
+        "y": 66.0156,
+        "w": 6.6406,
+        "h": 9.7656
+      }
+    },
+    {
+      "label": "cable",
+      "score": 0.21666748821735382,
+      "box": {
+        "x": 48.2422,
+        "y": 51.1719,
+        "w": 28.6133,
+        "h": 30.9896
+      }
+    },
+    {
+      "label": "cabinet",
+      "score": 0.21589410305023193,
+      "box": {
+        "x": 34.7656,
+        "y": 83.724,
+        "w": 41.2109,
+        "h": 15.7552
+      }
+    },
+    {
+      "label": "speaker stand",
+      "score": 0.21581216156482697,
+      "box": {
+        "x": 75.8789,
+        "y": 45.7031,
+        "w": 12.207,
+        "h": 54.2969
+      }
+    },
+    {
+      "label": "cabinet",
+      "score": 0.2141648381948471,
+      "box": {
+        "x": 79.1016,
+        "y": 2.474,
+        "w": 20.8008,
+        "h": 48.5677
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.21369512379169464,
+      "box": {
+        "x": 27.7344,
+        "y": 89.7135,
+        "w": 4.8828,
+        "h": 8.3333
+      }
+    },
+    {
+      "label": "amplifier",
+      "score": 0.208219975233078,
+      "box": {
+        "x": 80.4688,
+        "y": 84.6354,
+        "w": 17.5781,
+        "h": 14.5833
+      }
+    },
+    {
+      "label": "speaker",
+      "score": 0.20657648146152496,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.20547811686992645,
+      "box": {
+        "x": 24.2188,
+        "y": 71.0938,
+        "w": 37.5,
+        "h": 12.3698
+      }
+    },
+    {
+      "label": "ceiling light",
+      "score": 0.20377369225025177,
+      "box": {
+        "x": 0.4883,
+        "y": 0.5208,
+        "w": 18.457,
+        "h": 18.3594
+      }
+    },
+    {
+      "label": "extension cord",
+      "score": 0.2025860846042633,
+      "box": {
+        "x": 75.8789,
+        "y": 45.7031,
+        "w": 12.207,
+        "h": 54.2969
+      }
+    },
+    {
+      "label": "turntable",
+      "score": 0.20187631249427795,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d01",
+      "label": "television",
+      "categoryKey": "television",
+      "score": 0.681563,
+      "box": {
+        "x": 32.1289,
+        "y": 31.6406,
+        "w": 41.4063,
+        "h": 36.849
+      },
+      "areaPct": 15.2578,
+      "rankByScore": 1,
+      "rankByArea": 1
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d02",
+      "label": "extension cord",
+      "categoryKey": "cable",
+      "score": 0.485127,
+      "box": {
+        "x": 48.2422,
+        "y": 51.1719,
+        "w": 28.6133,
+        "h": 30.9896
+      },
+      "areaPct": 8.8671,
+      "rankByScore": 2,
+      "rankByArea": 3
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d03",
+      "label": "speaker",
+      "categoryKey": "speaker",
+      "score": 0.442188,
+      "box": {
+        "x": 77.3438,
+        "y": 45.5729,
+        "w": 10.3516,
+        "h": 22.3958
+      },
+      "areaPct": 2.3183,
+      "rankByScore": 3,
+      "rankByArea": 6
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d04",
+      "label": "ceiling light",
+      "categoryKey": "ceiling light",
+      "score": 0.389616,
+      "box": {
+        "x": 0,
+        "y": 0.1302,
+        "w": 12.3047,
+        "h": 17.9688
+      },
+      "areaPct": 2.211,
+      "rankByScore": 4,
+      "rankByArea": 7
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d05",
+      "label": "extension cord",
+      "categoryKey": "cable",
+      "score": 0.357193,
+      "box": {
+        "x": 46.1914,
+        "y": 70.7031,
+        "w": 22.8516,
+        "h": 12.3698
+      },
+      "areaPct": 2.8267,
+      "rankByScore": 5,
+      "rankByArea": 5
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d06",
+      "label": "extension cord",
+      "categoryKey": "cable",
+      "score": 0.346308,
+      "box": {
+        "x": 77.1484,
+        "y": 45.8333,
+        "w": 22.4609,
+        "h": 54.1667
+      },
+      "areaPct": 12.1663,
+      "rankByScore": 6,
+      "rankByArea": 2
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d07",
+      "label": "speaker",
+      "categoryKey": "speaker",
+      "score": 0.321749,
+      "box": {
+        "x": 61.5234,
+        "y": 47.9167,
+        "w": 11.1328,
+        "h": 17.3177
+      },
+      "areaPct": 1.9279,
+      "rankByScore": 7,
+      "rankByArea": 8
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d08",
+      "label": "stereo receiver",
+      "categoryKey": "stereo receiver",
+      "score": 0.317783,
+      "box": {
+        "x": 26.4648,
+        "y": 75.651,
+        "w": 20.8008,
+        "h": 8.5938
+      },
+      "areaPct": 1.7876,
+      "rankByScore": 8,
+      "rankByArea": 9
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d09",
+      "label": "window",
+      "categoryKey": "window",
+      "score": 0.3172,
+      "box": {
+        "x": 6.0547,
+        "y": 22.1354,
+        "w": 13.4766,
+        "h": 29.6875
+      },
+      "areaPct": 4.0009,
+      "rankByScore": 9,
+      "rankByArea": 4
+    },
+    {
+      "id": "living-room-query-01:normalized-1024:owlvit:d10",
+      "label": "stereo receiver",
+      "categoryKey": "stereo receiver",
+      "score": 0.284482,
+      "box": {
+        "x": 49.1211,
+        "y": 74.349,
+        "w": 19.043,
+        "h": 8.8542
+      },
+      "areaPct": 1.6861,
+      "rankByScore": 10,
+      "rankByArea": 10
+    }
+  ],
+  "postProcessing": {
+    "owlvitCategoryNms": {
+      "applied": true,
+      "inputCount": 59,
+      "outputCount": 10,
+      "iouThreshold": 0.5,
+      "maxSubjects": 10
+    }
+  },
+  "failureReason": ""
+}

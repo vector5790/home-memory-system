@@ -1,0 +1,127 @@
+{
+  "kind": "vision-subject-detection-eval-report",
+  "version": "2026-05-24-subject-detection-run-report",
+  "generatedAt": "2026-05-24T04:50:15.747Z",
+  "detectionRunVersion": "2026-05-24-subject-detection-run",
+  "reviewVersion": "2026-05-24-subject-detection-review",
+  "manifestVersion": "2026-05-24-subject-detection-cn",
+  "taxonomyVersion": "20260524-household-expanded",
+  "metrics": {
+    "byModelVariant": {
+      "grounding-dino | original": {
+        "modelId": "grounding-dino",
+        "imageVariant": "original",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 1,
+        "failureRate": 0,
+        "averageRecognitionMs": 1860.154,
+        "detectionP50Ms": 1860.154,
+        "detectionP95Ms": 1860.154
+      },
+      "owlvit | original": {
+        "modelId": "owlvit",
+        "imageVariant": "original",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 25,
+        "failureRate": 0,
+        "averageRecognitionMs": 245.185,
+        "detectionP50Ms": 245.185,
+        "detectionP95Ms": 245.185
+      },
+      "grounding-dino | normalized-1024": {
+        "modelId": "grounding-dino",
+        "imageVariant": "normalized-1024",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 1,
+        "failureRate": 0,
+        "averageRecognitionMs": 1802.331,
+        "detectionP50Ms": 1802.331,
+        "detectionP95Ms": 1802.331
+      },
+      "owlvit | normalized-1024": {
+        "modelId": "owlvit",
+        "imageVariant": "normalized-1024",
+        "resultCount": 1,
+        "reviewedImageCount": 0,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 25,
+        "failureRate": 0,
+        "averageRecognitionMs": 225.93,
+        "detectionP50Ms": 225.93,
+        "detectionP95Ms": 225.93
+      }
+    },
+    "modelSummary": {
+      "grounding-dino": {
+        "resultCount": 2,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 1,
+        "failureRate": 0,
+        "averageRecognitionMs": 1831.242,
+        "detectionP50Ms": 1802.331,
+        "detectionP95Ms": 1860.154
+      },
+      "owlvit": {
+        "resultCount": 2,
+        "ordinaryPrecision": null,
+        "primaryAAccuracy": null,
+        "primaryBAccuracy": null,
+        "imageSuccessRate": null,
+        "modelWinRate": null,
+        "averageBoxCount": 25,
+        "failureRate": 0,
+        "averageRecognitionMs": 235.558,
+        "detectionP50Ms": 225.93,
+        "detectionP95Ms": 245.185
+      }
+    },
+    "grouped": {
+      "categoryId": {
+        "lunch-box": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 13,
+          "failureRate": 0
+        }
+      },
+      "sourceProvider": {
+        "Bing Images": {
+          "resultCount": 4,
+          "imageCount": 1,
+          "averageBoxCount": 13,
+          "failureRate": 0
+        }
+      }
+    }
+  },
+  "recommendations": {
+    "compressionRecommendation": "人工标注不足，暂不判断压缩图是否影响准确性；未标注 smoke 中 normalized variant 平均耗时约为 original 的 0.963 倍。",
+    "modelRecommendation": "人工标注不足，暂不判断哪个模型更准确。未标注 smoke 仅供排障参考：grounding-dino: 平均 1831.242ms, 平均框数 1, 失败率 0；owlvit: 平均 235.558ms, 平均框数 25, 失败率 0。"
+  }
+}

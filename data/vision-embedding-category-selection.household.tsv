@@ -1,0 +1,345 @@
+categoryId	displayName	displayPath	lineage	coverageTier	appCategory	includeForEmbedding	embeddingPriority	annotationStatus	notes
+razor	剃须刀	个人护理 / 个人洗护 / 个人护理用品 / 剃须刀	Health & Beauty / Personal Care / Personal Care Products / Razors	mvp	daily	pending	p1	pending
+comb	梳子	个人护理 / 个人洗护 / 个人护理用品 / 梳子	Health & Beauty / Personal Care / Personal Care Products / Combs	mvp	daily	pending	p1	pending
+body-wash-bottle	沐浴露	个人护理 / 个人洗护 / 个人护理用品 / 沐浴露	Health & Beauty / Personal Care / Personal Care Products / Body Wash Bottles	mvp	daily	pending	p1	pending
+shampoo-bottle	洗发水	个人护理 / 个人洗护 / 个人护理用品 / 洗发水	Health & Beauty / Personal Care / Personal Care Products / Shampoo Bottles	mvp	daily	pending	p1	pending
+toothbrush	牙刷	个人护理 / 个人洗护 / 个人护理用品 / 牙刷	Health & Beauty / Personal Care / Personal Care Products / Toothbrushes	mvp	daily	pending	p1	pending
+toothpaste	牙膏	个人护理 / 个人洗护 / 个人护理用品 / 牙膏	Health & Beauty / Personal Care / Personal Care Products / Toothpaste Tubes	mvp	daily	pending	p1	pending
+skincare-cream-jar	面霜罐	个人护理 / 个人洗护 / 个人护理用品 / 面霜罐	Health & Beauty / Personal Care / Personal Care Products / Skin Cream Jars	mvp	daily	pending	p1	pending
+shaver	剃须刀	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 剃须刀	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Electric Shavers	mvp	daily	pending	p1	pending
+hair-brush	发刷	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 发刷	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Hair Brushes	mvp	daily	pending	p1	pending
+lipstick	口红	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 口红	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Lipstick	mvp	daily	pending	p1	pending
+nail-clipper	指甲剪	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 指甲剪	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Nail Clippers	mvp	daily	pending	p1	pending
+cotton-swabs-box	棉签盒	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 棉签盒	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Cotton Swab Boxes	mvp	daily	pending	p1	pending
+electric-toothbrush	电动牙刷	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 电动牙刷	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Electric Toothbrushes	mvp	daily	pending	p1	pending
+makeup-palette	眼影盘	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 眼影盘	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Makeup Palettes	mvp	daily	pending	p1	pending
+lotion-bottle	身体乳瓶	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 身体乳瓶	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Lotion Bottles	mvp	daily	pending	p1	pending
+perfume-bottle	香水瓶	个人护理 / 个人洗护 / 美妆护肤与修剪用品 / 香水瓶	Health & Beauty / Personal Care / Cosmetics & Grooming Products / Perfume Bottles	mvp	daily	pending	p1	pending
+bathroom-scale	体重秤	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 体重秤	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Bathroom Scales	mvp	daily	pending	p1	pending
+razor-holder	剃须刀架	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 剃须刀架	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Razor Holders	mvp	daily	pending	p1	pending
+bathroom-shelf	浴室置物架	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 浴室置物架	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Bathroom Shelves	mvp	daily	pending	p1	pending
+shower-curtain	浴帘	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 浴帘	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Shower Curtains	mvp	daily	pending	p1	pending
+toothbrush-cup	牙刷杯	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 牙刷杯	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Toothbrush Cups	mvp	daily	pending	p1	pending
+soap-dish	肥皂盒	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 肥皂盒	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Soap Dishes	mvp	daily	pending	p1	pending
+shower-head	花洒	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 花洒	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Shower Heads	mvp	daily	pending	p1	pending
+toilet-seat-cover	马桶垫	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 马桶垫	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Toilet Seat Covers	mvp	daily	pending	p1	pending
+toilet-plunger	马桶疏通器	卫浴用品 / 浴室用品 / 卫浴配件与小物 / 马桶疏通器	Bathroom Supplies / Bathroom Accessories / Bathroom Fixtures & Small Accessories / Toilet Plungers	mvp	daily	pending	p1	pending
+hand-sanitizer	免洗洗手液	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 免洗洗手液	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Hand Sanitizer	mvp	daily	pending	p1	pending
+toilet-paper-roll	卷纸	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 卷纸	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Toilet Paper Rolls	mvp	daily	pending	p1	pending
+bath-mat	浴垫	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 浴垫	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Bath Mats	mvp	daily	pending	p1	pending
+shower-cap	浴帽	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 浴帽	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Shower Caps	mvp	daily	pending	p1	pending
+tissue-box	纸巾盒	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 纸巾盒	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Tissue Boxes	mvp	daily	pending	p1	pending
+soap-bar	香皂	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 香皂	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Soap Bars	mvp	daily	pending	p1	pending
+toilet-brush	马桶刷	卫浴用品 / 浴室用品 / 纸品皂类与浴室配件 / 马桶刷	Bathroom & Hygiene / Bathroom Supplies / Bathroom Paper, Soap & Accessories / Toilet Brushes	mvp	daily	pending	p1	pending
+sous-vide-machine	低温慢煮机	厨房器具 / 厨房用品 / 备餐与餐具 / 低温慢煮机	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Sous Vide Cookers	common	daily	pending	p2	pending
+saucepan	奶锅	厨房器具 / 厨房用品 / 备餐与餐具 / 奶锅	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Saucepans	mvp	daily	pending	p1	pending
+frying-pan	煎锅	厨房器具 / 厨房用品 / 备餐与餐具 / 煎锅	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Frying Pans	mvp	daily	pending	p1	pending
+drinking-glass	玻璃杯	厨房器具 / 厨房用品 / 备餐与餐具 / 玻璃杯	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Drinking Glasses	mvp	daily	pending	p1	pending
+plate	盘子	厨房器具 / 厨房用品 / 备餐与餐具 / 盘子	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Plates	mvp	daily	pending	p1	pending
+bowl	碗	厨房器具 / 厨房用品 / 备餐与餐具 / 碗	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Bowls	mvp	daily	pending	p1	pending
+cutting-board	菜板	厨房器具 / 厨房用品 / 备餐与餐具 / 菜板	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Cutting Boards	mvp	daily	pending	p1	pending
+mug	马克杯	厨房器具 / 厨房用品 / 备餐与餐具 / 马克杯	Kitchen & Dining / Kitchenware / Food Preparation & Serving / Mugs	mvp	daily	pending	p1	pending
+thermos-bottle	保温杯	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 保温杯	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Vacuum Flasks	mvp	daily	pending	p1	pending
+food-storage-container	保鲜盒	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 保鲜盒	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Food Storage Containers	mvp	daily	pending	p1	pending
+peeler	削皮器	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 削皮器	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Peelers	mvp	daily	pending	p1	pending
+spoon	勺子	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 勺子	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Spoons	mvp	daily	pending	p1	pending
+kitchen-scale	厨房秤	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 厨房秤	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Kitchen Scales	mvp	daily	pending	p1	pending
+fork	叉子	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 叉子	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Forks	mvp	daily	pending	p1	pending
+ladle	汤勺	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 汤勺	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Ladles	mvp	daily	pending	p1	pending
+stock-pot	汤锅	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 汤锅	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Stock Pots	mvp	daily	pending	p1	pending
+colander	沥水篮	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 沥水篮	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Colanders	mvp	daily	pending	p1	pending
+wok	炒锅	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 炒锅	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Woks	mvp	daily	pending	p1	pending
+chopsticks	筷子	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 筷子	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Chopsticks	mvp	daily	pending	p1	pending
+kitchen-knife	菜刀	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 菜刀	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Kitchen Knives	mvp	daily	pending	p1	pending
+steamer-pot	蒸锅	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 蒸锅	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Steamer Pots	mvp	daily	pending	p1	pending
+spatula	锅铲	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 锅铲	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Spatulas	mvp	daily	pending	p1	pending
+rice-spoon	饭勺	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 饭勺	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Rice Spoons	mvp	daily	pending	p1	pending
+lunch-box	饭盒	厨房器具 / 厨房用品 / 锅具刀具与小工具 / 饭盒	Kitchen & Dining / Kitchenware / Cookware & Kitchen Utensils / Lunch Boxes	mvp	daily	pending	p1	pending
+cooling-mat	凉席	季节物品 / 季节用品 / 天气节日与季节用品 / 凉席	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Cooling Mats	mvp	daily	pending	p1	pending
+portable-fan	小风扇	季节物品 / 季节用品 / 天气节日与季节用品 / 小风扇	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Portable Fans	mvp	appliance	pending	p1	pending
+hand-warmer	暖宝宝	季节物品 / 季节用品 / 天气节日与季节用品 / 暖宝宝	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Hand Warmers	mvp	daily	pending	p1	pending
+hot-water-bottle	热水袋	季节物品 / 季节用品 / 天气节日与季节用品 / 热水袋	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Hot Water Bottles	mvp	daily	pending	p1	pending
+electric-blanket	电热毯	季节物品 / 季节用品 / 天气节日与季节用品 / 电热毯	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Electric Blankets	mvp	daily	pending	p1	pending
+red-envelope-pack	红包	季节物品 / 季节用品 / 天气节日与季节用品 / 红包	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Red Envelope Packs	mvp	daily	pending	p1	pending
+christmas-ornament	节日挂饰	季节物品 / 季节用品 / 天气节日与季节用品 / 节日挂饰	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Holiday Ornaments	mvp	daily	pending	p1	pending
+holiday-tree-stand	节日树支架	季节物品 / 季节用品 / 天气节日与季节用品 / 节日树支架	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Holiday Tree Stands	long-tail	daily	pending	p3	pending
+holiday-lights	节日灯串	季节物品 / 季节用品 / 天气节日与季节用品 / 节日灯串	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Holiday Light Strings	mvp	daily	pending	p1	pending
+holiday-gift-box	节日礼盒	季节物品 / 季节用品 / 天气节日与季节用品 / 节日礼盒	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Holiday Gift Boxes	mvp	daily	pending	p1	pending
+mosquito-coil-box	蚊香盒	季节物品 / 季节用品 / 天气节日与季节用品 / 蚊香盒	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Mosquito Coil Boxes	mvp	daily	pending	p1	pending
+sunscreen-bottle	防晒霜	季节物品 / 季节用品 / 天气节日与季节用品 / 防晒霜	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Sunscreen Bottles	mvp	daily	pending	p1	pending
+umbrella	雨伞	季节物品 / 季节用品 / 天气节日与季节用品 / 雨伞	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Umbrellas	mvp	daily	pending	p1	pending
+mosquito-repellent	驱蚊液	季节物品 / 季节用品 / 天气节日与季节用品 / 驱蚊液	Seasonal & Occasion / Seasonal Household Items / Weather, Holiday & Seasonal Supplies / Mosquito Repellent	mvp	daily	pending	p1	pending
+pet-shampoo-bottle	宠物沐浴露	宠物用品 / 宠物用品 / 宠物护理喂养与居住用品 / 宠物沐浴露	Pet Supplies / Pet Care / Pet Care, Feeding & Habitat Items / Pet Shampoo Bottles	mvp	pet	pending	p1	pending
+pet-bed	宠物窝	宠物用品 / 宠物用品 / 宠物护理喂养与居住用品 / 宠物窝	Pet Supplies / Pet Care / Pet Care, Feeding & Habitat Items / Pet Beds	mvp	pet	pending	p1	pending
+pet-carrier	宠物航空箱	宠物用品 / 宠物用品 / 宠物护理喂养与居住用品 / 宠物航空箱	Pet Supplies / Pet Care / Pet Care, Feeding & Habitat Items / Pet Carriers	mvp	pet	pending	p1	pending
+aquarium-tank	鱼缸	宠物用品 / 宠物用品 / 宠物护理喂养与居住用品 / 鱼缸	Pet Supplies / Pet Care / Pet Care, Feeding & Habitat Items / Aquariums	mvp	pet	pending	p1	pending
+fish-food-container	鱼食盒	宠物用品 / 宠物用品 / 宠物护理喂养与居住用品 / 鱼食盒	Pet Supplies / Pet Care / Pet Care, Feeding & Habitat Items / Fish Food Containers	mvp	pet	pending	p1	pending
+waste-bag-roll	宠物拾便袋	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 宠物拾便袋	Pets / Pet Supplies / Pet Food, Care & Accessories / Pet Waste Bag Rolls	mvp	pet	pending	p1	pending
+grooming-brush	宠物梳	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 宠物梳	Pets / Pet Supplies / Pet Food, Care & Accessories / Pet Grooming Brushes	mvp	pet	pending	p1	pending
+pet-toy	宠物玩具	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 宠物玩具	Pets / Pet Supplies / Pet Food, Care & Accessories / Pet Toys	mvp	pet	pending	p1	pending
+pet-bowl	宠物碗	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 宠物碗	Pets / Pet Supplies / Pet Food, Care & Accessories / Pet Bowls	mvp	pet	pending	p1	pending
+pet-food-bag	宠物粮袋	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 宠物粮袋	Pets / Pet Supplies / Pet Food, Care & Accessories / Pet Food Bags	mvp	pet	pending	p1	pending
+leash	牵引绳	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 牵引绳	Pets / Pet Supplies / Pet Food, Care & Accessories / Pet Leashes	mvp	pet	pending	p1	pending
+litter-bag	猫砂袋	宠物用品 / 宠物用品 / 宠物食品护理与配件 / 猫砂袋	Pets / Pet Supplies / Pet Food, Care & Accessories / Cat Litter Bags	mvp	pet	pending	p1	pending
+bookshelf	书架	家具 / 家庭家具 / 座椅桌柜与架类 / 书架	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Bookshelves	mvp	daily	pending	p1	pending
+desk	书桌	家具 / 家庭家具 / 座椅桌柜与架类 / 书桌	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Desks	mvp	daily	pending	p1	pending
+stool	凳子	家具 / 家庭家具 / 座椅桌柜与架类 / 凳子	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Stools	mvp	daily	pending	p1	pending
+bedside-table	床头柜	家具 / 家庭家具 / 座椅桌柜与架类 / 床头柜	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Bedside Tables	mvp	daily	pending	p1	pending
+folding-chair	折叠椅	家具 / 家庭家具 / 座椅桌柜与架类 / 折叠椅	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Folding Chairs	mvp	daily	pending	p1	pending
+clothes-rack	晾衣架	家具 / 家庭家具 / 座椅桌柜与架类 / 晾衣架	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Clothes Racks	mvp	daily	pending	p1	pending
+cabinet	柜子	家具 / 家庭家具 / 座椅桌柜与架类 / 柜子	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Cabinets	mvp	daily	pending	p1	pending
+chair	椅子	家具 / 家庭家具 / 座椅桌柜与架类 / 椅子	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Chairs	mvp	daily	pending	p1	pending
+sofa	沙发	家具 / 家庭家具 / 座椅桌柜与架类 / 沙发	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Sofas	mvp	daily	pending	p1	pending
+tv-stand	电视柜	家具 / 家庭家具 / 座椅桌柜与架类 / 电视柜	Furniture / Household Furniture / Seating, Tables & Storage Furniture / TV Stands	mvp	daily	pending	p1	pending
+ottoman	脚凳	家具 / 家庭家具 / 座椅桌柜与架类 / 脚凳	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Ottomans	mvp	daily	pending	p1	pending
+coffee-table	茶几	家具 / 家庭家具 / 座椅桌柜与架类 / 茶几	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Coffee Tables	mvp	daily	pending	p1	pending
+shoe-rack	鞋架	家具 / 家庭家具 / 座椅桌柜与架类 / 鞋架	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Shoe Racks	mvp	daily	pending	p1	pending
+dining-table	餐桌	家具 / 家庭家具 / 座椅桌柜与架类 / 餐桌	Furniture / Household Furniture / Seating, Tables & Storage Furniture / Dining Tables	mvp	daily	pending	p1	pending
+artificial-flower	仿真花	家居装饰 / 装饰用品 / 家庭装饰物 / 仿真花	Home Decor / Decorative Accessories / Household Decorative Objects / Artificial Flowers	mvp	daily	pending	p1	pending
+wall-clock	挂钟	家居装饰 / 装饰用品 / 家庭装饰物 / 挂钟	Home Decor / Decorative Accessories / Household Decorative Objects / Wall Clocks	mvp	daily	pending	p1	pending
+photo-frame	相框	家居装饰 / 装饰用品 / 家庭装饰物 / 相框	Home Decor / Decorative Accessories / Household Decorative Objects / Photo Frames	mvp	daily	pending	p1	pending
+vase	花瓶	家居装饰 / 装饰用品 / 家庭装饰物 / 花瓶	Home Decor / Decorative Accessories / Household Decorative Objects / Vases	mvp	daily	pending	p1	pending
+candle	蜡烛	家居装饰 / 装饰用品 / 家庭装饰物 / 蜡烛	Home Decor / Decorative Accessories / Household Decorative Objects / Candles	mvp	daily	pending	p1	pending
+decorative-basket	装饰篮	家居装饰 / 装饰用品 / 家庭装饰物 / 装饰篮	Home Decor / Decorative Accessories / Household Decorative Objects / Decorative Baskets	mvp	daily	pending	p1	pending
+diffuser-bottle	香薰瓶	家居装饰 / 装饰用品 / 家庭装饰物 / 香薰瓶	Home Decor / Decorative Accessories / Household Decorative Objects / Diffuser Bottles	mvp	daily	pending	p1	pending
+clock-table	台钟	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 台钟	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Table Clocks	mvp	daily	pending	p1	pending
+decorative-figurine	摆件	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 摆件	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Decorative Figurines	mvp	daily	pending	p1	pending
+photo-album	相册	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 相册	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Photo Albums	mvp	daily	pending	p1	pending
+essential-oil-bottle	精油瓶	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 精油瓶	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Essential Oil Bottles	mvp	daily	pending	p1	pending
+wall-art	装饰画	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 装饰画	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Wall Art	mvp	daily	pending	p1	pending
+plant-vase	装饰花器	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 装饰花器	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Decorative Plant Vases	mvp	daily	pending	p1	pending
+mirror	镜子	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 镜子	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Mirrors	mvp	daily	pending	p1	pending
+incense-holder	香插	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 香插	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Incense Holders	mvp	daily	pending	p1	pending
+aroma-diffuser	香薰机	家居装饰 / 装饰用品 / 摆件香氛与墙面装饰 / 香薰机	Home Decor / Decorative Accessories / Decorative Objects & Fragrance Items / Aroma Diffusers	mvp	daily	pending	p1	pending
+refrigerator	冰箱	家电 / 家庭电器 / 大家电与环境电器 / 冰箱	Home Appliances / Household Appliances / Large & Climate Appliances / Refrigerators	mvp	appliance	pending	p1	pending
+humidifier	加湿器	家电 / 家庭电器 / 大家电与环境电器 / 加湿器	Home Appliances / Household Appliances / Large & Climate Appliances / Humidifiers	mvp	appliance	pending	p1	pending
+microwave-oven	微波炉	家电 / 家庭电器 / 大家电与环境电器 / 微波炉	Home Appliances / Household Appliances / Large & Climate Appliances / Microwave Ovens	mvp	appliance	pending	p1	pending
+clothes-steamer	挂烫机	家电 / 家庭电器 / 大家电与环境电器 / 挂烫机	Home Appliances / Household Appliances / Large & Climate Appliances / Garment Steamers	mvp	appliance	pending	p1	pending
+washing-machine	洗衣机	家电 / 家庭电器 / 大家电与环境电器 / 洗衣机	Home Appliances / Household Appliances / Large & Climate Appliances / Washing Machines	mvp	appliance	pending	p1	pending
+electric-iron	电熨斗	家电 / 家庭电器 / 大家电与环境电器 / 电熨斗	Home Appliances / Household Appliances / Large & Climate Appliances / Electric Irons	mvp	appliance	pending	p1	pending
+induction-cooker	电磁炉	家电 / 家庭电器 / 大家电与环境电器 / 电磁炉	Home Appliances / Household Appliances / Large & Climate Appliances / Induction Cookers	mvp	appliance	pending	p1	pending
+electric-fan	电风扇	家电 / 家庭电器 / 大家电与环境电器 / 电风扇	Home Appliances / Household Appliances / Large & Climate Appliances / Electric Fans	mvp	appliance	pending	p1	pending
+air-purifier	空气净化器	家电 / 家庭电器 / 大家电与环境电器 / 空气净化器	Home Appliances / Household Appliances / Large & Climate Appliances / Air Purifiers	mvp	appliance	pending	p1	pending
+air-fryer	空气炸锅	家电 / 家庭电器 / 大家电与环境电器 / 空气炸锅	Home Appliances / Household Appliances / Large & Climate Appliances / Air Fryers	mvp	appliance	pending	p1	pending
+air-conditioner	空调	家电 / 家庭电器 / 大家电与环境电器 / 空调	Home Appliances / Household Appliances / Large & Climate Appliances / Air Conditioners	mvp	appliance	pending	p1	pending
+dehumidifier	除湿机	家电 / 家庭电器 / 大家电与环境电器 / 除湿机	Home Appliances / Household Appliances / Large & Climate Appliances / Dehumidifiers	mvp	appliance	pending	p1	pending
+vacuum-cleaner	吸尘器	家电 / 小家电 / 家庭电器 / 吸尘器	Appliances / Small Domestic Appliances / Household Electrical Appliances / Vacuum Cleaners	mvp	appliance	pending	p1	pending
+hair-dryer	吹风机	家电 / 小家电 / 家庭电器 / 吹风机	Appliances / Small Domestic Appliances / Household Electrical Appliances / Hair Dryers	mvp	appliance	pending	p1	pending
+electric-kettle	电水壶	家电 / 小家电 / 家庭电器 / 电水壶	Appliances / Small Domestic Appliances / Household Electrical Appliances / Electric Kettles	mvp	appliance	pending	p1	pending
+rice-cooker	电饭煲	家电 / 小家电 / 家庭电器 / 电饭煲	Appliances / Small Domestic Appliances / Household Electrical Appliances / Rice Cookers	mvp	appliance	pending	p1	pending
+air-purifier-filter	空气净化器滤芯	家电 / 小家电 / 家庭电器 / 空气净化器滤芯	Appliances / Small Domestic Appliances / Household Electrical Appliances / Air Purifier Filters	mvp	appliance	pending	p1	pending
+router	路由器	家电 / 小家电 / 家庭电器 / 路由器	Appliances / Small Domestic Appliances / Household Electrical Appliances / Network Routers	mvp	appliance	pending	p1	pending
+remote-control	遥控器	家电 / 小家电 / 家庭电器 / 遥控器	Appliances / Small Domestic Appliances / Household Electrical Appliances / Remote Controls	seed	appliance	pending	p0	pending
+apron	围裙	家纺 / 家庭纺织品 / 床品窗帘与软装 / 围裙	Home Textiles / Household Textiles / Bedding & Soft Furnishings / Aprons	mvp	daily	pending	p1	pending
+mattress-pad	床垫保护垫	家纺 / 家庭纺织品 / 床品窗帘与软装 / 床垫保护垫	Home Textiles / Household Textiles / Bedding & Soft Furnishings / Mattress Pads	mvp	daily	pending	p1	pending
+pillow	枕头	家纺 / 家庭纺织品 / 床品窗帘与软装 / 枕头	Home Textiles / Household Textiles / Bedding & Soft Furnishings / Pillows	mvp	daily	pending	p1	pending
+curtain	窗帘	家纺 / 家庭纺织品 / 床品窗帘与软装 / 窗帘	Home Textiles / Household Textiles / Bedding & Soft Furnishings / Curtains	mvp	daily	pending	p1	pending
+quilt	被子	家纺 / 家庭纺织品 / 床品窗帘与软装 / 被子	Home Textiles / Household Textiles / Bedding & Soft Furnishings / Quilts & Duvets	mvp	daily	pending	p1	pending
+doormat	门垫	家纺 / 家庭纺织品 / 床品窗帘与软装 / 门垫	Home Textiles / Household Textiles / Bedding & Soft Furnishings / Doormats	mvp	daily	pending	p1	pending
+bed-sheet	床单	家纺 / 家庭纺织品 / 毛巾床品与软装 / 床单	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Bed Sheets	mvp	daily	pending	p1	pending
+cushion-cover	抱枕套	家纺 / 家庭纺织品 / 毛巾床品与软装 / 抱枕套	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Cushion Covers	mvp	daily	pending	p1	pending
+pillowcase	枕套	家纺 / 家庭纺织品 / 毛巾床品与软装 / 枕套	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Pillowcases	mvp	daily	pending	p1	pending
+tablecloth	桌布	家纺 / 家庭纺织品 / 毛巾床品与软装 / 桌布	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Tablecloths	mvp	daily	pending	p1	pending
+towel	毛巾	家纺 / 家庭纺织品 / 毛巾床品与软装 / 毛巾	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Towels	mvp	daily	pending	p1	pending
+blanket	毯子	家纺 / 家庭纺织品 / 毛巾床品与软装 / 毯子	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Blankets	mvp	daily	pending	p1	pending
+bath-towel	浴巾	家纺 / 家庭纺织品 / 毛巾床品与软装 / 浴巾	Home Textiles / Household Linens / Towels, Bedding & Soft Furnishings / Bath Towels	mvp	daily	pending	p1	pending
+cosmetic-organizer	化妆品收纳盒	居家收纳 / 收纳整理 / 家庭收纳容器 / 化妆品收纳盒	Home & Garden / Storage & Organization / Household Storage Containers / Cosmetic Organizers	mvp	daily	pending	p1	pending
+underbed-storage-box	床底收纳箱	居家收纳 / 收纳整理 / 家庭收纳容器 / 床底收纳箱	Home & Garden / Storage & Organization / Household Storage Containers / Underbed Storage Boxes	mvp	daily	pending	p1	pending
+folding-storage-crate	折叠收纳筐	居家收纳 / 收纳整理 / 家庭收纳容器 / 折叠收纳筐	Home & Garden / Storage & Organization / Household Storage Containers / Folding Storage Crates	mvp	daily	pending	p1	pending
+drawer-organizer	抽屉分隔盒	居家收纳 / 收纳整理 / 家庭收纳容器 / 抽屉分隔盒	Home & Garden / Storage & Organization / Household Storage Containers / Drawer Organizers	mvp	daily	pending	p1	pending
+storage-drawer-unit	抽屉式收纳柜	居家收纳 / 收纳整理 / 家庭收纳容器 / 抽屉式收纳柜	Home & Garden / Storage & Organization / Household Storage Containers / Storage Drawer Units	mvp	daily	pending	p1	pending
+hanging-storage-bag	挂式收纳袋	居家收纳 / 收纳整理 / 家庭收纳容器 / 挂式收纳袋	Home & Garden / Storage & Organization / Household Storage Containers / Hanging Storage Bags	mvp	daily	pending	p1	pending
+storage-box	收纳盒	居家收纳 / 收纳整理 / 家庭收纳容器 / 收纳盒	Home & Garden / Storage & Organization / Household Storage Containers / Storage Boxes	seed	daily	pending	p0	pending
+storage-basket	收纳篮	居家收纳 / 收纳整理 / 家庭收纳容器 / 收纳篮	Home & Garden / Storage & Organization / Household Storage Containers / Storage Baskets	mvp	daily	pending	p1	pending
+document-storage-box	文件收纳箱	居家收纳 / 收纳整理 / 家庭收纳容器 / 文件收纳箱	Home & Garden / Storage & Organization / Household Storage Containers / Document Storage Boxes	mvp	daily	pending	p1	pending
+desktop-organizer	桌面收纳架	居家收纳 / 收纳整理 / 家庭收纳容器 / 桌面收纳架	Home & Garden / Storage & Organization / Household Storage Containers / Desktop Organizers	mvp	daily	pending	p1	pending
+vacuum-storage-bag	真空压缩袋	居家收纳 / 收纳整理 / 家庭收纳容器 / 真空压缩袋	Home & Garden / Storage & Organization / Household Storage Containers / Vacuum Storage Bags	mvp	daily	pending	p1	pending
+cable-organizer-box	线缆收纳盒	居家收纳 / 收纳整理 / 家庭收纳容器 / 线缆收纳盒	Home & Garden / Storage & Organization / Household Storage Containers / Cable Organizer Boxes	mvp	daily	pending	p1	pending
+closet-organizer	衣柜收纳格	居家收纳 / 收纳整理 / 家庭收纳容器 / 衣柜收纳格	Home & Garden / Storage & Organization / Household Storage Containers / Closet Organizers	mvp	daily	pending	p1	pending
+shoe-box	鞋盒	居家收纳 / 收纳整理 / 家庭收纳容器 / 鞋盒	Home & Garden / Storage & Organization / Household Storage Containers / Shoe Storage Boxes	mvp	daily	pending	p1	pending
+jewelry-box	首饰盒	居家收纳 / 收纳整理 / 家庭收纳容器 / 首饰盒	Home & Garden / Storage & Organization / Household Storage Containers / Jewelry Boxes	mvp	daily	pending	p1	pending
+flashlight	手电筒	工具五金 / 五金工具 / 紧固安全与小五金 / 手电筒	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Flashlights	mvp	tool	pending	p1	pending
+wall-hook	挂钩	工具五金 / 五金工具 / 紧固安全与小五金 / 挂钩	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Wall Hooks	mvp	tool	pending	p1	pending
+padlock	挂锁	工具五金 / 五金工具 / 紧固安全与小五金 / 挂锁	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Padlocks	mvp	tool	pending	p1	pending
+fire-extinguisher	灭火器	工具五金 / 五金工具 / 紧固安全与小五金 / 灭火器	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Fire Extinguishers	mvp	tool	pending	p1	pending
+smoke-alarm	烟雾报警器	工具五金 / 五金工具 / 紧固安全与小五金 / 烟雾报警器	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Smoke Alarms	mvp	tool	pending	p1	pending
+glue-gun	热熔胶枪	工具五金 / 五金工具 / 紧固安全与小五金 / 热熔胶枪	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Glue Guns	mvp	tool	pending	p1	pending
+utility-knife	美工刀	工具五金 / 五金工具 / 紧固安全与小五金 / 美工刀	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Utility Knives	mvp	tool	pending	p1	pending
+screw-box	螺丝盒	工具五金 / 五金工具 / 紧固安全与小五金 / 螺丝盒	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Screw Boxes	mvp	tool	pending	p1	pending
+nail-box	钉子盒	工具五金 / 五金工具 / 紧固安全与小五金 / 钉子盒	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Nail Boxes	mvp	tool	pending	p1	pending
+keyring	钥匙圈	工具五金 / 五金工具 / 紧固安全与小五金 / 钥匙圈	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Key Rings	mvp	tool	pending	p1	pending
+door-lock	门锁	工具五金 / 五金工具 / 紧固安全与小五金 / 门锁	Tools & Hardware / Household Hardware / Fasteners, Safety & Small Hardware / Door Locks	mvp	tool	pending	p1	pending
+scissors	剪刀	工具五金 / 手工具 / 家庭工具与固定用品 / 剪刀	Tools & Hardware / Hand Tools / Household Tools & Fastening / Scissors	mvp	tool	pending	p1	pending
+measuring-tape	卷尺	工具五金 / 手工具 / 家庭工具与固定用品 / 卷尺	Tools & Hardware / Hand Tools / Household Tools & Fastening / Measuring Tapes	mvp	tool	pending	p1	pending
+wrench	扳手	工具五金 / 手工具 / 家庭工具与固定用品 / 扳手	Tools & Hardware / Hand Tools / Household Tools & Fastening / Wrenches	mvp	tool	pending	p1	pending
+tape-roll	胶带	工具五金 / 手工具 / 家庭工具与固定用品 / 胶带	Tools & Hardware / Hand Tools / Household Tools & Fastening / Adhesive Tape Rolls	mvp	tool	pending	p1	pending
+glue-stick	胶棒	工具五金 / 手工具 / 家庭工具与固定用品 / 胶棒	Tools & Hardware / Hand Tools / Household Tools & Fastening / Glue Sticks	mvp	tool	pending	p1	pending
+screwdriver	螺丝刀	工具五金 / 手工具 / 家庭工具与固定用品 / 螺丝刀	Tools & Hardware / Hand Tools / Household Tools & Fastening / Screwdrivers	mvp	tool	pending	p1	pending
+sewing-kit	针线包	工具五金 / 手工具 / 家庭工具与固定用品 / 针线包	Tools & Hardware / Hand Tools / Household Tools & Fastening / Sewing Kits	common	tool	pending	p2	pending
+hammer	锤子	工具五金 / 手工具 / 家庭工具与固定用品 / 锤子	Tools & Hardware / Hand Tools / Household Tools & Fastening / Hammers	mvp	tool	pending	p1	pending
+book	书	文件与办公 / 文件文具 / 书写收纳与读物 / 书	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Books	mvp	document	pending	p1	pending
+ruler	尺子	文件与办公 / 文件文具 / 书写收纳与读物 / 尺子	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Rulers	mvp	document	pending	p1	pending
+printer-paper-pack	打印纸	文件与办公 / 文件文具 / 书写收纳与读物 / 打印纸	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Printer Paper Packs	mvp	document	pending	p1	pending
+folder	文件夹	文件与办公 / 文件文具 / 书写收纳与读物 / 文件夹	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Folders	mvp	document	pending	p1	pending
+magazine	杂志	文件与办公 / 文件文具 / 书写收纳与读物 / 杂志	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Magazines	mvp	document	pending	p1	pending
+tape-dispenser	胶带座	文件与办公 / 文件文具 / 书写收纳与读物 / 胶带座	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Tape Dispensers	mvp	document	pending	p1	pending
+calculator	计算器	文件与办公 / 文件文具 / 书写收纳与读物 / 计算器	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Calculators	mvp	document	pending	p1	pending
+stapler	订书机	文件与办公 / 文件文具 / 书写收纳与读物 / 订书机	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Staplers	mvp	document	pending	p1	pending
+pencil	铅笔	文件与办公 / 文件文具 / 书写收纳与读物 / 铅笔	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Pencils	mvp	document	pending	p1	pending
+marker-pen	马克笔	文件与办公 / 文件文具 / 书写收纳与读物 / 马克笔	Office Supplies / Stationery & Books / Writing, Filing & Reading Items / Marker Pens	mvp	document	pending	p1	pending
+envelope	信封	文件与办公 / 文件文具 / 证件与办公用品 / 信封	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Envelopes	mvp	document	pending	p1	pending
+passport	护照	文件与办公 / 文件文具 / 证件与办公用品 / 护照	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Passports	mvp	document	pending	p1	pending
+receipt	票据	文件与办公 / 文件文具 / 证件与办公用品 / 票据	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Receipts	mvp	document	pending	p1	pending
+pen	笔	文件与办公 / 文件文具 / 证件与办公用品 / 笔	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Pens	mvp	document	pending	p1	pending
+notebook	笔记本	文件与办公 / 文件文具 / 证件与办公用品 / 笔记本	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Notebooks	mvp	document	pending	p1	pending
+id-card	身份证	文件与办公 / 文件文具 / 证件与办公用品 / 身份证	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Identity Cards	mvp	document	pending	p1	pending
+bank-card	银行卡	文件与办公 / 文件文具 / 证件与办公用品 / 银行卡	Office & Documents / Documents & Stationery / Personal Documents & Office Supplies / Bank Cards	mvp	document	pending	p1	pending
+neck-pillow	U型枕	旅行用品 / 箱包旅行 / 旅行箱包与配件 / U型枕	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Travel Neck Pillows	mvp	daily	pending	p1	pending
+travel-bottle-set	分装瓶	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 分装瓶	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Travel Bottle Sets	mvp	daily	pending	p1	pending
+passport-holder	护照夹	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 护照夹	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Passport Holders	mvp	daily	pending	p1	pending
+packing-cube	旅行收纳袋	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 旅行收纳袋	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Packing Cubes	mvp	daily	pending	p1	pending
+travel-adapter	旅行转换插头	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 旅行转换插头	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Travel Adapters	mvp	tool	pending	p1	pending
+toiletry-bag	洗漱包	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 洗漱包	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Toiletry Bags	mvp	daily	pending	p1	pending
+sleep-mask	眼罩	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 眼罩	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Sleep Masks	mvp	daily	pending	p1	pending
+backpack	背包	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 背包	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Backpacks	mvp	daily	pending	p1	pending
+luggage-tag	行李牌	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 行李牌	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Luggage Tags	mvp	daily	pending	p1	pending
+suitcase	行李箱	旅行用品 / 箱包旅行 / 旅行箱包与配件 / 行李箱	Travel & Luggage / Luggage & Travel Accessories / Travel Bags & Accessories / Suitcases	mvp	daily	pending	p1	pending
+childrens-book	儿童书	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 儿童书	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Children's Books	mvp	daily	pending	p1	pending
+baby-bottle	奶瓶	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 奶瓶	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Baby Bottles	mvp	daily	pending	p1	pending
+pacifier	安抚奶嘴	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 安抚奶嘴	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Pacifiers	mvp	daily	pending	p1	pending
+plush-toy	毛绒玩具	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 毛绒玩具	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Plush Toys	mvp	daily	pending	p1	pending
+wet-wipes-pack	湿巾包	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 湿巾包	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Wet Wipes Packs	mvp	daily	pending	p1	pending
+toy-blocks	积木	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 积木	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Toy Blocks	mvp	daily	pending	p1	pending
+diaper-pack	纸尿裤	母婴儿童 / 婴童用品 / 婴童护理与玩具 / 纸尿裤	Baby & Children / Baby Care & Toys / Baby Supplies & Children's Toys / Diaper Packs	mvp	daily	pending	p1	pending
+school-bag	书包	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 书包	Baby & Kids / Children Products / Toys, Learning & Feeding Items / School Bags	mvp	daily	pending	p1	pending
+baby-bowl	儿童碗	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 儿童碗	Baby & Kids / Children Products / Toys, Learning & Feeding Items / Baby Bowls	mvp	daily	pending	p1	pending
+sippy-cup	吸管杯	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 吸管杯	Baby & Kids / Children Products / Toys, Learning & Feeding Items / Sippy Cups	mvp	daily	pending	p1	pending
+doll	娃娃	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 娃娃	Baby & Kids / Children Products / Toys, Learning & Feeding Items / Dolls	mvp	daily	pending	p1	pending
+puzzle-box	拼图盒	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 拼图盒	Baby & Kids / Children Products / Toys, Learning & Feeding Items / Puzzle Boxes	mvp	daily	pending	p1	pending
+toy-car	玩具车	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 玩具车	Baby & Kids / Children Products / Toys, Learning & Feeding Items / Toy Cars	mvp	daily	pending	p1	pending
+crayon-box	蜡笔盒	母婴儿童 / 婴童用品 / 玩具学习与喂养用品 / 蜡笔盒	Baby & Kids / Children Products / Toys, Learning & Feeding Items / Crayon Boxes	mvp	daily	pending	p1	pending
+floor-wiper	地刮	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 地刮	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Floor Wipers	mvp	daily	pending	p1	pending
+broom	扫帚	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 扫帚	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Brooms	mvp	daily	pending	p1	pending
+cleaning-cloth	抹布	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 抹布	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Cleaning Cloths	mvp	daily	pending	p1	pending
+fabric-softener-bottle	柔顺剂瓶	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 柔顺剂瓶	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Fabric Softener Bottles	mvp	daily	pending	p1	pending
+bucket	水桶	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 水桶	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Buckets	mvp	daily	pending	p1	pending
+laundry-pods-box	洗衣凝珠盒	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 洗衣凝珠盒	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Laundry Pod Boxes	mvp	daily	pending	p1	pending
+laundry-basket	洗衣篮	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 洗衣篮	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Laundry Baskets	mvp	daily	pending	p1	pending
+brush-cleaning	清洁刷	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 清洁刷	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Cleaning Brushes	mvp	daily	pending	p1	pending
+rubber-gloves	清洁手套	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 清洁手套	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Rubber Cleaning Gloves	mvp	daily	pending	p1	pending
+dustpan	簸箕	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 簸箕	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Dustpans	mvp	daily	pending	p1	pending
+lint-roller	粘毛器	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 粘毛器	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Lint Rollers	mvp	daily	pending	p1	pending
+clothes-hanger	衣架	清洁与洗护 / 清洁洗护 / 洗衣与清洁工具 / 衣架	Household Supplies / Cleaning & Laundry / Laundry & Cleaning Tools / Clothes Hangers	mvp	daily	pending	p1	pending
+trash-bag-roll	垃圾袋卷	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 垃圾袋卷	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Trash Bag Rolls	mvp	daily	pending	p1	pending
+mop-head	拖把头	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 拖把头	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Mop Heads	mvp	daily	pending	p1	pending
+toilet-cleaner-bottle	洁厕剂	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 洁厕剂	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Toilet Cleaner Bottles	mvp	daily	pending	p1	pending
+dish-soap	洗洁精	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 洗洁精	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Dish Soap	mvp	daily	pending	p1	pending
+laundry-detergent	洗衣液	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 洗衣液	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Laundry Detergent	mvp	daily	pending	p1	pending
+sponge	海绵	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 海绵	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Cleaning Sponges	mvp	daily	pending	p1	pending
+cleaning-spray-bottle	清洁喷瓶	清洁与洗护 / 清洁洗护 / 清洁用品与配件 / 清洁喷瓶	Household Supplies / Cleaning & Laundry / Cleaning Products & Accessories / Cleaning Spray Bottles	mvp	daily	pending	p1	pending
+desk-lamp	台灯	照明与电工 / 家用电工 / 照明插排与电工配件 / 台灯	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Desk Lamps	mvp	tool	pending	p1	pending
+ceiling-light	吸顶灯	照明与电工 / 家用电工 / 照明插排与电工配件 / 吸顶灯	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Ceiling Lights	mvp	tool	pending	p1	pending
+night-light	小夜灯	照明与电工 / 家用电工 / 照明插排与电工配件 / 小夜灯	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Night Lights	mvp	tool	pending	p1	pending
+extension-cord	延长线	照明与电工 / 家用电工 / 照明插排与电工配件 / 延长线	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Extension Cords	mvp	tool	pending	p1	pending
+wall-switch-panel	开关面板	照明与电工 / 家用电工 / 照明插排与电工配件 / 开关面板	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Wall Switch Panels	mvp	tool	pending	p1	pending
+power-strip	插线板	照明与电工 / 家用电工 / 照明插排与电工配件 / 插线板	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Power Strips	mvp	tool	pending	p1	pending
+light-bulb	灯泡	照明与电工 / 家用电工 / 照明插排与电工配件 / 灯泡	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Light Bulbs	mvp	tool	pending	p1	pending
+rechargeable-battery-charger	电池充电器	照明与电工 / 家用电工 / 照明插排与电工配件 / 电池充电器	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Battery Chargers	mvp	tool	pending	p1	pending
+floor-lamp	落地灯	照明与电工 / 家用电工 / 照明插排与电工配件 / 落地灯	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Floor Lamps	mvp	tool	pending	p1	pending
+plug-adapter	转换插头	照明与电工 / 家用电工 / 照明插排与电工配件 / 转换插头	Lighting & Electrical / Household Electrical / Lighting, Power Strips & Electrical Accessories / Plug Adapters	mvp	tool	pending	p1	pending
+tablet	平板电脑	电子配件 / 消费电子 / 个人电子与网络设备 / 平板电脑	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Tablet Computers	mvp	tool	pending	p1	pending
+mobile-phone	手机	电子配件 / 消费电子 / 个人电子与网络设备 / 手机	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Mobile Phones	mvp	tool	pending	p1	pending
+phone-case	手机壳	电子配件 / 消费电子 / 个人电子与网络设备 / 手机壳	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Phone Cases	mvp	tool	pending	p1	pending
+smart-watch	智能手表	电子配件 / 消费电子 / 个人电子与网络设备 / 智能手表	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Smart Watches	mvp	tool	pending	p1	pending
+game-controller	游戏手柄	电子配件 / 消费电子 / 个人电子与网络设备 / 游戏手柄	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Game Controllers	mvp	tool	pending	p1	pending
+camera	相机	电子配件 / 消费电子 / 个人电子与网络设备 / 相机	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Cameras	mvp	tool	pending	p1	pending
+laptop	笔记本电脑	电子配件 / 消费电子 / 个人电子与网络设备 / 笔记本电脑	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Laptop Computers	mvp	tool	pending	p1	pending
+bluetooth-speaker	蓝牙音箱	电子配件 / 消费电子 / 个人电子与网络设备 / 蓝牙音箱	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Bluetooth Speakers	mvp	tool	pending	p1	pending
+screen-protector-box	钢化膜包装	电子配件 / 消费电子 / 个人电子与网络设备 / 钢化膜包装	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Screen Protector Packs	mvp	tool	pending	p1	pending
+keyboard	键盘	电子配件 / 消费电子 / 个人电子与网络设备 / 键盘	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Computer Keyboards	mvp	tool	pending	p1	pending
+computer-mouse	鼠标	电子配件 / 消费电子 / 个人电子与网络设备 / 鼠标	Electronics / Consumer Electronics / Personal Electronics & Network Devices / Computer Mice	mvp	tool	pending	p1	pending
+usb-flash-drive	U盘	电子配件 / 电子附件 / 线缆电源与小配件 / U盘	Electronics / Electronic Accessories / Cables, Power & Small Accessories / USB Flash Drives	mvp	tool	pending	p1	pending
+charger	充电器	电子配件 / 电子附件 / 线缆电源与小配件 / 充电器	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Power Adapters & Chargers	seed	tool	pending	p0	pending
+power-bank	充电宝	电子配件 / 电子附件 / 线缆电源与小配件 / 充电宝	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Power Banks	mvp	tool	pending	p1	pending
+memory-card-case	存储卡盒	电子配件 / 电子附件 / 线缆电源与小配件 / 存储卡盒	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Memory Card Cases	mvp	tool	pending	p1	pending
+charging-cable	数据线	电子配件 / 电子附件 / 线缆电源与小配件 / 数据线	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Charging Cables	seed	tool	pending	p0	pending
+smart-plug	智能插座	电子配件 / 电子附件 / 线缆电源与小配件 / 智能插座	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Smart Plugs	common	tool	pending	p2	pending
+battery	电池	电子配件 / 电子附件 / 线缆电源与小配件 / 电池	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Household Batteries	seed	tool	pending	p0	pending
+earphones	耳机	电子配件 / 电子附件 / 线缆电源与小配件 / 耳机	Electronics / Electronic Accessories / Cables, Power & Small Accessories / Earphones	mvp	tool	pending	p1	pending
+spray-mister	喷雾壶	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 喷雾壶	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Plant Misters	mvp	daily	pending	p1	pending
+garden-shears	园艺剪	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 园艺剪	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Garden Shears	mvp	daily	pending	p1	pending
+plant-label	植物标签	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 植物标签	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Plant Labels	mvp	daily	pending	p1	pending
+watering-can	浇水壶	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 浇水壶	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Watering Cans	mvp	daily	pending	p1	pending
+potted-plant	盆栽	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 盆栽	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Potted Plants	mvp	daily	pending	p1	pending
+flower-pot	花盆	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 花盆	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Flower Pots	mvp	daily	pending	p1	pending
+plant-saucer	花盆托盘	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 花盆托盘	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Plant Saucers	mvp	daily	pending	p1	pending
+fertilizer-bottle	营养液瓶	绿植园艺 / 植物园艺 / 室内绿植与园艺工具 / 营养液瓶	Garden & Outdoor / Plants & Garden Care / Indoor Plants & Garden Tools / Fertilizer Bottles	mvp	daily	pending	p1	pending
+thermometer	体温计	药品与健康 / 健康护理 / 药品与急救用品 / 体温计	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Thermometers	mvp	medicine	pending	p1	pending
+hand-sanitizer-bottle	免洗洗手液	药品与健康 / 健康护理 / 药品与急救用品 / 免洗洗手液	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Hand Sanitizer Bottles	mvp	medicine	pending	p1	pending
+ice-pack	冰袋	药品与健康 / 健康护理 / 药品与急救用品 / 冰袋	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Ice Packs	mvp	medicine	pending	p1	pending
+bandage-box	创可贴盒	药品与健康 / 健康护理 / 药品与急救用品 / 创可贴盒	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Bandage Boxes	mvp	medicine	pending	p1	pending
+medical-tape-roll	医用胶带	药品与健康 / 健康护理 / 药品与急救用品 / 医用胶带	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Medical Tape Rolls	mvp	medicine	pending	p1	pending
+face-mask-pack	口罩包	药品与健康 / 健康护理 / 药品与急救用品 / 口罩包	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Face Mask Packs	mvp	medicine	pending	p1	pending
+first-aid-kit	急救包	药品与健康 / 健康护理 / 药品与急救用品 / 急救包	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / First Aid Kits	mvp	medicine	pending	p1	pending
+disinfectant-wipes	消毒湿巾	药品与健康 / 健康护理 / 药品与急救用品 / 消毒湿巾	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Disinfectant Wipes	mvp	medicine	pending	p1	pending
+heating-pad	热敷垫	药品与健康 / 健康护理 / 药品与急救用品 / 热敷垫	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Heating Pads	mvp	medicine	pending	p1	pending
+gauze-pack	纱布包	药品与健康 / 健康护理 / 药品与急救用品 / 纱布包	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Gauze Packs	mvp	medicine	pending	p1	pending
+vitamin-bottle	维生素瓶	药品与健康 / 健康护理 / 药品与急救用品 / 维生素瓶	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Vitamin Bottles	mvp	medicine	pending	p1	pending
+medicine-syrup-bottle	药水瓶	药品与健康 / 健康护理 / 药品与急救用品 / 药水瓶	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Medicine Syrup Bottles	mvp	medicine	pending	p1	pending
+pill-bottle	药瓶	药品与健康 / 健康护理 / 药品与急救用品 / 药瓶	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Pill Bottles	mvp	medicine	pending	p1	pending
+medicine-box	药盒	药品与健康 / 健康护理 / 药品与急救用品 / 药盒	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Medicine Boxes	seed	medicine	pending	p0	pending
+blood-pressure-monitor	血压计	药品与健康 / 健康护理 / 药品与急救用品 / 血压计	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Blood Pressure Monitors	mvp	medicine	pending	p1	pending
+pulse-oximeter	血氧仪	药品与健康 / 健康护理 / 药品与急救用品 / 血氧仪	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Pulse Oximeters	mvp	medicine	pending	p1	pending
+glucose-meter	血糖仪	药品与健康 / 健康护理 / 药品与急救用品 / 血糖仪	Healthcare / Health Care Supplies / Medicine & First Aid Supplies / Blood Glucose Meters	mvp	medicine	pending	p1	pending
+t-shirt	T恤	衣物配饰 / 衣物与配件 / 日常衣物配饰 / T恤	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / T-Shirts	mvp	daily	pending	p1	pending
+scarf	围巾	衣物配饰 / 衣物与配件 / 日常衣物配饰 / 围巾	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / Scarves	mvp	daily	pending	p1	pending
+cap	帽子	衣物配饰 / 衣物与配件 / 日常衣物配饰 / 帽子	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / Caps	mvp	daily	pending	p1	pending
+handbag	手提包	衣物配饰 / 衣物与配件 / 日常衣物配饰 / 手提包	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / Handbags	mvp	daily	pending	p1	pending
+glasses-case	眼镜盒	衣物配饰 / 衣物与配件 / 日常衣物配饰 / 眼镜盒	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / Glasses Cases	mvp	daily	pending	p1	pending
+belt	腰带	衣物配饰 / 衣物与配件 / 日常衣物配饰 / 腰带	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / Belts	mvp	daily	pending	p1	pending
+socks	袜子	衣物配饰 / 衣物与配件 / 日常衣物配饰 / 袜子	Apparel & Accessories / Clothing & Personal Accessories / Everyday Clothing & Accessories / Socks	mvp	daily	pending	p1	pending
+underwear	内衣	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 内衣	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Underwear	mvp	daily	pending	p1	pending
+jacket	外套	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 外套	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Jackets	mvp	daily	pending	p1	pending
+gloves	手套	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 手套	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Gloves	mvp	daily	pending	p1	pending
+slippers	拖鞋	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 拖鞋	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Slippers	mvp	daily	pending	p1	pending
+sweater	毛衣	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 毛衣	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Sweaters	mvp	daily	pending	p1	pending
+jeans	牛仔裤	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 牛仔裤	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Jeans	mvp	daily	pending	p1	pending
+pajamas	睡衣	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 睡衣	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Pajamas	mvp	daily	pending	p1	pending
+sneakers	运动鞋	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 运动鞋	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Sneakers	mvp	daily	pending	p1	pending
+dress	连衣裙	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 连衣裙	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Dresses	mvp	daily	pending	p1	pending
+wallet	钱包	衣物配饰 / 衣物与配件 / 服装鞋帽与随身配饰 / 钱包	Clothing / Apparel & Accessories / Garments, Footwear & Personal Accessories / Wallets	mvp	daily	pending	p1	pending
+dumbbell	哑铃	运动户外 / 健身户外 / 健身器材与户外装备 / 哑铃	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Dumbbells	mvp	daily	pending	p1	pending
+yoga-mat	瑜伽垫	运动户外 / 健身户外 / 健身器材与户外装备 / 瑜伽垫	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Yoga Mats	mvp	daily	pending	p1	pending
+jump-rope	跳绳	运动户外 / 健身户外 / 健身器材与户外装备 / 跳绳	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Jump Ropes	mvp	daily	pending	p1	pending
+sports-water-bottle	运动水杯	运动户外 / 健身户外 / 健身器材与户外装备 / 运动水杯	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Sports Water Bottles	mvp	daily	pending	p1	pending
+rain-poncho	雨衣	运动户外 / 健身户外 / 健身器材与户外装备 / 雨衣	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Rain Ponchos	mvp	daily	pending	p1	pending
+camping-lantern	露营灯	运动户外 / 健身户外 / 健身器材与户外装备 / 露营灯	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Camping Lanterns	mvp	daily	pending	p1	pending
+bicycle-helmet	骑行头盔	运动户外 / 健身户外 / 健身器材与户外装备 / 骑行头盔	Sports & Outdoors / Fitness & Outdoor Recreation / Fitness Equipment & Outdoor Gear / Bicycle Helmets	mvp	daily	pending	p1	pending
+resistance-band	弹力带	运动户外 / 健身户外 / 健身露营与骑行配件 / 弹力带	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Resistance Bands	mvp	daily	pending	p1	pending
+bike-pump	打气筒	运动户外 / 健身户外 / 健身露营与骑行配件 / 打气筒	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Bicycle Pumps	mvp	daily	pending	p1	pending
+foam-roller	泡沫轴	运动户外 / 健身户外 / 健身露营与骑行配件 / 泡沫轴	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Foam Rollers	mvp	daily	pending	p1	pending
+swim-goggles	泳镜	运动户外 / 健身户外 / 健身露营与骑行配件 / 泳镜	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Swim Goggles	mvp	daily	pending	p1	pending
+sports-ball	球	运动户外 / 健身户外 / 健身露营与骑行配件 / 球	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Sports Balls	mvp	daily	pending	p1	pending
+picnic-mat	野餐垫	运动户外 / 健身户外 / 健身露营与骑行配件 / 野餐垫	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Picnic Mats	mvp	daily	pending	p1	pending
+camping-chair	露营椅	运动户外 / 健身户外 / 健身露营与骑行配件 / 露营椅	Sports & Outdoors / Fitness & Outdoor Gear / Fitness, Camping & Cycling Accessories / Camping Chairs	mvp	daily	pending	p1	pending
+rice-bag	米袋	食品与囤货 / 常温食品 / 包装食品与主食 / 米袋	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Rice Bags	mvp	food	pending	p1	pending
+canned-food	罐头	食品与囤货 / 常温食品 / 包装食品与主食 / 罐头	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Canned Food	mvp	food	pending	p1	pending
+spice-jar	调料瓶	食品与囤货 / 常温食品 / 包装食品与主食 / 调料瓶	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Spice Jars	mvp	food	pending	p1	pending
+snack-bag	零食袋	食品与囤货 / 常温食品 / 包装食品与主食 / 零食袋	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Snack Bags	mvp	food	pending	p1	pending
+noodle-pack	面条包装	食品与囤货 / 常温食品 / 包装食品与主食 / 面条包装	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Noodle Packs	mvp	food	pending	p1	pending
+beverage-bottle	饮料瓶	食品与囤货 / 常温食品 / 包装食品与主食 / 饮料瓶	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Beverage Bottles	mvp	food	pending	p1	pending
+cereal-box	麦片盒	食品与囤货 / 常温食品 / 包装食品与主食 / 麦片盒	Food & Beverage / Shelf Stable Food / Packaged Food & Pantry Staples / Cereal Boxes	mvp	food	pending	p1	pending
+coffee-jar	咖啡罐	食品与囤货 / 常温食品 / 调味干货与饮品 / 咖啡罐	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Coffee Jars	mvp	food	pending	p1	pending
+dried-fruit-bag	果干袋	食品与囤货 / 常温食品 / 调味干货与饮品 / 果干袋	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Dried Fruit Bags	mvp	food	pending	p1	pending
+milk-carton	牛奶盒	食品与囤货 / 常温食品 / 调味干货与饮品 / 牛奶盒	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Milk Cartons	mvp	food	pending	p1	pending
+pet-bottle-water	瓶装水	食品与囤货 / 常温食品 / 调味干货与饮品 / 瓶装水	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Bottled Water	mvp	food	pending	p1	pending
+sugar-jar	糖罐	食品与囤货 / 常温食品 / 调味干货与饮品 / 糖罐	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Sugar Jars	mvp	food	pending	p1	pending
+tea-box	茶叶盒	食品与囤货 / 常温食品 / 调味干货与饮品 / 茶叶盒	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Tea Boxes	mvp	food	pending	p1	pending
+sauce-pouch	酱料袋	食品与囤货 / 常温食品 / 调味干货与饮品 / 酱料袋	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Sauce Pouches	mvp	food	pending	p1	pending
+soy-sauce-bottle	酱油瓶	食品与囤货 / 常温食品 / 调味干货与饮品 / 酱油瓶	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Soy Sauce Bottles	mvp	food	pending	p1	pending
+vinegar-bottle	醋瓶	食品与囤货 / 常温食品 / 调味干货与饮品 / 醋瓶	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Vinegar Bottles	mvp	food	pending	p1	pending
+flour-bag	面粉袋	食品与囤货 / 常温食品 / 调味干货与饮品 / 面粉袋	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Flour Bags	mvp	food	pending	p1	pending
+cooking-oil-bottle	食用油瓶	食品与囤货 / 常温食品 / 调味干货与饮品 / 食用油瓶	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Cooking Oil Bottles	mvp	food	pending	p1	pending
+salt-container	食盐罐	食品与囤货 / 常温食品 / 调味干货与饮品 / 食盐罐	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Salt Containers	mvp	food	pending	p1	pending
+water-jug	饮水壶	食品与囤货 / 常温食品 / 调味干货与饮品 / 饮水壶	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Water Jugs	mvp	food	pending	p1	pending
+biscuit-tin	饼干盒	食品与囤货 / 常温食品 / 调味干货与饮品 / 饼干盒	Food & Beverage / Shelf Stable Food / Condiments, Dry Goods & Drinks / Biscuit Tins	mvp	food	pending	p1	pending

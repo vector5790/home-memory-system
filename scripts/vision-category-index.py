@@ -10,6 +10,7 @@ and can be replaced by a real local CLIP adapter without changing index/eval for
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import math
@@ -32,6 +33,7 @@ DEFAULT_INDEX = ROOT / "data" / "vision-index.generated.json"
 DEFAULT_HOUSEHOLD_SOURCE = ROOT / "data" / "vision-taxonomy-source.household.json"
 DEFAULT_HOUSEHOLD_CATEGORIES = ROOT / "data" / "vision-categories.household.json"
 DEFAULT_HOUSEHOLD_COVERAGE = ROOT / "data" / "generated" / "vision-taxonomy-coverage.household.json"
+DEFAULT_HOUSEHOLD_EMBEDDING_SELECTION = ROOT / "data" / "vision-embedding-category-selection.household.tsv"
 DEFAULT_MODEL_ID = "Xenova/clip-vit-base-patch32"
 DEFAULT_DIMENSION = 512
 DEFAULT_ACCEPT_SCORE = 0.82
@@ -52,6 +54,18 @@ VALID_COVERAGE_TIERS = {"seed", "mvp", "common", "long-tail"}
 COVERAGE_TIER_RANK = {"seed": 0, "mvp": 1, "common": 2, "long-tail": 3}
 GENERIC_DETECTOR_LABELS = {"object", "item", "thing", "household item"}
 CANONICAL_LINEAGE_LEVELS = ["Segment", "Family", "Class", "Brick"]
+EMBEDDING_SELECTION_COLUMNS = [
+    "categoryId",
+    "displayName",
+    "displayPath",
+    "lineage",
+    "coverageTier",
+    "appCategory",
+    "includeForEmbedding",
+    "embeddingPriority",
+    "annotationStatus",
+    "notes",
+]
 
 
 class ValidationProblem(Exception):
@@ -813,6 +827,80 @@ def command_coverage_report(args: argparse.Namespace) -> int:
     return 0 if report["passed"] else 1
 
 
+def read_embedding_selection_tsv(path: Path) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        rows: dict[str, dict[str, str]] = {}
+        for row in reader:
+            category_id = str(row.get("categoryId") or "").strip()
+            if category_id:
+                rows[category_id] = {str(key): str(value or "") for key, value in row.items() if key}
+        return rows
+
+
+def default_embedding_priority(category: dict[str, Any]) -> str:
+    tier = normalize_coverage_tier(category.get("coverageTier")) or "mvp"
+    return {
+        "seed": "p0",
+        "mvp": "p1",
+        "common": "p2",
+        "long-tail": "p3",
+    }.get(tier, "p2")
+
+
+def command_export_embedding_selection(args: argparse.Namespace) -> int:
+    taxonomy = read_json(args.taxonomy)
+    errors, warnings = validate_taxonomy(taxonomy)
+    for warning in warnings:
+        print(f"warning: {warning}", file=sys.stderr)
+    if errors:
+        raise ValidationProblem("\n".join(errors))
+
+    existing = read_embedding_selection_tsv(args.output) if args.preserve_existing else {}
+    categories = [
+        category
+        for category in taxonomy.get("categories", [])
+        if isinstance(category, dict) and category.get("active") is True
+    ]
+    categories.sort(key=lambda category: (
+        " / ".join(map(str, category.get("displayPath") or [])).lower(),
+        str(category.get("id") or ""),
+    ))
+
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=EMBEDDING_SELECTION_COLUMNS, delimiter="\t", lineterminator="\n")
+        writer.writeheader()
+        for category in categories:
+            category_id = str(category.get("id") or "")
+            previous = existing.get(category_id, {})
+            display_path = normalize_path_list(category.get("displayPath"))
+            lineage = category.get("lineage") if isinstance(category.get("lineage"), dict) else {}
+            lineage_path = [
+                str(lineage.get("level1") or ""),
+                str(lineage.get("level2") or ""),
+                str(lineage.get("level3") or ""),
+                str(lineage.get("level4") or ""),
+            ]
+            writer.writerow({
+                "categoryId": category_id,
+                "displayName": category.get("displayName") or category_id,
+                "displayPath": " / ".join(display_path),
+                "lineage": " / ".join(part for part in lineage_path if part),
+                "coverageTier": category.get("coverageTier") or "",
+                "appCategory": category.get("appCategory") or "",
+                "includeForEmbedding": previous.get("includeForEmbedding") or args.default_include,
+                "embeddingPriority": previous.get("embeddingPriority") or default_embedding_priority(category),
+                "annotationStatus": previous.get("annotationStatus") or "pending",
+                "notes": previous.get("notes") or "",
+            })
+    print(f"wrote {rel(args.output)}")
+    print(f"exported {len(categories)} active category row(s)")
+    return 0
+
+
 def raw_vector(seed: str, dimension: int) -> list[float]:
     values: list[float] = []
     counter = 0
@@ -1258,6 +1346,16 @@ def build_parser() -> argparse.ArgumentParser:
     coverage_parser.add_argument("--min-gallery-samples", type=int, default=3)
     coverage_parser.add_argument("--min-eval-samples", type=int, default=2)
     coverage_parser.set_defaults(func=command_coverage_report)
+
+    selection_parser = subparsers.add_parser(
+        "export-embedding-selection",
+        help="Export a TSV annotation sheet for choosing categories that should get embeddings",
+    )
+    selection_parser.add_argument("--taxonomy", type=Path, default=DEFAULT_HOUSEHOLD_CATEGORIES)
+    selection_parser.add_argument("--output", type=Path, default=DEFAULT_HOUSEHOLD_EMBEDDING_SELECTION)
+    selection_parser.add_argument("--default-include", choices=["pending", "yes", "no"], default="pending")
+    selection_parser.add_argument("--preserve-existing", action=argparse.BooleanOptionalAction, default=True)
+    selection_parser.set_defaults(func=command_export_embedding_selection)
 
     eval_parser = subparsers.add_parser("evaluate", help="Run preflight embedding evaluation")
     eval_parser.add_argument("--taxonomy", type=Path, default=DEFAULT_CATEGORIES)

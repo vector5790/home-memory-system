@@ -1,0 +1,207 @@
+{
+  "resultId": "shoe-box-subject-cn-01:original:owlvit",
+  "rawDetections": [
+    {
+      "label": "shoe storage box",
+      "score": 0.37279972434043884,
+      "box": {
+        "x": 56.25,
+        "y": 30.5,
+        "w": 16,
+        "h": 11
+      }
+    },
+    {
+      "label": "shoe storage boxes",
+      "score": 0.3141157031059265,
+      "box": {
+        "x": 56.25,
+        "y": 30.5,
+        "w": 16,
+        "h": 11
+      }
+    },
+    {
+      "label": "shoe box",
+      "score": 0.3093591034412384,
+      "box": {
+        "x": 56.25,
+        "y": 30.5,
+        "w": 16,
+        "h": 11
+      }
+    },
+    {
+      "label": "shoe storage boxes",
+      "score": 0.2770653963088989,
+      "box": {
+        "x": 54,
+        "y": 42.75,
+        "w": 17.875,
+        "h": 11
+      }
+    },
+    {
+      "label": "shoe storage box",
+      "score": 0.26175597310066223,
+      "box": {
+        "x": 54,
+        "y": 42.75,
+        "w": 17.875,
+        "h": 11
+      }
+    },
+    {
+      "label": "clear shoe box",
+      "score": 0.2520490884780884,
+      "box": {
+        "x": 56.25,
+        "y": 30.5,
+        "w": 16,
+        "h": 11
+      }
+    },
+    {
+      "label": "shoe box",
+      "score": 0.24982629716396332,
+      "box": {
+        "x": 54,
+        "y": 42.75,
+        "w": 17.875,
+        "h": 11
+      }
+    },
+    {
+      "label": "shoe box",
+      "score": 0.22619318962097168,
+      "box": {
+        "x": 18,
+        "y": 17.625,
+        "w": 18.5,
+        "h": 10.875
+      }
+    },
+    {
+      "label": "shoe storage box",
+      "score": 0.224310964345932,
+      "box": {
+        "x": 18,
+        "y": 17.625,
+        "w": 18.5,
+        "h": 10.875
+      }
+    },
+    {
+      "label": "shoe storage box",
+      "score": 0.22356510162353516,
+      "box": {
+        "x": 54.5,
+        "y": 66,
+        "w": 17.375,
+        "h": 11.375
+      }
+    },
+    {
+      "label": "shoe storage boxes",
+      "score": 0.21921789646148682,
+      "box": {
+        "x": 18,
+        "y": 17.625,
+        "w": 18.5,
+        "h": 10.875
+      }
+    },
+    {
+      "label": "shoe storage boxes",
+      "score": 0.21852077543735504,
+      "box": {
+        "x": 54.5,
+        "y": 66,
+        "w": 17.375,
+        "h": 11.375
+      }
+    },
+    {
+      "label": "shoe box",
+      "score": 0.2172909826040268,
+      "box": {
+        "x": 54.5,
+        "y": 66,
+        "w": 17.375,
+        "h": 11.375
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "shoe-box-subject-cn-01:original:owlvit:d01",
+      "label": "shoe storage box",
+      "categoryKey": "shoe-box",
+      "score": 0.3728,
+      "box": {
+        "x": 56.25,
+        "y": 30.5,
+        "w": 16,
+        "h": 11
+      },
+      "areaPct": 1.76,
+      "rankByScore": 1,
+      "rankByArea": 4
+    },
+    {
+      "id": "shoe-box-subject-cn-01:original:owlvit:d02",
+      "label": "shoe storage boxes",
+      "categoryKey": "shoe-box",
+      "score": 0.277065,
+      "box": {
+        "x": 54,
+        "y": 42.75,
+        "w": 17.875,
+        "h": 11
+      },
+      "areaPct": 1.9663,
+      "rankByScore": 2,
+      "rankByArea": 3
+    },
+    {
+      "id": "shoe-box-subject-cn-01:original:owlvit:d03",
+      "label": "shoe box",
+      "categoryKey": "shoe-box",
+      "score": 0.226193,
+      "box": {
+        "x": 18,
+        "y": 17.625,
+        "w": 18.5,
+        "h": 10.875
+      },
+      "areaPct": 2.0119,
+      "rankByScore": 3,
+      "rankByArea": 1
+    },
+    {
+      "id": "shoe-box-subject-cn-01:original:owlvit:d04",
+      "label": "shoe storage box",
+      "categoryKey": "shoe-box",
+      "score": 0.223565,
+      "box": {
+        "x": 54.5,
+        "y": 66,
+        "w": 17.375,
+        "h": 11.375
+      },
+      "areaPct": 1.9764,
+      "rankByScore": 4,
+      "rankByArea": 2
+    }
+  ],
+  "postProcessing": {
+    "owlvitCategoryNms": {
+      "applied": true,
+      "inputCount": 13,
+      "outputCount": 4,
+      "iouThreshold": 0.5,
+      "maxSubjects": 10
+    }
+  },
+  "failureReason": ""
+}

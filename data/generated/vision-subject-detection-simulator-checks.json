@@ -1,0 +1,94 @@
+{
+  "kind": "vision-subject-detection-simulator-checks",
+  "generatedAt": "2026-05-25T15:31:31.844Z",
+  "passed": true,
+  "checks": {
+    "manifestGenerated": true,
+    "variantsGenerated": true,
+    "noUpscalePreserved": true,
+    "detectionSchemaGenerated": true,
+    "primaryADerived": true,
+    "primaryBDerived": true,
+    "reviewUpserted": true,
+    "metricsComputed": true,
+    "approvedBoxExported": true
+  },
+  "metrics": {
+    "byModelVariant": {
+      "owlvit | original": {
+        "modelId": "owlvit",
+        "imageVariant": "original",
+        "resultCount": 1,
+        "reviewedImageCount": 1,
+        "ordinaryPrecision": 1,
+        "primaryAAccuracy": 1,
+        "primaryBAccuracy": 0,
+        "imageSuccessRate": 1,
+        "modelWinRate": 1,
+        "averageBoxCount": 2,
+        "failureRate": 0,
+        "averageRecognitionMs": 12,
+        "detectionP50Ms": 12,
+        "detectionP95Ms": 12,
+        "accurateBoxMinScore": 0.33,
+        "inaccurateBoxMaxScore": 0.71
+      }
+    },
+    "modelSummary": {
+      "owlvit": {
+        "resultCount": 1,
+        "ordinaryPrecision": 1,
+        "primaryAAccuracy": 1,
+        "primaryBAccuracy": 0,
+        "imageSuccessRate": 1,
+        "modelWinRate": 1,
+        "averageBoxCount": 2,
+        "failureRate": 0,
+        "averageRecognitionMs": 12,
+        "detectionP50Ms": 12,
+        "detectionP95Ms": 12,
+        "accurateBoxMinScore": 0.33,
+        "inaccurateBoxMaxScore": 0.71
+      }
+    },
+    "grouped": {
+      "categoryId": {
+        "charger": {
+          "resultCount": 1,
+          "imageCount": 1,
+          "averageBoxCount": 2,
+          "failureRate": 0
+        }
+      },
+      "sourceProvider": {
+        "simulator": {
+          "resultCount": 1,
+          "imageCount": 1,
+          "averageBoxCount": 2,
+          "failureRate": 0
+        }
+      }
+    }
+  },
+  "exportedBoxes": [
+    {
+      "imageId": "sim-subject-001",
+      "categoryId": "charger",
+      "sourceImagePath": "fixtures/vision/charger-eval-1.jpg",
+      "modelId": "owlvit",
+      "imageVariant": "original",
+      "detectionId": "sim-subject-001:original:owlvit:d02",
+      "box": {
+        "x": 2,
+        "y": 4,
+        "w": 88,
+        "h": 86
+      },
+      "label": "background item",
+      "score": 0.33,
+      "reviewStatus": "approved",
+      "reviewer": "simulator",
+      "timestamp": "2026-05-25T15:31:31.843Z"
+    }
+  ]
+}

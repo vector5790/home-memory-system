@@ -1,0 +1,134 @@
+{
+  "resultId": "living-room-query-01:original:grounding-dino",
+  "rawDetections": [
+    {
+      "label": "television",
+      "score": 0.8309344053268433,
+      "box": {
+        "x": 33.0932,
+        "y": 32.4215,
+        "w": 40.684,
+        "h": 34.5819
+      }
+    },
+    {
+      "label": "stand cabinet stand player cabinet cabinet",
+      "score": 0.3234409689903259,
+      "box": {
+        "x": 13.2813,
+        "y": 78.3441,
+        "w": 62.3234,
+        "h": 21.5623
+      }
+    },
+    {
+      "label": "cabinet cabinet cabinet",
+      "score": 0.25165602564811707,
+      "box": {
+        "x": 37.2112,
+        "y": 83.5768,
+        "w": 38.6447,
+        "h": 15.479
+      }
+    },
+    {
+      "label": "cabinet cabinet cabinet",
+      "score": 0.20065951347351074,
+      "box": {
+        "x": 13.8919,
+        "y": 86.1289,
+        "w": 14.4718,
+        "h": 13.7418
+      }
+    },
+    {
+      "label": "cabinet cabinet cabinet",
+      "score": 0.20071353018283844,
+      "box": {
+        "x": 37.2566,
+        "y": 86.6957,
+        "w": 20.8703,
+        "h": 12.3189
+      }
+    }
+  ],
+  "normalizedDetections": [
+    {
+      "id": "living-room-query-01:original:grounding-dino:d01",
+      "label": "television",
+      "categoryKey": "",
+      "score": 0.830934,
+      "box": {
+        "x": 33.0932,
+        "y": 32.4215,
+        "w": 40.684,
+        "h": 34.5819
+      },
+      "areaPct": 14.0693,
+      "rankByScore": 1,
+      "rankByArea": 1
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d02",
+      "label": "stand cabinet stand player cabinet cabinet",
+      "categoryKey": "",
+      "score": 0.323441,
+      "box": {
+        "x": 13.2813,
+        "y": 78.3441,
+        "w": 62.3234,
+        "h": 21.5623
+      },
+      "areaPct": 13.4384,
+      "rankByScore": 2,
+      "rankByArea": 2
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d03",
+      "label": "cabinet cabinet cabinet",
+      "categoryKey": "",
+      "score": 0.251656,
+      "box": {
+        "x": 37.2112,
+        "y": 83.5768,
+        "w": 38.6447,
+        "h": 15.479
+      },
+      "areaPct": 5.9818,
+      "rankByScore": 3,
+      "rankByArea": 3
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d05",
+      "label": "cabinet cabinet cabinet",
+      "categoryKey": "",
+      "score": 0.200714,
+      "box": {
+        "x": 37.2566,
+        "y": 86.6957,
+        "w": 20.8703,
+        "h": 12.3189
+      },
+      "areaPct": 2.571,
+      "rankByScore": 4,
+      "rankByArea": 4
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d04",
+      "label": "cabinet cabinet cabinet",
+      "categoryKey": "",
+      "score": 0.20066,
+      "box": {
+        "x": 13.8919,
+        "y": 86.1289,
+        "w": 14.4718,
+        "h": 13.7418
+      },
+      "areaPct": 1.9887,
+      "rankByScore": 5,
+      "rankByArea": 5
+    }
+  ],
+  "postProcessing": {},
+  "failureReason": ""
+}

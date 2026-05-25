@@ -1,0 +1,11 @@
+{
+  "kind": "vision-subject-primary-boxes-reviewed",
+  "version": "2026-05-24-reviewed-primary-boxes",
+  "generatedAt": "2026-05-24T03:55:09.333Z",
+  "taxonomyVersion": "20260524-household-expanded",
+  "imageManifestVersion": "2026-05-24-subject-detection-cn",
+  "detectionRunVersion": "2026-05-24-subject-detection-run",
+  "reviewVersion": "2026-05-24-subject-detection-review",
+  "approvedCount": 0,
+  "boxes": []
+}

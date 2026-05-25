@@ -1,0 +1,151 @@
+{
+  "sourceRun": "data/generated/vision-subject-detection-run.living-room-query.gdino-t0.json",
+  "imageVariant": "original",
+  "modelId": "grounding-dino",
+  "threshold": 0,
+  "kept": 10,
+  "primaryAWithinTop10": "living-room-query-01:original:grounding-dino:d58",
+  "primaryBWithinTop10": "living-room-query-01:original:grounding-dino:d01",
+  "detections": [
+    {
+      "id": "living-room-query-01:original:grounding-dino:d01",
+      "rankByScore": 1,
+      "roleWithinTop10": "B",
+      "score": 0.830934,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 14.0693,
+      "box": {
+        "x": 33.0932,
+        "y": 32.4215,
+        "w": 40.684,
+        "h": 34.5819
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d02",
+      "rankByScore": 2,
+      "roleWithinTop10": "",
+      "score": 0.323441,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 13.4384,
+      "box": {
+        "x": 13.2813,
+        "y": 78.3441,
+        "w": 62.3234,
+        "h": 21.5623
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d04",
+      "rankByScore": 3,
+      "roleWithinTop10": "",
+      "score": 0.251656,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 5.9818,
+      "box": {
+        "x": 37.2112,
+        "y": 83.5768,
+        "w": 38.6447,
+        "h": 15.479
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d25",
+      "rankByScore": 4,
+      "roleWithinTop10": "",
+      "score": 0.200714,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 2.571,
+      "box": {
+        "x": 37.2566,
+        "y": 86.6957,
+        "w": 20.8703,
+        "h": 12.3189
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d05",
+      "rankByScore": 5,
+      "roleWithinTop10": "",
+      "score": 0.20066,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 1.9887,
+      "box": {
+        "x": 13.8919,
+        "y": 86.1289,
+        "w": 14.4718,
+        "h": 13.7418
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d58",
+      "rankByScore": 6,
+      "roleWithinTop10": "A",
+      "score": 0.197992,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 17.8673,
+      "box": {
+        "x": 13.6645,
+        "y": 71.1686,
+        "w": 62.4566,
+        "h": 28.6076
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d06",
+      "rankByScore": 7,
+      "roleWithinTop10": "",
+      "score": 0.19147,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 2.7014,
+      "box": {
+        "x": 26.1632,
+        "y": 71.3191,
+        "w": 21.9669,
+        "h": 12.2974
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d11",
+      "rankByScore": 8,
+      "roleWithinTop10": "",
+      "score": 0.188797,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 2.7281,
+      "box": {
+        "x": 80.296,
+        "y": 84.5289,
+        "w": 17.7872,
+        "h": 15.3373
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d26",
+      "rankByScore": 9,
+      "roleWithinTop10": "",
+      "score": 0.184052,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 2.3851,
+      "box": {
+        "x": 57.4154,
+        "y": 83.7664,
+        "w": 18.1537,
+        "h": 13.1385
+      }
+    },
+    {
+      "id": "living-room-query-01:original:grounding-dino:d08",
+      "rankByScore": 10,
+      "roleWithinTop10": "",
+      "score": 0.180315,
+      "label": "television. tv. flat screen tv. tv stand. television cabinet. speaker. audio speaker. bluetooth speaker. speaker stand. air conditioner. floor standing air conditioner. turntable. record player. amplifier. stereo receiver. cabinet. storage cabinet. window. curtain. ceiling light. lamp. sofa. couch. pillow. cushion. chair. toy car. remote control. power strip. cable. extension cord. [SEP]",
+      "areaPct": 2.3544,
+      "box": {
+        "x": 77.138,
+        "y": 68.7466,
+        "w": 7.5712,
+        "h": 31.0968
+      }
+    }
+  ]
+}
