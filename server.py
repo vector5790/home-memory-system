@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
+import base64
 import json
 import mimetypes
 import os
+import shutil
+import subprocess
 import sys
+import tempfile
 import urllib.error
 import urllib.request
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -12,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 4173
 BODY_LIMIT = 12 * 1024 * 1024
+CONVERT_BODY_LIMIT = 30 * 1024 * 1024
 MODEL = os.environ.get("OPENAI_VISION_MODEL", "gpt-4.1-mini")
 
 CATEGORIES = {"food", "medicine", "pet", "document", "tool", "daily", "appliance"}
@@ -73,6 +78,59 @@ def output_text(response_json):
             if isinstance(text, str):
                 parts.append(text)
     return "\n".join(parts)
+
+
+def parse_data_url(data_url):
+    if not isinstance(data_url, str) or "," not in data_url:
+        raise ValueError("缺少图片数据。")
+    header, encoded = data_url.split(",", 1)
+    if not header.startswith("data:image/") or ";base64" not in header:
+        raise ValueError("只支持 base64 图片数据。")
+    try:
+        return base64.b64decode(encoded, validate=True)
+    except Exception as error:
+        raise ValueError("图片数据无法解析。") from error
+
+
+def convert_image(payload):
+    if not shutil.which("sips"):
+        raise RuntimeError("本机缺少 macOS sips，无法自动转换 HEIC/HEIF。")
+
+    image_bytes = parse_data_url(payload.get("image"))
+    if len(image_bytes) > 22 * 1024 * 1024:
+        raise ValueError("HEIC/HEIF 图片太大，请先裁剪后再上传。")
+
+    filename = str(payload.get("filename") or "upload.heic").lower()
+    suffix = ".heif" if filename.endswith(".heif") else ".heic"
+    quality = int(clamp(payload.get("quality", 82), 50, 92))
+
+    with tempfile.TemporaryDirectory(prefix="home-memory-heic-") as directory:
+        source = Path(directory) / f"source{suffix}"
+        target = Path(directory) / "converted.jpg"
+        source.write_bytes(image_bytes)
+        command = [
+            "sips",
+            "-s",
+            "format",
+            "jpeg",
+            "-s",
+            "formatOptions",
+            str(quality),
+            str(source),
+            "--out",
+            str(target),
+        ]
+        result = subprocess.run(command, capture_output=True, text=True, timeout=60, check=False)
+        if result.returncode != 0 or not target.exists():
+            detail = (result.stderr or result.stdout or "未知错误").strip()
+            raise RuntimeError(f"HEIC/HEIF 转 JPEG 失败：{detail[:300]}")
+        converted = target.read_bytes()
+
+    return {
+        "provider": "macos:sips",
+        "mime": "image/jpeg",
+        "image": f"data:image/jpeg;base64,{base64.b64encode(converted).decode('ascii')}",
+    }
 
 
 def recognize(payload):
@@ -206,7 +264,14 @@ class Handler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(ROOT), **kwargs)
 
     def end_headers(self):
-        self.send_header("cache-control", "no-store")
+        static_path = self.path.split("?", 1)[0]
+        if static_path.startswith(("/vendor/", "/data/")):
+            self.send_header("cache-control", "public, max-age=31536000, immutable")
+        else:
+            self.send_header("cache-control", "no-store")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+        self.send_header("Cross-Origin-Resource-Policy", "same-origin")
         super().end_headers()
 
     def guess_type(self, path):
@@ -222,16 +287,17 @@ class Handler(SimpleHTTPRequestHandler):
         return guessed or "application/octet-stream"
 
     def do_POST(self):
-        if self.path != "/api/recognize":
+        if self.path not in {"/api/recognize", "/api/convert-image"}:
             self.send_error(404, "Not found")
             return
 
         try:
             length = int(self.headers.get("content-length", "0"))
-            if length > BODY_LIMIT:
+            limit = CONVERT_BODY_LIMIT if self.path == "/api/convert-image" else BODY_LIMIT
+            if length > limit:
                 raise ValueError("图片太大，请压缩后再试。")
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
-            result = recognize(payload)
+            result = convert_image(payload) if self.path == "/api/convert-image" else recognize(payload)
             self.send_json(200, result)
         except Exception as error:
             self.send_json(500, {"error": str(error)})

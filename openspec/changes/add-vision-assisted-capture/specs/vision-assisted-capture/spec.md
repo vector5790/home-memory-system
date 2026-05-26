@@ -52,17 +52,17 @@ The system SHALL prefer local free model assets when they are available before f
 ### Requirement: Grounded detection and optional segmentation refinement
 The system SHALL prefer a free open-vocabulary detector for subject recall and SHALL refine regions with a local segmentation model when the segmentation asset is available.
 
-#### Scenario: Grounding DINO asset is available
-- **WHEN** the user starts recognition and the local Grounding DINO model is present
-- **THEN** the system SHALL use Grounding DINO before OWL-ViT to generate image-derived subject candidates
+#### Scenario: OWL-ViT asset is available
+- **WHEN** the user starts recognition and the local OWL-ViT model is present
+- **THEN** the system SHALL use OWL-ViT before Grounding DINO to generate image-derived subject candidates
 
 #### Scenario: SAM asset is available
 - **WHEN** detector candidates are available and the local SAM-compatible model is present
 - **THEN** the system SHALL attempt segmentation refinement without replacing detector candidates on segmentation failure
 
-#### Scenario: Grounded model is unavailable
-- **WHEN** Grounding DINO cannot load or returns no regions
-- **THEN** the system SHALL fall back to OWL-ViT and then to explicit local image-region proposals without mutating inventory
+#### Scenario: Fast detector is unavailable
+- **WHEN** OWL-ViT cannot load or returns no regions
+- **THEN** the system MAY fall back to configured Grounding DINO and then to explicit local image-region proposals without mutating inventory
 
 ### Requirement: High-resolution upload preparation
 The system SHALL prepare uploaded and captured photos for browser-local recognition so larger phone photos can be analyzed without exceeding storage or model limits.

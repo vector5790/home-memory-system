@@ -36,7 +36,7 @@
 ## 6. Validation
 
 - [x] 6.1 Run the app locally and test upload recognition, candidate editing, box correction, confirmation, duplicate prevention, and reset.
-- [x] 6.2 Use browser verification for desktop and mobile capture layouts.
+- [x] 6.2 Use iOS simulator verification for mobile capture layouts.
 - [x] 6.3 Run OpenSpec validation for `add-vision-assisted-capture`.
 
 ## 7. Local Model and Catalog Index
@@ -61,7 +61,7 @@
 - [x] 9.3 Add child storage-point creation and a "photograph inside" flow from confirmed objects.
 - [x] 9.4 Update search and photo-map guidance to show full nested paths.
 - [x] 9.5 Improve capture subject-box styling for readable, simple annotations on real photos.
-- [x] 9.6 Verify recognition, hierarchy creation, nested search guidance, and annotation rendering in the browser.
+- [x] 9.6 Verify recognition, hierarchy creation, nested search guidance, and annotation rendering in the iOS simulator.
 
 ## 10. Stable Detection and Candidate Drill-In
 
@@ -74,7 +74,7 @@
 
 ## 11. Grounded Recall, Segmentation, and Dense Photo UX
 
-- [x] 11.1 Add Grounding DINO as the preferred local open-vocabulary detector with OWL-ViT fallback.
+- [x] 11.1 Use OWL-ViT as the preferred fast local open-vocabulary detector, with Grounding DINO kept as an optional slow fallback.
 - [x] 11.2 Add optional SlimSAM/SAM region refinement that never replaces detector geometry on failure.
 - [x] 11.3 Add high-resolution upload and camera-frame preprocessing before persistence and recognition.
 - [x] 11.4 Improve dense annotation layout with label collision avoidance and longer point-to-label connectors.

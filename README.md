@@ -9,46 +9,43 @@
 - 查询时返回照片地图和局部高亮，而不是只返回文字。
 - 主动提醒食品、药品、耗材和设备维护。
 
-## 运行
+## 运行与验证
 
-推荐直接用 macOS 自带的 Python 启动：
-
-```bash
-python3 server.py 4173
-```
-
-首次使用前可以先下载本地小模型资产：
+当前以 iOS 模拟器作为默认体验和验收入口：
 
 ```bash
 npm install
 python3 scripts/download-vision-assets.py
+npm run test:simulator
 ```
 
-这会把 Transformers.js、Grounding DINO Tiny、OWL-ViT、SlimSAM 和 CLIP 目录匹配模型放到 `vendor/`。之后启动服务：
+`npm run test:simulator` 会先构建 Web 资产、同步到 Capacitor iOS 工程，再启动 iOS 运行流程。以后功能验证以模拟器或真机为准，不再使用本地浏览器页面作为验收入口。
 
-```text
-http://localhost:4173/?v=20260523-owlvit-default
+首次使用前需要下载本地小模型资产：
+
+```bash
+python3 scripts/download-vision-assets.py
 ```
 
-默认不需要任何付费 API，也不会自动把照片发给远程视觉模型。上传照片后，浏览器会优先调用 `vendor/` 里的本地 OWL-ViT 做开放词表主体检测，再对主体 crop 使用本地 CLIP embedding 匹配类目索引完成命名；主体点和连线标签会先出现，名称会以“识别中”状态异步补全。如果本地 OWL-ViT 还没下载，会退回本地 Grounding DINO；如果本地小模型资产不可用，再明确降级到本地 Canvas 图片分析生成候选区域，用户再手动确认和改名。
+这会把 Transformers.js、Grounding DINO Tiny、OWL-ViT、SlimSAM 和 CLIP 目录匹配模型放到 `vendor/`。如果要手动走 iOS App 开发，先安装 Node.js 20+ 和完整 Xcode，然后运行：
 
-如果你的 PowerShell 能直接识别 `node`，也可以使用 Node 服务：
-
-```powershell
-node server.mjs 4173
+```bash
+npm install
+npm run build:web
+npx cap add ios # 只在首次生成 ios/ 工程时需要
+npm run ios:sync
+npm run ios:open
 ```
 
-如果提示 `node` 无法识别，直接运行启动脚本：
+`npm run build:web` 会把 `index.html`、`app.js`、`platform.js`、`styles.css`、`data/` 和 `vendor/` 里的本地模型资产复制到 `www/`，再由 Capacitor 同步到 iOS 工程。首次 iOS 打包前请先执行 `python3 scripts/download-vision-assets.py`，否则本地模型资产校验会失败。
 
-```powershell
-.\start.bat
+如果 `xcodebuild` 提示 active developer directory 是 `/Library/Developer/CommandLineTools`，说明当前只安装或只选中了 Command Line Tools，需要安装完整 Xcode，并执行：
+
+```bash
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 ```
 
-或者：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\start.ps1
-```
+默认不需要任何付费 API，也不会自动把照片发给远程视觉模型。上传照片后，App 会优先调用打包在 `vendor/` 里的本地 Grounding DINO Tiny 做开放词表主体检测，并把输入图按比例压到长边最多 `1024px`；随后对主体 crop 使用本地 CLIP embedding 匹配 `data/vision-index.household-cn.grounding-dino-clip.json` 完成命名。主体点会先出现，名称会以“识别中”状态异步补全。如果 Grounding DINO 不可用，会退回本地 OWL-ViT；如果小模型不可用，再明确降级到本地 Canvas 图片分析生成候选区域，用户再手动确认和改名。
 
 ## 当前范围
 
@@ -58,9 +55,18 @@ powershell -ExecutionPolicy Bypass -File .\start.ps1
 2. 用户可以手动新增空间/储物点；上传照片识别成功后也会自动生成照片点。
 3. 储物点支持下级目录，例如 `客厅 > 电视柜 > 柜子A > 阿莫西林`。
 4. 上传并确认后的照片会绑定到当前储物点，之后搜索路径会在真实照片上高亮物品。
-5. 上传照片后，默认用本地 OWL-ViT 输出主体区域，再用本地 CLIP crop embedding 命名；Grounding DINO 只作为 learned-model 备选，Canvas 只在本地小模型不可用或无结果时兜底，不自动调用远程视觉模型。
-6. 候选命名先匹配家庭常见物品目录和可选 embedding 索引，低于阈值时显示 `物品A/B/C` 等待用户填写。
+5. 上传照片后，默认用本地 Grounding DINO normalized-1024 输出主体区域；OWL-ViT 作为本地备选，Canvas 只在小模型不可用或无结果时兜底。
+6. 候选命名先匹配家庭常见物品目录和本地 CLIP crop embedding 索引，低于阈值时显示 `物品A/B/C` 等待用户填写。
 7. 云端大模型识别只作为后续可选兜底 provider，不是默认路径。
+
+## iOS 当前实现范围
+
+- 已添加 Capacitor iOS 工程，bundle id 为 `com.guzeyu.homememory`。
+- Web 端通过 `platform.js` 统一访问运行环境、存储、文件、相机/相册和通知能力。
+- iOS 相机/相册入口会优先走 Capacitor Camera，桌面浏览器仍保留文件上传和 `getUserMedia`。
+- iOS 侧会尝试把处理后的照片保存到 App Data 下的 `photos/`，并在持久化快照中保留 `imageRef`。
+- 云端识别不会作为 iOS 默认路径，也不会把 API key 打进 App 包。
+- iOS 真机/模拟器验证清单见 `docs/ios-smoke-test.md`。
 
 真实产品中还可以继续替换或增强为：
 
@@ -71,198 +77,19 @@ powershell -ExecutionPolicy Bypass -File .\start.ps1
 5. 家庭知识图谱：房间、储物点、容器、物品、提醒、移动事件。
 6. 本地优先隐私策略：默认本地保存，云端识别单独授权。
 
-## 类目索引实验
+## 当前家庭物品视觉索引
 
-当前仓库包含一个小型家庭物品类目索引管线，用来在大规模图片推理前验证本地 embedding 的检索效果：
+当前大陆来源家庭物品索引采用本地 GPC-style 类目骨架，共 `344` 个 active 叶子类目。采集 manifest 为 `data/vision-household-image-manifest.cn.json`，包含 `1082` 张图片，其中 gallery `1032` 张、eval/query `50` 张；每个 active 叶子类目至少有 3 张 gallery 图。
 
-```bash
-python3 scripts/vision-category-index.py import-taxonomy
-python3 scripts/vision-category-index.py validate
-python3 scripts/vision-category-index.py evaluate
-python3 scripts/vision-category-index.py build-index
-```
-
-这会从 `data/vision-taxonomy-source.seed.json` 生成四级类目 fixture，校验 `data/vision-samples.seed.json`，输出 `data/generated/vision-evaluation.seed.json`，并在评估通过后生成 `data/vision-index.generated.json`。浏览器端会优先加载生成索引，失败时回退到 `data/vision-index.seed.json`。
-
-扩展家庭类目骨架使用 GS1 GPC 的 `Segment / Family / Class / Brick` 作为 canonical 四级 lineage；Google Product Taxonomy 只做 aliases、search queries、detector labels 和辅助映射；UNSPSC 暂不作为第一版家庭视觉体系的 canonical 来源。生成 MVP household 类目和覆盖报告：
-
-```bash
-python3 scripts/vision-category-index.py import-taxonomy \
-  --input data/vision-taxonomy-source.household.json \
-  --output data/vision-categories.household.json \
-  --version 20260524-household-expanded
-
-python3 scripts/vision-category-index.py coverage-report \
-  --taxonomy data/vision-categories.household.json \
-  --output data/generated/vision-taxonomy-coverage.household.json
-
-python3 scripts/vision-category-index.py export-embedding-selection \
-  --taxonomy data/vision-categories.household.json \
-  --output data/vision-embedding-category-selection.household.tsv
-```
-
-当前 expanded artifact 覆盖 22 个家庭域、345 个 leaf categories，其中 344 个 active；coverage tier 分布为 6 个 seed、335 个 mvp、3 个 common、1 个 long-tail。`data/vision-embedding-category-selection.household.tsv` 是人工标注表，只有把 `includeForEmbedding` 改成 `yes`/`include` 的类目，才会在传入 `--embedding-selection` 时进入采图和 embedding 构建。benchmark 或本地 provider 可以通过 `--categories data/vision-categories.household.json` 显式切换到扩展 taxonomy；默认 smoke test 仍然使用 seed subset。
-
-真实 household index smoke batch 会从已审核的真实照片 manifest 构建本地 OWL-ViT region + CLIP crop embedding index：
-
-```bash
-node scripts/vision-household-index.mjs create-smoke-manifest
-node scripts/vision-household-index.mjs create-eval-dataset
-node scripts/vision-household-index.mjs build-index
-node scripts/vision-household-index.mjs readiness
-
-python3 scripts/vision-model-eval.py benchmark \
-  --dataset data/vision-model-eval.household-index.json \
-  --index data/vision-index.household.owlvit-clip.json \
-  --categories data/vision-categories.household.json \
-  --providers owlvit \
-  --run-local-models \
-  --evaluate \
-  --output data/generated/vision-model-predictions.household-index.json \
-  --raw-output data/generated/vision-model-benchmark-raw.household-index.json \
-  --raw-dir data/generated/vision-model-benchmark-raw-household-index \
-  --output-json data/generated/vision-model-eval-report.household-index.json \
-  --output-html data/generated/vision-model-eval-report.household-index.html \
-  --output-md data/generated/vision-model-eval-report.household-index.md
-```
-
-当前 smoke batch 覆盖 6 个 seed household leaves、18 张 gallery 图和 50 张 eval/query 图，真实生成 `data/vision-index.household.owlvit-clip.json`。50-query 报告当前为 go：box recall 70%，category/name accuracy 50%，Top3 retrieval 70%，combined accuracy 42%。其中新增 query 的 GT 框为 OWL-ViT-assisted 自动标注，适合扩大 smoke 测试；进入生产门槛前仍需要人工复核。
-
-大陆来源 household index 已切到 `Grounding DINO + normalized-1024 + CLIP crop embedding`，现阶段不再把主体框评测作为构建前置门槛。采图后先按比例压缩到长边最多 1024px，再用本地 Grounding DINO 做主体框识别，取 NMS 后置信度最高的主体框 crop 计算 CLIP embedding：
-
-- `data/vision-household-image-manifest.cn.json`：1082 张中国大陆候选来源图片，其中 1032 张 gallery、50 张 eval/query；gallery 覆盖 344/344 个 active leaf，且每个 active leaf 有 3 张 gallery。
-- `data/vision-index.household-cn.grounding-dino-clip.json`：1032 个 Grounding DINO normalized-1024 region + CLIP crop embedding entries，全部有 512 维 embedding，覆盖 344/344 个 active leaf。
-- `data/generated/vision-household-index-readiness.grounding-dino-cn.json`：embedding coverage/readiness 汇总；当前 344 个 active leaf 均有 embedding。
-- `data/generated/vision-model-eval-report.household-index.cn.{json,html,md}`：50-query 评测报告，报告中展示 query 图、预测框/物品名和 Top3 最相似索引图。
+最终 embedding 索引为 `data/vision-index.household-cn.grounding-dino-clip.json`，共 `1032` 条记录，全部使用 `Grounding DINO Tiny + normalized-1024` 主体框和 `CLIP ViT-B/32` crop embedding，embedding 维度为 `512`，覆盖 `344/344` active 叶子类目，失败数为 `0`。
 
 可复现命令：
 
 ```bash
-node scripts/vision-household-index.mjs create-cn-manifest \
-  --categories data/vision-categories.household.json \
-  --input data/vision-household-image-manifest.cn.json \
-  --output data/vision-household-image-manifest.cn.json \
-  --report data/generated/vision-household-cn-source-report.full-fill.json \
-  --merge-existing \
-  --only-without-existing-samples \
-  --gallery-per-category 3 \
-  --eval-total 0 \
-  --search-limit 10
-
-node scripts/vision-household-index.mjs build-index \
-  --manifest data/vision-household-image-manifest.cn.json \
-  --categories data/vision-categories.household.json \
-  --detector grounding-dino \
-  --target-long-side 1024 \
-  --threshold 0 \
-  --nms-iou 0.85 \
-  --max-subjects 10 \
-  --output data/vision-index.household-cn.grounding-dino-clip.json \
-  --report data/generated/vision-household-index-build-report.grounding-dino-cn.json
+node scripts/vision-household-index.mjs create-cn-manifest --input data/vision-household-image-manifest.cn.json --output data/vision-household-image-manifest.cn.json --merge-existing --only-without-existing-samples --gallery-per-category 3 --eval-per-category 0 --source mainland-cn-commerce
+node scripts/vision-household-index.mjs build-index --input data/vision-household-image-manifest.cn.json --output data/vision-index.household-cn.grounding-dino-clip.json --detector grounding-dino --image-variant normalized-1024 --max-long-side 1024 --threshold 0 --nms-iou 0.85 --max-subjects 10
+node scripts/vision-household-index.mjs readiness --manifest data/vision-household-image-manifest.cn.json --index data/vision-index.household-cn.grounding-dino-clip.json --output data/generated/vision-household-index-readiness.grounding-dino-cn.json
 ```
-
-旧的 50-query 大陆来源报告仍可作为历史命名检索参考；当前默认 app index 已改为读取 `data/vision-index.household-cn.grounding-dino-clip.json`。
-
-## 本地视觉模型评测
-
-开发和验收默认走脚本模拟器，不需要打开浏览器人工检查。浏览器只作为产品交互入口，评测报告生成、Top3 索引展示和指标校验都用下面的命令复现。
-
-### 主体检测专项评估
-
-主体检测专项评估只评估本地 Grounding DINO 和 OWL-ViT 的主体框质量，不计算 embedding。采集器优先使用淘宝/天猫/1688 相关搜索和中国大陆候选图片源；采集结果标记为 non-production-ready，只用于本地评估，进入生产图库前仍要做版权和人工复核。
-
-```bash
-node scripts/vision-subject-detection-eval.mjs create-manifest \
-  --categories data/vision-categories.household.json \
-  --only-without-existing-samples \
-  --samples-per-category 3 \
-  --output data/vision-subject-detection-manifest.cn.json \
-  --report data/generated/vision-subject-detection-source-report.cn.json \
-  --image-dir fixtures/vision-subject-detection/cn
-
-node scripts/vision-subject-detection-eval.mjs create-variants \
-  --manifest data/vision-subject-detection-manifest.cn.json \
-  --output data/vision-subject-detection-manifest.variants.json
-
-node scripts/vision-subject-detection-eval.mjs run-detection \
-  --manifest data/vision-subject-detection-manifest.variants.json \
-  --categories data/vision-categories.household.json \
-  --models grounding-dino,owlvit \
-  --variants original,normalized-1024 \
-  --output data/generated/vision-subject-detection-run.json
-
-node scripts/vision-subject-detection-eval.mjs serve-review \
-  --manifest data/vision-subject-detection-manifest.variants.json \
-  --detection data/generated/vision-subject-detection-run.json \
-  --review data/generated/vision-subject-detection-review.json
-
-node scripts/vision-subject-detection-eval.mjs report \
-  --manifest data/vision-subject-detection-manifest.variants.json \
-  --detection data/generated/vision-subject-detection-run.json \
-  --review data/generated/vision-subject-detection-review.json \
-  --output-base data/generated/vision-subject-detection-eval
-
-node scripts/vision-subject-detection-eval.mjs export-boxes \
-  --manifest data/vision-subject-detection-manifest.variants.json \
-  --detection data/generated/vision-subject-detection-run.json \
-  --review data/generated/vision-subject-detection-review.json \
-  --output data/generated/vision-subject-primary-boxes.reviewed.json
-```
-
-`create-variants` 会保留 `original`，并生成或复用长边 1024px 的 `normalized-1024`；小图不会被放大，宽高比保持不变。`run-detection` 会保留每个模型超过阈值的所有框，默认阈值为 Grounding DINO `0.2`、OWL-ViT `0.01`；OWL-ViT 会先做 category-level 去重/NMS，之后最多保留 10 个候选主体。主框 A 是面积最大的框，主框 B 是置信度最高的框。审核页用不同颜色展示 A/B/普通框，并按每个候选框逐行标注准确性、选择图片主框或临时只显示当前框。报告会输出普通框 precision、主框 A/B 准确率、模型人工胜率、失败率、平均框数、两个模型的平均识别耗时、p50/p95、准确框最低分和不准确框最高分。
-
-脚本级验证不依赖浏览器和模型推理：
-
-```bash
-node scripts/vision-subject-detection-eval.mjs simulator-checks
-```
-
-评测主体框、物品名和 Top3 本地索引相似图。`create-fixtures` 是脚本链路自测；真实模型评测应使用 `benchmark --run-local-models`：
-
-```bash
-python3 scripts/vision-model-eval.py create-fixtures
-python3 scripts/vision-model-eval.py fixture-predictions
-python3 scripts/vision-model-eval.py evaluate
-```
-
-输出：
-
-- `data/generated/vision-model-eval-report.seed.html`：可视化报告，包含输入图、GT 框、预测框、物品名和 Top3 相似索引图。
-- `data/generated/vision-model-eval-report.seed.json`：结构化指标和逐图结果。
-- `data/generated/vision-model-eval-report.seed.md`：摘要测试报告。
-
-真实照片评测夹具：
-
-```bash
-python3 scripts/vision-model-eval.py create-real-photo-set --download
-python3 scripts/vision-model-eval.py evaluate \
-  --dataset data/vision-model-eval.real.json \
-  --predictions data/generated/vision-model-predictions.real.gt-assisted.json \
-  --index data/vision-index.real.json \
-  --output-json data/generated/vision-model-eval-report.real.json \
-  --output-html data/generated/vision-model-eval-report.real.html \
-  --output-md data/generated/vision-model-eval-report.real.md
-```
-
-真实照片来源记录在 `data/vision-real-photo-sources.json`，query 图有人工 GT 框；`data/vision-index.real.json` 使用真实 gallery 图片展示 Top3 相似索引图。注意：`vision-model-predictions.real.gt-assisted.json` 是用 GT 辅助生成的评测链路基线，不代表本地模型真实跑分；安装 `vendor/` 模型并接入预测器后，应替换为真实预测输出再跑 `evaluate`。
-
-真实本地模型 benchmark 会离线运行 Grounding DINO、OWL-ViT、SlimSAM、CLIP naming、Canvas baseline 和 GT-assisted fixture，并按 provider 分开计算准确率、耗时和 go/no-go：
-
-```bash
-python3 scripts/vision-model-eval.py preflight-assets --strict
-python3 scripts/vision-model-eval.py benchmark \
-  --run-local-models \
-  --evaluate \
-  --providers owlvit,owlvit-sam,grounding-dino,grounding-dino-sam,clip-naming,canvas-baseline,gt-assisted
-```
-
-核心输出：
-
-- `data/generated/vision-model-predictions.real.benchmark.json`：所有 provider 的预测、框、物品名、Top3 索引匹配、失败原因和逐阶段耗时。
-- `data/generated/vision-model-benchmark-raw.real.json`：完整原始 benchmark artifact。
-- `data/generated/vision-model-eval-report.benchmark.{json,html,md}`：最终评测报告。
-
-报告中的 `real-local-model` 才参与本地模型 go/no-go；`canvas-baseline` 只是非模型兜底，`gt-assisted-fixture` 只验证报告链路。当前小样本 fixture 下，OWL-ViT/OWL-ViT+SlimSAM 通过默认门槛，Grounding DINO 和纯 CLIP naming 未通过，后续扩大类目/图片前应优先复核这些 provider 的 box recall 与 combined accuracy。
 
 ## 下一步
 

@@ -1,6 +1,9 @@
 node_modules/
 dist/
-vendor/
+www/
+vendor/*
+!vendor/heic2any/
+!vendor/heic2any/heic2any.min.js
 .DS_Store
 Thumbs.db
 *.log

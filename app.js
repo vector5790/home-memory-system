@@ -1,5 +1,45 @@
+import { HOME_DATA_SCHEMA_VERSION, createHomeMemoryPlatform } from "./platform.js";
+
 const STORAGE_KEY = "home-memory-system:v3";
+const platform = createHomeMemoryPlatform({
+  storageKey: STORAGE_KEY,
+  schemaVersion: HOME_DATA_SCHEMA_VERSION,
+});
 const today = new Date();
+const repeatLabels = {
+  none: "无",
+  daily: "每天",
+  weekly: "每周",
+  monthly: "每月",
+  yearly: "每年",
+};
+
+const timedReminderOffsetLabels = {
+  none: "无",
+  "on-time": "准时",
+  "before-5m": "提前5分钟",
+  "before-30m": "提前30分钟",
+  "before-1h": "提前1小时",
+  "before-1d": "提前1天",
+  custom: "自定义",
+};
+
+const allDayReminderOffsetLabels = {
+  none: "无",
+  "same-day": "当天",
+  "before-1d": "提前1天",
+  "before-2d": "提前2天",
+  "before-3d": "提前3天",
+  "before-1w": "提前1周",
+  custom: "自定义",
+};
+
+const customOffsetUnitLabels = {
+  minutes: "分钟",
+  hours: "小时",
+  days: "天",
+  weeks: "周",
+};
 
 const icons = {
   home: '<svg class="icon" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
@@ -13,6 +53,7 @@ const icons = {
   rotate: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>',
   box: '<svg class="icon" viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>',
   spark: '<svg class="icon" viewBox="0 0 24 24"><path d="M13 2 9 14l-7 2 7 2 4 4 2-7 7-4-7-2-2-7Z"/></svg>',
+  edit: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4 11.5-11.5Z"/></svg>',
   trash: '<svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5"/><path d="M14 11v5"/></svg>',
 };
 
@@ -31,6 +72,7 @@ const visionConfig = {
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
+  localHeicConverterScript: "/vendor/heic2any/heic2any.min.js",
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
   allowRemoteVisionModels: false,
@@ -38,6 +80,8 @@ const visionConfig = {
   catalogIndexFallback: "/data/vision-index.generated.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
+  preferredDetector: "grounding-dino",
+  enableGroundingDinoFallback: true,
   samModel: "Xenova/slimsam-77-uniform",
   catalogModel: "Xenova/clip-vit-base-patch32",
   detectionThreshold: 0.05,
@@ -50,12 +94,22 @@ const visionConfig = {
   maxModelDetections: 48,
   detectionNmsIou: 0.85,
   maxUploadDimension: 1024,
+  detectionMaxDimension: 1024,
   maxUploadDataUrlLength: 850000,
   uploadJpegQuality: 0.82,
   uploadDecodeTimeoutMs: 18000,
-  maxSamRefinements: 8,
-  groundingPromptBatchSize: 20,
+  heicConversionTimeoutMs: 45000,
+  maxSamRefinements: 0,
+  samMinBoxArea: 0.42,
+  groundingPromptBatchSize: 48,
+  owlVitPromptBatchSize: 48,
   owlVitLabelLimit: 48,
+  maxWasmThreads: 4,
+  recognitionCacheSize: 6,
+  candidateCropVersion: "crop-640-v2",
+  candidateCropMaxDimension: 640,
+  candidateCropQuality: 0.9,
+  cloudRecognitionEndpoint: "",
 };
 
 const unknownObjectNames = ["物品A", "物品B", "物品C", "物品D", "物品E", "物品F", "物品G", "物品H", "物品I", "物品J", "物品K", "物品L"];
@@ -328,10 +382,14 @@ const seedState = {
     roomId: "living",
     placeId: null,
     image: null,
+    imageRef: null,
     candidates: [],
     activeCandidateId: null,
     recognitionStatus: "idle",
     recognitionError: "",
+    recognitionDiagnostics: null,
+    preprocessingMs: null,
+    imageMeta: null,
     provider: "none",
   },
   cameraOn: false,
@@ -368,7 +426,10 @@ let state = loadState();
 let cameraStream = null;
 let toastTimer = null;
 let candidateDrag = null;
+let candidateDatePickerState = null;
 let recognitionRunId = 0;
+let candidateEditRecognitionToken = 0;
+let candidateCropHydrationKey = "";
 let visionAssetModePromise = null;
 let transformersModulePromise = null;
 let groundingDinoDetectorPromise = null;
@@ -378,18 +439,26 @@ let catalogClassifierPromise = null;
 let catalogFeatureExtractorPromise = null;
 let catalogIndexPromise = null;
 let catalogIndexWarningShown = false;
+let heicConverterPromise = null;
+const recognitionResultCache = new Map();
 let persistWarningShown = false;
 
 const app = document.querySelector("#app");
+const primaryTabIds = new Set(["map", "capture", "reminders"]);
+
+function normalizeActiveTab(tab) {
+  return primaryTabIds.has(tab) ? tab : "capture";
+}
 
 function loadState() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = platform.storage.readSnapshotSync();
     if (!raw) return structuredClone(seedState);
     const parsed = JSON.parse(raw);
     const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+    loaded.activeTab = normalizeActiveTab(loaded.activeTab);
     loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = Array.isArray(loaded.items) ? loaded.items : [];
+    loaded.items = normalizeItems(loaded.items);
     loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
     return loaded;
   } catch {
@@ -397,32 +466,65 @@ function loadState() {
   }
 }
 
+async function hydratePlatformState() {
+  if (!platform.isNative) return;
+  try {
+    const raw = await platform.storage.readSnapshotAsync();
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+    loaded.activeTab = normalizeActiveTab(loaded.activeTab);
+    loaded.rooms = normalizeRooms(loaded.rooms);
+    loaded.items = normalizeItems(loaded.items);
+    loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
+    state = loaded;
+    render();
+    performSearch();
+  } catch (error) {
+    console.warn("Native state migration failed.", error);
+    showToast("旧本地数据无法迁移，已使用空白状态");
+  }
+}
+
 function createPersistSnapshot(options = {}) {
   const snapshot = structuredClone(state);
+  snapshot.schemaVersion = HOME_DATA_SCHEMA_VERSION;
+  snapshot.savedAt = new Date().toISOString();
   snapshot.cameraOn = false;
   if (options.omitCaptureImage && snapshot.capture) {
     snapshot.capture.image = null;
+  }
+  if (options.usePhotoReferences && snapshot.capture) {
+    snapshot.capture.image = getDurableImageValue(snapshot.capture.image, snapshot.capture.imageRef);
   }
   if (options.omitPlaceImages) {
     snapshot.rooms = snapshot.rooms.map((room) => ({
       ...room,
       places: (room.places || []).map((place) => ({ ...place, image: null })),
     }));
+  } else if (options.usePhotoReferences) {
+    snapshot.rooms = snapshot.rooms.map((room) => ({
+      ...room,
+      places: (room.places || []).map((place) => ({
+        ...place,
+        image: getDurableImageValue(place.image, place.imageRef),
+      })),
+    }));
   }
   return snapshot;
 }
 
 function persist() {
+  const usePhotoReferences = Boolean(platform.isNative);
   const attempts = [
-    createPersistSnapshot(),
-    createPersistSnapshot({ omitCaptureImage: true }),
-    createPersistSnapshot({ omitCaptureImage: true, omitPlaceImages: true }),
+    createPersistSnapshot({ usePhotoReferences }),
+    createPersistSnapshot({ usePhotoReferences, omitCaptureImage: true }),
+    createPersistSnapshot({ usePhotoReferences, omitCaptureImage: true, omitPlaceImages: true }),
   ];
   let lastError = null;
   for (const snapshot of attempts) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
-      return true;
+      if (platform.storage.writeSnapshot(JSON.stringify(snapshot))) return true;
     } catch (error) {
       lastError = error;
     }
@@ -434,8 +536,16 @@ function persist() {
   return false;
 }
 
+function getDurableImageValue(image, imageRef) {
+  if (imageRef?.webPath) return imageRef.webPath;
+  if (imageRef?.uri) return platform.convertFileSrc(imageRef.uri);
+  if (typeof image === "string" && image.startsWith("data:image/")) return null;
+  return image || null;
+}
+
 function setState(patch) {
   state = { ...state, ...patch };
+  state.activeTab = normalizeActiveTab(state.activeTab);
   persist();
   render();
 }
@@ -471,6 +581,8 @@ function normalizePlace(place = {}) {
     sourceItemId: place.sourceItemId || null,
     box: clampBox(place.box || { x: 16, y: 18, w: 36, h: 24 }),
     image: place.image || null,
+    imageRef: place.imageRef || null,
+    imageMeta: normalizeImageMeta(place.imageMeta),
     note: place.note || "储物点",
   };
 }
@@ -574,6 +686,20 @@ function createId(prefix, name = "") {
   return `${prefix}-${slug}-${Date.now().toString(36)}-${Math.random().toString(16).slice(2, 6)}`;
 }
 
+async function persistPhotoDataUrl(dataUrl, source = "capture") {
+  if (!platform.isNative || !platform.files.isAvailable() || !String(dataUrl || "").startsWith("data:image/")) {
+    return null;
+  }
+  const extension = dataUrl.startsWith("data:image/png") ? "png" : "jpg";
+  const id = createId("photo", source);
+  const saved = await platform.files.writeDataUrl(`photos/${id}.${extension}`, dataUrl);
+  return {
+    id,
+    source,
+    ...saved,
+  };
+}
+
 function roomTypeForName(name) {
   if (/厨/.test(name)) return "kitchen";
   if (/阳台|露台/.test(name)) return "balcony";
@@ -593,7 +719,7 @@ function makeVirtualPlace(room) {
     parentId: null,
     box: { x: 8, y: 12, w: 84, h: 72 },
     image: null,
-    note: "上传照片后自动生成",
+    note: "上传照片后可保存为照片点",
     virtual: true,
   };
 }
@@ -624,7 +750,8 @@ function ensureCapturePlace() {
     sourceItemId: null,
     box: { x: 8, y: 12, w: 84, h: 72 },
     image: state.capture.image || null,
-    note: "由上传照片自动生成",
+    imageRef: state.capture.imageRef || null,
+    note: "由上传照片保存",
   };
   state.rooms = state.rooms.map((entry) => (
     entry.id === room.id ? { ...entry, places: [...entry.places, place] } : entry
@@ -660,6 +787,53 @@ function addRoom(name) {
   showToast(`已新增空间：${cleanName}`);
 }
 
+function promptAddRoom() {
+  const name = window.prompt("新增家庭空间名称", "");
+  if (name === null) return;
+  addRoom(name);
+}
+
+function renameRoom(roomId, name) {
+  const room = getRoom(roomId);
+  const cleanName = String(name || "").trim();
+  if (!room || !cleanName) {
+    showToast("请输入空间名称");
+    return;
+  }
+  if (state.rooms.some((entry) => entry.id !== room.id && normalizeText(entry.name) === normalizeText(cleanName))) {
+    showToast("这个空间已经存在");
+    return;
+  }
+  state.rooms = state.rooms.map((entry) => (
+    entry.id === room.id
+      ? { ...entry, name: cleanName, type: roomTypeForName(cleanName) }
+      : entry
+  ));
+  if (state.capture.roomId === room.id) state.capture.roomId = room.id;
+  state.activeRoomId = room.id;
+  persist();
+  render();
+  showToast(`已重命名为空间：${cleanName}`);
+}
+
+function promptRenameRoom(roomId) {
+  const room = getRoom(roomId);
+  if (!room) return;
+  const name = window.prompt("编辑空间名称", room.name);
+  if (name === null) return;
+  renameRoom(room.id, name);
+}
+
+function selectCaptureSpace(roomId) {
+  const room = getRoom(roomId);
+  const firstPlace = getRootPlaces(room.id)[0] || room.places[0] || null;
+  state.activeRoomId = room.id;
+  state.activePlaceId = firstPlace?.id || null;
+  resetCaptureRecognition({ roomId: room.id, placeId: firstPlace?.id || null });
+  persist();
+  render();
+}
+
 function addPlace(roomId, name, parentId = null, options = {}) {
   const room = getRoom(roomId);
   const cleanName = String(name || "").trim();
@@ -688,6 +862,7 @@ function addPlace(roomId, name, parentId = null, options = {}) {
       h: normalizedParentId ? 16 : 24,
     }),
     image: options.image || null,
+    imageRef: options.imageRef || null,
     note: options.note || (parent ? `隶属于 ${parent.name}` : "手动新增储物点"),
   };
   state.rooms = state.rooms.map((entry) => (
@@ -702,12 +877,15 @@ function addPlace(roomId, name, parentId = null, options = {}) {
   return { ...place, roomId: room.id, roomName: room.name, roomType: room.type };
 }
 
-function updatePlaceImage(placeId, image) {
+function updatePlaceImage(placeId, image, imageRef = null, imageMeta = null) {
   if (!placeId || !image) return;
+  const normalizedMeta = normalizeImageMeta(imageMeta);
   state.rooms = state.rooms.map((room) => ({
     ...room,
     places: room.places.map((place) => (
-      place.id === placeId ? { ...place, image } : place
+      place.id === placeId
+        ? { ...place, image, imageRef: imageRef || place.imageRef || null, imageMeta: normalizedMeta }
+        : place
     )),
   }));
 }
@@ -730,7 +908,8 @@ function normalizeCaptureState(capture) {
   const candidates = Array.isArray(capture.candidates)
     ? capture.candidates.map((candidate, index) => normalizeCandidate(candidate, index, provider))
     : [];
-  const activeCandidateId = candidates.some((candidate) => candidate.id === capture.activeCandidateId)
+  const activeCandidates = candidates.filter((candidate) => !isCandidateDeleted(candidate));
+  const activeCandidateId = activeCandidates.some((candidate) => candidate.id === capture.activeCandidateId)
     ? capture.activeCandidateId
     : null;
 
@@ -738,7 +917,11 @@ function normalizeCaptureState(capture) {
     ...capture,
     candidates,
     activeCandidateId,
-    recognitionStatus: capture.recognitionStatus || "idle",
+      imageRef: capture.imageRef || null,
+      imageMeta: normalizeImageMeta(capture.imageMeta),
+      recognitionDiagnostics: capture.recognitionDiagnostics || null,
+      preprocessingMs: capture.preprocessingMs || null,
+      recognitionStatus: capture.recognitionStatus || "idle",
     recognitionError: capture.recognitionError || "",
     provider,
   };
@@ -746,21 +929,80 @@ function normalizeCaptureState(capture) {
 
 function resetCaptureRecognition(overrides = {}) {
   recognitionRunId += 1;
+  const hasImageOverride = Object.prototype.hasOwnProperty.call(overrides, "image");
+  const nextImageMeta = hasImageOverride
+    ? (overrides.image ? normalizeImageMeta(overrides.imageMeta) : null)
+    : normalizeImageMeta(overrides.imageMeta || state.capture.imageMeta);
   state.capture = {
     ...state.capture,
     candidates: [],
     activeCandidateId: null,
     recognitionStatus: "idle",
     recognitionError: "",
+    recognitionDiagnostics: null,
+    preprocessingMs: null,
+    imageMeta: nextImageMeta,
     provider: "none",
     ...overrides,
+    imageMeta: normalizeImageMeta(overrides.imageMeta || nextImageMeta),
   };
+}
+
+function queueCaptureAnalysis() {
+  if (!state.capture.image) return;
+  window.setTimeout(() => {
+    scanCurrentPlace().catch((error) => {
+      console.info("Queued capture analysis failed.", error);
+    });
+  }, 0);
 }
 
 function clampNumber(value, min, max) {
   const number = Number(value);
   if (!Number.isFinite(number)) return min;
   return Math.min(max, Math.max(min, number));
+}
+
+function normalizeImageMeta(meta) {
+  const width = Math.round(Number(meta?.width || meta?.naturalWidth || meta?.videoWidth || 0));
+  const height = Math.round(Number(meta?.height || meta?.naturalHeight || meta?.videoHeight || 0));
+  if (!width || !height) return null;
+  return { width, height };
+}
+
+function normalizeCropMeta(meta) {
+  const width = Math.round(Number(meta?.width || 0));
+  const height = Math.round(Number(meta?.height || 0));
+  if (!width || !height) return null;
+  return { width, height };
+}
+
+async function imageMetaFromDataUrl(image) {
+  return getImageDimensions(image)
+    .then((dimensions) => normalizeImageMeta(dimensions))
+    .catch(() => null);
+}
+
+function imageAspectStyle(imageMeta) {
+  const meta = normalizeImageMeta(imageMeta);
+  if (!meta) return "";
+  return `style="--image-aspect:${meta.width} / ${meta.height}"`;
+}
+
+function cropAspectStyle(cropMeta) {
+  const meta = normalizeCropMeta(cropMeta);
+  if (!meta) return "";
+  const maxWidth = 108;
+  const maxHeight = 132;
+  const ratio = meta.width / meta.height;
+  let width = maxWidth;
+  let height = width / ratio;
+  if (height > maxHeight) {
+    height = maxHeight;
+    width = height * ratio;
+  }
+  const frameHeight = Math.max(44, Math.round(height));
+  return `style="--crop-aspect:${meta.width} / ${meta.height};--crop-preview-width:${Math.max(54, Math.round(width))}px;--crop-preview-height:${frameHeight}px"`;
 }
 
 function clampBox(box = {}) {
@@ -774,11 +1016,148 @@ function clampBox(box = {}) {
   };
 }
 
+function normalizeDateText(dateText) {
+  const text = String(dateText || "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  if (!text) return "";
+  const date = new Date(text);
+  return Number.isNaN(date.getTime()) ? "" : dateToIso(date);
+}
+
+function normalizeReminderTime(timeText) {
+  const match = String(timeText || "").match(/^(\d{1,2}):(\d{1,2})$/);
+  if (!match) return "09:00";
+  const hour = clampNumber(match[1], 0, 23);
+  const minute = clampNumber(match[2], 0, 59);
+  return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+}
+
+function getReminderOffsetLabels(hasTime) {
+  return hasTime ? timedReminderOffsetLabels : allDayReminderOffsetLabels;
+}
+
+function defaultReminderOffset(hasTime) {
+  return hasTime ? "on-time" : "none";
+}
+
+function normalizeReminderOffset(offset, hasTime) {
+  const labels = getReminderOffsetLabels(hasTime);
+  const value = String(offset || "").trim();
+  if (labels[value]) return value;
+  if (value === "onTime") return "on-time";
+  if (value === "sameDay") return "same-day";
+  return defaultReminderOffset(hasTime);
+}
+
+function normalizeCustomOffset(customOffset = {}) {
+  return {
+    amount: Math.max(1, Math.round(Number(customOffset.amount) || 5)),
+    unit: customOffsetUnitLabels[customOffset.unit] ? customOffset.unit : "minutes",
+  };
+}
+
+function createNotificationId(seed) {
+  const text = String(seed || `${Date.now()}-${Math.random()}`);
+  let hash = 0;
+  for (let index = 0; index < text.length; index += 1) {
+    hash = Math.imul(31, hash) + text.charCodeAt(index);
+  }
+  return 100000 + ((hash >>> 0) % 2000000000);
+}
+
+function normalizeReminder(reminder = {}, index = 0) {
+  const rawHasTime = Object.prototype.hasOwnProperty.call(reminder, "hasTime")
+    ? Boolean(reminder.hasTime)
+    : Boolean(reminder.time || reminder.nextTime);
+  const id = reminder.id || createId("reminder", reminder.title || reminder.nextLabel || `提醒${index + 1}`);
+  const date = normalizeDateText(reminder.date || reminder.nextAt || reminder.at) || dateToIso(today);
+  const offset = normalizeReminderOffset(reminder.offset, rawHasTime);
+  const notificationId = Number.isInteger(Number(reminder.notificationId))
+    ? Number(reminder.notificationId)
+    : createNotificationId(`${id}:${date}:${reminder.time || reminder.nextTime || ""}`);
+  return {
+    id,
+    title: String(reminder.title || reminder.nextLabel || "提醒").trim() || "提醒",
+    date,
+    hasTime: rawHasTime,
+    time: normalizeReminderTime(reminder.time || reminder.nextTime || "09:00"),
+    offset,
+    repeat: repeatLabels[reminder.repeat] ? reminder.repeat : (repeatLabels[reminder.nextRepeat] ? reminder.nextRepeat : "none"),
+    customOffset: normalizeCustomOffset(reminder.customOffset),
+    enabled: reminder.enabled !== false,
+    notificationId,
+  };
+}
+
+function legacyReminderFromFields(record = {}) {
+  if (!record.nextAt) return null;
+  return {
+    id: record.nextReminderId || record.reminderId || undefined,
+    title: record.nextLabel || "提醒",
+    date: record.nextAt,
+    hasTime: Boolean(record.nextTime),
+    time: record.nextTime || "09:00",
+    offset: record.nextOffset || "on-time",
+    repeat: record.nextRepeat || "none",
+    enabled: true,
+    notificationId: record.notificationId,
+  };
+}
+
+function normalizeReminderList(record = {}) {
+  const raw = Array.isArray(record) ? record : (Array.isArray(record.reminders) ? record.reminders : []);
+  if (raw.length) return raw.map((reminder, index) => normalizeReminder(reminder, index));
+  const legacy = legacyReminderFromFields(record);
+  return legacy ? [normalizeReminder(legacy)] : [];
+}
+
+function getPrimaryReminder(record = {}) {
+  return normalizeReminderList(record)[0] || null;
+}
+
+function normalizeItem(item = {}, index = 0) {
+  const reminders = normalizeReminderList(item);
+  const primaryReminder = reminders[0] || null;
+  return {
+    ...item,
+    id: item.id || createId("item", item.name || `物品${index + 1}`),
+    name: String(item.name || `物品${index + 1}`).trim(),
+    aliases: Array.isArray(item.aliases) ? item.aliases : [],
+    category: categoryLabels[item.category] ? item.category : "daily",
+    qty: Math.max(1, Math.round(Number(item.qty) || 1)),
+    roomId: item.roomId || seedState.capture.roomId,
+    placeId: item.placeId || null,
+    container: item.container || "",
+    box: clampBox(item.box),
+    expireAt: item.expireAt || null,
+    reminders,
+    nextAt: item.nextAt || primaryReminder?.date || null,
+    nextTime: item.nextTime || primaryReminder?.time || null,
+    nextRepeat: item.nextRepeat || primaryReminder?.repeat || null,
+    nextLabel: item.nextLabel || primaryReminder?.title || null,
+    confidence: clampNumber(item.confidence ?? 0.75, 0, 1),
+    categoryId: item.categoryId || item.catalogId || "",
+    categoryPath: Array.isArray(item.categoryPath) ? item.categoryPath : [],
+    categoryScore: Number.isFinite(Number(item.categoryScore)) ? Number(item.categoryScore) : null,
+    categoryMargin: Number.isFinite(Number(item.categoryMargin)) ? Number(item.categoryMargin) : null,
+    categoryIndexVersion: item.categoryIndexVersion || "",
+    matchedSampleIds: Array.isArray(item.matchedSampleIds) ? item.matchedSampleIds : [],
+  };
+}
+
+function normalizeItems(items) {
+  return Array.isArray(items)
+    ? items.map((item, index) => normalizeItem(item, index)).filter((item) => item.name)
+    : [];
+}
+
 function normalizeCandidate(candidate = {}, index = 0, provider = "local-image") {
   const name = String(candidate.name || `候选物品 ${index + 1}`).trim();
   const category = categoryLabels[candidate.category] ? candidate.category : "daily";
   const qty = Math.max(1, Math.round(Number(candidate.qty) || 1));
   const confidence = clampNumber(candidate.confidence ?? 0.75, 0, 1);
+  const reminders = normalizeReminderList(candidate);
+  const primaryReminder = reminders[0] || null;
 
   return {
     id: candidate.id || `candidate-${Date.now()}-${index}-${Math.random().toString(16).slice(2)}`,
@@ -787,12 +1166,16 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     category,
     qty,
     expireAt: candidate.expireAt || "",
-    nextAt: candidate.nextAt || "",
-    nextLabel: candidate.nextLabel || "",
+    reminders,
+    nextAt: candidate.nextAt || primaryReminder?.date || "",
+    nextTime: candidate.nextTime || primaryReminder?.time || "09:00",
+    nextRepeat: repeatLabels[candidate.nextRepeat] ? candidate.nextRepeat : (primaryReminder?.repeat || "none"),
+    nextLabel: candidate.nextLabel || primaryReminder?.title || "",
     container: candidate.container || "",
     box: clampBox(candidate.box),
     confidence,
     selected: candidate.selected !== false,
+    deletedAt: candidate.deletedAt || null,
     source: candidate.source || provider,
     namingStatus: candidate.namingStatus || "done",
     detectionLabel: candidate.detectionLabel || "",
@@ -810,7 +1193,14 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     assetVersion: candidate.assetVersion || "",
     fallbackReason: candidate.fallbackReason || "",
     timings: candidate.timings && typeof candidate.timings === "object" ? candidate.timings : {},
+    cropImage: candidate.cropImage || "",
+    cropMeta: normalizeCropMeta(candidate.cropMeta),
+    cropVersion: candidate.cropVersion || "",
     edited: Boolean(candidate.edited),
+    nameEdited: Boolean(candidate.nameEdited),
+    boxEdited: Boolean(candidate.boxEdited),
+    detailsOpen: Boolean(candidate.detailsOpen),
+    boxOpen: Boolean(candidate.boxOpen),
   };
 }
 
@@ -821,6 +1211,46 @@ function normalizeRecognitionResults(results, provider = "local-image") {
   return results
     .map((candidate, index) => normalizeCandidate(candidate, index, provider))
     .filter((candidate) => candidate.name);
+}
+
+function isCandidateDeleted(candidate) {
+  return Boolean(candidate?.deletedAt);
+}
+
+function getActiveCandidates(candidates = state.capture.candidates || []) {
+  return candidates.filter((candidate) => !isCandidateDeleted(candidate));
+}
+
+function getDeletedCandidates(candidates = state.capture.candidates || []) {
+  return candidates.filter((candidate) => isCandidateDeleted(candidate));
+}
+
+function getSelectedCandidateCount(candidates = state.capture.candidates || []) {
+  return getActiveCandidates(candidates).filter((candidate) => candidate.selected).length;
+}
+
+function getCandidateIndex(candidates, candidateId) {
+  return candidates.findIndex((candidate) => candidate.id === candidateId);
+}
+
+function getAdjacentCandidateId(candidateId, direction) {
+  const candidates = getActiveCandidates();
+  if (!candidates.length) return null;
+  const currentIndex = Math.max(0, getCandidateIndex(candidates, candidateId));
+  const nextIndex = clampNumber(currentIndex + direction, 0, candidates.length - 1);
+  return candidates[nextIndex]?.id || null;
+}
+
+function getFallbackActiveCandidateId(preferredId = state.capture.activeCandidateId) {
+  const activeCandidates = getActiveCandidates();
+  if (!activeCandidates.length) return null;
+  if (activeCandidates.some((candidate) => candidate.id === preferredId)) return preferredId;
+  return activeCandidates[0].id;
+}
+
+async function recognizeStorageImage(context) {
+  if (context.image) return recognizeWithLocalImage(context);
+  throw new Error("请先上传或拍摄储物点照片。");
 }
 
 function getUnknownObjectName(index) {
@@ -864,6 +1294,45 @@ function getCatalogPromptEntries() {
 
 function getDetectionLabelEntries() {
   return [...getCatalogLabelEntries(), ...genericDetectionLabels.map((entry) => ({ ...entry, isCatalogItem: false }))];
+}
+
+function uniqueLabelEntries(entries) {
+  const seen = new Set();
+  return entries.filter((entry) => {
+    const label = normalizeDetectionLabel(entry.label);
+    if (!label || seen.has(label)) return false;
+    seen.add(label);
+    return true;
+  });
+}
+
+function getFastGroundingLabelEntries() {
+  const primaryCatalogLabels = visionCatalog.flatMap((item) => {
+    if (["speaker", "amplifier", "turntable", "remote-control", "media-player", "tv-cabinet", "drawer", "cabinet", "cabinet-door", "storage-compartment"].includes(item.id)) {
+      return item.labels.slice(0, 2).map((label) => ({ ...item, label, isCatalogItem: true }));
+    }
+    return item.labels.slice(0, 1).map((label) => ({ ...item, label, isCatalogItem: true }));
+  });
+  const genericKeep = new Set([
+    "television cabinet drawer",
+    "tv stand drawer",
+    "white drawer front",
+    "cabinet drawer",
+    "cabinet door",
+    "shelf",
+    "storage compartment",
+    "box",
+    "bag",
+    "bottle",
+    "food package",
+    "document",
+    "book",
+    "cable",
+  ]);
+  const primaryGenericLabels = genericDetectionLabels
+    .filter((entry) => genericKeep.has(entry.label))
+    .map((entry) => ({ ...entry, isCatalogItem: false }));
+  return uniqueLabelEntries([...primaryCatalogLabels, ...primaryGenericLabels]);
 }
 
 function normalizeDetectionLabel(label) {
@@ -910,11 +1379,16 @@ function mergeCandidateWithUserState(incoming, existing = null) {
       category: existing.category,
       qty: existing.qty,
       expireAt: existing.expireAt,
+      reminders: normalizeReminderList(existing),
       nextAt: existing.nextAt,
+      nextTime: existing.nextTime,
+      nextRepeat: existing.nextRepeat,
       nextLabel: existing.nextLabel,
       container: existing.container,
       box: existing.box,
       edited: true,
+      nameEdited: existing.nameEdited,
+      boxEdited: existing.boxEdited,
     }
     : {};
   return {
@@ -922,6 +1396,14 @@ function mergeCandidateWithUserState(incoming, existing = null) {
     ...preserveUserFields,
     id: existing.id,
     selected: existing.selected,
+    deletedAt: existing.deletedAt || null,
+    cropImage: incoming.cropImage || existing.cropImage || "",
+    cropMeta: normalizeCropMeta(incoming.cropMeta || existing.cropMeta),
+    cropVersion: incoming.cropVersion || existing.cropVersion || "",
+    detailsOpen: existing.detailsOpen,
+    boxOpen: existing.boxOpen,
+    nameEdited: existing.nameEdited || incoming.nameEdited || false,
+    boxEdited: existing.boxEdited || incoming.boxEdited || false,
     confidence: Math.max(existing.confidence || 0, incoming.confidence || 0),
   };
 }
@@ -1016,11 +1498,29 @@ async function loadTransformersRuntime() {
       module.env.allowRemoteModels = Boolean(visionConfig.allowRemoteVisionModels);
       module.env.localModelPath = visionConfig.localModelPath;
       module.env.useBrowserCache = true;
+      configureTransformersRuntime(module);
 
       return { ...module, runtimeMode };
     })();
   }
   return transformersModulePromise;
+}
+
+function getVisionWasmThreadCount() {
+  if (!window.crossOriginIsolated || typeof SharedArrayBuffer === "undefined") return 1;
+  const cores = Number(navigator.hardwareConcurrency) || 2;
+  return Math.max(1, Math.min(visionConfig.maxWasmThreads, Math.max(1, cores - 1)));
+}
+
+function configureTransformersRuntime(module) {
+  try {
+    const wasmBackend = module.env?.backends?.onnx?.wasm;
+    if (!wasmBackend) return;
+    wasmBackend.numThreads = getVisionWasmThreadCount();
+    wasmBackend.wasmPaths = "/vendor/transformers/";
+  } catch (error) {
+    console.info("Vision runtime thread tuning skipped.", error);
+  }
 }
 
 async function getGroundingDinoDetector() {
@@ -1051,7 +1551,7 @@ async function getGroundingDinoDetector() {
 async function getSmallModelDetector() {
   if (!smallModelDetectorPromise) {
     smallModelDetectorPromise = loadTransformersRuntime()
-      .then(({ pipeline }) => pipeline("zero-shot-object-detection", visionConfig.detectionModel, { dtype: "q8" }))
+      .then(({ pipeline }) => pipeline("zero-shot-object-detection", visionConfig.detectionModel, { quantized: true }))
       .catch((error) => {
         smallModelDetectorPromise = null;
         throw error;
@@ -1067,8 +1567,8 @@ async function getSamSegmenter() {
       if (!assetMode.samReady) return null;
       const { AutoProcessor, RawImage, SamModel, runtimeMode } = await loadTransformersRuntime();
       if (!AutoProcessor || !RawImage || !SamModel) return null;
-      const processor = await AutoProcessor.from_pretrained(visionConfig.samModel);
-      const model = await SamModel.from_pretrained(visionConfig.samModel, { dtype: "q8" });
+      const processor = await AutoProcessor.from_pretrained(visionConfig.samModel, { quantized: true });
+      const model = await SamModel.from_pretrained(visionConfig.samModel, { quantized: true });
       return {
         processor,
         model,
@@ -1088,28 +1588,32 @@ function warmVisionModels() {
   window.setTimeout(async () => {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.hasLocalRuntime) return;
-    loadTransformersRuntime().catch((error) => {
+    loadTransformersRuntime().then(() => {
+      warmCaptureDetectionModel();
+      window.setTimeout(() => {
+        getCatalogEmbeddingIndex().catch(() => null);
+        if (assetMode.catalogReady) {
+          getCatalogFeatureExtractor().catch((error) => {
+            console.info("Catalog naming prewarm skipped.", error);
+          });
+        }
+      }, 1000);
+    }).catch((error) => {
       console.info("Vision runtime prewarm skipped.", error);
     });
-  }, 900);
+  }, 250);
 }
 
 function warmCaptureDetectionModel() {
   window.setTimeout(async () => {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.local) return;
-    if (assetMode.groundingReady) {
-      getGroundingDinoDetector().catch((error) => {
-        console.info("Grounding DINO prewarm skipped.", error);
-      });
-      return;
-    }
-    if (assetMode.owlReady) {
-      getSmallModelDetector().catch((error) => {
-        console.info("OWL-ViT prewarm skipped.", error);
-      });
-    }
-  }, 120);
+    const attempt = getDetectorAttempts(assetMode)[0];
+    if (!attempt) return;
+    attempt.getDetector().catch((error) => {
+      console.info(`${attempt.provider} prewarm skipped.`, error);
+    });
+  }, 80);
 }
 
 async function getCatalogClassifier() {
@@ -1117,7 +1621,7 @@ async function getCatalogClassifier() {
     catalogClassifierPromise = loadTransformersRuntime()
       .then(async ({ pipeline, runtimeMode }) => {
         if (!runtimeMode.catalogReady) return null;
-        return pipeline("zero-shot-image-classification", visionConfig.catalogModel, { dtype: "q8" });
+        return pipeline("zero-shot-image-classification", visionConfig.catalogModel, { quantized: true });
       })
       .catch((error) => {
         console.info("Catalog embedding classifier unavailable.", error);
@@ -1132,7 +1636,7 @@ async function getCatalogFeatureExtractor() {
     catalogFeatureExtractorPromise = loadTransformersRuntime()
       .then(async ({ pipeline, runtimeMode }) => {
         if (!runtimeMode.catalogReady) return null;
-        return pipeline("image-feature-extraction", visionConfig.catalogModel, { dtype: "q8" });
+        return pipeline("image-feature-extraction", visionConfig.catalogModel, { quantized: true });
       })
       .catch((error) => {
         console.info("Catalog embedding extractor unavailable.", error);
@@ -1144,16 +1648,9 @@ async function getCatalogFeatureExtractor() {
 
 async function getCatalogEmbeddingIndex() {
   if (!catalogIndexPromise) {
-    catalogIndexPromise = loadCatalogEmbeddingIndex()
-      .catch(() => ({ entries: [] }));
+    catalogIndexPromise = loadCatalogEmbeddingIndex().catch(() => ({ entries: [] }));
   }
   return catalogIndexPromise;
-}
-
-async function fetchJsonIndex(url) {
-  if (!url) return null;
-  const response = await fetch(`${url}?v=${visionConfig.assetVersion}`, { cache: "no-store" });
-  return response.ok ? response.json() : null;
 }
 
 async function loadCatalogEmbeddingIndex() {
@@ -1163,6 +1660,12 @@ async function loadCatalogEmbeddingIndex() {
 
   const fallback = await fetchJsonIndex(visionConfig.catalogIndexFallback).catch(() => null);
   return normalizeCatalogEmbeddingIndex(fallback, visionConfig.catalogIndexFallback);
+}
+
+async function fetchJsonIndex(url) {
+  if (!url) return null;
+  const response = await fetch(`${url}?v=${visionConfig.assetVersion}`, { cache: "no-store" });
+  return response.ok ? response.json() : null;
 }
 
 function getCatalogIndexMetric(index) {
@@ -1244,7 +1747,7 @@ function vectorSimilarity(left, right, metric = "cosine") {
 async function embedImageDataUrl(dataUrl) {
   const extractor = await getCatalogFeatureExtractor();
   if (!extractor) return null;
-  const output = await extractor(dataUrl);
+  const output = await extractor(dataUrl, { pooling: "mean", normalize: true });
   const values = output?.data || output?.[0]?.data;
   return values ? Array.from(values) : null;
 }
@@ -1343,7 +1846,7 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
   const box = detectionBoxToPercent(detection.box, source.naturalWidth, source.naturalHeight);
   const rawScore = Number(detection.score) || threshold;
   const score = clampNumber(rawScore + (isStorageDetectionLabel(detection.label) ? 0.035 : 0), threshold, 0.99);
-  const canUseLabelName = (meta.isCatalogItem || meta.name) && score >= visionConfig.detectionNameThreshold;
+  const canUseLabelName = isStorageDetectionLabel(detection.label) && meta.name && score >= visionConfig.detectionNameThreshold;
   return {
     name: getUnknownObjectName(index),
     category: meta.category,
@@ -1356,7 +1859,7 @@ function detectionToCandidate(detection, index, source, provider, threshold) {
     confidence: score,
     detectionLabel: detection.label,
     suggestedName: canUseLabelName ? meta.name : "",
-    catalogId: canUseLabelName && meta.id ? meta.id : "",
+    catalogId: "",
     namingStatus: "loading",
     source: provider,
     providerId: provider,
@@ -1382,7 +1885,8 @@ function nmsDetections(detections, source, iouThreshold, maxItems) {
 }
 
 async function runZeroShotDetector({ image, source, detector, provider, threshold }) {
-  const labels = getDetectionLabelEntries().map((entry) => entry.label);
+  const labelEntries = detector?.kind === "grounding-dino" ? getFastGroundingLabelEntries() : getDetectionLabelEntries();
+  const labels = labelEntries.map((entry) => entry.label);
   const detectionStart = performance.now();
   const detections = detector?.kind === "grounding-dino"
     ? await runGroundingDinoDetector({ image, source, detector, labels, threshold })
@@ -1408,7 +1912,8 @@ function chunkArray(values, chunkSize) {
 
 async function runPipelineObjectDetector({ image, detector, labels, threshold }) {
   const detections = [];
-  for (const labelChunk of chunkArray(labels, 1)) {
+  const promptBatchSize = Math.max(1, Math.min(labels.length || 1, Number(visionConfig.owlVitPromptBatchSize) || labels.length || 1));
+  for (const labelChunk of chunkArray(labels, promptBatchSize)) {
     const chunkDetections = await detector(image, labelChunk, { threshold, percentage: false });
     if (Array.isArray(chunkDetections)) detections.push(...chunkDetections);
   }
@@ -1471,6 +1976,89 @@ async function runGroundingDinoDetector({ image, source, detector, labels, thres
     }
   }
   return detections;
+}
+
+function hashStringFast(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `${value.length}-${(hash >>> 0).toString(36)}`;
+}
+
+function getRecognitionCacheKey(image) {
+  const useOwlVit = visionConfig.preferredDetector === "owlvit";
+  const labelEntries = useOwlVit
+    ? getDetectionLabelEntries().slice(0, visionConfig.owlVitLabelLimit)
+    : getFastGroundingLabelEntries();
+  const labelSignature = labelEntries
+    .map((entry) => normalizeDetectionLabel(entry.label))
+    .join(",");
+  return [
+    visionConfig.assetVersion,
+    visionConfig.preferredDetector,
+    visionConfig.enableGroundingDinoFallback ? "dino-fallback" : "no-dino-fallback",
+    visionConfig.detectionMaxDimension,
+    visionConfig.groundingThreshold,
+    visionConfig.detectionThreshold,
+    visionConfig.owlVitPromptBatchSize,
+    visionConfig.maxDetectedObjects,
+    visionConfig.maxModelDetections,
+    visionConfig.detectionNmsIou,
+    labelSignature,
+    hashStringFast(image),
+  ].join("|");
+}
+
+function cloneRecognitionResult(result, extra = {}) {
+  return {
+    provider: result.provider,
+    candidates: (result.candidates || []).map((candidate) => ({
+      ...candidate,
+      box: { ...(candidate.box || {}) },
+      cropMeta: normalizeCropMeta(candidate.cropMeta),
+      aliases: Array.isArray(candidate.aliases) ? [...candidate.aliases] : [],
+    })),
+    ...extra,
+  };
+}
+
+function getCachedRecognitionResult(image) {
+  const key = getRecognitionCacheKey(image);
+  const cached = recognitionResultCache.get(key);
+  if (cached) {
+    recognitionResultCache.delete(key);
+    recognitionResultCache.set(key, cached);
+    return cloneRecognitionResult(cached, { cacheHit: true });
+  }
+
+  try {
+    const stored = sessionStorage.getItem(`home-memory-recognition:${key}`);
+    if (!stored) return null;
+    const parsed = JSON.parse(stored);
+    if (!parsed?.provider || !Array.isArray(parsed.candidates)) return null;
+    recognitionResultCache.set(key, cloneRecognitionResult(parsed));
+    return cloneRecognitionResult(parsed, { cacheHit: true });
+  } catch {
+    return null;
+  }
+}
+
+function setCachedRecognitionResult(image, result) {
+  if (!result?.candidates?.length) return;
+  const key = getRecognitionCacheKey(image);
+  const cached = cloneRecognitionResult(result);
+  recognitionResultCache.set(key, cached);
+  while (recognitionResultCache.size > visionConfig.recognitionCacheSize) {
+    const oldestKey = recognitionResultCache.keys().next().value;
+    recognitionResultCache.delete(oldestKey);
+  }
+  try {
+    sessionStorage.setItem(`home-memory-recognition:${key}`, JSON.stringify(cached));
+  } catch {
+    // Browser storage may be full or unavailable; memory cache still covers the current session.
+  }
 }
 
 function percentBoxToPixels(box, source) {
@@ -1573,6 +2161,9 @@ async function refineCandidateWithSam(segmenter, rawImage, source, candidate) {
 }
 
 async function refineCandidatesWithSam(image, source, candidates, provider) {
+  if (visionConfig.maxSamRefinements <= 0) {
+    return { provider, candidates };
+  }
   const segmenter = await getSamSegmenter();
   if (!segmenter || !candidates.length) {
     return { provider, candidates };
@@ -1582,18 +2173,24 @@ async function refineCandidatesWithSam(image, source, candidates, provider) {
     const rawImage = segmenter.RawImage.fromURL
       ? await segmenter.RawImage.fromURL(image)
       : await segmenter.RawImage.read(image);
-    const refined = [];
-    for (const [index, candidate] of candidates.entries()) {
-      if (index >= visionConfig.maxSamRefinements) {
-        refined.push(candidate);
-        continue;
-      }
+    const refineTargets = candidates
+      .filter((candidate) => boxArea(candidate.box) >= visionConfig.samMinBoxArea)
+      .map((candidate, index) => ({
+        candidate,
+        index,
+        priority: (isStorageDetectionLabel(candidate.detectionLabel) ? 1 : 0) + clampNumber(candidate.confidence, 0, 1),
+      }))
+      .sort((a, b) => b.priority - a.priority)
+      .slice(0, visionConfig.maxSamRefinements);
+    const refinedById = new Map();
+    for (const { candidate } of refineTargets) {
       // SAM runs after detection and only tightens regions; a failure must not replace detector geometry.
-      refined.push(await refineCandidateWithSam(segmenter, rawImage, source, candidate).catch(() => candidate));
+      const refined = await refineCandidateWithSam(segmenter, rawImage, source, candidate).catch(() => candidate);
+      refinedById.set(candidate.id, refined);
     }
     return {
       provider: `${provider}+sam`,
-      candidates: refined,
+      candidates: candidates.map((candidate) => refinedById.get(candidate.id) || candidate),
     };
   } catch (error) {
     console.info("SAM refinement skipped.", error);
@@ -1601,17 +2198,64 @@ async function refineCandidatesWithSam(image, source, candidates, provider) {
   }
 }
 
-function cropImageToDataUrl(source, box) {
-  const x = Math.max(0, Math.round((box.x / 100) * source.naturalWidth));
-  const y = Math.max(0, Math.round((box.y / 100) * source.naturalHeight));
-  const width = Math.max(1, Math.round((box.w / 100) * source.naturalWidth));
-  const height = Math.max(1, Math.round((box.h / 100) * source.naturalHeight));
+function getSourcePixelSize(source) {
+  const sourceWidth = source.naturalWidth || source.width || 1;
+  const sourceHeight = source.naturalHeight || source.height || 1;
+  return { sourceWidth, sourceHeight };
+}
+
+function getCropPixelRect(source, box) {
+  const { sourceWidth, sourceHeight } = getSourcePixelSize(source);
+  const x = Math.max(0, Math.round((box.x / 100) * sourceWidth));
+  const y = Math.max(0, Math.round((box.y / 100) * sourceHeight));
+  const width = Math.max(1, Math.round((box.w / 100) * sourceWidth));
+  const height = Math.max(1, Math.round((box.h / 100) * sourceHeight));
+  return {
+    x,
+    y,
+    width: Math.max(1, Math.min(width, sourceWidth - x)),
+    height: Math.max(1, Math.min(height, sourceHeight - y)),
+  };
+}
+
+function cropImageToDataUrl(source, box, options = {}) {
+  const rect = getCropPixelRect(source, box);
+  const maxDimension = Number(options.maxDimension) || Math.max(rect.width, rect.height);
+  const scale = Math.min(1, maxDimension / Math.max(rect.width, rect.height));
   const canvas = document.createElement("canvas");
-  canvas.width = Math.min(width, source.naturalWidth - x);
-  canvas.height = Math.min(height, source.naturalHeight - y);
+  canvas.width = Math.max(1, Math.round(rect.width * scale));
+  canvas.height = Math.max(1, Math.round(rect.height * scale));
   const context = canvas.getContext("2d");
-  context.drawImage(source, x, y, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL("image/jpeg", 0.86);
+  context.drawImage(source, rect.x, rect.y, rect.width, rect.height, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", options.quality || 0.86);
+}
+
+function createCandidateCropSnapshot(source, box) {
+  if (!source || !box) return null;
+  try {
+    const rect = getCropPixelRect(source, box);
+    return {
+      cropImage: cropImageToDataUrl(source, box, {
+        maxDimension: visionConfig.candidateCropMaxDimension,
+        quality: visionConfig.candidateCropQuality,
+      }),
+      cropMeta: { width: rect.width, height: rect.height },
+      cropVersion: visionConfig.candidateCropVersion,
+    };
+  } catch (error) {
+    console.info("Candidate crop thumbnail skipped.", error);
+    return null;
+  }
+}
+
+function createCandidateCropImage(source, box) {
+  return createCandidateCropSnapshot(source, box)?.cropImage || "";
+}
+
+function shouldRefreshCandidateCrop(candidate) {
+  return !candidate.cropImage
+    || !normalizeCropMeta(candidate.cropMeta)
+    || candidate.cropVersion !== visionConfig.candidateCropVersion;
 }
 
 async function matchCatalogForCrop(source, box) {
@@ -1643,24 +2287,7 @@ async function matchCatalogForCrop(source, box) {
 async function recognizeWithSmallModel(image) {
   const source = await loadImage(image);
   const assetMode = await getVisionAssetMode();
-  const detectorAttempts = [];
-  if (assetMode.groundingReady) {
-    detectorAttempts.push({
-      getDetector: getGroundingDinoDetector,
-      provider: "local-grounding-dino",
-      threshold: visionConfig.groundingThreshold,
-    });
-  }
-  if (assetMode.owlReady) {
-    detectorAttempts.push({
-      getDetector: getSmallModelDetector,
-      provider: "local-owlvit",
-      threshold: visionConfig.detectionThreshold,
-    });
-  }
-  if (!detectorAttempts.length) {
-    throw new Error("本地 OWL-ViT/Grounding DINO 模型未安装");
-  }
+  const detectorAttempts = getDetectorAttempts(assetMode);
 
   let lastError = null;
   for (const attempt of detectorAttempts) {
@@ -1689,8 +2316,57 @@ async function recognizeWithSmallModel(image) {
   throw lastError || new Error("本地主体识别暂不可用");
 }
 
+function getOwlVitDetectorAttempt(assetMode) {
+  return {
+    getDetector: getSmallModelDetector,
+    provider: assetMode.owlReady ? "local-owlvit" : "browser-owlvit",
+    threshold: visionConfig.detectionThreshold,
+  };
+}
+
+function getGroundingDinoDetectorAttempt(assetMode) {
+  return {
+    getDetector: getGroundingDinoDetector,
+    provider: assetMode.groundingReady ? "local-grounding-dino" : "browser-grounding-dino",
+    threshold: visionConfig.groundingThreshold,
+  };
+}
+
+function shouldAttemptGroundingDino(assetMode) {
+  if (!assetMode.groundingReady) return false;
+  if (!assetMode.owlReady) return true;
+  return visionConfig.preferredDetector === "grounding-dino" || visionConfig.enableGroundingDinoFallback;
+}
+
+function getDetectorAttempts(assetMode) {
+  const preferOwlVit = visionConfig.preferredDetector === "owlvit";
+  if (preferOwlVit) {
+    return [
+      ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+      ...(shouldAttemptGroundingDino(assetMode) ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
+    ];
+  }
+
+  return [
+    ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
+    ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+  ];
+}
+
+async function recognizeWithSmallModelCached(image) {
+  const cached = getCachedRecognitionResult(image);
+  if (cached) return cached;
+  const result = await recognizeWithSmallModel(image);
+  setCachedRecognitionResult(image, result);
+  return result;
+}
+
 async function recognizeWithCloudApi(context) {
-  const response = await fetch("/api/recognize", {
+  const endpoint = visionConfig.cloudRecognitionEndpoint || (platform.isNative ? "" : "/api/recognize");
+  if (!endpoint) {
+    throw new Error("iOS 未配置云端识别端点，默认只使用本地识别。");
+  }
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -1735,6 +2411,133 @@ function withTimeout(promise, timeoutMs, message) {
 function isImageFile(file) {
   if (file?.type?.startsWith("image/")) return true;
   return /\.(avif|bmp|gif|heic|heif|jpe?g|png|webp)$/i.test(file?.name || "");
+}
+
+function isLikelyImageDecodeError(error) {
+  return /decode|解码|图片无法读取|source image|unsupported|invalid image/i.test(error?.message || String(error || ""));
+}
+
+async function readFileSignature(file, length = 32) {
+  const buffer = await file.slice(0, length).arrayBuffer();
+  return new Uint8Array(buffer);
+}
+
+function asciiFromBytes(bytes, start, end) {
+  return Array.from(bytes.slice(start, end), (byte) => String.fromCharCode(byte)).join("");
+}
+
+async function isHeicHeifFile(file) {
+  const mime = String(file?.type || "").toLowerCase();
+  if (/image\/hei[cf]|image\/heif-sequence|image\/heic-sequence/.test(mime)) return true;
+  if (/\.(heic|heif|heics|heifs)$/i.test(file?.name || "")) return true;
+
+  try {
+    const bytes = await readFileSignature(file, 32);
+    if (bytes.length < 12 || asciiFromBytes(bytes, 4, 8) !== "ftyp") return false;
+    const brands = new Set(["heic", "heix", "hevc", "hevx", "heim", "heis", "hevm", "hevs", "mif1", "msf1"]);
+    for (let index = 8; index + 4 <= bytes.length; index += 4) {
+      if (brands.has(asciiFromBytes(bytes, index, index + 4))) return true;
+    }
+  } catch (error) {
+    console.warn("HEIC signature check failed.", error);
+  }
+  return false;
+}
+
+async function loadHeicConverter() {
+  if (typeof window.heic2any === "function") return window.heic2any;
+  if (!heicConverterPromise) {
+    heicConverterPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = `${visionConfig.localHeicConverterScript}?v=${visionConfig.appVersion}`;
+      script.async = true;
+      script.onload = () => {
+        if (typeof window.heic2any === "function") {
+          resolve(window.heic2any);
+          return;
+        }
+        reject(new Error("HEIC 转换器加载失败。"));
+      };
+      script.onerror = () => reject(new Error("HEIC 转换器加载失败。"));
+      document.head.appendChild(script);
+    }).catch((error) => {
+      heicConverterPromise = null;
+      throw error;
+    });
+  }
+  return heicConverterPromise;
+}
+
+function canUseLocalImageConversionApi() {
+  return ["http:", "https:"].includes(window.location.protocol);
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("图片数据读取失败。"));
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function convertHeicFileWithLocalServer(file) {
+  const image = await blobToDataUrl(file);
+  const response = await fetch("/api/convert-image", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      image,
+      filename: file.name || "upload.heic",
+      quality: Math.round(visionConfig.uploadJpegQuality * 100),
+    }),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.error || "本地 HEIC/HEIF 转换失败。");
+  }
+  if (!String(payload.image || "").startsWith("data:image/jpeg;base64,")) {
+    throw new Error("本地 HEIC/HEIF 转换没有返回 JPEG。");
+  }
+  return fetch(payload.image).then((convertedResponse) => convertedResponse.blob());
+}
+
+async function convertHeicFileInBrowser(file) {
+  const heic2any = await loadHeicConverter();
+  const converted = await withTimeout(
+    heic2any({
+      blob: file,
+      toType: "image/jpeg",
+      quality: Math.min(0.92, Math.max(0.72, visionConfig.uploadJpegQuality)),
+      multiple: false,
+    }),
+    visionConfig.heicConversionTimeoutMs,
+    "HEIC/HEIF 转 JPEG 超时，请稍后重试或先裁剪照片。",
+  );
+  const blob = Array.isArray(converted) ? converted[0] : converted;
+  if (!(blob instanceof Blob)) {
+    throw new Error("HEIC/HEIF 转 JPEG 失败。");
+  }
+  return blob;
+}
+
+async function convertHeicFileToJpegBlob(file) {
+  const errors = [];
+  if (canUseLocalImageConversionApi()) {
+    try {
+      return await convertHeicFileWithLocalServer(file);
+    } catch (error) {
+      errors.push(error);
+      console.warn("Local HEIC conversion failed, falling back to browser converter.", error);
+    }
+  }
+  try {
+    return await convertHeicFileInBrowser(file);
+  } catch (error) {
+    errors.push(error);
+  }
+  console.warn("HEIC conversion failed.", errors);
+  throw new Error("HEIC/HEIF 自动转换失败，请换一张照片或先在相册导出为 JPEG/PNG。");
 }
 
 function getDrawableSize(source) {
@@ -1783,11 +2586,19 @@ async function resizeImageSourceToDataUrl(source, options = {}) {
   return dataUrl;
 }
 
-async function prepareUploadedImage(file) {
-  if (!isImageFile(file)) {
-    throw new Error("请选择图片文件。");
-  }
-  const url = URL.createObjectURL(file);
+async function prepareImageForDetection(image) {
+  const source = await loadImage(image);
+  const size = getDrawableSize(source);
+  if (Math.max(size.width, size.height) <= visionConfig.detectionMaxDimension) return image;
+  return resizeImageSourceToDataUrl(source, {
+    maxDimension: visionConfig.detectionMaxDimension,
+    maxLength: Math.min(visionConfig.maxUploadDataUrlLength, 520000),
+    quality: 0.78,
+  });
+}
+
+async function decodeImageBlobToDataUrl(blob) {
+  const url = URL.createObjectURL(blob);
   try {
     const image = await withTimeout(
       loadImage(url),
@@ -1796,7 +2607,7 @@ async function prepareUploadedImage(file) {
     ).catch(async (error) => {
       if (!window.createImageBitmap) throw error;
       const bitmap = await withTimeout(
-        createImageBitmap(file, { imageOrientation: "from-image" }),
+        createImageBitmap(blob, { imageOrientation: "from-image" }),
         visionConfig.uploadDecodeTimeoutMs,
         "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
       );
@@ -1807,14 +2618,41 @@ async function prepareUploadedImage(file) {
     } finally {
       image.close?.();
     }
-  } catch (error) {
-    if (/decode|解码|图片无法读取|source image/i.test(error.message || "")) {
-      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，请先导出为 JPEG/PNG 后再上传。");
-    }
-    throw error;
   } finally {
     URL.revokeObjectURL(url);
   }
+}
+
+async function prepareUploadedImage(file) {
+  const isHeif = await isHeicHeifFile(file);
+  if (!isImageFile(file) && !isHeif) {
+    throw new Error("请选择图片文件。");
+  }
+
+  try {
+    return await decodeImageBlobToDataUrl(file);
+  } catch (error) {
+    if (isHeif && isLikelyImageDecodeError(error)) {
+      try {
+        const jpegBlob = await convertHeicFileToJpegBlob(file);
+        return await decodeImageBlobToDataUrl(jpegBlob);
+      } catch (conversionError) {
+        throw new Error(conversionError.message || "HEIC/HEIF 自动转换失败，请换一张照片。");
+      }
+    }
+    if (isLikelyImageDecodeError(error)) {
+      throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，系统会自动转换，请确认文件没有损坏。");
+    }
+    throw error;
+  }
+}
+
+async function getImageDimensions(image) {
+  const source = await loadImage(image);
+  return {
+    width: source.naturalWidth || source.width || 0,
+    height: source.naturalHeight || source.height || 0,
+  };
 }
 
 function buildIntegralScores(cellScores) {
@@ -1943,54 +2781,31 @@ async function recognizeWithHeuristicRegions(image) {
   };
 }
 
-async function detectCandidatesFromLocalImage(image, requestedProvider = "local-small-model") {
-  const smallRecognition = await recognizeWithSmallModel(image)
-    .catch((error) => {
-      console.info("Small model unavailable, falling back to local image proposals.", error);
-      return null;
-    });
-
-  let provider = smallRecognition?.provider || requestedProvider;
-  let candidates = smallRecognition?.candidates?.length
-    ? normalizeRecognitionResults(smallRecognition.candidates, provider)
-    : [];
-
-  if (!candidates.length) {
-    const fallbackRecognition = await recognizeWithHeuristicRegions(image)
-      .catch((error) => {
-        console.info("Local proposal fallback failed.", error);
-        return { provider: "local-image", candidates: [] };
-      });
-    provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
-    candidates = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
+async function recognizeWithLocalImage({ image }) {
+  let smallModelResult = null;
+  try {
+    smallModelResult = await recognizeWithSmallModel(image);
+  } catch (error) {
+    console.info("Small model unavailable, falling back to local image analysis.", error);
   }
 
-  return { provider, candidates };
-}
+  if (smallModelResult?.candidates.length) {
+    return smallModelResult;
+  }
 
-async function recognizeWithLocalImage({ image }) {
-  if (!image) throw new Error("请先上传或拍摄储物点照片。");
-  const recognition = await detectCandidatesFromLocalImage(image);
+  const regionResult = await recognizeWithHeuristicRegions(image);
   return {
-    ...recognition,
-    candidates: renumberUnknownCandidates(recognition.candidates),
+    ...regionResult,
+    candidates: regionResult.candidates.map((candidate) => ({ ...candidate, namingStatus: "loading" })),
   };
 }
 
 function refineNameByPosition(name, box) {
-  if (name === "音响") {
-    if (box.x + box.w / 2 < 42) return "左音箱";
-    if (box.x + box.w / 2 > 58) return "右音箱";
-  }
-  if (name === "音箱面罩") {
-    if (box.x + box.w / 2 < 42) return "左音箱面罩";
-    if (box.x + box.w / 2 > 58) return "右音箱面罩";
-  }
   return name;
 }
 
-async function resolveCandidateName(candidate, index, sourceImage) {
-  if (candidate.edited) return { ...candidate, namingStatus: "done" };
+async function resolveCandidateName(candidate, index, source, options = {}) {
+  if (candidate.edited && !options.force) return { ...candidate, namingStatus: "done" };
 
   if (candidate.suggestedName) {
     return {
@@ -2002,8 +2817,7 @@ async function resolveCandidateName(candidate, index, sourceImage) {
 
   const embeddingIndex = await getCatalogEmbeddingIndex();
   if (embeddingIndex.entries?.length) {
-    const source = await loadImage(sourceImage);
-    const catalogMatch = await matchCatalogFromEmbeddingIndex(source, candidate.box).catch(() => null);
+    const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, candidate.box).catch(() => null) : null;
     if (catalogMatch) {
       return {
         ...candidate,
@@ -2011,11 +2825,11 @@ async function resolveCandidateName(candidate, index, sourceImage) {
         category: catalogMatch.category,
         confidence: Math.max(candidate.confidence, catalogMatch.confidence),
         catalogId: catalogMatch.catalogId,
-        categoryId: catalogMatch.categoryId || catalogMatch.catalogId,
+        categoryId: catalogMatch.categoryId || catalogMatch.catalogId || "",
         categoryPath: catalogMatch.categoryPath || [],
         categoryScore: catalogMatch.categoryScore,
         categoryMargin: catalogMatch.categoryMargin,
-        categoryIndexVersion: catalogMatch.categoryIndexVersion,
+        categoryIndexVersion: catalogMatch.categoryIndexVersion || "",
         matchedSampleIds: catalogMatch.matchedSampleIds || [],
         source: `${candidate.source}+embedding`,
         namingStatus: "done",
@@ -2034,12 +2848,22 @@ async function resolveCandidateName(candidate, index, sourceImage) {
 
 async function nameDetectedCandidates(image, candidates, onProgress) {
   const minimumAnimation = new Promise((resolve) => setTimeout(resolve, 360));
+  const sourcePromise = loadImage(image).catch(() => null);
+  const source = await sourcePromise;
   await minimumAnimation;
+  const preparedCandidates = source
+    ? candidates.map((candidate) => (
+      shouldRefreshCandidateCrop(candidate)
+        ? { ...candidate, ...(createCandidateCropSnapshot(source, candidate.box) || {}) }
+        : candidate
+    ))
+    : candidates;
   const named = [];
-  for (let index = 0; index < candidates.length; index += 1) {
-    const resolved = await resolveCandidateName(candidates[index], index, image);
+  onProgress?.(preparedCandidates);
+  for (let index = 0; index < preparedCandidates.length; index += 1) {
+    const resolved = await resolveCandidateName(preparedCandidates[index], index, source);
     named.push(resolved);
-    onProgress?.([...named, ...candidates.slice(index + 1)]);
+    onProgress?.([...named, ...preparedCandidates.slice(index + 1)]);
   }
   return named;
 }
@@ -2053,12 +2877,22 @@ function providerLabel(provider) {
   if (name.endsWith("+sam")) return `${providerLabel(name.replace("+sam", ""))} + SAM`;
   if (name.includes("+regions")) return `${providerLabel(name.split("+")[0])} + 区域补全`;
   if (name.startsWith("local-grounding-dino")) return "本地 Grounding DINO";
+  if (name.startsWith("browser-grounding-dino")) return "在线 Grounding DINO";
   if (name.startsWith("local-owlvit")) return "本地 OWL-ViT";
+  if (name.startsWith("browser-owlvit")) return "在线 OWL-ViT";
   if (name.startsWith("local-small-model")) return "本地小模型";
-  if (name.startsWith("browser-grounding-dino") || name.startsWith("browser-owlvit") || name.startsWith("browser-small-model")) return "远程视觉模型已禁用";
+  if (name.startsWith("browser-small-model")) return "在线小模型";
   if (name === "local-image") return "本地候选区域";
+  if (name === "ios-camera") return "iOS 相机";
+  if (name === "ios-photo-library") return "iOS 相册";
   if (name === "cloud-vlm" || name.startsWith("openai:")) return "云端大模型";
   return name;
+}
+
+function getRequestedRecognitionProvider() {
+  if (visionConfig.preferredDetector === "owlvit") return "local-owlvit";
+  if (visionConfig.preferredDetector === "grounding-dino") return "local-grounding-dino";
+  return "local-small-model";
 }
 
 function daysUntil(dateText) {
@@ -2074,6 +2908,29 @@ function formatDate(dateText) {
   return `${date.getMonth() + 1}月${date.getDate()}日`;
 }
 
+function formatReminderTime(timeText) {
+  return normalizeReminderTime(timeText);
+}
+
+function formatReminderRepeat(repeat) {
+  return repeatLabels[repeat] || repeatLabels.none;
+}
+
+function formatReminderOffset(reminder) {
+  const normalized = normalizeReminder(reminder);
+  const labels = getReminderOffsetLabels(normalized.hasTime);
+  if (normalized.offset === "custom") {
+    return `提前${normalized.customOffset.amount}${customOffsetUnitLabels[normalized.customOffset.unit]}`;
+  }
+  return labels[normalized.offset] || labels.none;
+}
+
+function formatReminderSchedule(reminder) {
+  const normalized = normalizeReminder(reminder);
+  const timeText = normalized.hasTime ? ` ${formatReminderTime(normalized.time)}` : "";
+  return `${formatDate(normalized.date)}${timeText} · ${formatReminderRepeat(normalized.repeat)}`;
+}
+
 function dueStatus(dateText) {
   const days = daysUntil(dateText);
   if (days === null) return { label: "未设置", cls: "" };
@@ -2081,6 +2938,52 @@ function dueStatus(dateText) {
   if (days <= 7) return { label: `${days} 天后`, cls: "danger" };
   if (days <= 30) return { label: `${days} 天后`, cls: "warn" };
   return { label: `${days} 天后`, cls: "good" };
+}
+
+function dateToIso(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function addDaysIso(days) {
+  const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days);
+  return dateToIso(date);
+}
+
+function nextMondayIso() {
+  const day = today.getDay();
+  const offset = day === 1 ? 7 : ((8 - day) % 7 || 7);
+  return addDaysIso(offset);
+}
+
+function monthKeyFromIso(dateText) {
+  const date = dateText ? new Date(`${dateText}T00:00:00`) : today;
+  if (Number.isNaN(date.getTime())) return dateToIso(today).slice(0, 7);
+  return dateToIso(new Date(date.getFullYear(), date.getMonth(), 1)).slice(0, 7);
+}
+
+function moveMonthKey(monthKey, delta) {
+  const [year, month] = String(monthKey || dateToIso(today).slice(0, 7)).split("-").map(Number);
+  const date = new Date(year || today.getFullYear(), (month || today.getMonth() + 1) - 1 + delta, 1);
+  return dateToIso(date).slice(0, 7);
+}
+
+function getCalendarDays(monthKey) {
+  const [year, month] = monthKey.split("-").map(Number);
+  const first = new Date(year, month - 1, 1);
+  const start = new Date(first);
+  start.setDate(first.getDate() - first.getDay());
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = new Date(start);
+    date.setDate(start.getDate() + index);
+    return {
+      iso: dateToIso(date),
+      day: date.getDate(),
+      inMonth: date.getMonth() === month - 1,
+    };
+  });
 }
 
 function normalizeText(text) {
@@ -2260,47 +3163,39 @@ function layoutCandidatePins(candidates, stageWidth = 420, stageHeight = 410) {
   return layouts;
 }
 
-function styleCandidatePin(box, layoutOrIndex = 0) {
+function styleCandidatePin(box) {
   const centerX = clampNumber(box.x + box.w / 2, 2, 98);
   const centerY = clampNumber(box.y + box.h / 2, 2, 98);
-  const layout = typeof layoutOrIndex === "object" && layoutOrIndex
-    ? layoutOrIndex
-    : null;
-  if (!layout) {
-    const fallbackRight = centerX < 62;
-    const fallbackX = fallbackRight ? 46 : -124;
-    const fallbackY = centerY < 50 ? 18 : -44;
-    const metrics = getPinLineMetrics({ x: fallbackX, y: fallbackY }, { width: 96, height: 30 });
-    return `left:${centerX}%;top:${centerY}%;--label-x:${fallbackX}px;--label-y:${fallbackY}px;--line-angle:${metrics.angle}deg;--line-length:${metrics.length}px`;
-  }
-  return `left:${layout.x}%;top:${layout.y}%;--label-x:${layout.labelX}px;--label-y:${layout.labelY}px;--line-angle:${layout.lineAngle}deg;--line-length:${layout.lineLength}px`;
+  return `left:${centerX}%;top:${centerY}%`;
+}
+
+function styleActiveCandidateLabel(box) {
+  const centerX = clampNumber(box.x + box.w / 2, 8, 92);
+  const top = clampNumber(box.y - 2, 8, 92);
+  return `left:${centerX}%;top:${top}%`;
 }
 
 function render() {
   app.innerHTML = `
     <div class="app">
       ${renderTopbar()}
-      <div class="app-grid">
-        ${renderSidebar()}
-        <main class="main-panel">
-          ${renderMain()}
-        </main>
-        ${renderInsights()}
-      </div>
+      ${renderGlobalSearch()}
+      <main class="app-main">
+        ${state.activeTab === "capture" ? renderCaptureSpaceTabs() : ""}
+        ${renderGlobalSearchAnswer()}
+        ${renderMain()}
+      </main>
+      ${renderBottomTabs()}
       <div class="toast" id="toast"></div>
+      ${renderCandidateDateModal()}
     </div>
   `;
   hydrateCamera();
   hydrateCandidatePins();
+  hydrateCandidateCrops();
 }
 
 function renderTopbar() {
-  const tabs = [
-    { id: "find", label: "查找", icon: icons.search },
-    { id: "map", label: "照片地图", icon: icons.map },
-    { id: "capture", label: "AI录入", icon: icons.scan },
-    { id: "reminders", label: "提醒", icon: icons.bell },
-  ];
   return `
     <header class="topbar">
       <div class="brand">
@@ -2310,18 +3205,45 @@ function renderTopbar() {
           <span>${state.items.length} 件物品 · ${getAllPlaces().length} 个储物点</span>
         </div>
       </div>
-      <nav class="nav-tabs" aria-label="主导航">
-        ${tabs.map((tab) => `
-          <button class="tab-btn ${state.activeTab === tab.id ? "active" : ""}" data-tab="${tab.id}">
-            ${tab.icon}<span>${tab.label}</span>
-          </button>
-        `).join("")}
-      </nav>
       <div class="top-actions">
         <button class="secondary-btn" data-tab="capture">${icons.plus}<span>新增</span></button>
         <button class="icon-btn" data-reset title="清空本地数据" aria-label="清空本地数据">${icons.rotate}</button>
       </div>
     </header>
+  `;
+}
+
+function renderGlobalSearch() {
+  return `
+    <section class="global-search-row" aria-label="查找">
+      <div class="search-box global-search-box">
+        ${icons.search}
+        <input class="search-field" data-query-input value="${escapeHtml(state.query)}" placeholder="查找物品、空间或提醒" />
+        <button class="primary-btn" data-search><span>查找</span></button>
+      </div>
+    </section>
+  `;
+}
+
+function renderGlobalSearchAnswer() {
+  if (!state.lastAnswer || !String(state.query || "").trim()) return "";
+  return `<div class="global-answer">${renderAnswer(state.lastAnswer)}</div>`;
+}
+
+function renderBottomTabs() {
+  const tabs = [
+    { id: "map", label: "照片地图", icon: icons.map },
+    { id: "capture", label: "AI录入", icon: icons.scan },
+    { id: "reminders", label: "提醒", icon: icons.bell },
+  ];
+  return `
+    <nav class="bottom-tabs" aria-label="主导航">
+      ${tabs.map((tab) => `
+        <button class="bottom-tab ${state.activeTab === tab.id ? "active" : ""}" data-tab="${tab.id}">
+          ${tab.icon}<span>${tab.label}</span>
+        </button>
+      `).join("")}
+    </nav>
   `;
 }
 
@@ -2350,10 +3272,6 @@ function renderSidebar() {
             </button>
           `;
         }).join("")}
-        <div class="quick-add-row">
-          <input class="field compact" data-new-room-name placeholder="新增空间" />
-          <button class="secondary-btn" data-add-room>${icons.plus}<span>添加</span></button>
-        </div>
       </div>
       <div class="storage-list">
         ${placeRows.length ? placeRows.map(({ place, depth }) => `
@@ -2361,7 +3279,7 @@ function renderSidebar() {
             <span>${escapeHtml(place.shortName)}</span>
             <span class="small-muted">${getItemsInPlaceTree(place.id).length} 件</span>
           </button>
-        `).join("") : `<p class="empty-state compact">还没有储物点。上传照片识别后会自动生成，也可以手动添加。</p>`}
+        `).join("") : `<p class="empty-state compact">还没有储物点。可以上传照片或手动添加。</p>`}
         <div class="quick-add-row">
           <input class="field compact" data-new-place-name placeholder="新增储物点" />
           <button class="secondary-btn" data-add-place>${icons.plus}<span>添加</span></button>
@@ -2372,10 +3290,55 @@ function renderSidebar() {
 }
 
 function renderMain() {
-  if (state.activeTab === "map") return renderMapView();
   if (state.activeTab === "capture") return renderCaptureView();
   if (state.activeTab === "reminders") return renderReminderView();
-  return renderFindView();
+  return renderMapView();
+}
+
+function renderSpaceTabs({ capture = false } = {}) {
+  const activeId = capture ? (state.capture.roomId || state.activeRoomId) : state.activeRoomId;
+  const buttonAttribute = capture ? "data-capture-space" : "data-room";
+  return `
+    <section class="space-tabs-shell" data-space-tabs-shell>
+      <div class="space-tabs" aria-label="家庭空间">
+        ${state.rooms.map((room) => `
+          <span class="space-tab-wrap ${activeId === room.id ? "active" : ""}">
+            <button class="space-tab" ${buttonAttribute}="${room.id}">
+              <span>${escapeHtml(room.name)}</span>
+              <b>${getRoomItems(room.id).length}</b>
+            </button>
+            <button class="space-edit-btn" type="button" data-edit-room="${room.id}" aria-label="编辑 ${escapeHtml(room.name)} 名称">${icons.edit}</button>
+          </span>
+        `).join("")}
+      </div>
+      <button class="space-add-tab" type="button" data-add-space-tab aria-label="新增空间">${icons.plus}</button>
+    </section>
+  `;
+}
+
+function renderCaptureSpaceTabs() {
+  return renderSpaceTabs({ capture: true });
+}
+
+function renderPhotoMapControls(room) {
+  const placeRows = getRoomPlacesInTree(room.id);
+  return `
+    <div class="photo-map-controls">
+      ${renderSpaceTabs()}
+      <div class="storage-list map-storage-list">
+        ${placeRows.length ? placeRows.map(({ place, depth }) => `
+          <button class="place-chip depth-${Math.min(depth, 3)} ${state.activePlaceId === place.id ? "active" : ""}" data-place="${place.id}" style="--place-depth:${depth}">
+            <span>${escapeHtml(place.shortName)}</span>
+            <span class="small-muted">${getItemsInPlaceTree(place.id).length} 件</span>
+          </button>
+        `).join("") : `<p class="empty-state compact">还没有储物点。可以上传照片或手动添加。</p>`}
+        <div class="quick-add-row">
+          <input class="field compact" data-new-place-name placeholder="新增储物点" />
+          <button class="secondary-btn" data-add-place>${icons.plus}<span>添加</span></button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function renderMapView() {
@@ -2384,6 +3347,7 @@ function renderMapView() {
   if (!place) {
     return `
       <section class="panel">
+        ${renderPhotoMapControls(room)}
         <div class="view-title-row">
           <div>
             <h2>${escapeHtml(room.name)}照片地图</h2>
@@ -2399,7 +3363,7 @@ function renderMapView() {
             <div class="panel-head">
               <div>
                 <h3 class="panel-title">从照片开始</h3>
-                <p class="panel-subtitle">上传当前空间照片后，系统会生成主体标注和第一个照片点。</p>
+                <p class="panel-subtitle">上传当前空间照片，或手动添加储物点后开始整理。</p>
               </div>
             </div>
             <div class="item-list">
@@ -2412,6 +3376,7 @@ function renderMapView() {
   }
   return `
     <section class="panel">
+      ${renderPhotoMapControls(room)}
       <div class="view-title-row">
         <div>
           <h2>${escapeHtml(room.name)}照片地图</h2>
@@ -2479,7 +3444,8 @@ function renderPlaceSummary(place) {
 
 function renderCompactItem(item) {
   const place = getPlace(item.placeId);
-  const due = item.expireAt ? dueStatus(item.expireAt) : item.nextAt ? dueStatus(item.nextAt) : null;
+  const primaryReminder = getPrimaryReminder(item);
+  const due = item.expireAt ? dueStatus(item.expireAt) : primaryReminder ? dueStatus(primaryReminder.date) : null;
   return `
     <article class="item-row">
       <div>
@@ -2535,7 +3501,7 @@ function renderStorageStage(place, highlightItemId = null, compact = false) {
         <div class="capture-placeholder">
           <div class="placeholder-panel">
             <strong>暂无储物点</strong>
-            <span>上传照片识别后自动生成</span>
+            <span>上传照片或手动添加储物点</span>
           </div>
         </div>
       </div>
@@ -2545,7 +3511,7 @@ function renderStorageStage(place, highlightItemId = null, compact = false) {
   const childPlaces = getChildPlaces(place.id, place.roomId);
   const hasPhoto = Boolean(place.image);
   return `
-    <div class="storage-stage ${place.kind} ${hasPhoto ? "has-photo" : ""}">
+    <div class="storage-stage ${place.kind} ${hasPhoto ? "has-photo" : ""}" ${hasPhoto ? imageAspectStyle(place.imageMeta) : ""}>
       ${hasPhoto ? `<img class="storage-photo" alt="${escapeHtml(place.name)}照片" src="${place.image}" />` : `
         <span class="storage-rail"></span>
         <span class="storage-rail"></span>
@@ -2627,14 +3593,14 @@ function renderAnswer(answer) {
         </div>
         <div class="result-list">
           ${answer.items.map((item) => {
-            const dateText = item.expireAt || item.nextAt;
-            const due = dueStatus(dateText);
+            const due = dueStatus(item.reminderDate || item.expireAt || item.nextAt);
             return `
               <article class="result-row item-row">
                 <div>
                   <strong>${escapeHtml(item.name)}</strong>
                   <div class="meta-line">
                     <span class="badge ${item.category}">${categoryLabels[item.category]}</span>
+                    <span>${escapeHtml(item.reminderTitle || "提醒")}：${escapeHtml(item.reminderSchedule || formatDate(item.reminderDate || item.expireAt || item.nextAt))}</span>
                     <span>${escapeHtml(buildTrail(item))}</span>
                   </div>
                 </div>
@@ -2667,7 +3633,12 @@ function renderAnswer(answer) {
   if (!place) return renderAnswer({ type: "not-found", query: item.name });
   const placePath = getPlacePath(place.id);
   const [rootPlace, ...insidePlaces] = placePath;
-  const timeText = item.expireAt ? `有效期至 ${formatDate(item.expireAt)}` : item.nextAt ? `${item.nextLabel || "下次处理"}：${formatDate(item.nextAt)}` : `上次确认 ${formatDate(item.updatedAt)}`;
+  const primaryReminder = getPrimaryReminder(item);
+  const timeText = item.expireAt
+    ? `有效期至 ${formatDate(item.expireAt)}`
+    : primaryReminder
+      ? `${primaryReminder.title}：${formatReminderSchedule(primaryReminder)} · ${formatReminderOffset(primaryReminder)}`
+      : `上次确认 ${formatDate(item.updatedAt)}`;
   return `
     <section class="answer-panel">
       <div class="answer-head">
@@ -2707,11 +3678,12 @@ function renderAnswer(answer) {
 function getRecognitionStatusMeta() {
   const status = state.capture.recognitionStatus || "idle";
   const candidates = state.capture.candidates || [];
+  const activeCandidates = getActiveCandidates(candidates);
   const hasImage = Boolean(state.capture.image);
   if (status === "detecting") return { label: "识别主体", cls: "warn", body: "正在检测照片里的主体区域" };
   if (status === "naming") return { label: "命名中", cls: "warn", body: "主体框已生成，正在匹配物品名称" };
   if (status === "loading") return { label: hasImage ? "分析中" : "处理照片", cls: "warn", body: hasImage ? "正在本地分析上传照片" : "正在解码并压缩上传照片" };
-  if (status === "done") return { label: "已生成候选", cls: "good", body: `${candidates.length} 个候选，${candidates.filter((candidate) => candidate.selected).length} 个待入库` };
+  if (status === "done") return { label: "已生成候选", cls: "good", body: `${activeCandidates.length} 个候选，${getSelectedCandidateCount(candidates)} 个待入库` };
   if (status === "empty") return { label: "未发现候选", cls: "warn", body: "没有识别到可入库物品" };
   if (status === "error") return { label: "分析失败", cls: "danger", body: state.capture.recognitionError || "请稍后重试" };
   return {
@@ -2721,54 +3693,61 @@ function getRecognitionStatusMeta() {
   };
 }
 
+function renderRecognitionDiagnostics() {
+  const diagnostics = state.capture.recognitionDiagnostics;
+  if (!diagnostics) return "";
+  const total = Math.round(diagnostics.totalMs || 0);
+  const detection = Math.round(diagnostics.detectionMs || 0);
+  const naming = Math.round(diagnostics.namingMs || 0);
+  const dimensions = diagnostics.imageDimensions
+    ? `${diagnostics.imageDimensions.width}x${diagnostics.imageDimensions.height}`
+    : "未知尺寸";
+  const cacheText = diagnostics.cacheHit ? " · 缓存命中" : "";
+  const threadText = diagnostics.wasmThreads ? ` · WASM ${diagnostics.wasmThreads}线程` : "";
+  return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${cacheText} · 主体 ${detection}ms · 命名 ${naming}ms · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
+}
+
+function renderCaptureControls(room, placeRows) {
+  return `
+    <div class="capture-controls">
+      ${placeRows.length ? `
+        <select class="select-field" data-capture-place aria-label="选择储物点">
+          ${placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("")}
+        </select>
+      ` : ""}
+      ${platform.photos.canUseNativePhotoLibrary()
+        ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
+        : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
+      <button class="secondary-btn" data-camera-start>${icons.camera}<span>摄像头</span></button>
+    </div>
+  `;
+}
+
 function renderCaptureView() {
   const room = getCaptureRoom();
   const place = getCapturePlace() || makeVirtualPlace(room);
   const placeRows = getRoomPlacesInTree(room.id);
   const candidates = state.capture.candidates || [];
-  const selectedCount = candidates.filter((candidate) => candidate.selected).length;
-  const status = getRecognitionStatusMeta();
-  const isLoading = ["loading", "detecting", "naming"].includes(state.capture.recognitionStatus);
-  const canAnalyze = Boolean(state.capture.image) && !isLoading;
+  const activeCandidates = getActiveCandidates(candidates);
+  const deletedCandidates = getDeletedCandidates(candidates);
+  const selectedCount = getSelectedCandidateCount(candidates);
   return `
     <section class="panel">
-      <div class="view-title-row">
-        <div>
-          <h2>AI录入</h2>
-          <p>${escapeHtml(place.name)} · ${escapeHtml(status.body)}</p>
-        </div>
-        <div class="toolbar">
-          <span class="status-pill ${status.cls}">${status.label}</span>
-          <button class="secondary-btn" data-scan ${canAnalyze ? "" : "disabled"}>${icons.spark}<span>${isLoading ? "分析中" : state.capture.image ? "开始分析" : "先上传照片"}</span></button>
-          <button class="primary-btn" data-confirm-all ${selectedCount && !isLoading ? "" : "disabled"}>${icons.check}<span>确认入库</span></button>
-        </div>
-      </div>
       <div class="capture-grid">
-        <div>
+        <div class="capture-workspace">
+          ${renderCaptureControls(room, placeRows)}
           ${renderCaptureStage()}
-          <div class="capture-controls">
-            <select class="select-field" data-capture-room>
-              ${state.rooms.map((room) => `<option value="${room.id}" ${state.capture.roomId === room.id ? "selected" : ""}>${escapeHtml(room.name)}</option>`).join("")}
-            </select>
-            <select class="select-field" data-capture-place ${room.places.length ? "" : "disabled"}>
-              ${placeRows.length ? placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("") : `<option>识别后自动生成照片点</option>`}
-            </select>
-            <button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>
-            <button class="secondary-btn" data-camera-start>${icons.camera}<span>摄像头</span></button>
-          </div>
         </div>
         <div class="panel">
           <div class="panel-head">
             <div>
               <h3 class="panel-title">候选物品</h3>
               <p class="panel-subtitle">${escapeHtml(place.shortName)} · ${escapeHtml(providerLabel(state.capture.provider))}</p>
+              ${renderRecognitionDiagnostics()}
             </div>
-            <span class="count-pill">${selectedCount}/${candidates.length}</span>
+            <span class="count-pill">${selectedCount}/${activeCandidates.length}${deletedCandidates.length ? ` · 回收站 ${deletedCandidates.length}` : ""}</span>
           </div>
-          <div class="candidate-list">
-            ${state.capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(state.capture.recognitionError)}</p>` : ""}
-            ${candidates.length ? candidates.map(renderCandidate).join("") : `<p class="empty-state">${state.capture.recognitionStatus === "empty" ? "没有候选区域" : state.capture.image ? "点击开始分析" : "等待照片"}</p>`}
-          </div>
+          ${renderCandidateReviewPanel(candidates)}
         </div>
       </div>
     </section>
@@ -2776,29 +3755,48 @@ function renderCaptureView() {
 }
 
 function renderCaptureStage() {
-  const candidates = state.capture.candidates || [];
-  const activeCandidate = candidates.find((candidate) => candidate.id === state.capture.activeCandidateId);
-  const pinLayouts = layoutCandidatePins(candidates);
+  const candidates = getActiveCandidates(state.capture.candidates || []);
+  const activeId = getFallbackActiveCandidateId(state.capture.activeCandidateId);
+  const activeCandidate = candidates.find((candidate) => candidate.id === activeId);
+  const hasImage = Boolean(state.capture.image) && !state.cameraOn;
   return `
-    <div class="capture-stage" data-capture-stage>
+    <div class="capture-stage ${hasImage ? "has-image" : ""}" data-capture-stage ${hasImage ? imageAspectStyle(state.capture.imageMeta) : ""}>
       ${state.cameraOn ? `<video id="cameraVideo" autoplay playsinline muted></video>` : state.capture.image ? `<img alt="上传的储物点照片" src="${state.capture.image}" />` : renderCapturePlaceholder()}
       ${state.cameraOn ? `<button class="primary-btn" data-camera-shot style="position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3">${icons.camera}<span>拍照</span></button>` : ""}
       ${activeCandidate ? `
-        <span class="candidate-outline ${activeCandidate.selected ? "selected" : "unselected"}" style="${styleBox(activeCandidate.box)}"></span>
+        <span
+          class="candidate-active-frame ${activeCandidate.selected ? "selected" : "unselected"}"
+          style="${styleBox(activeCandidate.box)}"
+          data-candidate-drag="${activeCandidate.id}"
+          data-drag-mode="move"
+          role="button"
+          aria-label="拖拽调整 ${escapeHtml(activeCandidate.name)} 主体框"
+        >
+          <span class="candidate-active-highlight"></span>
+          ${[
+            ["tl", "nw"],
+            ["tr", "ne"],
+            ["bl", "sw"],
+            ["br", "se"],
+          ].map(([corner, handle]) => `
+            <span class="frame-corner ${corner}" data-candidate-resize="${activeCandidate.id}" data-resize-handle="${handle}" aria-hidden="true"></span>
+          `).join("")}
+        </span>
+        <span class="candidate-active-label" style="${styleActiveCandidateLabel(activeCandidate.box)}">
+          ${escapeHtml(activeCandidate.namingStatus === "loading" ? "识别中" : activeCandidate.name)} <b>›</b>
+        </span>
       ` : ""}
-      ${candidates.map((candidate, index) => {
-        const isActive = state.capture.activeCandidateId === candidate.id;
+      ${candidates.map((candidate) => {
+        const isActive = activeId === candidate.id;
         const isNaming = candidate.namingStatus === "loading";
         return `
         <button
           class="candidate-pin ${candidate.selected ? "selected" : "unselected"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}"
-          style="${styleCandidatePin(candidate.box, pinLayouts.get(candidate.id) || index)}"
+          style="${styleCandidatePin(candidate.box)}"
           data-candidate-select="${candidate.id}"
-          data-candidate-drag="${candidate.id}"
           aria-label="查看 ${escapeHtml(candidate.name)} 的主体框"
         >
           <span class="pin-dot"></span>
-          <span class="pin-label">${isNaming ? "识别中" : escapeHtml(candidate.name)}</span>
         </button>
       `;
       }).join("")}
@@ -2817,42 +3815,318 @@ function renderCapturePlaceholder() {
   `;
 }
 
-function renderCandidate(candidate) {
-  const isActive = state.capture.activeCandidateId === candidate.id;
-  const isNaming = candidate.namingStatus === "loading";
+function hasCandidateOptionalDetails(candidate) {
+  return Boolean(candidate.expireAt || normalizeReminderList(candidate).length || candidate.container);
+}
+
+function renderCandidateMetaChips(candidate) {
+  const chips = [];
+  if (candidate.expireAt) chips.push(`保质期 ${formatDate(candidate.expireAt)}`);
+  for (const reminder of normalizeReminderList(candidate).slice(0, 2)) {
+    chips.push(`${reminder.title} ${formatReminderSchedule(reminder)}`);
+  }
+  if (candidate.container) chips.push(`位置 ${candidate.container}`);
+  if (!chips.length) return "";
+  return `<div class="candidate-meta-chips">${chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>`;
+}
+
+function renderCandidateDatePicker(candidate, field, label) {
+  const value = candidate[field] || "";
   return `
-    <article class="candidate-row ${candidate.selected ? "" : "muted"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}" data-candidate-select="${candidate.id}">
+    <div class="date-picker-block">
+      <span>${escapeHtml(label)}</span>
+      <button class="secondary-btn compact-btn date-choice" type="button" data-open-date-picker="${candidate.id}" data-field="${field}">
+        <strong>${value ? escapeHtml(formatDate(value)) : "选择日期"}</strong>
+      </button>
+      ${value ? `<button class="ghost-btn compact-btn" type="button" data-clear-candidate-date="${candidate.id}" data-field="${field}">清除</button>` : ""}
+    </div>
+  `;
+}
+
+function renderCandidateReviewPanel(candidates) {
+  const activeCandidates = getActiveCandidates(candidates);
+  const deletedCandidates = getDeletedCandidates(candidates);
+  const activeId = getFallbackActiveCandidateId(state.capture.activeCandidateId);
+  const activeCandidate = activeCandidates.find((candidate) => candidate.id === activeId);
+  const activeIndex = activeCandidate ? getCandidateIndex(activeCandidates, activeCandidate.id) : -1;
+  return `
+    <div class="candidate-list candidate-card-stack">
+      ${state.capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(state.capture.recognitionError)}</p>` : ""}
+      ${activeCandidate
+        ? renderCandidate(activeCandidate, activeIndex, activeCandidates.length)
+        : `<p class="empty-state">${state.capture.recognitionStatus === "empty" ? "没有候选区域" : state.capture.image ? "正在分析照片" : "等待照片"}</p>`}
+      ${renderCandidateTrash(deletedCandidates)}
+    </div>
+  `;
+}
+
+function renderCandidateTrash(deletedCandidates) {
+  if (!deletedCandidates.length) return "";
+  return `
+    <section class="candidate-trash">
+      <div class="candidate-trash-head">
+        <strong>垃圾箱</strong>
+        <span>${deletedCandidates.length} 个可恢复</span>
+      </div>
+      <div class="candidate-trash-list">
+        ${deletedCandidates.map((candidate) => `
+          <article class="trash-candidate">
+            ${renderCandidateCrop(candidate)}
+            <div>
+              <strong>${escapeHtml(candidate.name)}</strong>
+              <span>置信度 ${Math.round(candidate.confidence * 100)}%</span>
+            </div>
+            <button class="secondary-btn compact-btn" type="button" data-restore-candidate="${candidate.id}">恢复</button>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderCandidateReminders(candidate) {
+  const reminders = normalizeReminderList(candidate);
+  return `
+    <section class="reminder-task-panel">
+      <div class="reminder-task-head">
+        <div>
+          <strong>提醒</strong>
+          <span>${reminders.length ? `${reminders.length} 个提醒事项` : "未设置"}</span>
+        </div>
+        <button class="secondary-btn compact-btn" type="button" data-add-candidate-reminder="${candidate.id}">${icons.plus}<span>添加提醒</span></button>
+      </div>
+      ${reminders.length ? `
+        <div class="reminder-task-list">
+          ${reminders.map((reminder) => `
+            <article class="reminder-task-row">
+              <div>
+                <strong>${escapeHtml(reminder.title)}</strong>
+                <span>${escapeHtml(formatReminderSchedule(reminder))} · ${escapeHtml(formatReminderOffset(reminder))}</span>
+              </div>
+              <div class="candidate-actions">
+                <button class="ghost-btn compact-btn" type="button" data-edit-candidate-reminder="${candidate.id}" data-reminder-id="${reminder.id}">编辑</button>
+                <button class="icon-btn" type="button" data-delete-candidate-reminder="${candidate.id}" data-reminder-id="${reminder.id}" title="删除提醒" aria-label="删除提醒">${icons.trash}</button>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      ` : `<p class="empty-state compact">提醒不是必填；需要时可以添加多个提醒事项。</p>`}
+    </section>
+  `;
+}
+
+function renderCandidateDateModal() {
+  if (!candidateDatePickerState) return "";
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateDatePickerState.candidateId);
+  if (!candidate) return "";
+  const isReminder = candidateDatePickerState.mode === "reminder";
+  const reminder = isReminder ? normalizeReminder(candidateDatePickerState.reminder) : null;
+  const title = isReminder ? "提醒" : "保质期";
+  const selected = isReminder
+    ? reminder.date
+    : (candidateDatePickerState.date || dateToIso(today));
+  const monthKey = candidateDatePickerState.month || monthKeyFromIso(selected);
+  const [year, month] = monthKey.split("-").map(Number);
+  const monthTitle = `${year}年${month}月`;
+  const quickOptions = isReminder
+    ? [
+      ["今天", addDaysIso(0)],
+      ["明天", addDaysIso(1)],
+      ["下周一", nextMondayIso()],
+      ["明天上午", addDaysIso(1), "09:00", true],
+    ]
+    : [
+      ["今天", addDaysIso(0)],
+      ["1个月", addDaysIso(30)],
+      ["3个月", addDaysIso(90)],
+      ["半年", addDaysIso(180)],
+    ];
+  const [hour, minute] = isReminder ? formatReminderTime(reminder.time).split(":") : ["09", "00"];
+  const offsetLabels = isReminder ? getReminderOffsetLabels(reminder.hasTime) : {};
+  return `
+    <div class="date-modal-backdrop" data-date-modal-dismiss>
+      <section class="date-modal" role="dialog" aria-modal="true" aria-label="${escapeHtml(title)}" data-date-modal>
+        <div class="date-modal-head">
+          <button class="round-btn" type="button" data-close-date-modal aria-label="关闭">×</button>
+          <div class="date-mode-tabs">
+            <span class="active">${escapeHtml(title)}</span>
+          </div>
+          <button class="round-btn confirm" type="button" data-confirm-date-modal aria-label="确认">✓</button>
+        </div>
+        ${isReminder ? `
+          <label class="modal-field">
+            <span>提醒事项</span>
+            <input class="field" value="${escapeHtml(reminder.title)}" data-date-reminder-title placeholder="例如：换滤芯、补货、复查" />
+          </label>
+        ` : ""}
+        <div class="date-quick-grid">
+          ${quickOptions.map(([label, date, time, hasTime]) => `
+            <button type="button" data-date-quick="${date}" ${time ? `data-time-quick="${time}"` : ""} ${hasTime ? "data-time-enabled=\"true\"" : ""}>
+              <strong>${escapeHtml(label)}</strong>
+              <span>${escapeHtml(formatDate(date))}</span>
+            </button>
+          `).join("")}
+        </div>
+        <div class="calendar-title-row">
+          <button type="button" data-calendar-month="-1" aria-label="上个月">‹</button>
+          <strong>${escapeHtml(monthTitle)}</strong>
+          <button type="button" data-calendar-month="1" aria-label="下个月">›</button>
+        </div>
+        <div class="calendar-grid" aria-label="选择日期">
+          ${["日", "一", "二", "三", "四", "五", "六"].map((day) => `<span>${day}</span>`).join("")}
+          ${getCalendarDays(monthKey).map((day) => `
+            <button
+              type="button"
+              class="${day.inMonth ? "" : "muted"} ${day.iso === selected ? "selected" : ""} ${day.iso === dateToIso(today) ? "today" : ""}"
+              data-calendar-day="${day.iso}"
+            >${day.day}</button>
+          `).join("")}
+        </div>
+        ${isReminder ? `
+          <div class="reminder-options">
+            <label class="reminder-time-toggle">
+              <span>时间</span>
+              <span class="switch-row">
+                <input type="checkbox" data-date-has-time ${reminder.hasTime ? "checked" : ""} />
+                <b>${reminder.hasTime ? "精确到分钟" : "不选时间"}</b>
+              </span>
+            </label>
+            ${reminder.hasTime ? `
+              <label>
+                <span>具体时间</span>
+                <div class="time-select-row">
+                <select class="select-field" data-date-time-hour>
+                  ${Array.from({ length: 24 }, (_, value) => String(value).padStart(2, "0")).map((value) => `<option value="${value}" ${hour === value ? "selected" : ""}>${value}</option>`).join("")}
+                </select>
+                <b>:</b>
+                <select class="select-field" data-date-time-minute>
+                  ${Array.from({ length: 60 }, (_, value) => String(value).padStart(2, "0")).map((value) => `<option value="${value}" ${minute === value ? "selected" : ""}>${value}</option>`).join("")}
+                </select>
+                </div>
+              </label>
+            ` : ""}
+            <label>
+              <span>提醒</span>
+              <select class="select-field" data-date-offset>
+                ${Object.entries(offsetLabels).map(([key, label]) => `<option value="${key}" ${reminder.offset === key ? "selected" : ""}>${label}</option>`).join("")}
+              </select>
+            </label>
+            ${reminder.offset === "custom" ? `
+              <label>
+                <span>自定义</span>
+                <div class="custom-offset-row">
+                  <input class="field" type="number" min="1" value="${reminder.customOffset.amount}" data-date-custom-offset-amount />
+                  <select class="select-field" data-date-custom-offset-unit>
+                    ${Object.entries(customOffsetUnitLabels).map(([key, label]) => `<option value="${key}" ${reminder.customOffset.unit === key ? "selected" : ""}>${label}</option>`).join("")}
+                  </select>
+                </div>
+              </label>
+            ` : ""}
+            <label>
+              <span>重复</span>
+              <select class="select-field" data-date-repeat>
+                ${Object.entries(repeatLabels).map(([key, label]) => `<option value="${key}" ${reminder.repeat === key ? "selected" : ""}>${label}</option>`).join("")}
+              </select>
+            </label>
+          </div>
+        ` : ""}
+      </section>
+    </div>
+  `;
+}
+
+function renderCandidateCrop(candidate) {
+  const label = candidate.cropImage ? "主体裁切图" : "裁切图生成中";
+  return `
+    <div class="candidate-crop ${candidate.cropImage ? "" : "empty"}" aria-label="${escapeHtml(label)}" ${cropAspectStyle(candidate.cropMeta)}>
+      ${candidate.cropImage
+        ? `<img src="${candidate.cropImage}" alt="${escapeHtml(candidate.name)}主体裁切图" />`
+        : `<span>${escapeHtml(label)}</span>`}
+    </div>
+  `;
+}
+
+function renderCandidate(candidate, activeIndex = 0, total = 1) {
+  const isActive = getFallbackActiveCandidateId(state.capture.activeCandidateId) === candidate.id;
+  const isNaming = candidate.namingStatus === "loading";
+  const isLoading = ["loading", "detecting", "naming"].includes(state.capture.recognitionStatus);
+  const selectedCount = getSelectedCandidateCount();
+  const showDetails = candidate.detailsOpen || hasCandidateOptionalDetails(candidate);
+  const showBox = candidate.boxOpen;
+  const previousId = getAdjacentCandidateId(candidate.id, -1);
+  const nextId = getAdjacentCandidateId(candidate.id, 1);
+  return `
+    <article class="candidate-card ${candidate.selected ? "" : "muted"} ${isActive ? "active" : ""} ${isNaming ? "naming" : ""}" data-candidate-select="${candidate.id}">
+      <div class="candidate-card-nav">
+        <button class="icon-btn" type="button" data-candidate-prev="${candidate.id}" ${previousId === candidate.id ? "disabled" : ""} aria-label="上一个候选">‹</button>
+        <span>第 ${activeIndex + 1} / ${total} 个候选</span>
+        <button class="icon-btn" type="button" data-candidate-next="${candidate.id}" ${nextId === candidate.id ? "disabled" : ""} aria-label="下一个候选">›</button>
+        <button class="icon-btn danger" type="button" data-delete-candidate="${candidate.id}" title="删除候选" aria-label="删除候选">${icons.trash}</button>
+      </div>
       <div class="candidate-head">
         <label class="checkbox">
           <input type="checkbox" ${candidate.selected ? "checked" : ""} data-candidate-toggle="${candidate.id}" />
           <strong>${isNaming ? `${escapeHtml(candidate.name)} · 识别中` : escapeHtml(candidate.name)}</strong>
         </label>
         <div class="candidate-actions">
-          <span class="status-pill good">${Math.round(candidate.confidence * 100)}%</span>
-          <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
+          <span class="status-pill good">置信度 ${Math.round(candidate.confidence * 100)}%</span>
+          <button class="primary-btn compact-btn" type="button" data-confirm-all ${selectedCount && !isLoading ? "" : "disabled"}>${icons.check}<span>确认入库</span></button>
         </div>
       </div>
-      <div class="candidate-form">
-        <input class="field" value="${escapeHtml(candidate.name)}" data-candidate-field="${candidate.id}" data-field="name" aria-label="物品名称" />
-        <select class="select-field" data-candidate-field="${candidate.id}" data-field="category" aria-label="分类">
-          ${Object.entries(categoryLabels).map(([key, label]) => `<option value="${key}" ${candidate.category === key ? "selected" : ""}>${label}</option>`).join("")}
-        </select>
-        <input class="field" type="number" min="1" value="${escapeHtml(candidate.qty || 1)}" data-candidate-field="${candidate.id}" data-field="qty" aria-label="数量" />
+      ${renderCandidateMetaChips(candidate)}
+      <div class="candidate-body">
+        ${renderCandidateCrop(candidate)}
+        <div class="candidate-info">
+          <div class="candidate-form">
+            <label class="candidate-field">
+              <span>物品名</span>
+              <input class="field" value="${escapeHtml(candidate.name)}" data-candidate-field="${candidate.id}" data-field="name" aria-label="物品名称" />
+            </label>
+            <label class="candidate-field">
+              <span>分类</span>
+              <select class="select-field" data-candidate-field="${candidate.id}" data-field="category" aria-label="分类">
+                ${Object.entries(categoryLabels).map(([key, label]) => `<option value="${key}" ${candidate.category === key ? "selected" : ""}>${label}</option>`).join("")}
+              </select>
+            </label>
+            <label class="candidate-field">
+              <span>数量（件）</span>
+              <input class="field" type="number" min="1" value="${escapeHtml(candidate.qty || 1)}" data-candidate-field="${candidate.id}" data-field="qty" aria-label="数量，按件数统计" />
+              <small>默认按 1 件入库</small>
+            </label>
+          </div>
+          <div class="candidate-option-bar">
+            <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
+            <button class="ghost-btn compact-btn" type="button" data-toggle-candidate-details="${candidate.id}">
+              ${icons.bell}<span>${showDetails ? "收起提醒" : "保质期/提醒"}</span>
+            </button>
+            <button class="ghost-btn compact-btn" type="button" data-toggle-candidate-box="${candidate.id}">
+              ${icons.scan}<span>${showBox ? "收起定位" : "调整定位"}</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="candidate-form secondary">
-        <input class="field" type="date" value="${escapeHtml(candidate.expireAt || "")}" data-candidate-field="${candidate.id}" data-field="expireAt" aria-label="有效期" />
-        <input class="field" type="date" value="${escapeHtml(candidate.nextAt || "")}" data-candidate-field="${candidate.id}" data-field="nextAt" aria-label="维护日期" />
-        <input class="field" value="${escapeHtml(candidate.nextLabel || "")}" data-candidate-field="${candidate.id}" data-field="nextLabel" aria-label="维护事项" placeholder="维护事项" />
-      </div>
-      <input class="field" value="${escapeHtml(candidate.container || "")}" data-candidate-field="${candidate.id}" data-field="container" aria-label="容器" />
-      <div class="box-control-grid" aria-label="定位框数值">
-        ${["x", "y", "w", "h"].map((field) => `
-          <label>
-            <span>${field.toUpperCase()}</span>
-            <input class="field" type="number" min="0" max="100" step="1" value="${Math.round(candidate.box[field])}" data-candidate-box-field="${candidate.id}" data-field="${field}" aria-label="${field.toUpperCase()} 坐标" />
+      ${showDetails ? `
+        <div class="candidate-extra-panel">
+          <div class="date-picker-grid">
+            ${renderCandidateDatePicker(candidate, "expireAt", "保质期")}
+          </div>
+          ${renderCandidateReminders(candidate)}
+          <label class="candidate-field">
+            <span>具体位置</span>
+            <input class="field" value="${escapeHtml(candidate.container || "")}" data-candidate-field="${candidate.id}" data-field="container" aria-label="具体位置" placeholder="例如：左侧抽屉、白色药箱" />
           </label>
-        `).join("")}
-      </div>
+        </div>
+      ` : ""}
+      ${showBox ? `
+        <div class="box-control-grid" aria-label="定位框数值">
+          ${["x", "y", "w", "h"].map((field) => `
+            <label>
+              <span>${field.toUpperCase()}</span>
+              <input class="field" type="number" min="0" max="100" step="1" value="${Math.round(candidate.box[field])}" data-candidate-box-field="${candidate.id}" data-field="${field}" aria-label="${field.toUpperCase()} 坐标" />
+            </label>
+          `).join("")}
+        </div>
+      ` : ""}
     </article>
   `;
 }
@@ -2866,7 +4140,7 @@ function renderReminderView() {
           <h2>主动提醒</h2>
           <p>食品、药品、维护和补货</p>
         </div>
-        <span class="status-pill ${reminders.some((item) => dueStatus(item.expireAt || item.nextAt).cls === "danger") ? "danger" : "good"}">${reminders.length} 条</span>
+        <span class="status-pill ${reminders.some((item) => dueStatus(item.reminderDate).cls === "danger") ? "danger" : "good"}">${reminders.length} 条</span>
       </div>
       <div class="reminder-list">
         ${reminders.map(renderReminder).join("") || `<p class="empty-state">暂无提醒</p>`}
@@ -2876,16 +4150,14 @@ function renderReminderView() {
 }
 
 function renderReminder(item) {
-  const dateText = item.expireAt || item.nextAt;
-  const due = dueStatus(dateText);
-  const label = item.expireAt ? "有效期" : item.nextLabel || "下次处理";
+  const due = dueStatus(item.reminderDate);
   return `
     <article class="reminder-row">
       <div>
         <strong>${escapeHtml(item.name)}</strong>
         <div class="meta-line">
           <span class="badge ${item.category}">${categoryLabels[item.category]}</span>
-          <span>${escapeHtml(label)}：${formatDate(dateText)}</span>
+          <span>${escapeHtml(item.reminderTitle || "提醒")}：${escapeHtml(item.reminderSchedule || formatDate(item.reminderDate))}</span>
           <span>${escapeHtml(buildTrail(item))}</span>
         </div>
       </div>
@@ -2896,10 +4168,97 @@ function renderReminder(item) {
 
 function getReminderItems() {
   return state.items
-    .filter((item) => item.expireAt || item.nextAt)
-    .map((item) => ({ ...item, dueIn: daysUntil(item.expireAt || item.nextAt) }))
+    .flatMap((item) => {
+      const entries = [];
+      if (item.expireAt) {
+        entries.push({
+          ...item,
+          reminderKind: "expiry",
+          reminderTitle: "有效期",
+          reminderDate: item.expireAt,
+          reminderSchedule: formatDate(item.expireAt),
+          dueIn: daysUntil(item.expireAt),
+        });
+      }
+      for (const reminder of normalizeReminderList(item)) {
+        entries.push({
+          ...item,
+          reminderKind: "task",
+          reminder,
+          reminderTitle: reminder.title,
+          reminderDate: reminder.date,
+          reminderSchedule: `${formatReminderSchedule(reminder)} · ${formatReminderOffset(reminder)}`,
+          dueIn: daysUntil(reminder.date),
+        });
+      }
+      return entries;
+    })
     .filter((item) => item.dueIn <= 45)
     .sort((a, b) => a.dueIn - b.dueIn);
+}
+
+function getReminderOffsetMinutes(reminder) {
+  const normalized = normalizeReminder(reminder);
+  if (normalized.offset === "none") return null;
+  if (normalized.offset === "on-time" || normalized.offset === "same-day") return 0;
+  if (normalized.offset === "before-5m") return 5;
+  if (normalized.offset === "before-30m") return 30;
+  if (normalized.offset === "before-1h") return 60;
+  if (normalized.offset === "before-1d") return 1440;
+  if (normalized.offset === "before-2d") return 2880;
+  if (normalized.offset === "before-3d") return 4320;
+  if (normalized.offset === "before-1w") return 10080;
+  if (normalized.offset === "custom") {
+    const amount = normalized.customOffset.amount;
+    if (normalized.customOffset.unit === "hours") return amount * 60;
+    if (normalized.customOffset.unit === "days") return amount * 1440;
+    if (normalized.customOffset.unit === "weeks") return amount * 10080;
+    return amount;
+  }
+  return null;
+}
+
+function getReminderNotificationDate(reminder) {
+  const normalized = normalizeReminder(reminder);
+  if (!normalized.enabled) return null;
+  const offsetMinutes = getReminderOffsetMinutes(normalized);
+  if (offsetMinutes === null) return null;
+  const [hour, minute] = normalized.hasTime ? normalizeReminderTime(normalized.time).split(":").map(Number) : [9, 0];
+  const date = new Date(`${normalized.date}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`);
+  if (Number.isNaN(date.getTime())) return null;
+  date.setMinutes(date.getMinutes() - offsetMinutes);
+  if (date.getTime() <= Date.now()) return null;
+  return date;
+}
+
+async function scheduleConfirmedItemReminders(items) {
+  const notifications = normalizeItems(items).flatMap((item) => normalizeReminderList(item)
+    .map((reminder) => {
+      const at = getReminderNotificationDate(reminder);
+      if (!at) return null;
+      return {
+        id: reminder.notificationId,
+        title: `家忆：${item.name}`,
+        body: `${reminder.title} · ${formatReminderSchedule(reminder)}`,
+        schedule: { at },
+        extra: { itemId: item.id, reminderId: reminder.id },
+      };
+    })
+    .filter(Boolean));
+  if (!notifications.length) return;
+  const permission = await platform.notifications.requestPermissions().catch(() => ({ display: "denied" }));
+  if (permission?.display === "denied") return;
+  await platform.notifications.schedule(notifications).catch((error) => {
+    console.info("Native reminders unavailable.", error);
+  });
+}
+
+async function cancelReminderNotifications(records) {
+  const ids = normalizeItems(records)
+    .flatMap((item) => normalizeReminderList(item).map((reminder) => reminder.notificationId))
+    .filter((id) => Number.isInteger(Number(id)))
+    .map(Number);
+  if (ids.length) await platform.notifications.cancel(ids).catch(() => {});
 }
 
 function renderInsights() {
@@ -3008,14 +4367,17 @@ async function scanCurrentPlace() {
     return;
   }
 
-  const requestedProvider = "local-small-model";
+  const requestedProvider = getRequestedRecognitionProvider();
   const runId = recognitionRunId + 1;
   recognitionRunId = runId;
   const scanImage = state.capture.image;
+  const scanStartedAt = performance.now();
+  const imageDimensionsPromise = getImageDimensions(scanImage).catch(() => null);
   state.capture = {
     ...state.capture,
     recognitionStatus: "detecting",
     recognitionError: "",
+    recognitionDiagnostics: null,
     candidates: [],
     activeCandidateId: null,
     provider: requestedProvider,
@@ -3025,11 +4387,36 @@ async function scanCurrentPlace() {
 
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   try {
-    const recognition = await detectCandidatesFromLocalImage(scanImage, requestedProvider);
+    const detectionImage = await prepareImageForDetection(scanImage).catch((error) => {
+      console.info("Detection resize skipped.", error);
+      return scanImage;
+    });
     if (!stillCurrent()) return;
 
-    const provider = recognition.provider;
-    let detected = recognition.candidates;
+    const smallRecognition = await recognizeWithSmallModelCached(detectionImage)
+      .catch((error) => {
+        console.info("Small model unavailable, falling back to local image proposals.", error);
+        return null;
+      });
+    if (!stillCurrent()) return;
+
+    let provider = smallRecognition?.provider || requestedProvider;
+    const cacheHit = Boolean(smallRecognition?.cacheHit);
+    let detected = smallRecognition?.candidates?.length
+      ? normalizeRecognitionResults(smallRecognition.candidates, provider)
+      : [];
+
+    if (!detected.length) {
+      const fallbackRecognition = await recognizeWithHeuristicRegions(detectionImage)
+        .catch((error) => {
+          console.info("Local proposal fallback failed.", error);
+          return { provider: "local-image", candidates: [] };
+        });
+      if (!stillCurrent()) return;
+      provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
+      detected = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
+    }
+    const detectionMs = performance.now() - scanStartedAt;
 
     if (!detected.length) {
       state.capture = {
@@ -3038,6 +4425,18 @@ async function scanCurrentPlace() {
         activeCandidateId: null,
         recognitionStatus: "empty",
         recognitionError: "",
+        recognitionDiagnostics: {
+          provider,
+          assetMode: await getVisionAssetMode().catch(() => null),
+          imageDimensions: await imageDimensionsPromise,
+          preprocessingMs: state.capture.preprocessingMs || null,
+          detectionMs,
+          namingMs: 0,
+          totalMs: performance.now() - scanStartedAt,
+          resultCount: 0,
+          cacheHit,
+          wasmThreads: getVisionWasmThreadCount(),
+        },
         provider,
       };
       persist();
@@ -3047,22 +4446,24 @@ async function scanCurrentPlace() {
     }
 
     const place = ensureCapturePlace();
-    updatePlaceImage(place.id, scanImage);
+    updatePlaceImage(place.id, scanImage, state.capture.imageRef, state.capture.imageMeta);
     detected = renumberUnknownCandidates(detected);
     state.capture = {
       ...state.capture,
       roomId: room.id,
       placeId: place.id,
       candidates: detected,
-      activeCandidateId: null,
+      activeCandidateId: detected[0]?.id || null,
       recognitionStatus: "naming",
       recognitionError: "",
+      recognitionDiagnostics: null,
       provider,
     };
     persist();
     render();
     showToast(`已生成 ${detected.length} 个主体框，正在命名`);
 
+    const namingStartedAt = performance.now();
     const namedCandidates = await nameDetectedCandidates(scanImage, detected, (partialCandidates) => {
       if (!stillCurrent()) return;
       state.capture = {
@@ -3073,12 +4474,25 @@ async function scanCurrentPlace() {
       render();
     });
     if (!stillCurrent()) return;
+    const namingMs = performance.now() - namingStartedAt;
     state.capture = {
       ...state.capture,
       candidates: applyCandidateProgressUpdates(state.capture.candidates || [], namedCandidates, provider),
-      activeCandidateId: state.capture.activeCandidateId || null,
+      activeCandidateId: getFallbackActiveCandidateId(state.capture.activeCandidateId),
       recognitionStatus: "done",
       recognitionError: "",
+      recognitionDiagnostics: {
+        provider,
+        assetMode: await getVisionAssetMode().catch(() => null),
+        imageDimensions: await imageDimensionsPromise,
+        preprocessingMs: state.capture.preprocessingMs || null,
+        detectionMs,
+        namingMs,
+        totalMs: performance.now() - scanStartedAt,
+        resultCount: namedCandidates.length,
+        cacheHit,
+        wasmThreads: getVisionWasmThreadCount(),
+      },
       provider,
     };
     persist();
@@ -3091,6 +4505,18 @@ async function scanCurrentPlace() {
       activeCandidateId: null,
       recognitionStatus: "error",
       recognitionError: error.message || "分析失败，请保留照片后重试",
+      recognitionDiagnostics: {
+        provider: state.capture.provider || requestedProvider,
+        assetMode: await getVisionAssetMode().catch(() => null),
+        imageDimensions: await imageDimensionsPromise,
+        preprocessingMs: state.capture.preprocessingMs || null,
+        detectionMs: performance.now() - scanStartedAt,
+        namingMs: 0,
+        totalMs: performance.now() - scanStartedAt,
+        resultCount: 0,
+        cacheHit: false,
+        wasmThreads: getVisionWasmThreadCount(),
+      },
     };
     persist();
     render();
@@ -3099,7 +4525,7 @@ async function scanCurrentPlace() {
 }
 
 function confirmCandidates() {
-  const selected = (state.capture.candidates || []).filter((candidate) => candidate.selected && normalizeText(candidate.name));
+  const selected = getActiveCandidates().filter((candidate) => candidate.selected && normalizeText(candidate.name));
   if (!selected.length) {
     showToast("请选择要入库的物品");
     return;
@@ -3107,11 +4533,14 @@ function confirmCandidates() {
   const roomId = state.capture.roomId;
   const placeId = state.capture.placeId;
   const nowText = new Date().toISOString().slice(0, 10);
-  updatePlaceImage(placeId, state.capture.image);
+  updatePlaceImage(placeId, state.capture.image, state.capture.imageRef, state.capture.imageMeta);
   const existingNames = new Set(state.items.map((item) => `${item.placeId}:${normalizeText(item.name)}`));
   const incoming = selected
     .filter((candidate) => !existingNames.has(`${placeId}:${normalizeText(candidate.name)}`))
-    .map((candidate) => ({
+    .map((candidate) => {
+      const reminders = normalizeReminderList(candidate);
+      const primaryReminder = reminders[0] || null;
+      return {
       id: `item-${Date.now()}-${Math.random().toString(16).slice(2)}`,
       name: candidate.name,
       aliases: [],
@@ -3122,8 +4551,11 @@ function confirmCandidates() {
       container: candidate.container,
       box: candidate.box,
       expireAt: candidate.expireAt || null,
-      nextAt: candidate.nextAt || null,
-      nextLabel: candidate.nextLabel || null,
+      reminders,
+      nextAt: primaryReminder?.date || null,
+      nextTime: primaryReminder?.hasTime ? formatReminderTime(primaryReminder.time) : null,
+      nextRepeat: primaryReminder?.repeat || null,
+      nextLabel: primaryReminder?.title || null,
       updatedAt: nowText,
       confidence: candidate.confidence,
       source: candidate.source || state.capture.provider || "local-image",
@@ -3134,10 +4566,13 @@ function confirmCandidates() {
       categoryMargin: candidate.categoryMargin,
       categoryIndexVersion: candidate.categoryIndexVersion || "",
       matchedSampleIds: candidate.matchedSampleIds || [],
+      imageRef: state.capture.imageRef || null,
       boxEdited: Boolean(candidate.edited),
-    }));
+      };
+    });
 
-  state.items = [...state.items, ...incoming];
+  state.items = normalizeItems([...state.items, ...incoming]);
+  scheduleConfirmedItemReminders(incoming).catch((error) => console.info("Reminder scheduling skipped.", error));
   resetCaptureRecognition();
   state.activeRoomId = roomId;
   state.activePlaceId = placeId;
@@ -3175,7 +4610,7 @@ function scanInsideItem(itemId) {
 }
 
 function scanInsideCandidate(candidateId) {
-  const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
+  const candidate = getActiveCandidates().find((entry) => entry.id === candidateId);
   if (!candidate) return;
   const parentPlace = ensureCapturePlace();
   const cleanName = String(candidate.name || "").trim() || "下级储物点";
@@ -3200,6 +4635,37 @@ function scanInsideCandidate(candidateId) {
   showToast(`已切换到 ${targetPlace.name}，请上传内部照片`);
 }
 
+function moveCandidateCard(id, direction) {
+  const nextId = getAdjacentCandidateId(id, direction);
+  if (!nextId || nextId === id) return;
+  selectCandidate(nextId);
+}
+
+function deleteCandidate(id) {
+  const activeCandidates = getActiveCandidates();
+  const currentIndex = getCandidateIndex(activeCandidates, id);
+  const fallback = activeCandidates[currentIndex + 1] || activeCandidates[currentIndex - 1] || null;
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
+    candidate.id === id
+      ? { ...candidate, deletedAt: new Date().toISOString(), edited: true }
+      : candidate
+  ));
+  state.capture.activeCandidateId = fallback?.id || null;
+  persist();
+  render();
+}
+
+function restoreCandidate(id) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
+    candidate.id === id
+      ? { ...candidate, deletedAt: null, edited: true }
+      : candidate
+  ));
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
+}
+
 function updateCandidate(id, field, value) {
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
     candidate.id === id
@@ -3207,6 +4673,7 @@ function updateCandidate(id, field, value) {
         ...candidate,
         [field]: field === "qty" ? Math.max(1, Math.round(Number(value) || 1)) : value,
         edited: true,
+        ...(field === "name" ? { nameEdited: true } : {}),
       }
       : candidate
   ));
@@ -3215,7 +4682,183 @@ function updateCandidate(id, field, value) {
   render();
 }
 
+function toggleCandidatePanel(id, panel) {
+  const key = panel === "box" ? "boxOpen" : "detailsOpen";
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
+    candidate.id === id ? { ...candidate, [key]: !candidate[key] } : candidate
+  ));
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
+}
+
+function openCandidateDatePicker(id, field) {
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  if (!candidate) return;
+  const currentDate = candidate[field] || dateToIso(today);
+  candidateDatePickerState = {
+    mode: "date",
+    candidateId: id,
+    field,
+    date: currentDate,
+    month: monthKeyFromIso(currentDate),
+  };
+  state.capture.activeCandidateId = id;
+  render();
+}
+
+function openCandidateReminderEditor(id, reminderId = null) {
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  if (!candidate) return;
+  const reminders = normalizeReminderList(candidate);
+  const reminder = reminders.find((entry) => entry.id === reminderId)
+    || normalizeReminder({
+      id: createId("reminder", candidate.name || "提醒"),
+      title: "提醒",
+      date: dateToIso(today),
+      hasTime: false,
+      time: "09:00",
+      offset: "none",
+      repeat: "none",
+      enabled: true,
+    });
+  candidateDatePickerState = {
+    mode: "reminder",
+    candidateId: id,
+    reminder: normalizeReminder(reminder),
+    month: monthKeyFromIso(reminder.date),
+    offsetTouched: Boolean(reminderId),
+  };
+  state.capture.activeCandidateId = id;
+  render();
+}
+
+function closeCandidateDatePicker() {
+  candidateDatePickerState = null;
+  render();
+}
+
+function updateCandidateDateDraft(patch) {
+  if (!candidateDatePickerState) return;
+  if (candidateDatePickerState.mode === "reminder") {
+    const current = normalizeReminder(candidateDatePickerState.reminder);
+    const rawReminder = {
+      ...current,
+      ...patch,
+      customOffset: {
+        ...current.customOffset,
+        ...(patch.customOffset || {}),
+      },
+    };
+    const nextHasTime = Object.prototype.hasOwnProperty.call(patch, "hasTime")
+      ? Boolean(patch.hasTime)
+      : current.hasTime;
+    const offsetTouched = candidateDatePickerState.offsetTouched || Object.prototype.hasOwnProperty.call(patch, "offset");
+    const offset = Object.prototype.hasOwnProperty.call(patch, "hasTime") && !offsetTouched
+      ? defaultReminderOffset(nextHasTime)
+      : normalizeReminderOffset(rawReminder.offset, nextHasTime);
+    candidateDatePickerState = {
+      ...candidateDatePickerState,
+      ...("month" in patch ? { month: patch.month } : {}),
+      offsetTouched,
+      reminder: normalizeReminder({
+        ...rawReminder,
+        hasTime: nextHasTime,
+        offset,
+      }),
+    };
+    render();
+    return;
+  }
+  candidateDatePickerState = {
+    ...candidateDatePickerState,
+    ...patch,
+  };
+  render();
+}
+
+function confirmCandidateDatePicker() {
+  if (!candidateDatePickerState?.candidateId) return;
+  const { candidateId } = candidateDatePickerState;
+  if (candidateDatePickerState.mode === "reminder") {
+    const reminder = normalizeReminder(candidateDatePickerState.reminder);
+    state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+      if (candidate.id !== candidateId) return candidate;
+      const current = normalizeReminderList(candidate);
+      const exists = current.some((entry) => entry.id === reminder.id);
+      const reminders = exists
+        ? current.map((entry) => (entry.id === reminder.id ? reminder : entry))
+        : [...current, reminder];
+      const primary = reminders[0] || null;
+      return {
+        ...candidate,
+        reminders,
+        nextAt: primary?.date || "",
+        nextTime: primary?.time || "09:00",
+        nextRepeat: primary?.repeat || "none",
+        nextLabel: primary?.title || "",
+        detailsOpen: true,
+        edited: true,
+      };
+    });
+    state.capture.activeCandidateId = candidateId;
+    candidateDatePickerState = null;
+    persist();
+    render();
+    return;
+  }
+
+  if (!candidateDatePickerState.field) return;
+  const { field, date } = candidateDatePickerState;
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== candidateId) return candidate;
+    const next = {
+      ...candidate,
+      [field]: date || dateToIso(today),
+      edited: true,
+    };
+    return next;
+  });
+  state.capture.activeCandidateId = candidateId;
+  candidateDatePickerState = null;
+  persist();
+  render();
+}
+
+function clearCandidateDate(id, field) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== id) return candidate;
+    const next = { ...candidate, [field]: "", edited: true };
+    return next;
+  });
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
+}
+
+function deleteCandidateReminder(candidateId, reminderId) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== candidateId) return candidate;
+    const reminders = normalizeReminderList(candidate).filter((reminder) => reminder.id !== reminderId);
+    const primary = reminders[0] || null;
+    return {
+      ...candidate,
+      reminders,
+      nextAt: primary?.date || "",
+      nextTime: primary?.time || "09:00",
+      nextRepeat: primary?.repeat || "none",
+      nextLabel: primary?.title || "",
+      detailsOpen: true,
+      edited: true,
+    };
+  });
+  state.capture.activeCandidateId = candidateId;
+  persist();
+  render();
+}
+
 function toggleCandidate(id) {
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
     candidate.id === id ? { ...candidate, selected: !candidate.selected } : candidate
   ));
@@ -3225,19 +4868,22 @@ function toggleCandidate(id) {
 }
 
 function selectCandidate(id) {
-  if (!(state.capture.candidates || []).some((candidate) => candidate.id === id)) return;
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.activeCandidateId = id;
   persist();
   render();
 }
 
 function updateCandidateBox(id, field, value) {
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
     if (candidate.id !== id) return candidate;
     return {
       ...candidate,
       box: clampBox({ ...candidate.box, [field]: value }),
       edited: true,
+      boxEdited: true,
+      cropVersion: "",
     };
   });
   state.capture.activeCandidateId = id;
@@ -3246,31 +4892,36 @@ function updateCandidateBox(id, field, value) {
 }
 
 function setCandidateBoxWithoutRender(id, box) {
+  if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
-    candidate.id === id ? { ...candidate, box: clampBox(box), edited: true } : candidate
+    candidate.id === id ? { ...candidate, box: clampBox(box), edited: true, boxEdited: true, cropVersion: "" } : candidate
   ));
   state.capture.activeCandidateId = id;
 }
 
-function startCandidateDrag(event, boxButton) {
-  const id = boxButton.dataset.candidateDrag;
-  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
-  const stage = boxButton.closest("[data-capture-stage]");
+function startCandidateDrag(event, dragTarget, options = {}) {
+  const id = dragTarget.dataset.candidateResize || dragTarget.dataset.candidateDrag;
+  const candidate = getActiveCandidates().find((entry) => entry.id === id);
+  const stage = dragTarget.closest("[data-capture-stage]");
   if (!candidate || !stage) return;
+  const frameElement = dragTarget.closest("[data-candidate-drag]") || dragTarget;
 
   event.preventDefault();
   state.capture.activeCandidateId = id;
   candidateDrag = {
     id,
+    mode: options.mode || dragTarget.dataset.dragMode || "move",
+    handle: options.handle || dragTarget.dataset.resizeHandle || "",
     stage,
-    boxButton,
+    frameElement,
+    pointerTarget: dragTarget,
     pointerId: event.pointerId,
     startX: event.clientX,
     startY: event.clientY,
     startBox: { ...candidate.box },
   };
-  boxButton.classList.add("active");
-  boxButton.setPointerCapture?.(event.pointerId);
+  frameElement.classList.add("dragging");
+  dragTarget.setPointerCapture?.(event.pointerId);
 }
 
 function moveCandidateDrag(event) {
@@ -3278,24 +4929,131 @@ function moveCandidateDrag(event) {
   const rect = candidateDrag.stage.getBoundingClientRect();
   const deltaX = ((event.clientX - candidateDrag.startX) / rect.width) * 100;
   const deltaY = ((event.clientY - candidateDrag.startY) / rect.height) * 100;
-  const box = clampBox({
-    ...candidateDrag.startBox,
-    x: candidateDrag.startBox.x + deltaX,
-    y: candidateDrag.startBox.y + deltaY,
-  });
+  const box = candidateDrag.mode === "resize"
+    ? resizeCandidateBox(candidateDrag.startBox, candidateDrag.handle, deltaX, deltaY)
+    : clampBox({
+      ...candidateDrag.startBox,
+      x: candidateDrag.startBox.x + deltaX,
+      y: candidateDrag.startBox.y + deltaY,
+    });
   setCandidateBoxWithoutRender(candidateDrag.id, box);
-  const index = (state.capture.candidates || []).findIndex((candidate) => candidate.id === candidateDrag.id);
-  candidateDrag.boxButton.style.cssText = styleCandidatePin(box, Math.max(0, index));
+  updateCandidateDragElements(candidateDrag, box);
+}
+
+function updateCandidateDragElements(drag, box) {
+  if (!drag?.stage) return;
+  if (drag.frameElement) drag.frameElement.style.cssText = styleBox(box);
+  const pins = [...drag.stage.querySelectorAll("[data-candidate-select]")];
+  const pin = pins.find((entry) => entry.dataset.candidateSelect === drag.id);
+  if (pin) pin.style.cssText = styleCandidatePin(box);
+  const label = drag.stage.querySelector(".candidate-active-label");
+  if (label) label.style.cssText = styleActiveCandidateLabel(box);
+}
+
+function resizeCandidateBox(startBox, handle, deltaX, deltaY) {
+  const minSize = 6;
+  let left = startBox.x;
+  let top = startBox.y;
+  let right = startBox.x + startBox.w;
+  let bottom = startBox.y + startBox.h;
+
+  if (handle.includes("w")) left = clampNumber(startBox.x + deltaX, 0, right - minSize);
+  if (handle.includes("e")) right = clampNumber(startBox.x + startBox.w + deltaX, left + minSize, 100);
+  if (handle.includes("n")) top = clampNumber(startBox.y + deltaY, 0, bottom - minSize);
+  if (handle.includes("s")) bottom = clampNumber(startBox.y + startBox.h + deltaY, top + minSize, 100);
+
+  return clampBox({
+    x: left,
+    y: top,
+    w: right - left,
+    h: bottom - top,
+  });
+}
+
+function boxesAlmostEqual(left = {}, right = {}) {
+  return ["x", "y", "w", "h"].every((field) => Math.abs(Number(left[field]) - Number(right[field])) < 0.12);
 }
 
 function finishCandidateDrag() {
   if (!candidateDrag) return;
+  const finishedDrag = candidateDrag;
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === finishedDrag.id);
+  const changed = candidate && !boxesAlmostEqual(candidate.box, finishedDrag.startBox);
+  finishedDrag.frameElement?.classList.remove("dragging");
   candidateDrag = null;
+  persist();
+  render();
+  if (changed) rerunCandidateNamingAfterBoxEdit(finishedDrag.id).catch((error) => {
+    console.info("Candidate box re-recognition skipped.", error);
+    state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+      entry.id === finishedDrag.id ? { ...entry, namingStatus: "done" } : entry
+    ));
+    persist();
+    render();
+  });
+}
+
+async function rerunCandidateNamingAfterBoxEdit(candidateId) {
+  const image = state.capture.image;
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
+  if (!image || !candidate) return;
+
+  const token = ++candidateEditRecognitionToken;
+  state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+    entry.id === candidateId
+      ? { ...entry, namingStatus: "loading", cropImage: "", cropMeta: null, cropVersion: "" }
+      : entry
+  ));
+  persist();
+  render();
+
+  const source = await loadImage(image);
+  if (token !== candidateEditRecognitionToken || state.capture.image !== image) return;
+  const latest = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
+  if (!latest) return;
+  const crop = createCandidateCropSnapshot(source, latest.box) || {};
+  const activeCandidates = getActiveCandidates();
+  const index = Math.max(0, getCandidateIndex(activeCandidates, candidateId));
+  const resolved = latest.nameEdited
+    ? { ...latest, namingStatus: "done" }
+    : await resolveCandidateName(
+      {
+        ...latest,
+        ...crop,
+        suggestedName: "",
+        edited: false,
+        namingStatus: "loading",
+      },
+      index,
+      source,
+      { force: true },
+    );
+
+  if (token !== candidateEditRecognitionToken || state.capture.image !== image) return;
+  state.capture.candidates = (state.capture.candidates || []).map((entry) => {
+    if (entry.id !== candidateId) return entry;
+    return normalizeCandidate({
+      ...entry,
+      ...crop,
+      name: latest.nameEdited ? entry.name : resolved.name,
+      category: latest.nameEdited ? entry.category : resolved.category,
+      confidence: latest.nameEdited ? entry.confidence : Math.max(entry.confidence || 0, resolved.confidence || 0),
+      catalogId: latest.nameEdited ? entry.catalogId : resolved.catalogId,
+      source: latest.nameEdited ? entry.source : (resolved.source || entry.source),
+      namingStatus: "done",
+      edited: true,
+      boxEdited: true,
+    }, index, state.capture.provider || "local-image");
+  });
   persist();
   render();
 }
 
 async function startCamera() {
+  if (platform.photos.canUseNativeCamera()) {
+    await importNativePhoto("camera");
+    return;
+  }
   if (!navigator.mediaDevices?.getUserMedia) {
     showToast("当前浏览器不支持摄像头");
     return;
@@ -3310,6 +5068,57 @@ async function startCamera() {
   }
 }
 
+async function importNativePhoto(source) {
+  const isCamera = source === "camera";
+  const canUse = isCamera ? platform.photos.canUseNativeCamera() : platform.photos.canUseNativePhotoLibrary();
+  if (!canUse) {
+    showToast("当前环境暂不支持原生照片导入");
+    return;
+  }
+  state.capture = {
+    ...state.capture,
+    candidates: [],
+    activeCandidateId: null,
+    recognitionStatus: "loading",
+    recognitionError: "",
+    provider: isCamera ? "ios-camera" : "ios-photo-library",
+  };
+  render();
+  showToast(isCamera ? "正在打开相机" : "正在打开相册");
+  try {
+    const preprocessStartedAt = performance.now();
+    const photo = isCamera ? await platform.photos.captureFromCamera() : await platform.photos.pickFromLibrary();
+    const loaded = await loadImage(photo.dataUrl);
+    const image = await resizeImageSourceToDataUrl(loaded);
+    const imageMeta = normalizeImageMeta(loaded) || await imageMetaFromDataUrl(image);
+    const imageRef = await persistPhotoDataUrl(image, isCamera ? "ios-camera" : "ios-photo-library");
+    resetCaptureRecognition({
+      image,
+      imageRef,
+      imageMeta,
+      preprocessingMs: performance.now() - preprocessStartedAt,
+      provider: isCamera ? "ios-camera" : "ios-photo-library",
+    });
+    warmCaptureDetectionModel();
+    persist();
+    render();
+    showToast(isCamera ? "照片已拍摄，正在分析" : "照片已导入，正在分析");
+    queueCaptureAnalysis();
+  } catch (error) {
+    state.capture = {
+      ...state.capture,
+      candidates: [],
+      activeCandidateId: null,
+      recognitionStatus: "error",
+      recognitionError: error.message || "照片导入失败",
+      provider: isCamera ? "ios-camera" : "ios-photo-library",
+    };
+    persist();
+    render();
+    showToast(error.message || "照片导入失败");
+  }
+}
+
 function hydrateCamera() {
   const video = document.querySelector("#cameraVideo");
   if (video && cameraStream) {
@@ -3321,15 +5130,33 @@ function hydrateCandidatePins() {
   const stage = document.querySelector("[data-capture-stage]");
   const candidates = state.capture.candidates || [];
   if (!stage || !candidates.length) return;
-  const rect = stage.getBoundingClientRect();
-  if (!rect.width || !rect.height) return;
-  const layouts = layoutCandidatePins(candidates, rect.width, rect.height);
   const pins = [...stage.querySelectorAll("[data-candidate-select]")];
   for (const candidate of candidates) {
     const pin = pins.find((entry) => entry.dataset.candidateSelect === candidate.id);
-    const layout = layouts.get(candidate.id);
-    if (pin && layout) pin.style.cssText = styleCandidatePin(candidate.box, layout);
+    if (pin) pin.style.cssText = styleCandidatePin(candidate.box);
   }
+}
+
+async function hydrateCandidateCrops() {
+  const candidates = state.capture.candidates || [];
+  const image = state.capture.image;
+  if (!image || !candidates.some(shouldRefreshCandidateCrop)) return;
+  const key = `${hashStringFast(image)}:${visionConfig.candidateCropVersion}:${candidates.map((candidate) => `${candidate.id}:${candidate.cropVersion || "none"}:${candidate.cropMeta?.width || 0}x${candidate.cropMeta?.height || 0}`).join(",")}`;
+  if (candidateCropHydrationKey === key) return;
+  candidateCropHydrationKey = key;
+  const source = await loadImage(image).catch(() => null);
+  if (!source || state.capture.image !== image) return;
+  let changed = false;
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (!shouldRefreshCandidateCrop(candidate)) return candidate;
+    const crop = createCandidateCropSnapshot(source, candidate.box);
+    if (!crop?.cropImage) return candidate;
+    changed = true;
+    return { ...candidate, ...crop };
+  });
+  if (!changed) return;
+  persist();
+  render();
 }
 
 async function captureCameraFrame() {
@@ -3342,12 +5169,17 @@ async function captureCameraFrame() {
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
   stopCamera();
   try {
+    const preprocessStartedAt = performance.now();
     const image = await resizeImageSourceToDataUrl(canvas);
-    resetCaptureRecognition({ image, provider: "local-image" });
+    const imageMeta = normalizeImageMeta(canvas) || await imageMetaFromDataUrl(image);
+    const imageRef = await persistPhotoDataUrl(image, "browser-camera");
+    resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
     warmCaptureDetectionModel();
     state.cameraOn = false;
     persist();
     render();
+    showToast("照片已拍摄，正在分析");
+    queueCaptureAnalysis();
   } catch (error) {
     state.cameraOn = false;
     persist();
@@ -3379,6 +5211,24 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const captureSpaceButton = event.target.closest("[data-capture-space]");
+  if (captureSpaceButton) {
+    selectCaptureSpace(captureSpaceButton.dataset.captureSpace);
+    return;
+  }
+
+  const addSpaceTabButton = event.target.closest("[data-add-space-tab]");
+  if (addSpaceTabButton) {
+    promptAddRoom();
+    return;
+  }
+
+  const editRoomButton = event.target.closest("[data-edit-room]");
+  if (editRoomButton) {
+    promptRenameRoom(editRoomButton.dataset.editRoom);
+    return;
+  }
+
   const roomButton = event.target.closest("[data-room]");
   if (roomButton) {
     const room = getRoom(roomButton.dataset.room);
@@ -3401,7 +5251,9 @@ document.addEventListener("click", (event) => {
   }
 
   if (event.target.closest("[data-add-room]")) {
-    addRoom(document.querySelector("[data-new-room-name]")?.value);
+    const addRoomButton = event.target.closest("[data-add-room]");
+    const scope = addRoomButton.closest("[data-space-tabs-shell], .room-list, .topbar") || document;
+    addRoom(scope.querySelector("[data-new-room-name]")?.value);
     return;
   }
 
@@ -3432,6 +5284,117 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const previousCandidateButton = event.target.closest("[data-candidate-prev]");
+  if (previousCandidateButton) {
+    moveCandidateCard(previousCandidateButton.dataset.candidatePrev, -1);
+    return;
+  }
+
+  const nextCandidateButton = event.target.closest("[data-candidate-next]");
+  if (nextCandidateButton) {
+    moveCandidateCard(nextCandidateButton.dataset.candidateNext, 1);
+    return;
+  }
+
+  const deleteCandidateButton = event.target.closest("[data-delete-candidate]");
+  if (deleteCandidateButton) {
+    deleteCandidate(deleteCandidateButton.dataset.deleteCandidate);
+    return;
+  }
+
+  const restoreCandidateButton = event.target.closest("[data-restore-candidate]");
+  if (restoreCandidateButton) {
+    restoreCandidate(restoreCandidateButton.dataset.restoreCandidate);
+    return;
+  }
+
+  const addCandidateReminderButton = event.target.closest("[data-add-candidate-reminder]");
+  if (addCandidateReminderButton) {
+    openCandidateReminderEditor(addCandidateReminderButton.dataset.addCandidateReminder);
+    return;
+  }
+
+  const editCandidateReminderButton = event.target.closest("[data-edit-candidate-reminder]");
+  if (editCandidateReminderButton) {
+    openCandidateReminderEditor(editCandidateReminderButton.dataset.editCandidateReminder, editCandidateReminderButton.dataset.reminderId);
+    return;
+  }
+
+  const deleteCandidateReminderButton = event.target.closest("[data-delete-candidate-reminder]");
+  if (deleteCandidateReminderButton) {
+    deleteCandidateReminder(deleteCandidateReminderButton.dataset.deleteCandidateReminder, deleteCandidateReminderButton.dataset.reminderId);
+    return;
+  }
+
+  const toggleCandidateDetailsButton = event.target.closest("[data-toggle-candidate-details]");
+  if (toggleCandidateDetailsButton) {
+    toggleCandidatePanel(toggleCandidateDetailsButton.dataset.toggleCandidateDetails, "details");
+    return;
+  }
+
+  const toggleCandidateBoxButton = event.target.closest("[data-toggle-candidate-box]");
+  if (toggleCandidateBoxButton) {
+    toggleCandidatePanel(toggleCandidateBoxButton.dataset.toggleCandidateBox, "box");
+    return;
+  }
+
+  const datePickerButton = event.target.closest("[data-open-date-picker]");
+  if (datePickerButton) {
+    openCandidateDatePicker(datePickerButton.dataset.openDatePicker, datePickerButton.dataset.field);
+    return;
+  }
+
+  if (event.target.closest("[data-close-date-modal]")) {
+    closeCandidateDatePicker();
+    return;
+  }
+
+  if (event.target.closest("[data-confirm-date-modal]")) {
+    confirmCandidateDatePicker();
+    return;
+  }
+
+  const dateBackdrop = event.target.closest("[data-date-modal-dismiss]");
+  if (dateBackdrop && !event.target.closest("[data-date-modal]")) {
+    closeCandidateDatePicker();
+    return;
+  }
+
+  const monthButton = event.target.closest("[data-calendar-month]");
+  if (monthButton && candidateDatePickerState) {
+    updateCandidateDateDraft({ month: moveMonthKey(candidateDatePickerState.month, Number(monthButton.dataset.calendarMonth) || 0) });
+    return;
+  }
+
+  const dayButton = event.target.closest("[data-calendar-day]");
+  if (dayButton) {
+    updateCandidateDateDraft({ date: dayButton.dataset.calendarDay, month: monthKeyFromIso(dayButton.dataset.calendarDay) });
+    return;
+  }
+
+  const quickDateButton = event.target.closest("[data-date-quick]");
+  if (quickDateButton) {
+    updateCandidateDateDraft({
+      date: quickDateButton.dataset.dateQuick,
+      month: monthKeyFromIso(quickDateButton.dataset.dateQuick),
+      ...(quickDateButton.dataset.timeQuick ? { time: quickDateButton.dataset.timeQuick } : {}),
+      ...(quickDateButton.dataset.timeEnabled ? { hasTime: true } : {}),
+    });
+    return;
+  }
+
+  const clearCandidateDateButton = event.target.closest("[data-clear-candidate-date]");
+  if (clearCandidateDateButton) {
+    clearCandidateDate(clearCandidateDateButton.dataset.clearCandidateDate, clearCandidateDateButton.dataset.field);
+    return;
+  }
+
+  const clearCandidateFieldButton = event.target.closest("[data-clear-candidate-field]");
+  if (clearCandidateFieldButton) {
+    updateCandidate(clearCandidateFieldButton.dataset.clearCandidateField, clearCandidateFieldButton.dataset.field, "");
+    return;
+  }
+
   const example = event.target.closest("[data-example]");
   if (example) {
     state.query = example.dataset.example;
@@ -3457,7 +5420,7 @@ document.addEventListener("click", (event) => {
   }
 
   const candidateSelect = event.target.closest("[data-candidate-select]");
-  if (candidateSelect && !event.target.closest("input, select")) {
+  if (candidateSelect && (candidateSelect.classList.contains("candidate-pin") || !event.target.closest("input, select, button"))) {
     selectCandidate(candidateSelect.dataset.candidateSelect);
     return;
   }
@@ -3492,6 +5455,11 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  if (event.target.closest("[data-native-photo-library]")) {
+    importNativePhoto("library");
+    return;
+  }
+
   if (event.target.closest("[data-camera-shot]")) {
     captureCameraFrame();
     return;
@@ -3499,7 +5467,8 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-reset]")) {
     stopCamera();
-    localStorage.removeItem(STORAGE_KEY);
+    cancelReminderNotifications(state.items).catch(() => {});
+    platform.storage.removeSnapshot();
     state = structuredClone(seedState);
     render();
     showToast("已清空本地数据");
@@ -3519,6 +5488,29 @@ document.addEventListener("input", (event) => {
     return;
   }
 
+  if (event.target.matches("[data-date-reminder-title]")) {
+    if (candidateDatePickerState?.mode === "reminder") {
+      candidateDatePickerState.reminder = normalizeReminder({
+        ...candidateDatePickerState.reminder,
+        title: event.target.value,
+      });
+    }
+    return;
+  }
+
+  if (event.target.matches("[data-date-custom-offset-amount]")) {
+    if (candidateDatePickerState?.mode === "reminder") {
+      candidateDatePickerState.reminder = normalizeReminder({
+        ...candidateDatePickerState.reminder,
+        customOffset: {
+          ...candidateDatePickerState.reminder.customOffset,
+          amount: event.target.value,
+        },
+      });
+    }
+    return;
+  }
+
   const candidateField = event.target.closest("[data-candidate-field]");
   if (candidateField) {
     updateCandidate(candidateField.dataset.candidateField, candidateField.dataset.field, candidateField.value);
@@ -3526,6 +5518,33 @@ document.addEventListener("input", (event) => {
 });
 
 document.addEventListener("change", async (event) => {
+  if (event.target.matches("[data-date-time-hour], [data-date-time-minute]")) {
+    const hour = document.querySelector("[data-date-time-hour]")?.value || "09";
+    const minute = document.querySelector("[data-date-time-minute]")?.value || "00";
+    updateCandidateDateDraft({ time: `${hour}:${minute}` });
+    return;
+  }
+
+  if (event.target.matches("[data-date-has-time]")) {
+    updateCandidateDateDraft({ hasTime: event.target.checked });
+    return;
+  }
+
+  if (event.target.matches("[data-date-offset]")) {
+    updateCandidateDateDraft({ offset: event.target.value });
+    return;
+  }
+
+  if (event.target.matches("[data-date-custom-offset-unit]")) {
+    updateCandidateDateDraft({ customOffset: { unit: event.target.value } });
+    return;
+  }
+
+  if (event.target.matches("[data-date-repeat]")) {
+    updateCandidateDateDraft({ repeat: event.target.value });
+    return;
+  }
+
   const candidateBoxField = event.target.closest("[data-candidate-box-field]");
   if (candidateBoxField) {
     updateCandidateBox(candidateBoxField.dataset.candidateBoxField, candidateBoxField.dataset.field, candidateBoxField.value);
@@ -3570,12 +5589,16 @@ document.addEventListener("change", async (event) => {
     render();
     showToast("正在处理高清照片");
     try {
+      const preprocessStartedAt = performance.now();
       const image = await prepareUploadedImage(file);
-      resetCaptureRecognition({ image, provider: "local-image" });
+      const imageMeta = await imageMetaFromDataUrl(image);
+      const imageRef = await persistPhotoDataUrl(image, "file-input");
+      resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
       warmCaptureDetectionModel();
       persist();
       render();
-      showToast("照片已载入");
+      showToast("照片已载入，正在分析");
+      queueCaptureAnalysis();
     } catch (error) {
       state.capture = {
         ...state.capture,
@@ -3595,8 +5618,13 @@ document.addEventListener("change", async (event) => {
 });
 
 document.addEventListener("pointerdown", (event) => {
-  const boxButton = event.target.closest("[data-candidate-drag]");
-  if (boxButton) startCandidateDrag(event, boxButton);
+  const resizeHandle = event.target.closest("[data-candidate-resize]");
+  if (resizeHandle) {
+    startCandidateDrag(event, resizeHandle, { mode: "resize", handle: resizeHandle.dataset.resizeHandle });
+    return;
+  }
+  const boxFrame = event.target.closest("[data-candidate-drag]");
+  if (boxFrame) startCandidateDrag(event, boxFrame, { mode: "move" });
 });
 
 document.addEventListener("pointermove", moveCandidateDrag);
@@ -3614,4 +5642,5 @@ window.addEventListener("beforeunload", stopCamera);
 
 render();
 performSearch();
+hydratePlatformState();
 warmVisionModels();
