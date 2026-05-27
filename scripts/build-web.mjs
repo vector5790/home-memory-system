@@ -21,6 +21,10 @@ const requiredFiles = [
 const requiredVendorFiles = [
   "vendor/vision-manifest.json",
   "vendor/heic2any/heic2any.min.js",
+  "vendor/onnxruntime/ort.wasm.min.mjs",
+  "vendor/onnxruntime/ort-wasm-simd-threaded.mjs",
+  "vendor/onnxruntime/ort-wasm-simd-threaded.wasm",
+  "vendor/models/home-memory/yolox-household-subject/model.onnx",
   "vendor/transformers/transformers.min.js",
   "vendor/transformers/ort-wasm-simd-threaded.jsep.mjs",
   "vendor/transformers/ort-wasm-simd-threaded.jsep.wasm",

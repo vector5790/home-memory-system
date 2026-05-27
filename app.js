@@ -68,20 +68,25 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260527-grounding-dino-sharded-prompts",
+  appVersion: "20260527-yolox-household-subject-v4-real50",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
+  localOnnxRuntimeModule: "/vendor/onnxruntime/ort.wasm.min.mjs",
   localHeicConverterScript: "/vendor/heic2any/heic2any.min.js",
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
+  yoloxModelPath: "/vendor/models/home-memory/yolox-household-subject/model.onnx",
+  yoloxInputSize: 416,
+  yoloxThreshold: 0.12,
+  yoloxNmsIou: 0.45,
   allowRemoteVisionModels: false,
   detectionTaxonomy: "/data/vision-categories.household.json",
   catalogIndex: "/data/vision-index.household-cn.grounding-dino-clip.json",
   catalogIndexFallback: "/data/vision-index.generated.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
-  preferredDetector: "grounding-dino",
+  preferredDetector: "yolox",
   enableGroundingDinoFallback: false,
   samModel: "Xenova/slimsam-77-uniform",
   catalogModel: "Xenova/clip-vit-base-patch32",
@@ -110,7 +115,6 @@ const visionConfig = {
   owlVitPromptBatchSize: 48,
   owlVitLabelLimit: 48,
   maxWasmThreads: 4,
-  recognitionCacheSize: 6,
   candidateCropVersion: "crop-640-v2",
   candidateCropMaxDimension: 640,
   candidateCropQuality: 0.9,
@@ -438,6 +442,8 @@ let candidateEditRecognitionToken = 0;
 let candidateCropHydrationKey = "";
 let visionAssetModePromise = null;
 let transformersModulePromise = null;
+let onnxRuntimeModulePromise = null;
+let yoloxDetectorPromise = null;
 let groundingDinoDetectorPromise = null;
 let smallModelDetectorPromise = null;
 let samSegmenterPromise = null;
@@ -449,7 +455,6 @@ let catalogIndexTiming = null;
 let detectionTaxonomyPromise = null;
 let groundingLabelEntriesPromise = null;
 let heicConverterPromise = null;
-const recognitionResultCache = new Map();
 let persistWarningShown = false;
 
 const app = document.querySelector("#app");
@@ -1975,7 +1980,7 @@ async function loadTransformersRuntime() {
       module.env.allowLocalModels = runtimeMode.hasLocalRuntime;
       module.env.allowRemoteModels = Boolean(visionConfig.allowRemoteVisionModels);
       module.env.localModelPath = visionConfig.localModelPath;
-      module.env.useBrowserCache = true;
+      module.env.useBrowserCache = false;
       configureTransformersRuntime(module);
 
       return { ...module, runtimeMode };
@@ -1999,6 +2004,50 @@ function configureTransformersRuntime(module) {
   } catch (error) {
     console.info("Vision runtime thread tuning skipped.", error);
   }
+}
+
+async function loadOnnxRuntime() {
+  if (!onnxRuntimeModulePromise) {
+    onnxRuntimeModulePromise = import(`${visionConfig.localOnnxRuntimeModule}?v=${visionConfig.appVersion}`)
+      .then((module) => {
+        if (module.env?.wasm) {
+          module.env.wasm.wasmPaths = "/vendor/onnxruntime/";
+          module.env.wasm.numThreads = getVisionWasmThreadCount();
+        }
+        return module;
+      })
+      .catch((error) => {
+        onnxRuntimeModulePromise = null;
+        throw error;
+      });
+  }
+  return onnxRuntimeModulePromise;
+}
+
+async function getYoloxDetector() {
+  if (!yoloxDetectorPromise) {
+    yoloxDetectorPromise = loadOnnxRuntime()
+      .then(async (ort) => {
+        const session = await ort.InferenceSession.create(`${visionConfig.yoloxModelPath}?v=${visionConfig.appVersion}`, {
+          executionProviders: ["wasm"],
+          graphOptimizationLevel: "all",
+        });
+        return {
+          kind: "yolox-household-subject",
+          modelId: visionConfig.yoloxModelPath,
+          session,
+          ort,
+          inputName: session.inputNames?.[0] || "images",
+          outputName: session.outputNames?.[0] || "output",
+          inputSize: Math.max(32, Number(visionConfig.yoloxInputSize) || 416),
+        };
+      })
+      .catch((error) => {
+        yoloxDetectorPromise = null;
+        throw error;
+      });
+  }
+  return yoloxDetectorPromise;
 }
 
 async function getGroundingDinoDetector() {
@@ -2380,7 +2429,7 @@ function detectionToCandidate(detection, index, source, provider, threshold, lab
     source: provider,
     providerId: provider,
     providerClass: provider.startsWith("local-") ? "real-local-model" : "fallback",
-    modelId: provider.startsWith("local-grounding-dino") ? visionConfig.groundingDinoModel : visionConfig.detectionModel,
+    modelId: provider.startsWith("local-yolox") ? visionConfig.yoloxModelPath : (provider.startsWith("local-grounding-dino") ? visionConfig.groundingDinoModel : visionConfig.detectionModel),
     assetVersion: visionConfig.assetVersion,
     timings: detection.timings || {},
   };
@@ -2400,7 +2449,175 @@ function nmsDetections(detections, source, iouThreshold, maxItems) {
   return selected.map((entry) => entry.detection);
 }
 
+function createDetectionStatsReader(source, maxSide = 512) {
+  const sourceWidth = source.naturalWidth || source.width || 1;
+  const sourceHeight = source.naturalHeight || source.height || 1;
+  const scale = Math.min(1, maxSide / Math.max(sourceWidth, sourceHeight));
+  const width = Math.max(1, Math.round(sourceWidth * scale));
+  const height = Math.max(1, Math.round(sourceHeight * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(source, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height);
+  const pixels = context.getImageData(0, 0, width, height).data;
+  return (box) => {
+    const x1 = Math.max(0, Math.min(width - 1, Math.floor(box[0] * scale)));
+    const y1 = Math.max(0, Math.min(height - 1, Math.floor(box[1] * scale)));
+    const x2 = Math.max(x1 + 1, Math.min(width, Math.ceil(box[2] * scale)));
+    const y2 = Math.max(y1 + 1, Math.min(height, Math.ceil(box[3] * scale)));
+    let sum = 0;
+    let count = 0;
+    for (let y = y1; y < y2; y += 1) {
+      for (let x = x1; x < x2; x += 1) {
+        const offset = (y * width + x) * 4;
+        sum += 0.299 * pixels[offset] + 0.587 * pixels[offset + 1] + 0.114 * pixels[offset + 2];
+        count += 1;
+      }
+    }
+    return { meanLuma: count ? sum / count : 255 };
+  };
+}
+
+function getBoxArea(box) {
+  return Math.max(0, box[2] - box[0]) * Math.max(0, box[3] - box[1]);
+}
+
+function getBoxContainment(inner, outer) {
+  const x1 = Math.max(inner[0], outer[0]);
+  const y1 = Math.max(inner[1], outer[1]);
+  const x2 = Math.min(inner[2], outer[2]);
+  const y2 = Math.min(inner[3], outer[3]);
+  const intersection = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
+  const innerArea = getBoxArea(inner);
+  return innerArea > 0 ? intersection / innerArea : 0;
+}
+
+function suppressDarkDisplayInnerDetections(detections, source) {
+  if (!Array.isArray(detections) || detections.length < 2) return detections;
+  const sourceWidth = source.naturalWidth || source.width || 1;
+  const sourceHeight = source.naturalHeight || source.height || 1;
+  const imageArea = sourceWidth * sourceHeight;
+  let readStats = null;
+  const getStats = (detection) => {
+    if (!readStats) readStats = createDetectionStatsReader(source);
+    if (!detection._displayStats) detection._displayStats = readStats(detection.box);
+    return detection._displayStats;
+  };
+  const displayParents = detections.filter((detection) => {
+    const [x1, y1, x2, y2] = detection.box;
+    const width = x2 - x1;
+    const height = y2 - y1;
+    const areaRatio = getBoxArea(detection.box) / imageArea;
+    const aspect = width / Math.max(1, height);
+    return detection.score >= 0.55 && areaRatio >= 0.06 && aspect >= 1.2 && aspect <= 3.2 && getStats(detection).meanLuma <= 75;
+  });
+  if (!displayParents.length) return detections;
+  return detections.filter((detection) => {
+    const area = getBoxArea(detection.box);
+    const stats = getStats(detection);
+    return !displayParents.some((parent) => {
+      if (parent === detection) return false;
+      const parentArea = getBoxArea(parent.box);
+      const areaRatio = area / Math.max(1, parentArea);
+      return areaRatio >= 0.04
+        && areaRatio <= 0.35
+        && getBoxContainment(detection.box, parent.box) >= 0.9
+        && stats.meanLuma <= 70;
+    });
+  }).map((detection) => {
+    if (detection && typeof detection === "object") delete detection._displayStats;
+    return detection;
+  });
+}
+
+function preprocessYoloxImage(source, inputSize) {
+  const sourceWidth = source.naturalWidth || source.width || 1;
+  const sourceHeight = source.naturalHeight || source.height || 1;
+  const ratio = Math.min(inputSize / sourceWidth, inputSize / sourceHeight);
+  const resizedWidth = Math.max(1, Math.round(sourceWidth * ratio));
+  const resizedHeight = Math.max(1, Math.round(sourceHeight * ratio));
+  const canvas = document.createElement("canvas");
+  canvas.width = inputSize;
+  canvas.height = inputSize;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.fillStyle = "rgb(114,114,114)";
+  context.fillRect(0, 0, inputSize, inputSize);
+  context.drawImage(source, 0, 0, sourceWidth, sourceHeight, 0, 0, resizedWidth, resizedHeight);
+  const pixels = context.getImageData(0, 0, inputSize, inputSize).data;
+  const planeSize = inputSize * inputSize;
+  const data = new Float32Array(planeSize * 3);
+  for (let pixelIndex = 0; pixelIndex < planeSize; pixelIndex += 1) {
+    const offset = pixelIndex * 4;
+    data[pixelIndex] = pixels[offset + 2];
+    data[planeSize + pixelIndex] = pixels[offset + 1];
+    data[(planeSize * 2) + pixelIndex] = pixels[offset];
+  }
+  return { data, ratio, resizedWidth, resizedHeight, sourceWidth, sourceHeight };
+}
+
+function yoloxCenterBoxToDetection(row, ratio, sourceWidth, sourceHeight) {
+  const cx = Number(row[0]);
+  const cy = Number(row[1]);
+  const width = Number(row[2]);
+  const height = Number(row[3]);
+  const objectness = Number(row[4]);
+  const classScores = row.slice(5).map(Number).filter(Number.isFinite);
+  const classScore = classScores.length ? Math.max(...classScores) : Number(row[5] ?? 1);
+  const score = objectness * classScore;
+  if (![cx, cy, width, height, score].every(Number.isFinite) || width <= 1 || height <= 1) return null;
+  const x1 = clampNumber((cx - width / 2) / ratio, 0, sourceWidth - 1);
+  const y1 = clampNumber((cy - height / 2) / ratio, 0, sourceHeight - 1);
+  const x2 = clampNumber((cx + width / 2) / ratio, x1 + 1, sourceWidth);
+  const y2 = clampNumber((cy + height / 2) / ratio, y1 + 1, sourceHeight);
+  return {
+    label: "household subject",
+    score,
+    box: [x1, y1, x2, y2],
+  };
+}
+
+function postprocessYoloxOutput(output, meta, threshold) {
+  const values = Array.from(output?.data || []);
+  const dims = Array.isArray(output?.dims) ? output.dims : [];
+  const stride = dims.length >= 3 ? dims[dims.length - 1] : 6;
+  const detections = [];
+  for (let index = 0; index + stride <= values.length; index += stride) {
+    const row = values.slice(index, index + stride);
+    const detection = yoloxCenterBoxToDetection(row, meta.ratio, meta.sourceWidth, meta.sourceHeight);
+    if (!detection || detection.score < threshold) continue;
+    detections.push(detection);
+  }
+  return detections;
+}
+
+async function runYoloxDetector({ source, detector, threshold }) {
+  const startedAt = performance.now();
+  const input = preprocessYoloxImage(source, detector.inputSize);
+  const tensor = new detector.ort.Tensor("float32", input.data, [1, 3, detector.inputSize, detector.inputSize]);
+  const outputs = await detector.session.run({ [detector.inputName]: tensor });
+  const output = outputs[detector.outputName] || Object.values(outputs)[0];
+  const rawDetections = postprocessYoloxOutput(output, input, threshold);
+  const detectionMs = Math.round((performance.now() - startedAt) * 1000) / 1000;
+  return rawDetections.map((detection) => ({
+    ...detection,
+    timings: {
+      detectionMs,
+      promptStrategy: "yolox-household-subject",
+      promptCount: 0,
+      promptBatches: 0,
+      rawDetectionCount: rawDetections.length,
+      filteredDetectionCount: rawDetections.length,
+    },
+  }));
+}
+
 async function runZeroShotDetector({ image, source, detector, provider, threshold, roomType = null }) {
+  if (detector?.kind === "yolox-household-subject") {
+    const detections = await runYoloxDetector({ source, detector, threshold });
+    return suppressDarkDisplayInnerDetections(nmsDetections(detections, source, visionConfig.yoloxNmsIou, visionConfig.maxModelDetections), source)
+      .map((detection, index) => detectionToCandidate(detection, index, source, provider, threshold, null));
+  }
   const isGroundingDino = detector?.kind === "grounding-dino";
   const promptShards = isGroundingDino ? getGroundingPromptShards(roomType) : [];
   const labelEntries = isGroundingDino ? getGroundingSubjectLabelEntries(roomType) : getOwlVitSubjectLabelEntries(roomType);
@@ -2568,33 +2785,6 @@ function hashStringFast(value) {
   return `${value.length}-${(hash >>> 0).toString(36)}`;
 }
 
-function getRecognitionCacheKey(image, options = {}) {
-  const useOwlVit = visionConfig.preferredDetector === "owlvit";
-  const labelEntries = useOwlVit
-    ? getOwlVitSubjectLabelEntries(options.roomType)
-    : getGroundingSubjectLabelEntries(options.roomType);
-  const labelSignature = labelEntries
-    .map((entry) => normalizeDetectionLabel(entry.label))
-    .join(",");
-  return [
-    visionConfig.assetVersion,
-    visionConfig.preferredDetector,
-    visionConfig.enableGroundingDinoFallback ? "dino-fallback" : "no-dino-fallback",
-    visionConfig.detectionMaxDimension,
-    visionConfig.groundingThreshold,
-    visionConfig.detectionThreshold,
-    visionConfig.owlVitPromptBatchSize,
-    visionConfig.maxDetectedObjects,
-    visionConfig.maxModelDetections,
-    visionConfig.detectionNmsIou,
-    visionConfig.groundingPromptVersion,
-    visionConfig.groundingMaxTaxonomyLabels,
-    visionConfig.detectionTaxonomy,
-    labelSignature,
-    hashStringFast(image),
-  ].join("|");
-}
-
 function cloneRecognitionResult(result, extra = {}) {
   return {
     provider: result.provider,
@@ -2610,43 +2800,6 @@ function cloneRecognitionResult(result, extra = {}) {
     timings: result.timings && typeof result.timings === "object" ? { ...result.timings } : null,
     ...extra,
   };
-}
-
-function getCachedRecognitionResult(image, options = {}) {
-  const key = getRecognitionCacheKey(image, options);
-  const cached = recognitionResultCache.get(key);
-  if (cached) {
-    recognitionResultCache.delete(key);
-    recognitionResultCache.set(key, cached);
-    return cloneRecognitionResult(cached, { cacheHit: true });
-  }
-
-  try {
-    const stored = sessionStorage.getItem(`home-memory-recognition:${key}`);
-    if (!stored) return null;
-    const parsed = JSON.parse(stored);
-    if (!parsed?.provider || !Array.isArray(parsed.candidates)) return null;
-    recognitionResultCache.set(key, cloneRecognitionResult(parsed));
-    return cloneRecognitionResult(parsed, { cacheHit: true });
-  } catch {
-    return null;
-  }
-}
-
-function setCachedRecognitionResult(image, result, options = {}) {
-  if (!result?.candidates?.length) return;
-  const key = getRecognitionCacheKey(image, options);
-  const cached = cloneRecognitionResult(result);
-  recognitionResultCache.set(key, cached);
-  while (recognitionResultCache.size > visionConfig.recognitionCacheSize) {
-    const oldestKey = recognitionResultCache.keys().next().value;
-    recognitionResultCache.delete(oldestKey);
-  }
-  try {
-    sessionStorage.setItem(`home-memory-recognition:${key}`, JSON.stringify(cached));
-  } catch {
-    // Browser storage may be full or unavailable; memory cache still covers the current session.
-  }
 }
 
 function percentBoxToPixels(box, source) {
@@ -2945,6 +3098,14 @@ function getGroundingDinoDetectorAttempt(assetMode) {
   };
 }
 
+function getYoloxDetectorAttempt() {
+  return {
+    getDetector: getYoloxDetector,
+    provider: "local-yolox-household-subject",
+    threshold: visionConfig.yoloxThreshold,
+  };
+}
+
 function shouldAttemptGroundingDino(assetMode) {
   if (!assetMode.groundingReady) return false;
   if (!assetMode.owlReady) return true;
@@ -2952,6 +3113,14 @@ function shouldAttemptGroundingDino(assetMode) {
 }
 
 function getDetectorAttempts(assetMode) {
+  if (visionConfig.preferredDetector === "yolox") {
+    return [
+      getYoloxDetectorAttempt(),
+      ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
+      ...(assetMode.owlReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+    ];
+  }
+
   const preferOwlVit = visionConfig.preferredDetector === "owlvit";
   if (preferOwlVit) {
     return [
@@ -2966,11 +3135,8 @@ function getDetectorAttempts(assetMode) {
   ];
 }
 
-async function recognizeWithSmallModelCached(image, options = {}) {
-  const cached = getCachedRecognitionResult(image, options);
-  if (cached) return cached;
+async function recognizeWithSmallModelUncached(image, options = {}) {
   const result = await recognizeWithSmallModel(image, options);
-  setCachedRecognitionResult(image, result, options);
   return result;
 }
 
@@ -3472,14 +3638,6 @@ function refineNameByPosition(name, box) {
 async function resolveCandidateName(candidate, index, source, options = {}) {
   if (candidate.edited && !options.force) return { ...candidate, namingStatus: "done" };
 
-  if (candidate.suggestedName) {
-    return {
-      ...candidate,
-      name: refineNameByPosition(candidate.suggestedName, candidate.box),
-      namingStatus: "done",
-    };
-  }
-
   const embeddingIndex = await getCatalogEmbeddingIndex();
   if (embeddingIndex.entries?.length) {
     const embeddingBox = options.box || candidate.modelBox || candidate.box;
@@ -3537,25 +3695,25 @@ async function nameDetectedCandidates(input, candidates, onProgress) {
         : candidate
     ))
     : candidates;
-  const named = [];
+  const named = Array(preparedCandidates.length).fill(null);
   onProgress?.(preparedCandidates);
-  for (let index = 0; index < preparedCandidates.length; index += 1) {
-    const candidate = preparedCandidates[index];
+  const namingTasks = preparedCandidates.map(async (candidate, index) => {
     const modelBox = candidate.modelBox || (modelContext ? mapDisplayBoxToModelBox(candidate.box, modelContext) : candidate.box);
     const candidateNamingStart = performance.now();
     const resolved = await resolveCandidateName(candidate, index, modelSource || displaySource, { box: modelBox });
     const candidateNamingMs = Math.round((performance.now() - candidateNamingStart) * 1000) / 1000;
-    named.push({
+    named[index] = {
       ...resolved,
       timings: {
         ...(candidate.timings || {}),
         ...(resolved.timings || {}),
         namingMs: candidateNamingMs,
       },
-    });
-    onProgress?.([...named, ...preparedCandidates.slice(index + 1)]);
-  }
-  return named;
+    };
+    onProgress?.(preparedCandidates.map((entry, entryIndex) => named[entryIndex] || entry));
+  });
+  await Promise.all(namingTasks);
+  return named.filter(Boolean);
 }
 
 function providerLabel(provider) {
@@ -3566,6 +3724,7 @@ function providerLabel(provider) {
   if (name.endsWith("-fallback")) return "本地降级候选";
   if (name.endsWith("+sam")) return `${providerLabel(name.replace("+sam", ""))} + SAM`;
   if (name.includes("+regions")) return `${providerLabel(name.split("+")[0])} + 区域补全`;
+  if (name.startsWith("local-yolox")) return "本地 YOLOX 主体检测";
   if (name.startsWith("local-grounding-dino")) return "本地 Grounding DINO";
   if (name.startsWith("browser-grounding-dino")) return "在线 Grounding DINO";
   if (name.startsWith("local-owlvit")) return "本地 OWL-ViT";
@@ -4392,7 +4551,6 @@ function renderRecognitionDiagnostics() {
   const dimensions = diagnostics.imageDimensions
     ? `${diagnostics.imageDimensions.width}x${diagnostics.imageDimensions.height}`
     : "未知尺寸";
-  const cacheText = diagnostics.cacheHit ? " · 缓存命中" : "";
   const threadText = diagnostics.wasmThreads ? ` · WASM ${diagnostics.wasmThreads}线程` : "";
   const detectorLoadText = Number.isFinite(diagnostics.detectorLoadMs) ? ` · 加载 ${Math.round(diagnostics.detectorLoadMs)}ms` : "";
   const roomPromptText = diagnostics.promptRoomType ? ` · ${diagnostics.promptRoomType}包` : "";
@@ -4401,7 +4559,7 @@ function renderRecognitionDiagnostics() {
     ? `${roomPromptText} · prompts ${diagnostics.promptCount}/${diagnostics.promptBatches || 1}批${shardText}`
     : "";
   const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding ${Math.round(diagnostics.embeddingMs)}ms` : "";
-  return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${cacheText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
+  return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
 }
 
 function renderCaptureControls() {
@@ -5080,7 +5238,6 @@ async function scanCurrentPlace() {
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   let modelPrepMs = 0;
   let detectorTiming = {};
-  let cacheHit = false;
   try {
     const modelPrepStartedAt = performance.now();
     const modelContext = await prepareModelImageContext(scanImage).catch(async (error) => {
@@ -5102,7 +5259,7 @@ async function scanCurrentPlace() {
     if (!stillCurrent()) return;
 
     const detectionStartedAt = performance.now();
-    const smallRecognition = await recognizeWithSmallModelCached(detectionImage, { roomType: promptRoomType })
+    const smallRecognition = await recognizeWithSmallModelUncached(detectionImage, { roomType: promptRoomType })
       .catch((error) => {
         console.info("Small model unavailable, falling back to local image proposals.", error);
         return null;
@@ -5110,7 +5267,6 @@ async function scanCurrentPlace() {
     if (!stillCurrent()) return;
 
     let provider = smallRecognition?.provider || requestedProvider;
-    cacheHit = Boolean(smallRecognition?.cacheHit);
     detectorTiming = smallRecognition?.timings || {};
     let detected = smallRecognition?.candidates?.length
       ? normalizeRecognitionResults(smallRecognition.candidates, provider)
@@ -5153,7 +5309,6 @@ async function scanCurrentPlace() {
           namingMs: 0,
           totalMs: performance.now() - scanStartedAt,
           resultCount: 0,
-          cacheHit,
           wasmThreads: getVisionWasmThreadCount(),
         },
         provider,
@@ -5223,7 +5378,6 @@ async function scanCurrentPlace() {
         embeddingMs,
         totalMs: performance.now() - scanStartedAt,
         resultCount: namedCandidates.length,
-        cacheHit,
         wasmThreads: getVisionWasmThreadCount(),
       },
       provider,
@@ -5254,7 +5408,6 @@ async function scanCurrentPlace() {
         namingMs: 0,
         totalMs: performance.now() - scanStartedAt,
         resultCount: 0,
-        cacheHit: false,
         wasmThreads: getVisionWasmThreadCount(),
       },
     };
