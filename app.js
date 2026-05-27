@@ -68,7 +68,7 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260525-grounding-dino-normalized-index",
+  appVersion: "20260527-grounding-dino-sharded-prompts",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
@@ -76,12 +76,13 @@ const visionConfig = {
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
   allowRemoteVisionModels: false,
+  detectionTaxonomy: "/data/vision-categories.household.json",
   catalogIndex: "/data/vision-index.household-cn.grounding-dino-clip.json",
   catalogIndexFallback: "/data/vision-index.generated.json",
   groundingDinoModel: "onnx-community/grounding-dino-tiny-ONNX",
   detectionModel: "Xenova/owlvit-base-patch32",
   preferredDetector: "grounding-dino",
-  enableGroundingDinoFallback: true,
+  enableGroundingDinoFallback: false,
   samModel: "Xenova/slimsam-77-uniform",
   catalogModel: "Xenova/clip-vit-base-patch32",
   detectionThreshold: 0.05,
@@ -90,8 +91,12 @@ const visionConfig = {
   catalogThreshold: 0.26,
   catalogMarginThreshold: 0.03,
   catalogTopK: 5,
-  maxDetectedObjects: 28,
-  maxModelDetections: 48,
+  maxDetectedObjects: 9,
+  maxModelDetections: 9,
+  groundingPromptVersion: "coarse-shards-v1",
+  groundingMaxTaxonomyLabels: 60,
+  groundingShortPromptTargetCount: 7,
+  groundingPromptBudgetMs: 2600,
   detectionNmsIou: 0.85,
   maxUploadDimension: 1024,
   detectionMaxDimension: 1024,
@@ -101,7 +106,7 @@ const visionConfig = {
   heicConversionTimeoutMs: 45000,
   maxSamRefinements: 0,
   samMinBoxArea: 0.42,
-  groundingPromptBatchSize: 48,
+  groundingPromptBatchSize: 60,
   owlVitPromptBatchSize: 48,
   owlVitLabelLimit: 48,
   maxWasmThreads: 4,
@@ -109,6 +114,7 @@ const visionConfig = {
   candidateCropVersion: "crop-640-v2",
   candidateCropMaxDimension: 640,
   candidateCropQuality: 0.9,
+  embeddingCropPaddingPct: 4,
   cloudRecognitionEndpoint: "",
 };
 
@@ -439,6 +445,9 @@ let catalogClassifierPromise = null;
 let catalogFeatureExtractorPromise = null;
 let catalogIndexPromise = null;
 let catalogIndexWarningShown = false;
+let catalogIndexTiming = null;
+let detectionTaxonomyPromise = null;
+let groundingLabelEntriesPromise = null;
 let heicConverterPromise = null;
 const recognitionResultCache = new Map();
 let persistWarningShown = false;
@@ -455,12 +464,7 @@ function loadState() {
     const raw = platform.storage.readSnapshotSync();
     if (!raw) return structuredClone(seedState);
     const parsed = JSON.parse(raw);
-    const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
-    loaded.activeTab = normalizeActiveTab(loaded.activeTab);
-    loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = normalizeItems(loaded.items);
-    loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
-    return loaded;
+    return normalizeLoadedState(parsed);
   } catch {
     return structuredClone(seedState);
   }
@@ -472,11 +476,7 @@ async function hydratePlatformState() {
     const raw = await platform.storage.readSnapshotAsync();
     if (!raw) return;
     const parsed = JSON.parse(raw);
-    const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
-    loaded.activeTab = normalizeActiveTab(loaded.activeTab);
-    loaded.rooms = normalizeRooms(loaded.rooms);
-    loaded.items = normalizeItems(loaded.items);
-    loaded.capture = normalizeCaptureState({ ...structuredClone(seedState.capture), ...(parsed.capture || {}) });
+    const loaded = normalizeLoadedState(parsed);
     state = loaded;
     render();
     performSearch();
@@ -486,11 +486,26 @@ async function hydratePlatformState() {
   }
 }
 
+function normalizeLoadedState(parsed = {}) {
+  const loaded = { ...structuredClone(seedState), ...parsed, cameraOn: false };
+  loaded.activeTab = normalizeActiveTab(loaded.activeTab);
+  loaded.query = "";
+  loaded.lastAnswer = null;
+  loaded.items = normalizeItems(loaded.items);
+  loaded.rooms = pruneUnconfirmedCapturePlaces(normalizeRooms(loaded.rooms), loaded.items);
+  loaded.capture = normalizeCaptureState(
+    { ...structuredClone(seedState.capture), ...(parsed.capture || {}) },
+    { clearTransientImage: true },
+  );
+  return loaded;
+}
+
 function createPersistSnapshot(options = {}) {
   const snapshot = structuredClone(state);
   snapshot.schemaVersion = HOME_DATA_SCHEMA_VERSION;
   snapshot.savedAt = new Date().toISOString();
   snapshot.cameraOn = false;
+  snapshot.capture = getPersistableCaptureState(snapshot.capture);
   if (options.omitCaptureImage && snapshot.capture) {
     snapshot.capture.image = null;
   }
@@ -512,6 +527,14 @@ function createPersistSnapshot(options = {}) {
     }));
   }
   return snapshot;
+}
+
+function getPersistableCaptureState(capture = {}) {
+  return {
+    ...structuredClone(seedState.capture),
+    roomId: capture.roomId || state.activeRoomId || seedState.capture.roomId,
+    placeId: capture.placeId || null,
+  };
 }
 
 function persist() {
@@ -890,9 +913,16 @@ function updatePlaceImage(placeId, image, imageRef = null, imageMeta = null) {
   }));
 }
 
-function normalizeCaptureState(capture) {
+function normalizeCaptureState(capture, options = {}) {
   const hasUploadedImage = Boolean(capture.image);
   const provider = capture.provider === "real-image" ? "local-image" : capture.provider || "none";
+  if (options.clearTransientImage) {
+    return {
+      ...structuredClone(seedState.capture),
+      roomId: capture.roomId || seedState.capture.roomId,
+      placeId: capture.placeId || null,
+    };
+  }
   const hasLegacyMockCapture = provider === "local-mock";
   if (hasLegacyMockCapture) {
     return {
@@ -927,14 +957,46 @@ function normalizeCaptureState(capture) {
   };
 }
 
+function pruneUnconfirmedCapturePlaces(rooms, items) {
+  const placesById = new Map();
+  for (const room of rooms) {
+    for (const place of room.places || []) {
+      placesById.set(place.id, place);
+    }
+  }
+
+  const keepPlaceIds = new Set();
+  for (const item of items || []) {
+    let placeId = item.placeId;
+    while (placeId && placesById.has(placeId)) {
+      keepPlaceIds.add(placeId);
+      placeId = placesById.get(placeId)?.parentId || null;
+    }
+  }
+
+  return rooms.map((room) => ({
+    ...room,
+    places: (room.places || []).filter((place) => {
+      if (!isUnconfirmedCapturePlace(place)) return true;
+      return keepPlaceIds.has(place.id);
+    }),
+  }));
+}
+
+function isUnconfirmedCapturePlace(place) {
+  return /由上传照片(保存|自动生成)/.test(String(place?.note || ""));
+}
+
 function resetCaptureRecognition(overrides = {}) {
   recognitionRunId += 1;
   const hasImageOverride = Object.prototype.hasOwnProperty.call(overrides, "image");
-  const nextImageMeta = hasImageOverride
-    ? (overrides.image ? normalizeImageMeta(overrides.imageMeta) : null)
-    : normalizeImageMeta(overrides.imageMeta || state.capture.imageMeta);
+  const nextImage = hasImageOverride ? (overrides.image || null) : null;
+  const nextImageRef = hasImageOverride ? (overrides.imageRef || null) : null;
+  const nextImageMeta = nextImage ? normalizeImageMeta(overrides.imageMeta) : null;
   state.capture = {
     ...state.capture,
+    image: nextImage,
+    imageRef: nextImageRef,
     candidates: [],
     activeCandidateId: null,
     recognitionStatus: "idle",
@@ -1005,9 +1067,11 @@ function cropAspectStyle(cropMeta) {
   return `style="--crop-aspect:${meta.width} / ${meta.height};--crop-preview-width:${Math.max(54, Math.round(width))}px;--crop-preview-height:${frameHeight}px"`;
 }
 
-function clampBox(box = {}) {
-  const width = clampNumber(box.w ?? 20, 6, 100);
-  const height = clampNumber(box.h ?? 14, 6, 100);
+function clampBox(box = {}, options = {}) {
+  const minWidth = Number.isFinite(Number(options.minWidth)) ? Number(options.minWidth) : 0.6;
+  const minHeight = Number.isFinite(Number(options.minHeight)) ? Number(options.minHeight) : 0.6;
+  const width = clampNumber(box.w ?? 20, minWidth, 100);
+  const height = clampNumber(box.h ?? 14, minHeight, 100);
   return {
     x: clampNumber(box.x ?? 10, 0, 100 - width),
     y: clampNumber(box.y ?? 10, 0, 100 - height),
@@ -1158,6 +1222,7 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
   const confidence = clampNumber(candidate.confidence ?? 0.75, 0, 1);
   const reminders = normalizeReminderList(candidate);
   const primaryReminder = reminders[0] || null;
+  const modelBox = candidate.modelBox ? clampBox(candidate.modelBox) : null;
 
   return {
     id: candidate.id || `candidate-${Date.now()}-${index}-${Math.random().toString(16).slice(2)}`,
@@ -1173,7 +1238,10 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     nextLabel: candidate.nextLabel || primaryReminder?.title || "",
     container: candidate.container || "",
     box: clampBox(candidate.box),
+    modelBox,
+    modelImageMeta: normalizeImageMeta(candidate.modelImageMeta),
     confidence,
+    timings: candidate.timings && typeof candidate.timings === "object" ? { ...candidate.timings } : {},
     selected: candidate.selected !== false,
     deletedAt: candidate.deletedAt || null,
     source: candidate.source || provider,
@@ -1296,14 +1364,439 @@ function getDetectionLabelEntries() {
   return [...getCatalogLabelEntries(), ...genericDetectionLabels.map((entry) => ({ ...entry, isCatalogItem: false }))];
 }
 
-function uniqueLabelEntries(entries) {
+function getOwlVitSubjectLabelEntries(roomContext = null) {
+  const coreSubjectLabels = [
+    ["box", "daily"],
+    ["package", "daily"],
+    ["product package", "daily"],
+    ["paper carton", "daily"],
+    ["cardboard box", "daily"],
+    ["plastic container", "daily"],
+    ["storage box", "daily"],
+    ["basket", "daily"],
+    ["bag", "daily"],
+    ["plastic bag", "daily"],
+    ["pouch", "daily"],
+    ["bottle", "daily"],
+    ["jar", "daily"],
+    ["can", "food"],
+    ["cup", "daily"],
+    ["mug", "daily"],
+    ["cabinet", "daily"],
+    ["cabinet door", "daily"],
+    ["drawer", "daily"],
+    ["drawer front", "daily"],
+    ["shelf", "daily"],
+    ["storage compartment", "daily"],
+    ["food package", "food"],
+    ["medicine box", "medicine"],
+    ["blister pack", "medicine"],
+    ["power bank", "tool"],
+    ["charger", "tool"],
+    ["charging cable", "tool"],
+    ["remote control", "tool"],
+    ["shoe box", "daily"],
+    ["shoe", "daily"],
+    ["book", "daily"],
+    ["document", "document"],
+    ["small electronic device", "tool"],
+  ];
+
+  const roomType = getCapturePromptRoomType(roomContext);
+  const roomSubjectLabels = {
+    living: [
+      ["speaker", "appliance"],
+      ["audio speaker", "appliance"],
+      ["speaker grille", "appliance"],
+      ["amplifier", "appliance"],
+      ["turntable", "appliance"],
+      ["media player", "appliance"],
+      ["television", "appliance"],
+      ["tv cabinet", "daily"],
+      ["photo frame", "daily"],
+      ["decorative figurine", "daily"],
+      ["vase", "daily"],
+      ["cable", "tool"],
+      ["cable organizer box", "daily"],
+      ["storage drawer unit", "daily"],
+      ["pillow", "daily"],
+      ["tissue box", "daily"],
+    ],
+    kitchen: [
+      ["spice jar", "food"],
+      ["seasoning bottle", "food"],
+      ["condiment pouch", "food"],
+      ["sauce pouch", "food"],
+      ["rice bag", "food"],
+      ["flour bag", "food"],
+      ["snack bag", "food"],
+      ["food can", "food"],
+      ["cooking oil bottle", "food"],
+      ["soy sauce bottle", "food"],
+      ["vinegar bottle", "food"],
+      ["salt container", "food"],
+      ["sugar jar", "food"],
+      ["coffee jar", "food"],
+      ["cereal box", "food"],
+      ["food storage container", "daily"],
+    ],
+    bedroom: [
+      ["clothing", "daily"],
+      ["jacket", "daily"],
+      ["sweater", "daily"],
+      ["pajamas", "daily"],
+      ["underwear", "daily"],
+      ["pillow", "daily"],
+      ["quilt", "daily"],
+      ["blanket", "daily"],
+      ["cosmetic organizer", "daily"],
+      ["jewelry box", "daily"],
+      ["bandage box", "medicine"],
+      ["pill bottle", "medicine"],
+      ["medicine package", "medicine"],
+      ["storage basket", "daily"],
+      ["suitcase", "daily"],
+      ["backpack", "daily"],
+    ],
+    balcony: [
+      ["plant pot", "daily"],
+      ["flower pot", "daily"],
+      ["watering can", "daily"],
+      ["plant vase", "daily"],
+      ["detergent bottle", "daily"],
+      ["laundry detergent bottle", "daily"],
+      ["cleaning spray bottle", "daily"],
+      ["cleaning brush", "daily"],
+      ["mop", "daily"],
+      ["broom", "daily"],
+      ["bucket", "daily"],
+      ["tool box", "tool"],
+      ["screw box", "tool"],
+      ["folding storage crate", "daily"],
+      ["trash bag roll", "daily"],
+      ["hanger", "daily"],
+    ],
+    default: [
+      ["snack bag", "food"],
+      ["rice bag", "food"],
+      ["spice jar", "food"],
+      ["pet food bag", "pet"],
+      ["jump rope", "daily"],
+      ["screw box", "tool"],
+      ["speaker", "appliance"],
+      ["television", "appliance"],
+      ["photo frame", "daily"],
+      ["vase", "daily"],
+      ["bandage box", "medicine"],
+      ["pill bottle", "medicine"],
+      ["clothing", "daily"],
+      ["plant pot", "daily"],
+      ["detergent bottle", "daily"],
+      ["tool box", "tool"],
+    ],
+  };
+  const subjectLabels = [
+    ...coreSubjectLabels,
+    ...(roomSubjectLabels[roomType] || roomSubjectLabels.default),
+    ...roomSubjectLabels.default,
+  ];
+  return uniqueLabelEntries(
+    subjectLabels.map(([label, category]) => ({
+      label,
+      name: "",
+      category,
+      isCatalogItem: false,
+    })),
+    { englishOnly: true },
+  ).slice(0, visionConfig.owlVitLabelLimit);
+}
+
+function getCapturePromptRoomType(roomContext = null) {
+  if (typeof roomContext === "string" && roomContext) return roomContext;
+  const room = roomContext || getCaptureRoom?.() || getRoom?.(state.capture?.roomId || state.activeRoomId);
+  const normalizedType = String(room?.type || "").toLowerCase();
+  if (["living", "kitchen", "bedroom", "balcony"].includes(normalizedType)) return normalizedType;
+  const name = String(room?.name || "");
+  if (/厨/.test(name)) return "kitchen";
+  if (/卧|衣|床/.test(name)) return "bedroom";
+  if (/阳台|晾|洗衣/.test(name)) return "balcony";
+  if (/客|厅|电视/.test(name)) return "living";
+  return "default";
+}
+
+function isLikelyEnglishDetectionLabel(label) {
+  const text = String(label || "").trim();
+  return /[a-z]/i.test(text) && !/[\u4e00-\u9fff]/.test(text);
+}
+
+function uniqueLabelEntries(entries, options = {}) {
   const seen = new Set();
   return entries.filter((entry) => {
     const label = normalizeDetectionLabel(entry.label);
+    if (options.englishOnly && !isLikelyEnglishDetectionLabel(label)) return false;
     if (!label || seen.has(label)) return false;
     seen.add(label);
     return true;
   });
+}
+
+function labelTupleEntries(labelTuples, options = {}) {
+  return uniqueLabelEntries(
+    labelTuples.map(([label, category]) => ({
+      label,
+      name: "",
+      category,
+      isCatalogItem: false,
+    })),
+    { englishOnly: true, ...options },
+  );
+}
+
+function getGroundingBaseSubjectEntries() {
+  return labelTupleEntries([
+    ["box", "daily"],
+    ["container", "daily"],
+    ["bottle", "daily"],
+    ["bag", "daily"],
+    ["package", "daily"],
+    ["pouch", "daily"],
+    ["carton", "daily"],
+    ["jar", "daily"],
+    ["can", "food"],
+    ["tube", "daily"],
+    ["cable", "tool"],
+    ["remote control", "tool"],
+    ["tool", "tool"],
+    ["utensil", "daily"],
+    ["bowl", "daily"],
+    ["cup", "daily"],
+    ["book", "daily"],
+    ["document", "document"],
+    ["clothing", "daily"],
+    ["shoe", "daily"],
+    ["appliance", "appliance"],
+    ["toy", "daily"],
+    ["medicine package", "medicine"],
+    ["blister pack", "medicine"],
+    ["drawer", "daily"],
+    ["cabinet door", "daily"],
+    ["shelf", "daily"],
+    ["storage compartment", "daily"],
+  ]);
+}
+
+function getGroundingRoomSubjectEntries(roomContext = null) {
+  const roomType = getCapturePromptRoomType(roomContext);
+  const roomLabels = {
+    living: [
+      ["speaker", "appliance"],
+      ["speaker grille", "appliance"],
+      ["amplifier", "appliance"],
+      ["turntable", "appliance"],
+      ["media player", "appliance"],
+      ["television", "appliance"],
+      ["tv cabinet", "daily"],
+      ["photo frame", "daily"],
+      ["decorative figurine", "daily"],
+      ["vase", "daily"],
+      ["pillow", "daily"],
+      ["tissue box", "daily"],
+    ],
+    kitchen: [
+      ["spice jar", "food"],
+      ["seasoning bottle", "food"],
+      ["condiment pouch", "food"],
+      ["sauce pouch", "food"],
+      ["rice bag", "food"],
+      ["flour bag", "food"],
+      ["snack bag", "food"],
+      ["food can", "food"],
+      ["cooking oil bottle", "food"],
+      ["soy sauce bottle", "food"],
+      ["vinegar bottle", "food"],
+      ["food storage container", "daily"],
+    ],
+    bedroom: [
+      ["medicine box", "medicine"],
+      ["pill bottle", "medicine"],
+      ["bandage box", "medicine"],
+      ["storage basket", "daily"],
+      ["cosmetic organizer", "daily"],
+      ["jewelry box", "daily"],
+      ["pillow", "daily"],
+      ["blanket", "daily"],
+      ["backpack", "daily"],
+      ["suitcase", "daily"],
+      ["shoe box", "daily"],
+      ["storage box", "daily"],
+    ],
+    balcony: [
+      ["plant pot", "daily"],
+      ["flower pot", "daily"],
+      ["watering can", "daily"],
+      ["detergent bottle", "daily"],
+      ["cleaning spray bottle", "daily"],
+      ["cleaning brush", "daily"],
+      ["mop", "daily"],
+      ["broom", "daily"],
+      ["bucket", "daily"],
+      ["tool box", "tool"],
+      ["screw box", "tool"],
+      ["hanger", "daily"],
+    ],
+    default: [
+      ["storage box", "daily"],
+      ["shoe box", "daily"],
+      ["snack bag", "food"],
+      ["pet food bag", "pet"],
+      ["power bank", "tool"],
+      ["charger", "tool"],
+      ["jump rope", "daily"],
+      ["screw box", "tool"],
+      ["medicine box", "medicine"],
+      ["pill bottle", "medicine"],
+      ["photo frame", "daily"],
+      ["plant pot", "daily"],
+    ],
+  };
+  return labelTupleEntries([
+    ...(roomLabels[roomType] || roomLabels.default),
+    ...roomLabels.default,
+  ]);
+}
+
+function getGroundingPromptShards(roomContext = null) {
+  const base = getGroundingBaseSubjectEntries();
+  const room = getGroundingRoomSubjectEntries(roomContext)
+    .filter((entry) => !base.some((baseEntry) => normalizeDetectionLabel(baseEntry.label) === normalizeDetectionLabel(entry.label)));
+  const maxLabels = Math.max(1, Number(visionConfig.groundingMaxTaxonomyLabels) || 60);
+  const roomLimit = Math.max(0, maxLabels - base.length);
+  return [
+    { id: "base", label: "base", entries: base },
+    { id: getCapturePromptRoomType(roomContext), label: getCapturePromptRoomType(roomContext), entries: room.slice(0, roomLimit) },
+  ].filter((shard) => shard.entries.length);
+}
+
+function getGroundingSubjectLabelEntries(roomContext = null) {
+  return uniqueLabelEntries(getGroundingPromptShards(roomContext).flatMap((shard) => shard.entries), { englishOnly: true });
+}
+
+function getCoreGroundingLabelEntries() {
+  const coreLabels = [
+    "object",
+    "item",
+    "household item",
+    "package",
+    "product package",
+    "cardboard box",
+    "paper carton",
+    "plastic container",
+    "storage box",
+    "storage basket",
+    "organizer box",
+    "medicine package",
+    "medicine box",
+    "pill box",
+    "blister pack",
+    "tube",
+    "plastic bag",
+    "paper box",
+    "small device",
+    "electronic device",
+    "remote control",
+    "power adapter",
+    "charger",
+    "usb cable",
+    "cable",
+    "battery",
+    "storage container",
+    "television cabinet drawer",
+    "tv stand drawer",
+    "white drawer front",
+    "cabinet drawer",
+    "cabinet door",
+    "cabinet",
+    "drawer",
+    "drawer front",
+    "shelf",
+    "shelf compartment",
+    "storage compartment",
+    "speaker",
+    "speaker grille",
+    "amplifier",
+    "media player",
+    "turntable",
+    "television",
+    "air conditioner",
+    "lamp",
+    "light",
+    "bottle",
+    "spray bottle",
+    "jar",
+    "can",
+    "food can",
+    "snack bag",
+    "food pouch",
+    "box",
+    "bag",
+    "food package",
+    "document",
+    "folder",
+    "book",
+    "notebook",
+    "toy",
+    "tool",
+    "cloth",
+    "towel",
+    "pillow",
+    "cushion",
+    "basket",
+    "bowl",
+    "cup",
+    "mug",
+    "plate",
+    "pan",
+    "pot",
+    "kitchen utensil",
+    "cleaning brush",
+    "cleaning bottle",
+    "hanger",
+    "shoe box",
+  ];
+  return uniqueLabelEntries(coreLabels.map((label) => ({ label, category: "daily", isCatalogItem: false })), { englishOnly: true });
+}
+
+async function getDetectionTaxonomy() {
+  if (!detectionTaxonomyPromise) {
+    detectionTaxonomyPromise = fetchJsonIndex(visionConfig.detectionTaxonomy).catch(() => null);
+  }
+  return detectionTaxonomyPromise;
+}
+
+function taxonomyCategoryToGroundingEntry(category) {
+  const detectorLabels = Array.isArray(category?.detectorLabels) ? category.detectorLabels : [];
+  const label = detectorLabels.find(isLikelyEnglishDetectionLabel)
+    || String(category?.id || "").replace(/-/g, " ");
+  if (!isLikelyEnglishDetectionLabel(label)) return null;
+  return {
+    id: category.id,
+    name: category.displayName || category.id,
+    category: categoryLabels[category.appCategory] ? category.appCategory : "daily",
+    label,
+    isCatalogItem: true,
+  };
+}
+
+async function getTaxonomyGroundingLabelEntries() {
+  const taxonomy = await getDetectionTaxonomy();
+  const categories = Array.isArray(taxonomy?.categories) ? taxonomy.categories : [];
+  return uniqueLabelEntries(
+    categories
+      .filter((category) => category?.active !== false)
+      .map(taxonomyCategoryToGroundingEntry)
+      .filter(Boolean),
+    { englishOnly: true },
+  ).slice(0, visionConfig.groundingMaxTaxonomyLabels);
 }
 
 function getFastGroundingLabelEntries() {
@@ -1313,26 +1806,11 @@ function getFastGroundingLabelEntries() {
     }
     return item.labels.slice(0, 1).map((label) => ({ ...item, label, isCatalogItem: true }));
   });
-  const genericKeep = new Set([
-    "television cabinet drawer",
-    "tv stand drawer",
-    "white drawer front",
-    "cabinet drawer",
-    "cabinet door",
-    "shelf",
-    "storage compartment",
-    "box",
-    "bag",
-    "bottle",
-    "food package",
-    "document",
-    "book",
-    "cable",
-  ]);
-  const primaryGenericLabels = genericDetectionLabels
-    .filter((entry) => genericKeep.has(entry.label))
-    .map((entry) => ({ ...entry, isCatalogItem: false }));
-  return uniqueLabelEntries([...primaryCatalogLabels, ...primaryGenericLabels]);
+  return uniqueLabelEntries([...getCoreGroundingLabelEntries(), ...primaryCatalogLabels], { englishOnly: true });
+}
+
+function getGroundingLabelEntries(roomContext = null) {
+  return getGroundingSubjectLabelEntries(roomContext);
 }
 
 function normalizeDetectionLabel(label) {
@@ -1341,9 +1819,9 @@ function normalizeDetectionLabel(label) {
     .replace(/[.。]+$/g, "");
 }
 
-function getDetectionLabelMeta(label) {
+function getDetectionLabelMeta(label, labelEntries = getDetectionLabelEntries()) {
   const normalized = normalizeDetectionLabel(label);
-  return getDetectionLabelEntries().find((entry) => normalizeDetectionLabel(entry.label) === normalized)
+  return labelEntries.find((entry) => normalizeDetectionLabel(entry.label) === normalized)
     || { label, name: "", category: "daily", isCatalogItem: false };
 }
 
@@ -1589,6 +2067,7 @@ function warmVisionModels() {
     const assetMode = await getVisionAssetMode();
     if (!assetMode.hasLocalRuntime) return;
     loadTransformersRuntime().then(() => {
+      getGroundingLabelEntries();
       warmCaptureDetectionModel();
       window.setTimeout(() => {
         getCatalogEmbeddingIndex().catch(() => null);
@@ -1654,12 +2133,26 @@ async function getCatalogEmbeddingIndex() {
 }
 
 async function loadCatalogEmbeddingIndex() {
+  const startedAt = performance.now();
   const primary = await fetchJsonIndex(visionConfig.catalogIndex).catch(() => null);
   const normalizedPrimary = normalizeCatalogEmbeddingIndex(primary, visionConfig.catalogIndex);
-  if (normalizedPrimary.entries.length) return normalizedPrimary;
+  if (normalizedPrimary.entries.length) {
+    catalogIndexTiming = {
+      source: "primary",
+      entries: normalizedPrimary.entries.length,
+      loadMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
+    };
+    return normalizedPrimary;
+  }
 
   const fallback = await fetchJsonIndex(visionConfig.catalogIndexFallback).catch(() => null);
-  return normalizeCatalogEmbeddingIndex(fallback, visionConfig.catalogIndexFallback);
+  const normalizedFallback = normalizeCatalogEmbeddingIndex(fallback, visionConfig.catalogIndexFallback);
+  catalogIndexTiming = {
+    source: normalizedFallback.entries.length ? "fallback" : "empty",
+    entries: normalizedFallback.entries.length,
+    loadMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
+  };
+  return normalizedFallback;
 }
 
 async function fetchJsonIndex(url) {
@@ -1744,20 +2237,35 @@ function vectorSimilarity(left, right, metric = "cosine") {
   return metric === "max-inner-product" ? innerProduct(left, right) : cosineSimilarity(left, right);
 }
 
+function normalizeVector(values) {
+  const vector = Array.from(values || [], Number);
+  const norm = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0)) || 1;
+  return vector.map((value) => value / norm);
+}
+
 async function embedImageDataUrl(dataUrl) {
   const extractor = await getCatalogFeatureExtractor();
   if (!extractor) return null;
-  const output = await extractor(dataUrl, { pooling: "mean", normalize: true });
+  const output = await extractor(dataUrl);
   const values = output?.data || output?.[0]?.data;
-  return values ? Array.from(values) : null;
+  return values ? normalizeVector(values) : null;
 }
 
 async function matchCatalogFromEmbeddingIndex(source, box) {
+  const startedAt = performance.now();
   const index = await getCatalogEmbeddingIndex();
   if (!index.entries?.length) return null;
-  const embedding = await embedImageDataUrl(cropImageToDataUrl(source, box));
+  const cropStartedAt = performance.now();
+  const cropImage = cropImageToDataUrl(source, box, {
+    paddingPct: visionConfig.embeddingCropPaddingPct,
+  });
+  const cropMs = Math.round((performance.now() - cropStartedAt) * 1000) / 1000;
+  const embeddingStartedAt = performance.now();
+  const embedding = await embedImageDataUrl(cropImage);
+  const embeddingMs = Math.round((performance.now() - embeddingStartedAt) * 1000) / 1000;
   if (!embedding) return null;
 
+  const searchStartedAt = performance.now();
   const expectedDimension = Number(index.dimension || embedding.length);
   const compatibleEntries = index.entries.filter((entry) => {
     const isCompatible = entry.dimension === embedding.length
@@ -1794,6 +2302,14 @@ async function matchCatalogFromEmbeddingIndex(source, box) {
     categoryMargin: margin,
     categoryIndexVersion: index.version || "",
     matchedSampleIds: best.matchedSampleIds,
+    timings: {
+      catalogCropMs: cropMs,
+      embeddingMs,
+      catalogSearchMs: Math.round((performance.now() - searchStartedAt) * 1000) / 1000,
+      catalogTotalMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
+      catalogEntries: compatibleEntries.length,
+      catalogIndexLoadMs: catalogIndexTiming?.loadMs || 0,
+    },
   };
 }
 
@@ -1827,7 +2343,7 @@ function detectionBoxToPercent(box, imageWidth, imageHeight) {
       y: (yMin / imageHeight) * 100,
       w: ((xMax - xMin) / imageWidth) * 100,
       h: ((yMax - yMin) / imageHeight) * 100,
-    });
+    }, { minWidth: 0.2, minHeight: 0.2 });
   }
   const xMin = box.xmin ?? box.x_min ?? box.left ?? box.x ?? 0;
   const yMin = box.ymin ?? box.y_min ?? box.top ?? box.y ?? 0;
@@ -1838,11 +2354,11 @@ function detectionBoxToPercent(box, imageWidth, imageHeight) {
     y: (yMin / imageHeight) * 100,
     w: ((xMax - xMin) / imageWidth) * 100,
     h: ((yMax - yMin) / imageHeight) * 100,
-  });
+  }, { minWidth: 0.2, minHeight: 0.2 });
 }
 
-function detectionToCandidate(detection, index, source, provider, threshold) {
-  const meta = getDetectionLabelMeta(detection.label);
+function detectionToCandidate(detection, index, source, provider, threshold, labelEntries = null) {
+  const meta = getDetectionLabelMeta(detection.label, labelEntries || getDetectionLabelEntries());
   const box = detectionBoxToPercent(detection.box, source.naturalWidth, source.naturalHeight);
   const rawScore = Number(detection.score) || threshold;
   const score = clampNumber(rawScore + (isStorageDetectionLabel(detection.label) ? 0.035 : 0), threshold, 0.99);
@@ -1884,22 +2400,44 @@ function nmsDetections(detections, source, iouThreshold, maxItems) {
   return selected.map((entry) => entry.detection);
 }
 
-async function runZeroShotDetector({ image, source, detector, provider, threshold }) {
-  const labelEntries = detector?.kind === "grounding-dino" ? getFastGroundingLabelEntries() : getDetectionLabelEntries();
+async function runZeroShotDetector({ image, source, detector, provider, threshold, roomType = null }) {
+  const isGroundingDino = detector?.kind === "grounding-dino";
+  const promptShards = isGroundingDino ? getGroundingPromptShards(roomType) : [];
+  const labelEntries = isGroundingDino ? getGroundingSubjectLabelEntries(roomType) : getOwlVitSubjectLabelEntries(roomType);
   const labels = labelEntries.map((entry) => entry.label);
+  const promptBatchSize = isGroundingDino
+    ? Math.max(1, Math.min(labels.length || 1, Number(visionConfig.groundingPromptBatchSize) || labels.length || 1))
+    : Math.max(1, Math.min(labels.length || 1, Number(visionConfig.owlVitPromptBatchSize) || labels.length || 1));
   const detectionStart = performance.now();
-  const detections = detector?.kind === "grounding-dino"
-    ? await runGroundingDinoDetector({ image, source, detector, labels, threshold })
-    : await runPipelineObjectDetector({ image, detector, labels: labels.slice(0, visionConfig.owlVitLabelLimit), threshold });
+  const detectionOutput = isGroundingDino
+    ? await runGroundingDinoDetector({ image, source, detector, promptShards, threshold })
+    : { detections: await runPipelineObjectDetector({ image, detector, labels, threshold }) };
+  const detections = Array.isArray(detectionOutput) ? detectionOutput : (detectionOutput.detections || []);
   const detectionMs = Math.round((performance.now() - detectionStart) * 1000) / 1000;
+  const promptBatches = isGroundingDino
+    ? (detectionOutput.promptBatches || 0)
+    : Math.ceil((labels.length || 1) / promptBatchSize);
+  const promptCount = isGroundingDino
+    ? (detectionOutput.promptCount || 0)
+    : labels.length;
   const filtered = (Array.isArray(detections) ? detections : [])
     .filter((detection) => detection?.box && Number(detection.score) >= threshold)
     .sort((a, b) => Number(b.score) - Number(a.score));
   return nmsDetections(filtered, source, visionConfig.detectionNmsIou, visionConfig.maxModelDetections)
     .map((detection, index) => detectionToCandidate({
       ...detection,
-      timings: { detectionMs },
-    }, index, source, provider, threshold));
+      timings: {
+        detectionMs,
+        promptRoomType: roomType,
+        promptStrategy: isGroundingDino ? "coarse-shards" : "owlvit-subjects",
+        promptShardNames: detectionOutput.promptShardNames || "",
+        promptCount,
+        promptBatchSize,
+        promptBatches,
+        rawDetectionCount: detections.length,
+        filteredDetectionCount: filtered.length,
+      },
+    }, index, source, provider, threshold, labelEntries));
 }
 
 function chunkArray(values, chunkSize) {
@@ -1945,22 +2483,40 @@ async function readRawVisionImage(detector, image) {
   return image;
 }
 
-async function runGroundingDinoDetector({ image, source, detector, labels, threshold }) {
+async function runGroundingDinoDetector({ image, source, detector, promptShards, threshold }) {
   const rawImage = await readRawVisionImage(detector, image);
+  const targetWidth = Number(rawImage?.width || source.naturalWidth || source.width || 1);
+  const targetHeight = Number(rawImage?.height || source.naturalHeight || source.height || 1);
   const detections = [];
-  const batches = chunkArray(labels.map((label) => normalizeDetectionLabel(label)).filter(Boolean), visionConfig.groundingPromptBatchSize);
+  const pseudoSource = { naturalWidth: targetWidth, naturalHeight: targetHeight };
+  const shardTimings = [];
+  const seenLabels = new Set();
+  const startedAt = performance.now();
+  let promptCount = 0;
 
-  for (const labelBatch of batches) {
+  for (const shard of promptShards || []) {
+    const labelBatch = (shard.entries || [])
+      .map((entry) => normalizeDetectionLabel(entry.label))
+      .filter((label) => {
+        if (!label || seenLabels.has(label)) return false;
+        seenLabels.add(label);
+        return true;
+      })
+      .slice(0, visionConfig.groundingPromptBatchSize);
+    if (!labelBatch.length) continue;
+    const shardStartedAt = performance.now();
     const text = `${labelBatch.join(". ")}.`;
     const inputs = await detector.processor(rawImage, text);
     const outputs = await detector.model(inputs);
-    const processed = detector.processor.post_process_grounded_object_detection
+    let processed = detector.processor.post_process_grounded_object_detection
       ? detector.processor.post_process_grounded_object_detection(outputs, inputs.input_ids, {
         box_threshold: threshold,
         text_threshold: threshold,
-        target_sizes: [[source.naturalHeight, source.naturalWidth]],
+        target_sizes: [[targetHeight, targetWidth]],
       })
       : [];
+    if (processed instanceof Promise) processed = await processed;
+    const shardMs = Math.round((performance.now() - shardStartedAt) * 1000) / 1000;
     const first = Array.isArray(processed) ? processed[0] : processed;
     const scores = tensorValues(first?.scores);
     const boxes = tensorRows(first?.boxes, 4);
@@ -1972,10 +2528,35 @@ async function runGroundingDinoDetector({ image, source, detector, labels, thres
         label: resultLabels[index] || labelBatch[0],
         score: Number(scores[index]) || threshold,
         box: boxes[index],
+        promptShard: shard.id || shard.label || "prompt",
       });
     }
+    promptCount += labelBatch.length;
+    shardTimings.push({
+      id: shard.id || shard.label || "prompt",
+      labels: labelBatch.length,
+      raw: boxes.length,
+      ms: shardMs,
+    });
+
+    const selectedCount = nmsDetections(
+      detections.filter((detection) => detection?.box && Number(detection.score) >= threshold),
+      pseudoSource,
+      visionConfig.detectionNmsIou,
+      visionConfig.maxModelDetections,
+    ).length;
+    const elapsed = performance.now() - startedAt;
+    const targetCount = Math.max(1, Number(visionConfig.groundingShortPromptTargetCount) || 7);
+    const budgetMs = Math.max(1, Number(visionConfig.groundingPromptBudgetMs) || 2600);
+    if (selectedCount >= targetCount || elapsed >= budgetMs) break;
   }
-  return detections;
+  return {
+    detections,
+    promptCount,
+    promptBatches: shardTimings.length,
+    promptShardNames: shardTimings.map((shard) => `${shard.id}:${shard.labels}/${Math.round(shard.ms)}ms`).join(", "),
+    promptShardTimings: shardTimings,
+  };
 }
 
 function hashStringFast(value) {
@@ -1987,11 +2568,11 @@ function hashStringFast(value) {
   return `${value.length}-${(hash >>> 0).toString(36)}`;
 }
 
-function getRecognitionCacheKey(image) {
+function getRecognitionCacheKey(image, options = {}) {
   const useOwlVit = visionConfig.preferredDetector === "owlvit";
   const labelEntries = useOwlVit
-    ? getDetectionLabelEntries().slice(0, visionConfig.owlVitLabelLimit)
-    : getFastGroundingLabelEntries();
+    ? getOwlVitSubjectLabelEntries(options.roomType)
+    : getGroundingSubjectLabelEntries(options.roomType);
   const labelSignature = labelEntries
     .map((entry) => normalizeDetectionLabel(entry.label))
     .join(",");
@@ -2006,6 +2587,9 @@ function getRecognitionCacheKey(image) {
     visionConfig.maxDetectedObjects,
     visionConfig.maxModelDetections,
     visionConfig.detectionNmsIou,
+    visionConfig.groundingPromptVersion,
+    visionConfig.groundingMaxTaxonomyLabels,
+    visionConfig.detectionTaxonomy,
     labelSignature,
     hashStringFast(image),
   ].join("|");
@@ -2017,15 +2601,19 @@ function cloneRecognitionResult(result, extra = {}) {
     candidates: (result.candidates || []).map((candidate) => ({
       ...candidate,
       box: { ...(candidate.box || {}) },
+      modelBox: candidate.modelBox ? { ...candidate.modelBox } : null,
+      modelImageMeta: normalizeImageMeta(candidate.modelImageMeta),
+      timings: candidate.timings && typeof candidate.timings === "object" ? { ...candidate.timings } : {},
       cropMeta: normalizeCropMeta(candidate.cropMeta),
       aliases: Array.isArray(candidate.aliases) ? [...candidate.aliases] : [],
     })),
+    timings: result.timings && typeof result.timings === "object" ? { ...result.timings } : null,
     ...extra,
   };
 }
 
-function getCachedRecognitionResult(image) {
-  const key = getRecognitionCacheKey(image);
+function getCachedRecognitionResult(image, options = {}) {
+  const key = getRecognitionCacheKey(image, options);
   const cached = recognitionResultCache.get(key);
   if (cached) {
     recognitionResultCache.delete(key);
@@ -2045,9 +2633,9 @@ function getCachedRecognitionResult(image) {
   }
 }
 
-function setCachedRecognitionResult(image, result) {
+function setCachedRecognitionResult(image, result, options = {}) {
   if (!result?.candidates?.length) return;
-  const key = getRecognitionCacheKey(image);
+  const key = getRecognitionCacheKey(image, options);
   const cached = cloneRecognitionResult(result);
   recognitionResultCache.set(key, cached);
   while (recognitionResultCache.size > visionConfig.recognitionCacheSize) {
@@ -2204,12 +2792,19 @@ function getSourcePixelSize(source) {
   return { sourceWidth, sourceHeight };
 }
 
-function getCropPixelRect(source, box) {
+function getCropPixelRect(source, box, options = {}) {
   const { sourceWidth, sourceHeight } = getSourcePixelSize(source);
-  const x = Math.max(0, Math.round((box.x / 100) * sourceWidth));
-  const y = Math.max(0, Math.round((box.y / 100) * sourceHeight));
-  const width = Math.max(1, Math.round((box.w / 100) * sourceWidth));
-  const height = Math.max(1, Math.round((box.h / 100) * sourceHeight));
+  const paddingPct = Number(options.paddingPct) || 0;
+  const padX = ((box.w * paddingPct) / 100);
+  const padY = ((box.h * paddingPct) / 100);
+  const x1Pct = clampNumber(box.x - padX, 0, 100);
+  const y1Pct = clampNumber(box.y - padY, 0, 100);
+  const x2Pct = clampNumber(box.x + box.w + padX, x1Pct + 0.01, 100);
+  const y2Pct = clampNumber(box.y + box.h + padY, y1Pct + 0.01, 100);
+  const x = Math.max(0, Math.round((x1Pct / 100) * sourceWidth));
+  const y = Math.max(0, Math.round((y1Pct / 100) * sourceHeight));
+  const width = Math.max(1, Math.round(((x2Pct - x1Pct) / 100) * sourceWidth));
+  const height = Math.max(1, Math.round(((y2Pct - y1Pct) / 100) * sourceHeight));
   return {
     x,
     y,
@@ -2219,7 +2814,7 @@ function getCropPixelRect(source, box) {
 }
 
 function cropImageToDataUrl(source, box, options = {}) {
-  const rect = getCropPixelRect(source, box);
+  const rect = getCropPixelRect(source, box, options);
   const maxDimension = Number(options.maxDimension) || Math.max(rect.width, rect.height);
   const scale = Math.min(1, maxDimension / Math.max(rect.width, rect.height));
   const canvas = document.createElement("canvas");
@@ -2284,28 +2879,46 @@ async function matchCatalogForCrop(source, box) {
   };
 }
 
-async function recognizeWithSmallModel(image) {
+async function recognizeWithSmallModel(image, options = {}) {
   const source = await loadImage(image);
   const assetMode = await getVisionAssetMode();
   const detectorAttempts = getDetectorAttempts(assetMode);
+  const roomType = getCapturePromptRoomType(options.roomType);
 
   let lastError = null;
   for (const attempt of detectorAttempts) {
     try {
+      const detectorLoadStart = performance.now();
       const detector = await attempt.getDetector();
+      const detectorLoadMs = Math.round((performance.now() - detectorLoadStart) * 1000) / 1000;
       const candidates = await runZeroShotDetector({
         image,
         source,
         detector,
         provider: attempt.provider,
         threshold: attempt.threshold,
+        roomType,
       });
       const detected = dedupeCandidates(candidates, visionConfig.maxDetectedObjects, 0.34);
       if (!detected.length) continue;
       const refined = await refineCandidatesWithSam(image, source, detected, attempt.provider);
+      const firstTiming = refined.candidates[0]?.timings || detected[0]?.timings || {};
       return {
         provider: refined.provider,
         candidates: renumberUnknownCandidates(refined.candidates),
+        timings: {
+          detectorLoadMs,
+          detectionMs: firstTiming.detectionMs || 0,
+          promptCount: firstTiming.promptCount || 0,
+          promptRoomType: firstTiming.promptRoomType || roomType,
+          promptStrategy: firstTiming.promptStrategy || "",
+          promptShardNames: firstTiming.promptShardNames || "",
+          promptBatchSize: firstTiming.promptBatchSize || 0,
+          promptBatches: firstTiming.promptBatches || 0,
+          rawDetectionCount: firstTiming.rawDetectionCount || 0,
+          filteredDetectionCount: firstTiming.filteredDetectionCount || 0,
+          resultCount: refined.candidates.length,
+        },
       };
     } catch (error) {
       lastError = error;
@@ -2349,15 +2962,15 @@ function getDetectorAttempts(assetMode) {
 
   return [
     ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-    ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+    ...(!assetMode.groundingReady && assetMode.owlReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
   ];
 }
 
-async function recognizeWithSmallModelCached(image) {
-  const cached = getCachedRecognitionResult(image);
+async function recognizeWithSmallModelCached(image, options = {}) {
+  const cached = getCachedRecognitionResult(image, options);
   if (cached) return cached;
-  const result = await recognizeWithSmallModel(image);
-  setCachedRecognitionResult(image, result);
+  const result = await recognizeWithSmallModel(image, options);
+  setCachedRecognitionResult(image, result, options);
   return result;
 }
 
@@ -2587,21 +3200,76 @@ async function resizeImageSourceToDataUrl(source, options = {}) {
 }
 
 async function prepareImageForDetection(image) {
-  const source = await loadImage(image);
-  const size = getDrawableSize(source);
-  if (Math.max(size.width, size.height) <= visionConfig.detectionMaxDimension) return image;
-  return resizeImageSourceToDataUrl(source, {
-    maxDimension: visionConfig.detectionMaxDimension,
-    maxLength: Math.min(visionConfig.maxUploadDataUrlLength, 520000),
-    quality: 0.78,
+  return (await prepareModelImageContext(image)).modelImage;
+}
+
+function mapPercentBoxBetweenImages(box, fromMeta, toMeta) {
+  const from = normalizeImageMeta(fromMeta);
+  const to = normalizeImageMeta(toMeta);
+  if (!from || !to) return clampBox(box);
+  // The model image is always a proportional full-image resize, so percent boxes stay aligned.
+  return clampBox(box);
+}
+
+function mapModelBoxToDisplayBox(box, modelContext) {
+  return mapPercentBoxBetweenImages(box, modelContext?.modelMeta, modelContext?.originalMeta);
+}
+
+function mapDisplayBoxToModelBox(box, modelContext) {
+  return mapPercentBoxBetweenImages(box, modelContext?.originalMeta, modelContext?.modelMeta);
+}
+
+async function prepareModelImageContext(image) {
+  const originalSource = await loadImage(image);
+  const originalMeta = normalizeImageMeta(originalSource) || getDrawableSize(originalSource);
+  const shouldResize = Math.max(originalMeta.width, originalMeta.height) > visionConfig.detectionMaxDimension;
+  const modelImage = shouldResize
+    ? await resizeImageSourceToDataUrl(originalSource, {
+      maxDimension: visionConfig.detectionMaxDimension,
+      maxLength: Math.min(visionConfig.maxUploadDataUrlLength, 520000),
+      quality: 0.78,
+    })
+    : image;
+  const modelSource = shouldResize ? await loadImage(modelImage) : originalSource;
+  const modelMeta = normalizeImageMeta(modelSource) || getDrawableSize(modelSource);
+  return {
+    originalSource,
+    originalMeta,
+    modelImage,
+    modelSource,
+    modelMeta,
+    resized: shouldResize,
+    maxLongSide: visionConfig.detectionMaxDimension,
+  };
+}
+
+function attachModelCoordinateContext(candidates, modelContext) {
+  return candidates.map((candidate) => {
+    const modelBox = candidate.modelBox ? clampBox(candidate.modelBox) : clampBox(candidate.box);
+    return {
+      ...candidate,
+      modelBox,
+      modelImageMeta: normalizeImageMeta(modelContext?.modelMeta),
+      box: mapModelBoxToDisplayBox(modelBox, modelContext),
+    };
+  });
+}
+
+function readBlobAsDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("照片数据读取失败，请重试。"));
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.readAsDataURL(blob);
   });
 }
 
 async function decodeImageBlobToDataUrl(blob) {
+  const dataUrl = await readBlobAsDataUrl(blob);
   const url = URL.createObjectURL(blob);
   try {
-    const image = await withTimeout(
-      loadImage(url),
+    await withTimeout(
+      loadImage(dataUrl),
       visionConfig.uploadDecodeTimeoutMs,
       "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
     ).catch(async (error) => {
@@ -2611,13 +3279,9 @@ async function decodeImageBlobToDataUrl(blob) {
         visionConfig.uploadDecodeTimeoutMs,
         "照片解码超时，请换一张 JPEG/PNG 或先裁剪后再上传。",
       );
-      return bitmap;
+      bitmap.close?.();
     });
-    try {
-      return await resizeImageSourceToDataUrl(image);
-    } finally {
-      image.close?.();
-    }
+    return dataUrl;
   } finally {
     URL.revokeObjectURL(url);
   }
@@ -2629,17 +3293,18 @@ async function prepareUploadedImage(file) {
     throw new Error("请选择图片文件。");
   }
 
+  if (isHeif) {
+    try {
+      const jpegBlob = await convertHeicFileToJpegBlob(file);
+      return await decodeImageBlobToDataUrl(jpegBlob);
+    } catch (conversionError) {
+      throw new Error(conversionError.message || "HEIC/HEIF 自动转换失败，请换一张照片。");
+    }
+  }
+
   try {
     return await decodeImageBlobToDataUrl(file);
   } catch (error) {
-    if (isHeif && isLikelyImageDecodeError(error)) {
-      try {
-        const jpegBlob = await convertHeicFileToJpegBlob(file);
-        return await decodeImageBlobToDataUrl(jpegBlob);
-      } catch (conversionError) {
-        throw new Error(conversionError.message || "HEIC/HEIF 自动转换失败，请换一张照片。");
-      }
-    }
     if (isLikelyImageDecodeError(error)) {
       throw new Error("这张图片浏览器无法解码；如果是 HEIC/HEIF，系统会自动转换，请确认文件没有损坏。");
     }
@@ -2817,7 +3482,8 @@ async function resolveCandidateName(candidate, index, source, options = {}) {
 
   const embeddingIndex = await getCatalogEmbeddingIndex();
   if (embeddingIndex.entries?.length) {
-    const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, candidate.box).catch(() => null) : null;
+    const embeddingBox = options.box || candidate.modelBox || candidate.box;
+    const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, embeddingBox).catch(() => null) : null;
     if (catalogMatch) {
       return {
         ...candidate,
@@ -2831,6 +3497,10 @@ async function resolveCandidateName(candidate, index, source, options = {}) {
         categoryMargin: catalogMatch.categoryMargin,
         categoryIndexVersion: catalogMatch.categoryIndexVersion || "",
         matchedSampleIds: catalogMatch.matchedSampleIds || [],
+        timings: {
+          ...(candidate.timings || {}),
+          ...(catalogMatch.timings || {}),
+        },
         source: `${candidate.source}+embedding`,
         namingStatus: "done",
       };
@@ -2846,23 +3516,43 @@ async function resolveCandidateName(candidate, index, source, options = {}) {
   };
 }
 
-async function nameDetectedCandidates(image, candidates, onProgress) {
+async function nameDetectedCandidates(input, candidates, onProgress) {
+  const context = typeof input === "object" && input
+    ? input
+    : { displayImage: input, modelImage: input, modelContext: null };
+  const displayImage = context.displayImage || context.image || context.modelImage;
+  const modelImage = context.modelImage || displayImage;
+  const modelContext = context.modelContext || null;
   const minimumAnimation = new Promise((resolve) => setTimeout(resolve, 360));
-  const sourcePromise = loadImage(image).catch(() => null);
-  const source = await sourcePromise;
+  const displaySourcePromise = displayImage ? loadImage(displayImage).catch(() => null) : Promise.resolve(null);
+  const modelSourcePromise = modelImage && modelImage !== displayImage
+    ? loadImage(modelImage).catch(() => null)
+    : displaySourcePromise;
+  const [displaySource, modelSource] = await Promise.all([displaySourcePromise, modelSourcePromise]);
   await minimumAnimation;
-  const preparedCandidates = source
+  const preparedCandidates = displaySource
     ? candidates.map((candidate) => (
       shouldRefreshCandidateCrop(candidate)
-        ? { ...candidate, ...(createCandidateCropSnapshot(source, candidate.box) || {}) }
+        ? { ...candidate, ...(createCandidateCropSnapshot(displaySource, candidate.box) || {}) }
         : candidate
     ))
     : candidates;
   const named = [];
   onProgress?.(preparedCandidates);
   for (let index = 0; index < preparedCandidates.length; index += 1) {
-    const resolved = await resolveCandidateName(preparedCandidates[index], index, source);
-    named.push(resolved);
+    const candidate = preparedCandidates[index];
+    const modelBox = candidate.modelBox || (modelContext ? mapDisplayBoxToModelBox(candidate.box, modelContext) : candidate.box);
+    const candidateNamingStart = performance.now();
+    const resolved = await resolveCandidateName(candidate, index, modelSource || displaySource, { box: modelBox });
+    const candidateNamingMs = Math.round((performance.now() - candidateNamingStart) * 1000) / 1000;
+    named.push({
+      ...resolved,
+      timings: {
+        ...(candidate.timings || {}),
+        ...(resolved.timings || {}),
+        namingMs: candidateNamingMs,
+      },
+    });
     onProgress?.([...named, ...preparedCandidates.slice(index + 1)]);
   }
   return named;
@@ -3704,17 +4394,19 @@ function renderRecognitionDiagnostics() {
     : "未知尺寸";
   const cacheText = diagnostics.cacheHit ? " · 缓存命中" : "";
   const threadText = diagnostics.wasmThreads ? ` · WASM ${diagnostics.wasmThreads}线程` : "";
-  return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${cacheText} · 主体 ${detection}ms · 命名 ${naming}ms · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
+  const detectorLoadText = Number.isFinite(diagnostics.detectorLoadMs) ? ` · 加载 ${Math.round(diagnostics.detectorLoadMs)}ms` : "";
+  const roomPromptText = diagnostics.promptRoomType ? ` · ${diagnostics.promptRoomType}包` : "";
+  const shardText = diagnostics.promptShardNames ? ` · ${diagnostics.promptShardNames}` : "";
+  const promptText = diagnostics.promptCount
+    ? `${roomPromptText} · prompts ${diagnostics.promptCount}/${diagnostics.promptBatches || 1}批${shardText}`
+    : "";
+  const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding ${Math.round(diagnostics.embeddingMs)}ms` : "";
+  return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${cacheText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
 }
 
-function renderCaptureControls(room, placeRows) {
+function renderCaptureControls() {
   return `
     <div class="capture-controls">
-      ${placeRows.length ? `
-        <select class="select-field" data-capture-place aria-label="选择储物点">
-          ${placeRows.map(({ place: roomPlace, depth }) => `<option value="${roomPlace.id}" ${state.capture.placeId === roomPlace.id ? "selected" : ""}>${escapeHtml(`${"  ".repeat(depth)}${depth ? "↳ " : ""}${roomPlace.name}`)}</option>`).join("")}
-        </select>
-      ` : ""}
       ${platform.photos.canUseNativePhotoLibrary()
         ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
         : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
@@ -3726,7 +4418,6 @@ function renderCaptureControls(room, placeRows) {
 function renderCaptureView() {
   const room = getCaptureRoom();
   const place = getCapturePlace() || makeVirtualPlace(room);
-  const placeRows = getRoomPlacesInTree(room.id);
   const candidates = state.capture.candidates || [];
   const activeCandidates = getActiveCandidates(candidates);
   const deletedCandidates = getDeletedCandidates(candidates);
@@ -3735,7 +4426,7 @@ function renderCaptureView() {
     <section class="panel">
       <div class="capture-grid">
         <div class="capture-workspace">
-          ${renderCaptureControls(room, placeRows)}
+          ${renderCaptureControls()}
           ${renderCaptureStage()}
         </div>
         <div class="panel">
@@ -4372,6 +5063,7 @@ async function scanCurrentPlace() {
   recognitionRunId = runId;
   const scanImage = state.capture.image;
   const scanStartedAt = performance.now();
+  const promptRoomType = getCapturePromptRoomType(room);
   const imageDimensionsPromise = getImageDimensions(scanImage).catch(() => null);
   state.capture = {
     ...state.capture,
@@ -4386,14 +5078,31 @@ async function scanCurrentPlace() {
   render();
 
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
+  let modelPrepMs = 0;
+  let detectorTiming = {};
+  let cacheHit = false;
   try {
-    const detectionImage = await prepareImageForDetection(scanImage).catch((error) => {
+    const modelPrepStartedAt = performance.now();
+    const modelContext = await prepareModelImageContext(scanImage).catch(async (error) => {
       console.info("Detection resize skipped.", error);
-      return scanImage;
+      const originalSource = await loadImage(scanImage);
+      const originalMeta = normalizeImageMeta(originalSource) || getDrawableSize(originalSource);
+      return {
+        originalSource,
+        originalMeta,
+        modelImage: scanImage,
+        modelSource: originalSource,
+        modelMeta: originalMeta,
+        resized: false,
+        maxLongSide: Math.max(originalMeta.width, originalMeta.height),
+      };
     });
+    modelPrepMs = performance.now() - modelPrepStartedAt;
+    const detectionImage = modelContext.modelImage;
     if (!stillCurrent()) return;
 
-    const smallRecognition = await recognizeWithSmallModelCached(detectionImage)
+    const detectionStartedAt = performance.now();
+    const smallRecognition = await recognizeWithSmallModelCached(detectionImage, { roomType: promptRoomType })
       .catch((error) => {
         console.info("Small model unavailable, falling back to local image proposals.", error);
         return null;
@@ -4401,10 +5110,12 @@ async function scanCurrentPlace() {
     if (!stillCurrent()) return;
 
     let provider = smallRecognition?.provider || requestedProvider;
-    const cacheHit = Boolean(smallRecognition?.cacheHit);
+    cacheHit = Boolean(smallRecognition?.cacheHit);
+    detectorTiming = smallRecognition?.timings || {};
     let detected = smallRecognition?.candidates?.length
       ? normalizeRecognitionResults(smallRecognition.candidates, provider)
       : [];
+    detected = attachModelCoordinateContext(detected, modelContext);
 
     if (!detected.length) {
       const fallbackRecognition = await recognizeWithHeuristicRegions(detectionImage)
@@ -4415,8 +5126,9 @@ async function scanCurrentPlace() {
       if (!stillCurrent()) return;
       provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
       detected = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
+      detected = attachModelCoordinateContext(detected, modelContext);
     }
-    const detectionMs = performance.now() - scanStartedAt;
+    const detectionMs = Number(detectorTiming.detectionMs) || (performance.now() - detectionStartedAt);
 
     if (!detected.length) {
       state.capture = {
@@ -4430,6 +5142,13 @@ async function scanCurrentPlace() {
           assetMode: await getVisionAssetMode().catch(() => null),
           imageDimensions: await imageDimensionsPromise,
           preprocessingMs: state.capture.preprocessingMs || null,
+          modelPrepMs,
+          detectorLoadMs: detectorTiming.detectorLoadMs,
+          promptRoomType: detectorTiming.promptRoomType || promptRoomType,
+          promptStrategy: detectorTiming.promptStrategy,
+          promptShardNames: detectorTiming.promptShardNames,
+          promptCount: detectorTiming.promptCount,
+          promptBatches: detectorTiming.promptBatches,
           detectionMs,
           namingMs: 0,
           totalMs: performance.now() - scanStartedAt,
@@ -4445,13 +5164,12 @@ async function scanCurrentPlace() {
       return;
     }
 
-    const place = ensureCapturePlace();
-    updatePlaceImage(place.id, scanImage, state.capture.imageRef, state.capture.imageMeta);
+    const place = getCapturePlace() || virtualPlace;
     detected = renumberUnknownCandidates(detected);
     state.capture = {
       ...state.capture,
       roomId: room.id,
-      placeId: place.id,
+      placeId: place.virtual ? null : place.id,
       candidates: detected,
       activeCandidateId: detected[0]?.id || null,
       recognitionStatus: "naming",
@@ -4464,7 +5182,11 @@ async function scanCurrentPlace() {
     showToast(`已生成 ${detected.length} 个主体框，正在命名`);
 
     const namingStartedAt = performance.now();
-    const namedCandidates = await nameDetectedCandidates(scanImage, detected, (partialCandidates) => {
+    const namedCandidates = await nameDetectedCandidates({
+      displayImage: scanImage,
+      modelImage: detectionImage,
+      modelContext,
+    }, detected, (partialCandidates) => {
       if (!stillCurrent()) return;
       state.capture = {
         ...state.capture,
@@ -4475,6 +5197,7 @@ async function scanCurrentPlace() {
     });
     if (!stillCurrent()) return;
     const namingMs = performance.now() - namingStartedAt;
+    const embeddingMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingMs) || 0), 0);
     state.capture = {
       ...state.capture,
       candidates: applyCandidateProgressUpdates(state.capture.candidates || [], namedCandidates, provider),
@@ -4486,8 +5209,18 @@ async function scanCurrentPlace() {
         assetMode: await getVisionAssetMode().catch(() => null),
         imageDimensions: await imageDimensionsPromise,
         preprocessingMs: state.capture.preprocessingMs || null,
+        modelPrepMs,
+        detectorLoadMs: detectorTiming.detectorLoadMs,
+        promptRoomType: detectorTiming.promptRoomType || promptRoomType,
+        promptStrategy: detectorTiming.promptStrategy,
+        promptShardNames: detectorTiming.promptShardNames,
+        promptCount: detectorTiming.promptCount,
+        promptBatches: detectorTiming.promptBatches,
+        rawDetectionCount: detectorTiming.rawDetectionCount,
+        filteredDetectionCount: detectorTiming.filteredDetectionCount,
         detectionMs,
         namingMs,
+        embeddingMs,
         totalMs: performance.now() - scanStartedAt,
         resultCount: namedCandidates.length,
         cacheHit,
@@ -4510,6 +5243,13 @@ async function scanCurrentPlace() {
         assetMode: await getVisionAssetMode().catch(() => null),
         imageDimensions: await imageDimensionsPromise,
         preprocessingMs: state.capture.preprocessingMs || null,
+        modelPrepMs,
+        detectorLoadMs: detectorTiming.detectorLoadMs,
+        promptRoomType: detectorTiming.promptRoomType || promptRoomType,
+        promptStrategy: detectorTiming.promptStrategy,
+        promptShardNames: detectorTiming.promptShardNames,
+        promptCount: detectorTiming.promptCount,
+        promptBatches: detectorTiming.promptBatches,
         detectionMs: performance.now() - scanStartedAt,
         namingMs: 0,
         totalMs: performance.now() - scanStartedAt,
@@ -4531,7 +5271,8 @@ function confirmCandidates() {
     return;
   }
   const roomId = state.capture.roomId;
-  const placeId = state.capture.placeId;
+  const place = getCapturePlace() || ensureCapturePlace();
+  const placeId = place.id;
   const nowText = new Date().toISOString().slice(0, 10);
   updatePlaceImage(placeId, state.capture.image, state.capture.imageRef, state.capture.imageMeta);
   const existingNames = new Set(state.items.map((item) => `${item.placeId}:${normalizeText(item.name)}`));
@@ -4881,6 +5622,7 @@ function updateCandidateBox(id, field, value) {
     return {
       ...candidate,
       box: clampBox({ ...candidate.box, [field]: value }),
+      modelBox: null,
       edited: true,
       boxEdited: true,
       cropVersion: "",
@@ -4894,7 +5636,7 @@ function updateCandidateBox(id, field, value) {
 function setCandidateBoxWithoutRender(id, box) {
   if (!getActiveCandidates().some((candidate) => candidate.id === id)) return;
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => (
-    candidate.id === id ? { ...candidate, box: clampBox(box), edited: true, boxEdited: true, cropVersion: "" } : candidate
+    candidate.id === id ? { ...candidate, box: clampBox(box), modelBox: null, edited: true, boxEdited: true, cropVersion: "" } : candidate
   ));
   state.capture.activeCandidateId = id;
 }
@@ -5007,11 +5749,24 @@ async function rerunCandidateNamingAfterBoxEdit(candidateId) {
   persist();
   render();
 
-  const source = await loadImage(image);
+  const modelContext = await prepareModelImageContext(image).catch(async () => {
+    const source = await loadImage(image);
+    const meta = normalizeImageMeta(source) || getDrawableSize(source);
+    return {
+      originalSource: source,
+      originalMeta: meta,
+      modelImage: image,
+      modelSource: source,
+      modelMeta: meta,
+      resized: false,
+      maxLongSide: Math.max(meta.width, meta.height),
+    };
+  });
   if (token !== candidateEditRecognitionToken || state.capture.image !== image) return;
   const latest = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
   if (!latest) return;
-  const crop = createCandidateCropSnapshot(source, latest.box) || {};
+  const crop = createCandidateCropSnapshot(modelContext.originalSource, latest.box) || {};
+  const modelBox = mapDisplayBoxToModelBox(latest.box, modelContext);
   const activeCandidates = getActiveCandidates();
   const index = Math.max(0, getCandidateIndex(activeCandidates, candidateId));
   const resolved = latest.nameEdited
@@ -5020,13 +5775,15 @@ async function rerunCandidateNamingAfterBoxEdit(candidateId) {
       {
         ...latest,
         ...crop,
+        modelBox,
+        modelImageMeta: normalizeImageMeta(modelContext.modelMeta),
         suggestedName: "",
         edited: false,
         namingStatus: "loading",
       },
       index,
-      source,
-      { force: true },
+      modelContext.modelSource,
+      { force: true, box: modelBox },
     );
 
   if (token !== candidateEditRecognitionToken || state.capture.image !== image) return;
@@ -5035,6 +5792,8 @@ async function rerunCandidateNamingAfterBoxEdit(candidateId) {
     return normalizeCandidate({
       ...entry,
       ...crop,
+      modelBox,
+      modelImageMeta: normalizeImageMeta(modelContext.modelMeta),
       name: latest.nameEdited ? entry.name : resolved.name,
       category: latest.nameEdited ? entry.category : resolved.category,
       confidence: latest.nameEdited ? entry.confidence : Math.max(entry.confidence || 0, resolved.confidence || 0),
@@ -5088,8 +5847,8 @@ async function importNativePhoto(source) {
   try {
     const preprocessStartedAt = performance.now();
     const photo = isCamera ? await platform.photos.captureFromCamera() : await platform.photos.pickFromLibrary();
-    const loaded = await loadImage(photo.dataUrl);
-    const image = await resizeImageSourceToDataUrl(loaded);
+    const image = photo.dataUrl;
+    const loaded = await loadImage(image);
     const imageMeta = normalizeImageMeta(loaded) || await imageMetaFromDataUrl(image);
     const imageRef = await persistPhotoDataUrl(image, isCamera ? "ios-camera" : "ios-photo-library");
     resetCaptureRecognition({
@@ -5170,7 +5929,7 @@ async function captureCameraFrame() {
   stopCamera();
   try {
     const preprocessStartedAt = performance.now();
-    const image = await resizeImageSourceToDataUrl(canvas);
+    const image = drawSourceToDataUrl(canvas, canvas.width, canvas.height, visionConfig.uploadJpegQuality);
     const imageMeta = normalizeImageMeta(canvas) || await imageMetaFromDataUrl(image);
     const imageRef = await persistPhotoDataUrl(image, "browser-camera");
     resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
@@ -5560,15 +6319,6 @@ document.addEventListener("change", async (event) => {
   if (event.target.matches("[data-capture-room]")) {
     const room = getRoom(event.target.value);
     resetCaptureRecognition({ roomId: room.id, placeId: getRootPlaces(room.id)[0]?.id || room.places[0]?.id || null });
-    persist();
-    render();
-    return;
-  }
-
-  if (event.target.matches("[data-capture-place]")) {
-    const place = getPlace(event.target.value);
-    if (!place) return;
-    resetCaptureRecognition({ roomId: place.roomId, placeId: place.id });
     persist();
     render();
     return;

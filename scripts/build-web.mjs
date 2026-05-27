@@ -11,9 +11,11 @@ const requiredFiles = [
   "app.js",
   "platform.js",
   "styles.css",
+  "data/vision-categories.household.json",
   "data/vision-catalog.seed.json",
   "data/vision-index.seed.json",
   "data/vision-index.household-cn.owlvit-clip.json",
+  "data/vision-index.household-cn.grounding-dino-clip.json",
 ];
 
 const requiredVendorFiles = [
