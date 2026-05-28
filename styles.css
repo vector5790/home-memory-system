@@ -1596,6 +1596,84 @@ textarea:focus {
   gap: 8px;
 }
 
+.catalog-candidate-panel {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(217, 228, 222, 0.95);
+  border-radius: 10px;
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.catalog-candidate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.catalog-candidate-head strong {
+  font-size: 13px;
+}
+
+.catalog-candidate-head span,
+.catalog-candidate-copy small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.catalog-candidate-list {
+  display: grid;
+  gap: 7px;
+}
+
+.catalog-candidate-option {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  border: 1px solid rgba(217, 228, 222, 0.95);
+  border-radius: 8px;
+  padding: 6px;
+  background: rgba(250, 249, 245, 0.9);
+  color: inherit;
+  text-align: left;
+}
+
+.catalog-candidate-option:active {
+  transform: translateY(1px);
+}
+
+.catalog-candidate-thumb {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 7px;
+  background: rgba(31, 41, 51, 0.08);
+}
+
+.catalog-candidate-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.catalog-candidate-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.catalog-candidate-copy strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
 .candidate-extra-panel {
   display: grid;
   gap: 10px;
@@ -2296,6 +2374,7 @@ textarea:focus {
 .capture-grid > .panel .trash-candidate,
 .capture-grid > .panel .reminder-task-row,
 .capture-grid > .panel .candidate-extra-panel,
+.capture-grid > .panel .catalog-candidate-panel,
 .capture-grid > .panel .candidate-crop {
   border-color: rgba(250, 249, 245, 0.1);
   background: var(--surface-dark-2);
@@ -2304,10 +2383,16 @@ textarea:focus {
 
 .capture-grid > .panel .field,
 .capture-grid > .panel .select-field,
-.capture-grid > .panel .candidate-meta-chips span {
+.capture-grid > .panel .candidate-meta-chips span,
+.capture-grid > .panel .catalog-candidate-option {
   border-color: rgba(250, 249, 245, 0.12);
   background: var(--surface-dark-3);
   color: #faf9f5;
+}
+
+.capture-grid > .panel .catalog-candidate-head span,
+.capture-grid > .panel .catalog-candidate-copy small {
+  color: #a09d96;
 }
 
 .capture-grid > .panel .secondary-btn {

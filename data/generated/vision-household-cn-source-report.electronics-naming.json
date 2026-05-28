@@ -1,0 +1,88 @@
+{
+  "kind": "vision-household-cn-source-report",
+  "version": "20260528-household-cn-images-electronics-naming",
+  "categoryCount": 13,
+  "gallerySamples": 3075,
+  "evalSamples": 50,
+  "samplesByCategory": [
+    {
+      "categoryId": "television",
+      "displayName": "电视机",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "stereo-amplifier",
+      "displayName": "功放",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "av-receiver",
+      "displayName": "AV接收机",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "turntable",
+      "displayName": "唱片机",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "bookshelf-speaker",
+      "displayName": "书架音箱",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "floorstanding-speaker",
+      "displayName": "落地音箱",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "powered-speaker",
+      "displayName": "有源音箱",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "soundbar",
+      "displayName": "回音壁",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "tv-box",
+      "displayName": "电视盒子",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "media-player",
+      "displayName": "媒体播放器",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "cd-player",
+      "displayName": "CD播放器",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "dvd-blu-ray-player",
+      "displayName": "DVD蓝光播放器",
+      "gallery": 3,
+      "eval": 0
+    },
+    {
+      "categoryId": "floor-standing-air-conditioner",
+      "displayName": "柜机空调",
+      "gallery": 3,
+      "eval": 0
+    }
+  ],
+  "failures": []
+}

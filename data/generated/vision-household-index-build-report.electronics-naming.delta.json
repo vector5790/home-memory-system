@@ -1,0 +1,263 @@
+{
+  "kind": "vision-household-index-build-report",
+  "version": "20260528-electronics-naming-grounding-dino-clip",
+  "passed": true,
+  "productionReady": false,
+  "modelIds": {
+    "groundingDino": "onnx-community/grounding-dino-tiny-ONNX",
+    "owlvit": "Xenova/owlvit-base-patch32",
+    "clip": "Xenova/clip-vit-base-patch32"
+  },
+  "timings": {
+    "detectorModelLoadMs": 1024.06,
+    "clipModelLoadMs": 258.487,
+    "detectorId": "grounding-dino",
+    "samples": [
+      {
+        "sampleId": "television-cn-gallery-001",
+        "detectionMs": 3121.539,
+        "cropMs": 8.301,
+        "embeddingMs": 82.481
+      },
+      {
+        "sampleId": "television-cn-gallery-002",
+        "detectionMs": 3346.618,
+        "cropMs": 9.199,
+        "embeddingMs": 165.965
+      },
+      {
+        "sampleId": "television-cn-gallery-003",
+        "detectionMs": 2625.623,
+        "cropMs": 1.117,
+        "embeddingMs": 53.999
+      },
+      {
+        "sampleId": "stereo-amplifier-cn-gallery-001",
+        "detectionMs": 3069.038,
+        "cropMs": 3.003,
+        "embeddingMs": 35.585
+      },
+      {
+        "sampleId": "stereo-amplifier-cn-gallery-002",
+        "detectionMs": 2409.652,
+        "cropMs": 1.255,
+        "embeddingMs": 52.293
+      },
+      {
+        "sampleId": "stereo-amplifier-cn-gallery-003",
+        "detectionMs": 2441.42,
+        "cropMs": 2.402,
+        "embeddingMs": 17.019
+      },
+      {
+        "sampleId": "av-receiver-cn-gallery-001",
+        "detectionMs": 2354.292,
+        "cropMs": 0.923,
+        "embeddingMs": 28.208
+      },
+      {
+        "sampleId": "av-receiver-cn-gallery-002",
+        "detectionMs": 2345.181,
+        "cropMs": 1.202,
+        "embeddingMs": 36.38
+      },
+      {
+        "sampleId": "av-receiver-cn-gallery-003",
+        "detectionMs": 2398.174,
+        "cropMs": 1.683,
+        "embeddingMs": 141.824
+      },
+      {
+        "sampleId": "turntable-cn-gallery-001",
+        "detectionMs": 2302.883,
+        "cropMs": 0.026,
+        "embeddingMs": 26.743
+      },
+      {
+        "sampleId": "turntable-cn-gallery-002",
+        "detectionMs": 2230.334,
+        "cropMs": 2.165,
+        "embeddingMs": 42.871
+      },
+      {
+        "sampleId": "turntable-cn-gallery-003",
+        "detectionMs": 2432.915,
+        "cropMs": 1.01,
+        "embeddingMs": 25.641
+      },
+      {
+        "sampleId": "bookshelf-speaker-cn-gallery-001",
+        "detectionMs": 2715.125,
+        "cropMs": 1.437,
+        "embeddingMs": 24.856
+      },
+      {
+        "sampleId": "bookshelf-speaker-cn-gallery-002",
+        "detectionMs": 2701.395,
+        "cropMs": 1.947,
+        "embeddingMs": 37.201
+      },
+      {
+        "sampleId": "bookshelf-speaker-cn-gallery-003",
+        "detectionMs": 2459.906,
+        "cropMs": 6.929,
+        "embeddingMs": 24.941
+      },
+      {
+        "sampleId": "floorstanding-speaker-cn-gallery-001",
+        "detectionMs": 2901.204,
+        "cropMs": 4.377,
+        "embeddingMs": 54.325
+      },
+      {
+        "sampleId": "floorstanding-speaker-cn-gallery-002",
+        "detectionMs": 2367.947,
+        "cropMs": 1.392,
+        "embeddingMs": 76.898
+      },
+      {
+        "sampleId": "floorstanding-speaker-cn-gallery-003",
+        "detectionMs": 2366.434,
+        "cropMs": 2.093,
+        "embeddingMs": 26.072
+      },
+      {
+        "sampleId": "powered-speaker-cn-gallery-001",
+        "detectionMs": 2396.117,
+        "cropMs": 1.489,
+        "embeddingMs": 28.903
+      },
+      {
+        "sampleId": "powered-speaker-cn-gallery-002",
+        "detectionMs": 2300.736,
+        "cropMs": 6.225,
+        "embeddingMs": 19.886
+      },
+      {
+        "sampleId": "powered-speaker-cn-gallery-003",
+        "detectionMs": 2554.956,
+        "cropMs": 6.512,
+        "embeddingMs": 28.713
+      },
+      {
+        "sampleId": "soundbar-cn-gallery-001",
+        "detectionMs": 2693.403,
+        "cropMs": 1.911,
+        "embeddingMs": 35.482
+      },
+      {
+        "sampleId": "soundbar-cn-gallery-002",
+        "detectionMs": 2451.017,
+        "cropMs": 8.251,
+        "embeddingMs": 28.338
+      },
+      {
+        "sampleId": "soundbar-cn-gallery-003",
+        "detectionMs": 2400.738,
+        "cropMs": 2.25,
+        "embeddingMs": 28.946
+      },
+      {
+        "sampleId": "tv-box-cn-gallery-001",
+        "detectionMs": 2476.056,
+        "cropMs": 2.897,
+        "embeddingMs": 35.679
+      },
+      {
+        "sampleId": "tv-box-cn-gallery-002",
+        "detectionMs": 2413.922,
+        "cropMs": 9.124,
+        "embeddingMs": 37.55
+      },
+      {
+        "sampleId": "tv-box-cn-gallery-003",
+        "detectionMs": 2465.637,
+        "cropMs": 7.255,
+        "embeddingMs": 38.25
+      },
+      {
+        "sampleId": "media-player-cn-gallery-001",
+        "detectionMs": 2373.333,
+        "cropMs": 10.058,
+        "embeddingMs": 36.345
+      },
+      {
+        "sampleId": "media-player-cn-gallery-002",
+        "detectionMs": 2414.065,
+        "cropMs": 13.441,
+        "embeddingMs": 78.664
+      },
+      {
+        "sampleId": "media-player-cn-gallery-003",
+        "detectionMs": 2222.923,
+        "cropMs": 2.954,
+        "embeddingMs": 37.343
+      },
+      {
+        "sampleId": "cd-player-cn-gallery-001",
+        "detectionMs": 2411.092,
+        "cropMs": 1.759,
+        "embeddingMs": 25.86
+      },
+      {
+        "sampleId": "cd-player-cn-gallery-002",
+        "detectionMs": 2354.432,
+        "cropMs": 6.177,
+        "embeddingMs": 27.373
+      },
+      {
+        "sampleId": "cd-player-cn-gallery-003",
+        "detectionMs": 2254.136,
+        "cropMs": 8.928,
+        "embeddingMs": 34.941
+      },
+      {
+        "sampleId": "dvd-blu-ray-player-cn-gallery-001",
+        "detectionMs": 2254.107,
+        "cropMs": 6.128,
+        "embeddingMs": 24.729
+      },
+      {
+        "sampleId": "dvd-blu-ray-player-cn-gallery-002",
+        "detectionMs": 2429.258,
+        "cropMs": 1.075,
+        "embeddingMs": 31.8
+      },
+      {
+        "sampleId": "dvd-blu-ray-player-cn-gallery-003",
+        "detectionMs": 2490.589,
+        "cropMs": 1.302,
+        "embeddingMs": 30.923
+      },
+      {
+        "sampleId": "floor-standing-air-conditioner-cn-gallery-001",
+        "detectionMs": 2373.513,
+        "cropMs": 6.257,
+        "embeddingMs": 18.225
+      },
+      {
+        "sampleId": "floor-standing-air-conditioner-cn-gallery-002",
+        "detectionMs": 2402.854,
+        "cropMs": 1.416,
+        "embeddingMs": 20.973
+      },
+      {
+        "sampleId": "floor-standing-air-conditioner-cn-gallery-003",
+        "detectionMs": 2432.153,
+        "cropMs": 1.997,
+        "embeddingMs": 28.892
+      }
+    ]
+  },
+  "summary": {
+    "manifestSamples": 3125,
+    "processedGallerySamples": 39,
+    "indexEntries": 39,
+    "failures": 0,
+    "categoriesWithEntries": 13,
+    "selectedCategoryCount": null,
+    "detectorId": "grounding-dino",
+    "imageVariant": "normalized-1024"
+  },
+  "failures": []
+}

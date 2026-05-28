@@ -1,0 +1,3176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vision Model Evaluation Report</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f2ec; color: #1f2528; }
+    header { padding: 28px 36px; background: #172126; color: white; }
+    h1 { margin: 0 0 12px; font-size: 28px; }
+    .summary { display: flex; gap: 12px; flex-wrap: wrap; }
+    .metric { background: rgba(255,255,255,.12); padding: 10px 14px; border-radius: 8px; min-width: 130px; }
+    .metric b { display: block; font-size: 20px; }
+    .note { margin-top: 14px; max-width: 980px; color: #d7e2e7; line-height: 1.45; font-size: 13px; }
+    main { padding: 24px 36px 48px; display: grid; gap: 18px; }
+    .provider-panel { background:#fff; border:1px solid #ded8cd; border-radius:10px; padding:16px; overflow:auto; }
+    .provider-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .provider-table th, .provider-table td { border-bottom:1px solid #ebe6dc; padding:7px 8px; text-align:left; white-space:nowrap; }
+    .provider-table th { color:#415055; }
+    .provider-cases { display: grid; gap: 14px; }
+    .provider-heading { position: sticky; top: 0; z-index: 2; background: #243137; color: #fff; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+    .provider-heading h2 { margin: 0 0 4px; font-size: 18px; }
+    .provider-heading div { color: #d7e2e7; font-size: 12px; line-height: 1.35; }
+    .case { display: grid; grid-template-columns: minmax(280px, 360px) minmax(220px, 320px) 1fr; gap: 18px; background: #fff; border: 1px solid #ded8cd; border-radius: 10px; padding: 16px; }
+    .image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: #ebe6dc; overflow: hidden; border-radius: 8px; }
+    .image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .box { position: absolute; border: 3px solid; box-sizing: border-box; font-size: 11px; font-weight: 700; padding: 2px 4px; }
+    .box.gt { border-color: #239a5b; color: #165c38; background: rgba(35,154,91,.12); }
+    .box.pred { border-color: #d88718; color: #7a4600; background: rgba(216,135,24,.12); transform: translate(2px, 2px); }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    .kv { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin: 8px 0; font-size: 14px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge { border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 700; }
+    .badge.ok { background: #e2f4e8; color: #17633b; }
+    .badge.fail { background: #ffe8df; color: #9a351f; }
+    .match-grid { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 10px; }
+    .match-card { border: 1px solid #ded8cd; border-radius: 8px; padding: 8px; background: #fbfaf7; }
+    .match-card.same { border-color: #70b88f; }
+    .match-card.diff { border-color: #e2a56f; }
+    .match-card img { width: 100%; aspect-ratio: 4/3; object-fit: contain; border-radius: 6px; background: #eee; display: block; }
+    .rank { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .match-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .match-id { font-size: 11px; color: #687174; }
+    .match-path { margin-top: 4px; font-size: 11px; color: #415055; line-height: 1.35; }
+    .empty { color: #7d8588; font-size: 13px; }
+    a { color: inherit; }
+    @media (max-width: 980px) { .case { grid-template-columns: 1fr; } .match-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>本地视觉模型评测报告</h1>
+    <div class="summary">
+      <div class="metric"><b>50</b>图片</div>
+      <div class="metric"><b>100%</b>框召回 @ IoU 0.5</div>
+      <div class="metric"><b>30%</b>类目准确</div>
+      <div class="metric"><b>30%</b>名称准确</div>
+      <div class="metric"><b>30%</b>框+名同时正确</div>
+    </div>
+    <div class="note">Model: gt-crop-clip-naming · Uses human/manifest GT subject boxes to isolate CLIP crop embedding naming accuracy against the household CN index.</div>
+  </header>
+  <main>
+    
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>GT crop + CLIP naming</h2>
+        <div>real-local-model · Gate no-go · Models: Xenova/clip-vit-base-patch32</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/storage-box/storage-box-cn-eval-004-image.jpg" alt="storage-box-cn-eval-004" />
+          <span class="box gt" style="left:41.75%;top:22.625%;width:50.25%;height:71.375%;">GT</span>
+<span class="box pred" style="left:41.75%;top:22.625%;width:50.25%;height:71.375%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span>玩具收纳桶 · toy-storage-bin</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_Jp8PXgXfRtkoBwxSXOxivta-2RmPPyFMW0eRVwRs2.html" target="_blank" rel="noreferrer">桌面透明抽屉式收纳盒手账文具置物架书桌上亚克力笔筒整理小盒子_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.742448 · margin 0.008442</div>
+          <img src="../../fixtures/vision-household/cn/toy-storage-bin/toy-storage-bin-cn-gallery-003-image.jpg" alt="玩具收纳桶" />
+          <div class="match-name">玩具收纳桶</div>
+          <div class="match-id">toy-storage-bin</div>
+          <div class="match-id">sample toy-storage-bin-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 玩具收纳桶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/maorongwanjushounatong_8986/a30cd44b71a03f21cc40e46b13d859e9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.734006</div>
+          <img src="../../fixtures/vision-household/cn/drawer-storage-box/drawer-storage-box-cn-gallery-003-a4.jpg" alt="抽屉收纳盒" />
+          <div class="match-name">抽屉收纳盒</div>
+          <div class="match-id">drawer-storage-box</div>
+          <div class="match-id">sample drawer-storage-box-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 抽屉收纳盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_601902432620.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.733377</div>
+          <img src="../../fixtures/vision-household/cn/toy-storage-bin/toy-storage-bin-cn-gallery-002-image.jpg" alt="玩具收纳桶" />
+          <div class="match-name">玩具收纳桶</div>
+          <div class="match-id">toy-storage-bin</div>
+          <div class="match-id">sample toy-storage-bin-cn-gallery-002</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 玩具收纳桶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_nJg2X6XuMt4mxgrtkN5t0tP-BmWKKNHrvkvwr6Dfp.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/1280;">
+          <img src="../../fixtures/vision-household/cn/storage-basket/storage-basket-cn-eval-004-hm-home-2025.jpg" alt="storage-basket-cn-eval-004" />
+          <span class="box gt" style="left:29.0625%;top:53.5156%;width:38.9063%;height:26.875%;">GT</span>
+<span class="box pred" style="left:29.0625%;top:53.5156%;width:38.9063%;height:26.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-basket-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳篮 · storage-basket</span></div>
+        <div class="kv"><b>Pred</b><span>凉席 · cooling-mat</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/qitashounalan_6962/088d744c1c528cf78bfef090bff820e1.html" target="_blank" rel="noreferrer">HM HOME 2025夏季新款草编收纳篮，轻松打造家居新风尚🌿-其他收纳篮-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.800552 · margin 0.00394</div>
+          <img src="../../fixtures/vision-household/cn/cooling-mat/cooling-mat-cn-gallery-003-image.jpg" alt="凉席" />
+          <div class="match-name">凉席</div>
+          <div class="match-id">cooling-mat</div>
+          <div class="match-id">sample cooling-mat-cn-gallery-003</div>
+          <div class="match-path">季节物品 &gt; 季节用品 &gt; 天气节日与季节用品 &gt; 凉席</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://zhuanlan.zhihu.com/p/67072302" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.796612</div>
+          <img src="../../fixtures/vision-household/cn/shoelace-pack/shoelace-pack-cn-gallery-003-sinya-alibaba-com.jpg" alt="鞋带包" />
+          <div class="match-name">鞋带包</div>
+          <div class="match-id">shoelace-pack</div>
+          <div class="match-id">sample shoelace-pack-cn-gallery-003</div>
+          <div class="match-path">衣物配饰 &gt; 衣物与配件 &gt; 鞋履配件 &gt; 鞋带包</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://chinese.alibaba.com/product-detail/Sinya-High-Heel-Italian-Shoes-With-1600618971489.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.790203</div>
+          <img src="../../fixtures/vision-household/cn/laundry-basket/laundry-basket-cn-gallery-003-image.jpg" alt="洗衣篮" />
+          <div class="match-name">洗衣篮</div>
+          <div class="match-id">laundry-basket</div>
+          <div class="match-id">sample laundry-basket-cn-gallery-003</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣与清洁工具 &gt; 洗衣篮</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_528340334904.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:790/1187;">
+          <img src="../../fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-eval-004-image.jpg" alt="drawer-organizer-cn-eval-004" />
+          <span class="box gt" style="left:0.3797%;top:10.8677%;width:99.6203%;height:82.3083%;">GT</span>
+<span class="box pred" style="left:0.3797%;top:10.8677%;width:99.6203%;height:82.3083%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>drawer-organizer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>抽屉分隔盒 · drawer-organizer</span></div>
+        <div class="kv"><b>Pred</b><span>抽屉分隔盒 · drawer-organizer</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/890287295798.html" target="_blank" rel="noreferrer">♔可伸缩收纳盒分隔抽屉式长方形内置厨房餐具桌面化妆品分格整理-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.795894 · margin 0.00803</div>
+          <img src="../../fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-gallery-001-image.jpg" alt="抽屉分隔盒" />
+          <div class="match-name">抽屉分隔盒</div>
+          <div class="match-id">drawer-organizer</div>
+          <div class="match-id">sample drawer-organizer-cn-gallery-001</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 抽屉分隔盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_613639296271.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.787864</div>
+          <img src="../../fixtures/vision-household/cn/medicine-storage-box/medicine-storage-box-cn-gallery-003-image.jpg" alt="药品收纳盒" />
+          <div class="match-name">药品收纳盒</div>
+          <div class="match-id">medicine-storage-box</div>
+          <div class="match-id">sample medicine-storage-box-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 药品收纳盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_DMyaQPAuDt5bnOzy25hQQwujtn-Mw0WW4FV5gGeojYSZ.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.78004</div>
+          <img src="../../fixtures/vision-household/cn/medicine-storage-box/medicine-storage-box-cn-gallery-001-image.jpg" alt="药品收纳盒" />
+          <div class="match-name">药品收纳盒</div>
+          <div class="match-id">medicine-storage-box</div>
+          <div class="match-id">sample medicine-storage-box-cn-gallery-001</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 药品收纳盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_PKgrgGWi3tkG80wHvVBsPt6-8ZkvvmF0zV88qwpfY.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-eval-004-image.jpg" alt="vacuum-storage-bag-cn-eval-004" />
+          <span class="box gt" style="left:14.5%;top:44.25%;width:69.0%;height:51.125%;">GT</span>
+<span class="box pred" style="left:14.5%;top:44.25%;width:69.0%;height:51.125%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>vacuum-storage-bag-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>真空压缩袋 · vacuum-storage-bag</span></div>
+        <div class="kv"><b>Pred</b><span>真空压缩袋 · vacuum-storage-bag</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_630480458209.html" target="_blank" rel="noreferrer">免抽气真空压缩袋棉被被子家用衣服衣物行李箱整理加厚大号收纳袋_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.867353 · margin 0.048606</div>
+          <img src="../../fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-gallery-003-image.jpg" alt="真空压缩袋" />
+          <div class="match-name">真空压缩袋</div>
+          <div class="match-id">vacuum-storage-bag</div>
+          <div class="match-id">sample vacuum-storage-bag-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 真空压缩袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_532911248784.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.818747</div>
+          <img src="../../fixtures/vision-household/cn/underbed-storage-box/underbed-storage-box-cn-gallery-002-image.jpg" alt="床底收纳箱" />
+          <div class="match-name">床底收纳箱</div>
+          <div class="match-id">underbed-storage-box</div>
+          <div class="match-id">sample underbed-storage-box-cn-gallery-002</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 床底收纳箱</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_528543683544.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.807349</div>
+          <img src="../../fixtures/vision-household/cn/tablecloth/tablecloth-cn-gallery-003-image.jpg" alt="桌布" />
+          <div class="match-name">桌布</div>
+          <div class="match-id">tablecloth</div>
+          <div class="match-id">sample tablecloth-cn-gallery-003</div>
+          <div class="match-path">家纺 &gt; 家庭纺织品 &gt; 毛巾床品与软装 &gt; 桌布</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/zhuobu_1979/847751be22484de0eb5a459040a4ee26.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1170/1156;">
+          <img src="../../fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-eval-004-image.jpg" alt="closet-organizer-cn-eval-004" />
+          <span class="box gt" style="left:2.6496%;top:9.6886%;width:95.2991%;height:82.9585%;">GT</span>
+<span class="box pred" style="left:2.6496%;top:9.6886%;width:95.2991%;height:82.9585%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>closet-organizer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>衣柜收纳格 · closet-organizer</span></div>
+        <div class="kv"><b>Pred</b><span>分药盒 · medical-pill-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_pr62jQ8Cxt7b2aNheeKSptm-mOZQQNu7a79dVnvT0.html" target="_blank" rel="noreferrer">千鸟格衣服收纳盒裤子收纳家用衣柜收纳神器分格抽屉式袜子收纳盒_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.813004 · margin 0.007547</div>
+          <img src="../../fixtures/vision-household/cn/medical-pill-box/medical-pill-box-cn-gallery-002-49.png" alt="分药盒" />
+          <div class="match-name">分药盒</div>
+          <div class="match-id">medical-pill-box</div>
+          <div class="match-id">sample medical-pill-box-cn-gallery-002</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 医疗保健补充 &gt; 分药盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/yaohe_5655/c4300aa70d6f0b3b57116611c9b4bc93.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.805457</div>
+          <img src="../../fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-gallery-001-image.jpg" alt="真空压缩袋" />
+          <div class="match-name">真空压缩袋</div>
+          <div class="match-id">vacuum-storage-bag</div>
+          <div class="match-id">sample vacuum-storage-bag-cn-gallery-001</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 真空压缩袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/yiwuyasuodai_8928/770ccc61d8f312b0b5618b4380bdf77e.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.799962</div>
+          <img src="../../fixtures/vision-household/cn/nail-box/nail-box-cn-gallery-003-image.jpg" alt="钉子盒" />
+          <div class="match-name">钉子盒</div>
+          <div class="match-id">nail-box</div>
+          <div class="match-id">sample nail-box-cn-gallery-003</div>
+          <div class="match-path">工具五金 &gt; 五金工具 &gt; 紧固安全与小五金 &gt; 钉子盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_XBJZyKXUGtX2pmj5z5FVYrtBtg-d8ZBBDFnBv4g7K9cd.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-eval-004-image.jpg" alt="cable-organizer-box-cn-eval-004" />
+          <span class="box gt" style="left:25.375%;top:1.875%;width:71.375%;height:54.375%;">GT</span>
+<span class="box pred" style="left:25.375%;top:1.875%;width:71.375%;height:54.375%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>cable-organizer-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>线缆收纳盒 · cable-organizer-box</span></div>
+        <div class="kv"><b>Pred</b><span>吸尘器 · vacuum-cleaner</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/chaxianbanshounahe_10156/5486c95c9c78c7f07b9921b83370147e.html" target="_blank" rel="noreferrer">数据线收纳盒带盖充电器电线理线盒：告别杂乱，桌面清爽大法! -插线板收纳盒-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.81219 · margin 0.023657</div>
+          <img src="../../fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-gallery-002-2025-usb.jpg" alt="吸尘器" />
+          <div class="match-name">吸尘器</div>
+          <div class="match-id">vacuum-cleaner</div>
+          <div class="match-id">sample vacuum-cleaner-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 吸尘器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/USBxichenqi_9851/9db2a12e7e736dd2c65dfb0f7068b1c9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.788533</div>
+          <img src="../../fixtures/vision-household/cn/router/router-cn-gallery-003-5g-5g.jpg" alt="路由器" />
+          <div class="match-name">路由器</div>
+          <div class="match-id">router</div>
+          <div class="match-id">sample router-cn-gallery-003</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 路由器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://pcdetail.taobao.com/p/74abd22be827473b8fff8649eed80bf1" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.787941</div>
+          <img src="../../fixtures/vision-household/cn/door-stop/door-stop-cn-gallery-003-image.jpg" alt="门挡" />
+          <div class="match-name">门挡</div>
+          <div class="match-id">door-stop</div>
+          <div class="match-id">sample door-stop-cn-gallery-003</div>
+          <div class="match-path">工具五金 &gt; 家庭安全 &gt; 安全防护 &gt; 门挡</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_MJeKkpVcKtw3g3zcVV7HQtA-XNReeACpkg4zX0AI6.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:750/1000;">
+          <img src="../../fixtures/vision-household/cn/shoe-box/shoe-box-cn-eval-004-aj.jpg" alt="shoe-box-cn-eval-004" />
+          <span class="box gt" style="left:20.9333%;top:5.4%;width:78.2667%;height:20.5%;">GT</span>
+<span class="box pred" style="left:20.9333%;top:5.4%;width:78.2667%;height:20.5%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>shoe-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>鞋盒 · shoe-box</span></div>
+        <div class="kv"><b>Pred</b><span>收纳标签贴 · storage-label-sticker</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/xiehe_15507/266e7a508212b03c27893163e5a37546.html" target="_blank" rel="noreferrer">透明全亚克力鞋盒：AJ球鞋收纳展示神器，让你的鞋柜变身艺术品!-鞋盒-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.835925 · margin 0.029304</div>
+          <img src="../../fixtures/vision-household/cn/storage-label-sticker/storage-label-sticker-cn-gallery-003-image.jpg" alt="收纳标签贴" />
+          <div class="match-name">收纳标签贴</div>
+          <div class="match-id">storage-label-sticker</div>
+          <div class="match-id">sample storage-label-sticker-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 收纳标签贴</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/677337595134.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.806621</div>
+          <img src="../../fixtures/vision-household/cn/plant-label/plant-label-cn-gallery-003-1-11.jpg" alt="植物标签" />
+          <div class="match-name">植物标签</div>
+          <div class="match-id">plant-label</div>
+          <div class="match-id">sample plant-label-cn-gallery-003</div>
+          <div class="match-path">绿植园艺 &gt; 植物园艺 &gt; 室内绿植与园艺工具 &gt; 植物标签</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://chejiahao.autohome.com.cn/info/15060936?isfrom=m" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.80651</div>
+          <img src="../../fixtures/vision-household/cn/steamer-pot/steamer-pot-cn-gallery-002-image.jpg" alt="蒸锅" />
+          <div class="match-name">蒸锅</div>
+          <div class="match-id">steamer-pot</div>
+          <div class="match-id">sample steamer-pot-cn-gallery-002</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具刀具与小工具 &gt; 蒸锅</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://zhuanlan.zhihu.com/p/141478672" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/bowl/bowl-cn-eval-004-image.jpg" alt="bowl-cn-eval-004" />
+          <span class="box gt" style="left:30.875%;top:31.375%;width:30.75%;height:21.875%;">GT</span>
+<span class="box pred" style="left:30.875%;top:31.375%;width:30.75%;height:21.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>bowl-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>碗 · bowl</span></div>
+        <div class="kv"><b>Pred</b><span>马克杯 · mug</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_567664716671.html" target="_blank" rel="noreferrer">陶瓷碗套装创意红瓷喜庆龙凤骨瓷米饭碗带勺结婚碗筷餐具礼品套装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.788205 · margin 0.007056</div>
+          <img src="../../fixtures/vision-household/cn/mug/mug-cn-gallery-003-diy.jpg" alt="马克杯" />
+          <div class="match-name">马克杯</div>
+          <div class="match-id">mug</div>
+          <div class="match-id">sample mug-cn-gallery-003</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 马克杯</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/728053178836.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.781149</div>
+          <img src="../../fixtures/vision-household/cn/powder-compact/powder-compact-cn-gallery-001-image.jpg" alt="粉饼盒" />
+          <div class="match-name">粉饼盒</div>
+          <div class="match-id">powder-compact</div>
+          <div class="match-id">sample powder-compact-cn-gallery-001</div>
+          <div class="match-path">个人护理 &gt; 个人洗护 &gt; 护肤美妆 &gt; 粉饼盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/844688256336.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.777934</div>
+          <img src="../../fixtures/vision-household/cn/glasses-case/glasses-case-cn-gallery-003-ins.jpg" alt="眼镜盒" />
+          <div class="match-name">眼镜盒</div>
+          <div class="match-id">glasses-case</div>
+          <div class="match-id">sample glasses-case-cn-gallery-003</div>
+          <div class="match-path">衣物配饰 &gt; 衣物与配件 &gt; 日常衣物配饰 &gt; 眼镜盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_591147887146.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/plate/plate-cn-eval-004-6.jpg" alt="plate-cn-eval-004" />
+          <span class="box gt" style="left:7.125%;top:27.75%;width:40.5%;height:17.875%;">GT</span>
+<span class="box pred" style="left:7.125%;top:27.75%;width:40.5%;height:17.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>plate-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>盘子 · plate</span></div>
+        <div class="kv"><b>Pred</b><span>茶杯 · tea-cup</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_ZQg7dm3c6tQYJxWfBBZIVt6-rkOPPMuM7OqA0oGhJ.html" target="_blank" rel="noreferrer">家用菜盘盘子套装6个菜盘方盘组合创意餐具蒸鱼盘陶瓷饭盘汤碟子_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.796236 · margin 0.01424</div>
+          <img src="../../fixtures/vision-household/cn/tea-cup/tea-cup-cn-gallery-002-image.jpg" alt="茶杯" />
+          <div class="match-name">茶杯</div>
+          <div class="match-id">tea-cup</div>
+          <div class="match-id">sample tea-cup-cn-gallery-002</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具餐具 &gt; 茶杯</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_45274389437.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.781996</div>
+          <img src="../../fixtures/vision-household/cn/plate/plate-cn-gallery-001-image.jpg" alt="盘子" />
+          <div class="match-name">盘子</div>
+          <div class="match-id">plate</div>
+          <div class="match-id">sample plate-cn-gallery-001</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 盘子</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_530873685200.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.775029</div>
+          <img src="../../fixtures/vision-household/cn/mug/mug-cn-gallery-001-image.jpg" alt="马克杯" />
+          <div class="match-name">马克杯</div>
+          <div class="match-id">mug</div>
+          <div class="match-id">sample mug-cn-gallery-001</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 马克杯</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_668474289581.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/mug/mug-cn-eval-004-diy-diy.jpg" alt="mug-cn-eval-004" />
+          <span class="box gt" style="left:27.125%;top:21.75%;width:61.875%;height:60.75%;">GT</span>
+<span class="box pred" style="left:27.125%;top:21.75%;width:61.875%;height:60.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>mug-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>马克杯 · mug</span></div>
+        <div class="kv"><b>Pred</b><span>马克杯 · mug</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_X4PwzGDfGt9z7oyuVVruBtg-ZWRNNbuGzBJgQOKuOM.html" target="_blank" rel="noreferrer">陶瓷马克杯定制杯子diy活动礼品订做马克杯diy可印照片纪念定制图_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.871587 · margin 0.077038</div>
+          <img src="../../fixtures/vision-household/cn/mug/mug-cn-gallery-002-logo.jpg" alt="马克杯" />
+          <div class="match-name">马克杯</div>
+          <div class="match-id">mug</div>
+          <div class="match-id">sample mug-cn-gallery-002</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 马克杯</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/689534381206.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.794549</div>
+          <img src="../../fixtures/vision-household/cn/pet-bottle-water/pet-bottle-water-cn-gallery-002-image.jpg" alt="瓶装水" />
+          <div class="match-name">瓶装水</div>
+          <div class="match-id">pet-bottle-water</div>
+          <div class="match-id">sample pet-bottle-water-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 调味干货与饮品 &gt; 瓶装水</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="http://www.hy.tsinghua.edu.cn/info/1157/2600.htm" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.791411</div>
+          <img src="../../fixtures/vision-household/cn/pet-diaper-pack/pet-diaper-pack-cn-gallery-003-image.jpg" alt="宠物尿裤包" />
+          <div class="match-name">宠物尿裤包</div>
+          <div class="match-id">pet-diaper-pack</div>
+          <div class="match-id">sample pet-diaper-pack-cn-gallery-003</div>
+          <div class="match-path">宠物用品 &gt; 宠物用品 &gt; 宠物用品补充 &gt; 宠物尿裤包</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_xmqqbvjfktqMdxovpRiQ62TAt9-BmWKKNHr86aMQ5Of8.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-eval-004-image.jpg" alt="drinking-glass-cn-eval-004" />
+          <span class="box gt" style="left:26.0%;top:10.375%;width:72.625%;height:86.25%;">GT</span>
+<span class="box pred" style="left:26.0%;top:10.375%;width:72.625%;height:86.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>drinking-glass-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>玻璃杯 · drinking-glass</span></div>
+        <div class="kv"><b>Pred</b><span>玻璃杯 · drinking-glass</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/bolibei_2224/50d66459543557316351e9df0b456223.html" target="_blank" rel="noreferrer">富光双层玻璃杯子，男士女士通用的高档泡茶杯-玻璃杯-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.88227 · margin 0.088851</div>
+          <img src="../../fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-gallery-003-image.jpg" alt="玻璃杯" />
+          <div class="match-name">玻璃杯</div>
+          <div class="match-id">drinking-glass</div>
+          <div class="match-id">sample drinking-glass-cn-gallery-003</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 玻璃杯</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/bolibei_2224/55392a7b5e45f4cd38310f97f10f9e1f.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.793419</div>
+          <img src="../../fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-gallery-002-image.jpg" alt="电水壶" />
+          <div class="match-name">电水壶</div>
+          <div class="match-id">electric-kettle</div>
+          <div class="match-id">sample electric-kettle-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 电水壶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_Py6ry4mf3tnyzGqSvD9hPt6-DokRR8IPoeWOnzMHq.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.767496</div>
+          <img src="../../fixtures/vision-household/cn/salad-dressing-bottle/salad-dressing-bottle-cn-gallery-002-image.jpg" alt="沙拉酱瓶" />
+          <div class="match-name">沙拉酱瓶</div>
+          <div class="match-id">salad-dressing-bottle</div>
+          <div class="match-id">sample salad-dressing-bottle-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 粮油调味 &gt; 沙拉酱瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_629770593047.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/saucepan/saucepan-cn-eval-004-image.jpg" alt="saucepan-cn-eval-004" />
+          <span class="box gt" style="left:19.75%;top:30.625%;width:79.25%;height:65.5%;">GT</span>
+<span class="box pred" style="left:19.75%;top:30.625%;width:79.25%;height:65.5%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>saucepan-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>奶锅 · saucepan</span></div>
+        <div class="kv"><b>Pred</b><span>奶锅 · saucepan</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/naiguo_1587/a5845341e0adb95eccdbd9abeaa57507.html" target="_blank" rel="noreferrer">👶厨神必备!炊大皇奶锅，让宝宝辅食烹饪变得如此简单💖-奶锅-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.884957 · margin 0.056081</div>
+          <img src="../../fixtures/vision-household/cn/saucepan/saucepan-cn-gallery-001-316l.jpg" alt="奶锅" />
+          <div class="match-name">奶锅</div>
+          <div class="match-id">saucepan</div>
+          <div class="match-id">sample saucepan-cn-gallery-001</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 奶锅</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/naiguo_9305/a8e660a73ee9958a68839016981d6892.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.828876</div>
+          <img src="../../fixtures/vision-household/cn/baby-bowl/baby-bowl-cn-gallery-001-316-4-6-3-7.jpg" alt="儿童碗" />
+          <div class="match-name">儿童碗</div>
+          <div class="match-id">baby-bowl</div>
+          <div class="match-id">sample baby-bowl-cn-gallery-001</div>
+          <div class="match-path">母婴儿童 &gt; 婴童用品 &gt; 玩具学习与喂养用品 &gt; 儿童碗</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_jABZzwYT0tQxBkZcBJBIJte-OpRwwaFZRD0xN3vc7.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.824983</div>
+          <img src="../../fixtures/vision-household/cn/pressure-cooker/pressure-cooker-cn-gallery-001-316.jpg" alt="压力锅" />
+          <div class="match-name">压力锅</div>
+          <div class="match-id">pressure-cooker</div>
+          <div class="match-id">sample pressure-cooker-cn-gallery-001</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具餐具 &gt; 压力锅</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/yaliguo_1627/323987ca92b060341da319ca63dd856a.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1000/1000;">
+          <img src="../../fixtures/vision-household/cn/frying-pan/frying-pan-cn-eval-004-image.jpg" alt="frying-pan-cn-eval-004" />
+          <span class="box gt" style="left:46.8%;top:26.5%;width:48.6%;height:42.2%;">GT</span>
+<span class="box pred" style="left:46.8%;top:26.5%;width:48.6%;height:42.2%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>frying-pan-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>煎锅 · frying-pan</span></div>
+        <div class="kv"><b>Pred</b><span>餐盘 · dinner-plate</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/jianguo_13506/1a1a1edec8bf7d912d756bfea09bf376.html" target="_blank" rel="noreferrer">老式铸铁煎锅：复古魅力，烹饪新体验🔥-煎锅-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.838003 · margin 0.00994</div>
+          <img src="../../fixtures/vision-household/cn/dinner-plate/dinner-plate-cn-gallery-003-aito.png" alt="餐盘" />
+          <div class="match-name">餐盘</div>
+          <div class="match-id">dinner-plate</div>
+          <div class="match-id">sample dinner-plate-cn-gallery-003</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具餐具 &gt; 餐盘</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_594161338949.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.828063</div>
+          <img src="../../fixtures/vision-household/cn/serving-tray/serving-tray-cn-gallery-003-image.jpg" alt="托盘" />
+          <div class="match-name">托盘</div>
+          <div class="match-id">serving-tray</div>
+          <div class="match-id">sample serving-tray-cn-gallery-003</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具餐具 &gt; 托盘</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_595893150542.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.815338</div>
+          <img src="../../fixtures/vision-household/cn/frying-pan/frying-pan-cn-gallery-002-image.jpg" alt="煎锅" />
+          <div class="match-name">煎锅</div>
+          <div class="match-id">frying-pan</div>
+          <div class="match-id">sample frying-pan-cn-gallery-002</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 煎锅</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/jianguo_13506/2075b25aca1bddec34b1cd61bdd5b47e.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/cutting-board/cutting-board-cn-eval-004-image.jpg" alt="cutting-board-cn-eval-004" />
+          <span class="box gt" style="left:0.75%;top:28.125%;width:98.375%;height:53.25%;">GT</span>
+<span class="box pred" style="left:0.75%;top:28.125%;width:98.375%;height:53.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>cutting-board-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>菜板 · cutting-board</span></div>
+        <div class="kv"><b>Pred</b><span>电压力锅 · electric-pressure-cooker</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/zhenban_4264/27701a9e6eaa2f720001aa8a752a1e29.html" target="_blank" rel="noreferrer">抗菌防霉塑料菜板，厨房必备神器! -砧板-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.753411 · margin 0.001856</div>
+          <img src="../../fixtures/vision-household/cn/electric-pressure-cooker/electric-pressure-cooker-cn-gallery-003-yl50easy203-5l.jpg" alt="电压力锅" />
+          <div class="match-name">电压力锅</div>
+          <div class="match-id">electric-pressure-cooker</div>
+          <div class="match-id">sample electric-pressure-cooker-cn-gallery-003</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 厨房生活电器 &gt; 电压力锅</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/shangpin_1930/28d0324b37ea8efbf5d763bd6ed7f920.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.751555</div>
+          <img src="../../fixtures/vision-household/cn/cutting-board/cutting-board-cn-gallery-003-image.jpg" alt="菜板" />
+          <div class="match-name">菜板</div>
+          <div class="match-id">cutting-board</div>
+          <div class="match-id">sample cutting-board-cn-gallery-003</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 备餐与餐具 &gt; 菜板</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/zhenban_1852/ee6125f651641e6e2fcb3b1d6630bb07.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.747587</div>
+          <img src="../../fixtures/vision-household/cn/cake-pack/cake-pack-cn-gallery-003-image.jpg" alt="糕点包装" />
+          <div class="match-name">糕点包装</div>
+          <div class="match-id">cake-pack</div>
+          <div class="match-id">sample cake-pack-cn-gallery-003</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 零食糖果 &gt; 糕点包装</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_NBBKmNBf5tj9w6RIxZJCRtB-ZWRNNbuGY3rkkxWUO.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/rice-bag/rice-bag-cn-eval-004-2-5kg10.jpg" alt="rice-bag-cn-eval-004" />
+          <span class="box gt" style="left:0.25%;top:1.75%;width:34.375%;height:55.625%;">GT</span>
+<span class="box pred" style="left:0.25%;top:1.75%;width:34.375%;height:55.625%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>rice-bag-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>米袋 · rice-bag</span></div>
+        <div class="kv"><b>Pred</b><span>蛤蜊盒 · clam-pack</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_557623835514.html" target="_blank" rel="noreferrer">五常稻花香米袋小米大米包装袋子牛皮纸定制手提2.5kg10斤装防水_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.880651 · margin 0.025707</div>
+          <img src="../../fixtures/vision-household/cn/clam-pack/clam-pack-cn-gallery-002-390.png" alt="蛤蜊盒" />
+          <div class="match-name">蛤蜊盒</div>
+          <div class="match-id">clam-pack</div>
+          <div class="match-id">sample clam-pack-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 生鲜食品 &gt; 水产海鲜 &gt; 蛤蜊盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://item.jd.com/10208254202696.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.854944</div>
+          <img src="../../fixtures/vision-household/cn/bean-curd-stick-pack/bean-curd-stick-pack-cn-gallery-001-500-250g.jpg" alt="腐竹包装" />
+          <div class="match-name">腐竹包装</div>
+          <div class="match-id">bean-curd-stick-pack</div>
+          <div class="match-id">sample bean-curd-stick-pack-cn-gallery-001</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 包装食品补充 &gt; 腐竹包装</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_651895543124.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.854286</div>
+          <img src="../../fixtures/vision-household/cn/dried-noodle-bundle/dried-noodle-bundle-cn-gallery-003-1000g.jpg" alt="挂面捆" />
+          <div class="match-name">挂面捆</div>
+          <div class="match-id">dried-noodle-bundle</div>
+          <div class="match-id">sample dried-noodle-bundle-cn-gallery-003</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 包装食品补充 &gt; 挂面捆</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://www.9ifashion.com/goods/560215.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/noodle-pack/noodle-pack-cn-eval-004-8.jpg" alt="noodle-pack-cn-eval-004" />
+          <span class="box gt" style="left:12.75%;top:7.5%;width:72.75%;height:54.375%;">GT</span>
+<span class="box pred" style="left:12.75%;top:7.5%;width:72.75%;height:54.375%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>noodle-pack-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>面条包装 · noodle-pack</span></div>
+        <div class="kv"><b>Pred</b><span>香肠包装 · sausage-pack</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_634161618276.html" target="_blank" rel="noreferrer">福州礼盒线面8包装盈乐长寿面福建特产手工面线糊细挂面生日面条_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.831312 · margin 0.004851</div>
+          <img src="../../fixtures/vision-household/cn/sausage-pack/sausage-pack-cn-gallery-002-image.jpg" alt="香肠包装" />
+          <div class="match-name">香肠包装</div>
+          <div class="match-id">sausage-pack</div>
+          <div class="match-id">sample sausage-pack-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 生鲜食品 &gt; 肉禽蛋 &gt; 香肠包装</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_660849495591.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.826461</div>
+          <img src="../../fixtures/vision-household/cn/rice-bag/rice-bag-cn-gallery-001-10-20-30-50.jpg" alt="米袋" />
+          <div class="match-name">米袋</div>
+          <div class="match-id">rice-bag</div>
+          <div class="match-id">sample rice-bag-cn-gallery-001</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 包装食品与主食 &gt; 米袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/shuinidai_14291/f3e7e99858b56992f833f44fd0f9e9af.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.822649</div>
+          <img src="../../fixtures/vision-household/cn/shoe-polish-tin/shoe-polish-tin-cn-gallery-003-2019.jpg" alt="鞋油盒" />
+          <div class="match-name">鞋油盒</div>
+          <div class="match-id">shoe-polish-tin</div>
+          <div class="match-id">sample shoe-polish-tin-cn-gallery-003</div>
+          <div class="match-path">衣物配饰 &gt; 衣物与配件 &gt; 鞋履配件 &gt; 鞋油盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_22934472513.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/canned-food/canned-food-cn-eval-004-312gx6.jpg" alt="canned-food-cn-eval-004" />
+          <span class="box gt" style="left:69.875%;top:7.875%;width:28.5%;height:41.75%;">GT</span>
+<span class="box pred" style="left:69.875%;top:7.875%;width:28.5%;height:41.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>canned-food-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>罐头 · canned-food</span></div>
+        <div class="kv"><b>Pred</b><span>瓶装碳酸饮料 · carbonated-drink-bottle</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_624066826188.html" target="_blank" rel="noreferrer">水果罐头混合装312gx6罐新鲜整箱糖水果橘子黄桃菠萝椰果什锦罐头_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.824282 · margin 0.003194</div>
+          <img src="../../fixtures/vision-household/cn/carbonated-drink-bottle/carbonated-drink-bottle-cn-gallery-002-300ml.jpg" alt="瓶装碳酸饮料" />
+          <div class="match-name">瓶装碳酸饮料</div>
+          <div class="match-id">carbonated-drink-bottle</div>
+          <div class="match-id">sample carbonated-drink-bottle-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 饮料 &gt; 瓶装碳酸饮料</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_pJ3odjvUxt6Vm0O0enceg0uptm-ZWRNNbuAZmgOYy0cp.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.821088</div>
+          <img src="../../fixtures/vision-household/cn/herbal-tea-can/herbal-tea-can-cn-gallery-002-25-310ml-6-0-0-0.jpg" alt="凉茶罐" />
+          <div class="match-name">凉茶罐</div>
+          <div class="match-id">herbal-tea-can</div>
+          <div class="match-id">sample herbal-tea-can-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 饮料 &gt; 凉茶罐</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/liangcha_10529/e0266989fddf293742940cf67f998203.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.814941</div>
+          <img src="../../fixtures/vision-household/cn/carbonated-drink-bottle/carbonated-drink-bottle-cn-gallery-003-2l-6.jpg" alt="瓶装碳酸饮料" />
+          <div class="match-name">瓶装碳酸饮料</div>
+          <div class="match-id">carbonated-drink-bottle</div>
+          <div class="match-id">sample carbonated-drink-bottle-cn-gallery-003</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 饮料 &gt; 瓶装碳酸饮料</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_633282473126.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/snack-bag/snack-bag-cn-eval-004-100.jpg" alt="snack-bag-cn-eval-004" />
+          <span class="box gt" style="left:45.5%;top:21.375%;width:46.125%;height:66.875%;">GT</span>
+<span class="box pred" style="left:45.5%;top:21.375%;width:46.125%;height:66.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>snack-bag-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>零食袋 · snack-bag</span></div>
+        <div class="kv"><b>Pred</b><span>酸奶瓶 · yogurt-bottle</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_624794102528.html" target="_blank" rel="noreferrer">休闲食品自封袋坚果自立袋糖果零食袋子批发 100个零食物语包装袋_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.856269 · margin 0.001049</div>
+          <img src="../../fixtures/vision-household/cn/yogurt-bottle/yogurt-bottle-cn-gallery-001-910g-2.jpg" alt="酸奶瓶" />
+          <div class="match-name">酸奶瓶</div>
+          <div class="match-id">yogurt-bottle</div>
+          <div class="match-id">sample yogurt-bottle-cn-gallery-001</div>
+          <div class="match-path">食品与囤货 &gt; 冷藏食品 &gt; 乳品冷藏 &gt; 酸奶瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_672023048447.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.85522</div>
+          <img src="../../fixtures/vision-household/cn/enoki-mushroom/enoki-mushroom-cn-gallery-003-image.jpg" alt="金针菇" />
+          <div class="match-name">金针菇</div>
+          <div class="match-id">enoki-mushroom</div>
+          <div class="match-id">sample enoki-mushroom-cn-gallery-003</div>
+          <div class="match-path">食品与囤货 &gt; 生鲜食品 &gt; 蔬菜 &gt; 金针菇</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/shucaigan_14139/49fe3036e1095c32182cd393c4c42746.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.847944</div>
+          <img src="../../fixtures/vision-household/cn/carbonated-drink-can/carbonated-drink-can-cn-gallery-002-x-330ml.jpg" alt="罐装碳酸饮料" />
+          <div class="match-name">罐装碳酸饮料</div>
+          <div class="match-id">carbonated-drink-can</div>
+          <div class="match-id">sample carbonated-drink-can-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 饮料 &gt; 罐装碳酸饮料</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://mobile-phone.taobao.com/detail/Ymc4Qm5uWHcrcWN2S1ptd05acGNPQT09.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-eval-004-33-2500ml-2-5-pet-5.jpg" alt="beverage-bottle-cn-eval-004" />
+          <span class="box gt" style="left:31.125%;top:7.25%;width:33.25%;height:82.0%;">GT</span>
+<span class="box pred" style="left:31.125%;top:7.25%;width:33.25%;height:82.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>beverage-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>饮料瓶 · beverage-bottle</span></div>
+        <div class="kv"><b>Pred</b><span>饮料瓶 · beverage-bottle</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_MqVZarDtKtJ9xmWuVVmUQtA-PNzeejCnBOOW0pMhY.html" target="_blank" rel="noreferrer">33号2500ml/2.5升一次性透明塑料瓶空瓶果汁瓶pet饮料瓶子5斤带盖_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.885132 · margin 0.006111</div>
+          <img src="../../fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-gallery-002-13-500ml.jpg" alt="饮料瓶" />
+          <div class="match-name">饮料瓶</div>
+          <div class="match-id">beverage-bottle</div>
+          <div class="match-id">sample beverage-bottle-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 包装食品与主食 &gt; 饮料瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_543225313651.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.879021</div>
+          <img src="../../fixtures/vision-household/cn/jam-jar/jam-jar-cn-gallery-001-image.jpg" alt="果酱瓶" />
+          <div class="match-name">果酱瓶</div>
+          <div class="match-id">jam-jar</div>
+          <div class="match-id">sample jam-jar-cn-gallery-001</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 早餐烘焙 &gt; 果酱瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_616748182248.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.858881</div>
+          <img src="../../fixtures/vision-household/cn/toner-bottle/toner-bottle-cn-gallery-002-120.jpg" alt="爽肤水瓶" />
+          <div class="match-name">爽肤水瓶</div>
+          <div class="match-id">toner-bottle</div>
+          <div class="match-id">sample toner-bottle-cn-gallery-002</div>
+          <div class="match-path">个人护理 &gt; 个人洗护 &gt; 护肤美妆 &gt; 爽肤水瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/646858993936.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1500/1500;">
+          <img src="../../fixtures/vision-household/cn/spice-jar/spice-jar-cn-eval-004-image.jpg" alt="spice-jar-cn-eval-004" />
+          <span class="box gt" style="left:35.7333%;top:27.4%;width:31.0%;height:62.0667%;">GT</span>
+<span class="box pred" style="left:35.7333%;top:27.4%;width:31.0%;height:62.0667%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>spice-jar-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>调料瓶 · spice-jar</span></div>
+        <div class="kv"><b>Pred</b><span>加湿器 · humidifier</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_jGjKVjmyc0tJAPg2mDYtBKeUJte-wzQnnOsQO4naORwsN.html" target="_blank" rel="noreferrer">定量控盐瓶调料罐密封罐防潮控盐调料瓶家用厨房调味料瓶组合套装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.826353 · margin 0.018143</div>
+          <img src="../../fixtures/vision-household/cn/humidifier/humidifier-cn-gallery-002-2-xiaomi-2.jpg" alt="加湿器" />
+          <div class="match-name">加湿器</div>
+          <div class="match-id">humidifier</div>
+          <div class="match-id">sample humidifier-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 家庭电器 &gt; 大家电与环境电器 &gt; 加湿器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/704968990809.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.80821</div>
+          <img src="../../fixtures/vision-household/cn/fishing-rod/fishing-rod-cn-gallery-003-image.jpg" alt="鱼竿" />
+          <div class="match-name">鱼竿</div>
+          <div class="match-id">fishing-rod</div>
+          <div class="match-id">sample fishing-rod-cn-gallery-003</div>
+          <div class="match-path">运动户外 &gt; 健身户外 &gt; 户外运动补充 &gt; 鱼竿</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_PKDpY7Nf3tnnK7KUvvNUPt6-PNzeejCKg892JagSD.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.799599</div>
+          <img src="../../fixtures/vision-household/cn/diffuser-bottle/diffuser-bottle-cn-gallery-001-image.jpg" alt="香薰瓶" />
+          <div class="match-name">香薰瓶</div>
+          <div class="match-id">diffuser-bottle</div>
+          <div class="match-id">sample diffuser-bottle-cn-gallery-001</div>
+          <div class="match-path">家居装饰 &gt; 装饰用品 &gt; 家庭装饰物 &gt; 香薰瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_nwo8OkQSMt3pgNOYxpCkNOh0tP-PNzeejCKm2A4a3XHb.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/medicine-box/medicine-box-cn-eval-004-image.jpg" alt="medicine-box-cn-eval-004" />
+          <span class="box gt" style="left:7.25%;top:34.25%;width:58.25%;height:42.875%;">GT</span>
+<span class="box pred" style="left:7.25%;top:34.25%;width:58.25%;height:42.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/yaohe_5655/7715f52b55552fd1ce4c7716c65f1a9d.html" target="_blank" rel="noreferrer">日本药盒便携一周分装盒，吃药再也不手忙脚乱!💊-药盒-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.794381 · margin 0.010884</div>
+          <img src="../../fixtures/vision-household/cn/medicine-box/medicine-box-cn-gallery-002-image.jpg" alt="药盒" />
+          <div class="match-name">药盒</div>
+          <div class="match-id">medicine-box</div>
+          <div class="match-id">sample medicine-box-cn-gallery-002</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品与急救用品 &gt; 药盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_641233251476.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.783497</div>
+          <img src="../../fixtures/vision-household/cn/storage-box/storage-box-cn-gallery-003-image.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_9nWjnZQTBtONzJPppvsZnqtQt6-jeke0AOcXvwoGNb4TzO.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.776724</div>
+          <img src="../../fixtures/vision-household/cn/storage-box/storage-box-cn-gallery-002-image.jpg" alt="收纳盒" />
+          <div class="match-name">收纳盒</div>
+          <div class="match-id">storage-box</div>
+          <div class="match-id">sample storage-box-cn-gallery-002</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 收纳盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_640886710103.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/pill-bottle/pill-bottle-cn-eval-004-image.jpg" alt="pill-bottle-cn-eval-004" />
+          <span class="box gt" style="left:21.625%;top:34.5%;width:18.75%;height:58.25%;">GT</span>
+<span class="box pred" style="left:21.625%;top:34.5%;width:18.75%;height:58.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>pill-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药瓶 · pill-bottle</span></div>
+        <div class="kv"><b>Pred</b><span>鱼竿 · fishing-rod</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_601296008600.html" target="_blank" rel="noreferrer">便携塑料小药瓶白色避光小空瓶固体胶囊分装瓶药用片剂包装瓶带盖_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.909749 · margin 0.010662</div>
+          <img src="../../fixtures/vision-household/cn/fishing-rod/fishing-rod-cn-gallery-003-image.jpg" alt="鱼竿" />
+          <div class="match-name">鱼竿</div>
+          <div class="match-id">fishing-rod</div>
+          <div class="match-id">sample fishing-rod-cn-gallery-003</div>
+          <div class="match-path">运动户外 &gt; 健身户外 &gt; 户外运动补充 &gt; 鱼竿</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_PKDpY7Nf3tnnK7KUvvNUPt6-PNzeejCKg892JagSD.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.899087</div>
+          <img src="../../fixtures/vision-household/cn/ottoman/ottoman-cn-gallery-001-image.jpg" alt="脚凳" />
+          <div class="match-name">脚凳</div>
+          <div class="match-id">ottoman</div>
+          <div class="match-id">sample ottoman-cn-gallery-001</div>
+          <div class="match-path">家具 &gt; 家庭家具 &gt; 座椅桌柜与架类 &gt; 脚凳</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/681239914534.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.891785</div>
+          <img src="../../fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-gallery-003-330ml500ml.jpg" alt="饮料瓶" />
+          <div class="match-name">饮料瓶</div>
+          <div class="match-id">beverage-bottle</div>
+          <div class="match-id">sample beverage-bottle-cn-gallery-003</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 包装食品与主食 &gt; 饮料瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_4bjKdjNsgtNM625VvQiww2sNtg-BmWKKNHrvR9d3wqs6.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/thermometer/thermometer-cn-eval-004-image.jpg" alt="thermometer-cn-eval-004" />
+          <span class="box gt" style="left:62.75%;top:9.875%;width:19.25%;height:77.875%;">GT</span>
+<span class="box pred" style="left:62.75%;top:9.875%;width:19.25%;height:77.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>thermometer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>体温计 · thermometer</span></div>
+        <div class="kv"><b>Pred</b><span>扫帚 · broom</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/tiwenji_6546/6b020ce5a7bd6812a8998595ed429e9c.html" target="_blank" rel="noreferrer">电子体温计欧德宝：精准测量，守护家人的健康温度!-体温计-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.859847 · margin 0.013471</div>
+          <img src="../../fixtures/vision-household/cn/broom/broom-cn-gallery-001-image.jpg" alt="扫帚" />
+          <div class="match-name">扫帚</div>
+          <div class="match-id">broom</div>
+          <div class="match-id">sample broom-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣与清洁工具 &gt; 扫帚</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://wydsmp.sunac.com.cn/goods/1049710" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.846376</div>
+          <img src="../../fixtures/vision-household/cn/boots/boots-cn-gallery-003-2022.jpg" alt="靴子" />
+          <div class="match-name">靴子</div>
+          <div class="match-id">boots</div>
+          <div class="match-id">sample boots-cn-gallery-003</div>
+          <div class="match-path">衣物配饰 &gt; 衣物与配件 &gt; 鞋履配件 &gt; 靴子</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_606938304465.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.839035</div>
+          <img src="../../fixtures/vision-household/cn/mascara-tube/mascara-tube-cn-gallery-003-8ml.jpg" alt="睫毛膏管" />
+          <div class="match-name">睫毛膏管</div>
+          <div class="match-id">mascara-tube</div>
+          <div class="match-id">sample mascara-tube-cn-gallery-003</div>
+          <div class="match-path">个人护理 &gt; 个人洗护 &gt; 护肤美妆 &gt; 睫毛膏管</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/796232165373.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:900/900;">
+          <img src="../../fixtures/vision-household/cn/bandage-box/bandage-box-cn-eval-004-5.jpg" alt="bandage-box-cn-eval-004" />
+          <span class="box gt" style="left:2.3333%;top:23.6667%;width:32.2222%;height:39.7778%;">GT</span>
+<span class="box pred" style="left:2.3333%;top:23.6667%;width:32.2222%;height:39.7778%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>bandage-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>创可贴盒 · bandage-box</span></div>
+        <div class="kv"><b>Pred</b><span>牙膏 · toothpaste</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/41419373508.html" target="_blank" rel="noreferrer">医疗促销礼品 可贴牌便携塑料创可贴盒含5片止血贴 创口贴邦迪盒-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.774755 · margin 0.017429</div>
+          <img src="../../fixtures/vision-household/cn/toothpaste/toothpaste-cn-gallery-003-200g-2.jpg" alt="牙膏" />
+          <div class="match-name">牙膏</div>
+          <div class="match-id">toothpaste</div>
+          <div class="match-id">sample toothpaste-cn-gallery-003</div>
+          <div class="match-path">个人护理 &gt; 个人洗护 &gt; 个人护理用品 &gt; 牙膏</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_661824898383.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.757326</div>
+          <img src="../../fixtures/vision-household/cn/bathroom-cleaner-bottle/bathroom-cleaner-bottle-cn-gallery-001-2.jpg" alt="浴室清洁剂瓶" />
+          <div class="match-name">浴室清洁剂瓶</div>
+          <div class="match-id">bathroom-cleaner-bottle</div>
+          <div class="match-id">sample bathroom-cleaner-bottle-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 清洁剂 &gt; 浴室清洁剂瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_602646493553.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.753482</div>
+          <img src="../../fixtures/vision-household/cn/ottoman/ottoman-cn-gallery-001-image.jpg" alt="脚凳" />
+          <div class="match-name">脚凳</div>
+          <div class="match-id">ottoman</div>
+          <div class="match-id">sample ottoman-cn-gallery-001</div>
+          <div class="match-path">家具 &gt; 家庭家具 &gt; 座椅桌柜与架类 &gt; 脚凳</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/681239914534.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1440/1440;">
+          <img src="../../fixtures/vision-household/cn/first-aid-kit/first-aid-kit-cn-eval-004-image.jpg" alt="first-aid-kit-cn-eval-004" />
+          <span class="box gt" style="left:33.2639%;top:6.1806%;width:64.6528%;height:9.8611%;">GT</span>
+<span class="box pred" style="left:33.2639%;top:6.1806%;width:64.6528%;height:9.8611%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>first-aid-kit-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>急救包 · first-aid-kit</span></div>
+        <div class="kv"><b>Pred</b><span>收纳标签贴 · storage-label-sticker</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/yingjibao_3523/5a38e2227090da1cd5bb3c437ef9c4bf.html" target="_blank" rel="noreferrer">户外急救包全攻略：红十字会推荐便携医用箱，地震应急必备!-应急包-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.871192 · margin 0.039968</div>
+          <img src="../../fixtures/vision-household/cn/storage-label-sticker/storage-label-sticker-cn-gallery-003-image.jpg" alt="收纳标签贴" />
+          <div class="match-name">收纳标签贴</div>
+          <div class="match-id">storage-label-sticker</div>
+          <div class="match-id">sample storage-label-sticker-cn-gallery-003</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳用品 &gt; 收纳标签贴</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/677337595134.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.831224</div>
+          <img src="../../fixtures/vision-household/cn/steamer-pot/steamer-pot-cn-gallery-002-image.jpg" alt="蒸锅" />
+          <div class="match-name">蒸锅</div>
+          <div class="match-id">steamer-pot</div>
+          <div class="match-id">sample steamer-pot-cn-gallery-002</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具刀具与小工具 &gt; 蒸锅</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://zhuanlan.zhihu.com/p/141478672" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.809703</div>
+          <img src="../../fixtures/vision-household/cn/mayonnaise-bottle/mayonnaise-bottle-cn-gallery-001-1kg-12.jpg" alt="蛋黄酱瓶" />
+          <div class="match-name">蛋黄酱瓶</div>
+          <div class="match-id">mayonnaise-bottle</div>
+          <div class="match-id">sample mayonnaise-bottle-cn-gallery-001</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 粮油调味 &gt; 蛋黄酱瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/shala_11460/1eaf8ae8e6dcf90786f0c329acda5cb9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/720;">
+          <img src="../../fixtures/vision-household/cn/face-mask-pack/face-mask-pack-cn-eval-004-954vkn95-3m9041.jpg" alt="face-mask-pack-cn-eval-004" />
+          <span class="box gt" style="left:48.125%;top:34.1667%;width:14.6094%;height:17.9167%;">GT</span>
+<span class="box pred" style="left:48.125%;top:34.1667%;width:14.6094%;height:17.9167%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>face-mask-pack-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>口罩包 · face-mask-pack</span></div>
+        <div class="kv"><b>Pred</b><span>花盆 · flower-pot</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/690036462534.html" target="_blank" rel="noreferrer">口罩954VKN95口罩防装修甲醛粉尘异味3M9041有机气体防护口罩包邮-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.808921 · margin 0.001796</div>
+          <img src="../../fixtures/vision-household/cn/flower-pot/flower-pot-cn-gallery-002-66.jpg" alt="花盆" />
+          <div class="match-name">花盆</div>
+          <div class="match-id">flower-pot</div>
+          <div class="match-id">sample flower-pot-cn-gallery-002</div>
+          <div class="match-path">绿植园艺 &gt; 植物园艺 &gt; 室内绿植与园艺工具 &gt; 花盆</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://zhuanlan.zhihu.com/p/438666085" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.807125</div>
+          <img src="../../fixtures/vision-household/cn/pet-bowl/pet-bowl-cn-gallery-001-image.jpg" alt="宠物碗" />
+          <div class="match-name">宠物碗</div>
+          <div class="match-id">pet-bowl</div>
+          <div class="match-id">sample pet-bowl-cn-gallery-001</div>
+          <div class="match-path">宠物用品 &gt; 宠物用品 &gt; 宠物食品护理与配件 &gt; 宠物碗</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/maogouwan_2285/9a98b3dd63570594fbcf09d97ed7dc90.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.80572</div>
+          <img src="../../fixtures/vision-household/cn/water-dispenser/water-dispenser-cn-gallery-001-2021.jpg" alt="饮水机" />
+          <div class="match-name">饮水机</div>
+          <div class="match-id">water-dispenser</div>
+          <div class="match-id">sample water-dispenser-cn-gallery-001</div>
+          <div class="match-path">家电 &gt; 家庭电器 &gt; 家用电器补充 &gt; 饮水机</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_yd7yDWriRtgxgdvhooMfvtA-p3j775cRePW9prxTo.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/disinfectant-wipes/disinfectant-wipes-cn-eval-004-60.jpg" alt="disinfectant-wipes-cn-eval-004" />
+          <span class="box gt" style="left:0.0%;top:30.75%;width:99.375%;height:69.25%;">GT</span>
+<span class="box pred" style="left:0.0%;top:30.75%;width:99.375%;height:69.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>disinfectant-wipes-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>消毒湿巾 · disinfectant-wipes</span></div>
+        <div class="kv"><b>Pred</b><span>笔 · pen</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/xiaodumianpian_13445/30444cedfcd79975b148f40eaeaa12bc.html" target="_blank" rel="noreferrer">一次性医用消毒湿巾60片装：大包消毒湿巾，随时随地杀菌消毒!-消毒棉片-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.842888 · margin 0.002472</div>
+          <img src="../../fixtures/vision-household/cn/pen/pen-cn-gallery-003-720.jpg" alt="笔" />
+          <div class="match-name">笔</div>
+          <div class="match-id">pen</div>
+          <div class="match-id">sample pen-cn-gallery-003</div>
+          <div class="match-path">文件与办公 &gt; 文件文具 &gt; 证件与办公用品 &gt; 笔</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_Q2brnbdHQtBxD3o98ZTXyBsatQ-YA3ppxSdn7naj8JcW.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.840416</div>
+          <img src="../../fixtures/vision-household/cn/disposable-chopsticks-pack/disposable-chopsticks-pack-cn-gallery-002-image.jpg" alt="一次性筷子包" />
+          <div class="match-name">一次性筷子包</div>
+          <div class="match-id">disposable-chopsticks-pack</div>
+          <div class="match-id">sample disposable-chopsticks-pack-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 纸品耗材 &gt; 家庭纸品 &gt; 一次性筷子包</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_602663603487.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.830597</div>
+          <img src="../../fixtures/vision-household/cn/wet-wipes-pack/wet-wipes-pack-cn-gallery-001-image.jpg" alt="湿巾包" />
+          <div class="match-name">湿巾包</div>
+          <div class="match-id">wet-wipes-pack</div>
+          <div class="match-id">sample wet-wipes-pack-cn-gallery-001</div>
+          <div class="match-path">母婴儿童 &gt; 婴童用品 &gt; 婴童护理与玩具 &gt; 湿巾包</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_78dPN0ZS4t5GX3PK45TnnjfMtV-rkOPPMuMn02e0Qof9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-eval-004-3kg-4-24.jpg" alt="laundry-detergent-cn-eval-004" />
+          <span class="box gt" style="left:15.125%;top:25.25%;width:44.625%;height:67.875%;">GT</span>
+<span class="box pred" style="left:15.125%;top:25.25%;width:44.625%;height:67.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>laundry-detergent-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>洗衣液 · laundry-detergent</span></div>
+        <div class="kv"><b>Pred</b><span>洗衣液 · laundry-detergent</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_2nXMbGbUotwqnynFaaptDtD-xzQZZ4sO6Yp7k0etA.html" target="_blank" rel="noreferrer">蓝月亮洗衣液3Kg*4瓶薰衣草香深层洁净衣物清洁整箱家用24斤大桶_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.942179 · margin 0.015664</div>
+          <img src="../../fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-gallery-001-1-1kg.jpg" alt="洗衣液" />
+          <div class="match-name">洗衣液</div>
+          <div class="match-id">laundry-detergent</div>
+          <div class="match-id">sample laundry-detergent-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 清洁用品与配件 &gt; 洗衣液</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_v9N2dY8UZt0xdnvSAM9U0te-4RDrrQFy4on2veH9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.926515</div>
+          <img src="../../fixtures/vision-household/cn/laundry-detergent-bottle/laundry-detergent-bottle-cn-gallery-001-1kg-wepost.jpg" alt="洗衣液瓶" />
+          <div class="match-name">洗衣液瓶</div>
+          <div class="match-id">laundry-detergent-bottle</div>
+          <div class="match-id">sample laundry-detergent-bottle-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣护理 &gt; 洗衣液瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://www.wepost.com.my/recommends/items/taobao-MOW2ZOf4QedNrmURy.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.925888</div>
+          <img src="../../fixtures/vision-household/cn/laundry-detergent-bottle/laundry-detergent-bottle-cn-gallery-002-12-3kg-1kg-3.png" alt="洗衣液瓶" />
+          <div class="match-name">洗衣液瓶</div>
+          <div class="match-id">laundry-detergent-bottle</div>
+          <div class="match-id">sample laundry-detergent-bottle-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣护理 &gt; 洗衣液瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_BKdZpaVS6t8vkRwIpMmirte-WkRwwpuQO5OvWrpId.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/dish-soap/dish-soap-cn-eval-004-500g.jpg" alt="dish-soap-cn-eval-004" />
+          <span class="box gt" style="left:38.375%;top:29.375%;width:23.5%;height:61.75%;">GT</span>
+<span class="box pred" style="left:38.375%;top:29.375%;width:23.5%;height:61.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>dish-soap-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>洗洁精 · dish-soap</span></div>
+        <div class="kv"><b>Pred</b><span>洗衣粉袋 · washing-powder-bag</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_624853574427.html" target="_blank" rel="noreferrer">雕牌洗洁精小瓶500g全效丝瓜清爽去油餐洗净洗碟精宿舍家用洗涤精_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.899572 · margin 0.003191</div>
+          <img src="../../fixtures/vision-household/cn/washing-powder-bag/washing-powder-bag-cn-gallery-002-max.jpg" alt="洗衣粉袋" />
+          <div class="match-name">洗衣粉袋</div>
+          <div class="match-id">washing-powder-bag</div>
+          <div class="match-id">sample washing-powder-bag-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣护理 &gt; 洗衣粉袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/xiyifen_12480/dc3cbb593761cc132ddfc0871c2c18fe.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.896381</div>
+          <img src="../../fixtures/vision-household/cn/mosquito-repellent/mosquito-repellent-cn-gallery-003-ars-saratect-200ml.jpg" alt="驱蚊液" />
+          <div class="match-name">驱蚊液</div>
+          <div class="match-id">mosquito-repellent</div>
+          <div class="match-id">sample mosquito-repellent-cn-gallery-003</div>
+          <div class="match-path">季节物品 &gt; 季节用品 &gt; 天气节日与季节用品 &gt; 驱蚊液</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/fangwenye_18177/91c6d4ad9daf69a68c7390d0def19853.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.894871</div>
+          <img src="../../fixtures/vision-household/cn/dish-soap/dish-soap-cn-gallery-002-4-68kg.jpg" alt="洗洁精" />
+          <div class="match-name">洗洁精</div>
+          <div class="match-id">dish-soap</div>
+          <div class="match-id">sample dish-soap-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 清洁用品与配件 &gt; 洗洁精</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/xijiejing_5616/06dbf05bba7b2e8e631c9156c6aa9eaa.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-eval-004-500ml.jpg" alt="cleaning-spray-bottle-cn-eval-004" />
+          <span class="box gt" style="left:28.0%;top:22.125%;width:19.125%;height:60.75%;">GT</span>
+<span class="box pred" style="left:28.0%;top:22.125%;width:19.125%;height:60.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>cleaning-spray-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>清洁喷瓶 · cleaning-spray-bottle</span></div>
+        <div class="kv"><b>Pred</b><span>清洁喷瓶 · cleaning-spray-bottle</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/611229856143.html" target="_blank" rel="noreferrer">家居护理家政清洁配比瓶安利产品稀释喷瓶喷雾瓶500ml喷头大喷壶-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.853556 · margin 0.015786</div>
+          <img src="../../fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-gallery-001-84.jpg" alt="清洁喷瓶" />
+          <div class="match-name">清洁喷瓶</div>
+          <div class="match-id">cleaning-spray-bottle</div>
+          <div class="match-id">sample cleaning-spray-bottle-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 清洁用品与配件 &gt; 清洁喷瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_652657850226.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.83777</div>
+          <img src="../../fixtures/vision-household/cn/medical-saline-bottle/medical-saline-bottle-cn-gallery-001-500ml-ok-250ml-5-5jmgzo.jpg" alt="生理盐水瓶" />
+          <div class="match-name">生理盐水瓶</div>
+          <div class="match-id">medical-saline-bottle</div>
+          <div class="match-id">sample medical-saline-bottle-cn-gallery-001</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品急救 &gt; 生理盐水瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://product.suning.com/0071413501/12274969648.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.792392</div>
+          <img src="../../fixtures/vision-household/cn/sparkling-water-bottle/sparkling-water-bottle-cn-gallery-002-image.jpg" alt="气泡水瓶" />
+          <div class="match-name">气泡水瓶</div>
+          <div class="match-id">sparkling-water-bottle</div>
+          <div class="match-id">sample sparkling-water-bottle-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 饮料 &gt; 气泡水瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/jiusai_14516/0d2237e777e6aa08f2f4e25d3d37625e.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1000/1000;">
+          <img src="../../fixtures/vision-household/cn/sponge/sponge-cn-eval-004-image.jpg" alt="sponge-cn-eval-004" />
+          <span class="box gt" style="left:51.2%;top:72.5%;width:25.4%;height:12.7%;">GT</span>
+<span class="box pred" style="left:51.2%;top:72.5%;width:25.4%;height:12.7%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>sponge-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>海绵 · sponge</span></div>
+        <div class="kv"><b>Pred</b><span>瑜伽垫 · yoga-mat</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/haimian_2272/5a020e31cf634481f51b9f34c3621b3b.html" target="_blank" rel="noreferrer">高密度海绵垫子：拯救腰背的神器!可裁剪海棉沙发垫实测太香了!-海绵-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.892894 · margin 0.008014</div>
+          <img src="../../fixtures/vision-household/cn/yoga-mat/yoga-mat-cn-gallery-002-2025.jpg" alt="瑜伽垫" />
+          <div class="match-name">瑜伽垫</div>
+          <div class="match-id">yoga-mat</div>
+          <div class="match-id">sample yoga-mat-cn-gallery-002</div>
+          <div class="match-path">运动户外 &gt; 健身户外 &gt; 健身器材与户外装备 &gt; 瑜伽垫</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/yujiadian_13965/69ed692e5750bc2a48c043a54389acbf.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.88488</div>
+          <img src="../../fixtures/vision-household/cn/ceiling-light-panel/ceiling-light-panel-cn-gallery-003-led.jpg" alt="吸顶灯面板" />
+          <div class="match-name">吸顶灯面板</div>
+          <div class="match-id">ceiling-light-panel</div>
+          <div class="match-id">sample ceiling-light-panel-cn-gallery-003</div>
+          <div class="match-path">照明与电工 &gt; 家用电工 &gt; 照明电工 &gt; 吸顶灯面板</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_GKXeX9I8tOQ8a2fYYouQtJ-jdZqqnCX0rV2g9WtK.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.882377</div>
+          <img src="../../fixtures/vision-household/cn/sports-ball/sports-ball-cn-gallery-003-image.jpg" alt="球" />
+          <div class="match-name">球</div>
+          <div class="match-id">sports-ball</div>
+          <div class="match-id">sample sports-ball-cn-gallery-003</div>
+          <div class="match-path">运动户外 &gt; 健身户外 &gt; 健身露营与骑行配件 &gt; 球</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://cj.sina.com.cn/articles/view/6559979314/18701573200100e5en" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-eval-004-image.jpg" alt="trash-bag-roll-cn-eval-004" />
+          <span class="box gt" style="left:4.125%;top:56.125%;width:54.25%;height:36.625%;">GT</span>
+<span class="box pred" style="left:4.125%;top:56.125%;width:54.25%;height:36.625%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>trash-bag-roll-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>垃圾袋卷 · trash-bag-roll</span></div>
+        <div class="kv"><b>Pred</b><span>笔 · pen</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_571439119485.html" target="_blank" rel="noreferrer">白色加厚垃圾袋家用一次性点断式塑料袋透明平口大号垃圾桶袋卷装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.845209 · margin 0.006206</div>
+          <img src="../../fixtures/vision-household/cn/pen/pen-cn-gallery-003-720.jpg" alt="笔" />
+          <div class="match-name">笔</div>
+          <div class="match-id">pen</div>
+          <div class="match-id">sample pen-cn-gallery-003</div>
+          <div class="match-path">文件与办公 &gt; 文件文具 &gt; 证件与办公用品 &gt; 笔</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_Q2brnbdHQtBxD3o98ZTXyBsatQ-YA3ppxSdn7naj8JcW.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.839003</div>
+          <img src="../../fixtures/vision-household/cn/peanut-butter-jar/peanut-butter-jar-cn-gallery-002-450gx2.jpg" alt="花生酱瓶" />
+          <div class="match-name">花生酱瓶</div>
+          <div class="match-id">peanut-butter-jar</div>
+          <div class="match-id">sample peanut-butter-jar-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 早餐烘焙 &gt; 花生酱瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_549517966503.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.8384</div>
+          <img src="../../fixtures/vision-household/cn/disposable-chopsticks-pack/disposable-chopsticks-pack-cn-gallery-002-image.jpg" alt="一次性筷子包" />
+          <div class="match-name">一次性筷子包</div>
+          <div class="match-id">disposable-chopsticks-pack</div>
+          <div class="match-id">sample disposable-chopsticks-pack-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 纸品耗材 &gt; 家庭纸品 &gt; 一次性筷子包</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_602663603487.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-eval-004-image.jpg" alt="toilet-cleaner-bottle-cn-eval-004" />
+          <span class="box gt" style="left:25.0%;top:11.125%;width:26.0%;height:88.125%;">GT</span>
+<span class="box pred" style="left:25.0%;top:11.125%;width:26.0%;height:88.125%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>toilet-cleaner-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>洁厕剂 · toilet-cleaner-bottle</span></div>
+        <div class="kv"><b>Pred</b><span>衣领净瓶 · collar-cleaner-bottle</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_604396009583.html" target="_blank" rel="noreferrer">大瓶洁厕剂洁厕灵马桶便槽除臭去污护釉清洁剂清香不刺鼻洁厕液_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.892803 · margin 0.000134</div>
+          <img src="../../fixtures/vision-household/cn/collar-cleaner-bottle/collar-cleaner-bottle-cn-gallery-001-500g-2-500g-2-500g-2.jpg" alt="衣领净瓶" />
+          <div class="match-name">衣领净瓶</div>
+          <div class="match-id">collar-cleaner-bottle</div>
+          <div class="match-id">sample collar-cleaner-bottle-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣护理 &gt; 衣领净瓶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://www.midea.cn/10000/1000000000100511299170.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.892669</div>
+          <img src="../../fixtures/vision-household/cn/laundry-soap-bar/laundry-soap-bar-cn-gallery-002-108g.jpg" alt="洗衣皂" />
+          <div class="match-name">洗衣皂</div>
+          <div class="match-id">laundry-soap-bar</div>
+          <div class="match-id">sample laundry-soap-bar-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣护理 &gt; 洗衣皂</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/xiyizao_9672/156b9b50484aaf0b3070cc9935d1d621.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.889946</div>
+          <img src="../../fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-gallery-001-500g.jpg" alt="洁厕剂" />
+          <div class="match-name">洁厕剂</div>
+          <div class="match-id">toilet-cleaner-bottle</div>
+          <div class="match-id">sample toilet-cleaner-bottle-cn-gallery-001</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 清洁用品与配件 &gt; 洁厕剂</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_611641715714.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/mop-head/mop-head-cn-eval-004-image.png" alt="mop-head-cn-eval-004" />
+          <span class="box gt" style="left:44.875%;top:0.25%;width:38.0%;height:60.75%;">GT</span>
+<span class="box pred" style="left:44.875%;top:0.25%;width:38.0%;height:60.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>mop-head-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>拖把头 · mop-head</span></div>
+        <div class="kv"><b>Pred</b><span>沙发 · sofa</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/xuanzhuantuoba_7060/f5eb890109848dc64d5ccc5734643968.html" target="_blank" rel="noreferrer">加厚吸水旋转拖把头：清洁神器，让你的家务事半功倍!💪-旋转拖把-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.839985 · margin 0.010709</div>
+          <img src="../../fixtures/vision-household/cn/sofa/sofa-cn-gallery-003-image.jpg" alt="沙发" />
+          <div class="match-name">沙发</div>
+          <div class="match-id">sofa</div>
+          <div class="match-id">sample sofa-cn-gallery-003</div>
+          <div class="match-path">家具 &gt; 家庭家具 &gt; 座椅桌柜与架类 &gt; 沙发</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/693722881619.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.829276</div>
+          <img src="../../fixtures/vision-household/cn/towel-rack/towel-rack-cn-gallery-001-invisible-bath-towel-rack.jpg" alt="毛巾架" />
+          <div class="match-name">毛巾架</div>
+          <div class="match-id">towel-rack</div>
+          <div class="match-id">sample towel-rack-cn-gallery-001</div>
+          <div class="match-path">卫浴用品 &gt; 浴室用品 &gt; 浴室配件 &gt; 毛巾架</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/huabanshounajia_13061/8da3cf3b68a725193ef5ff6480c8b9df.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.815538</div>
+          <img src="../../fixtures/vision-household/cn/broom/broom-cn-gallery-003-image.jpg" alt="扫帚" />
+          <div class="match-name">扫帚</div>
+          <div class="match-id">broom</div>
+          <div class="match-id">sample broom-cn-gallery-003</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 洗衣与清洁工具 &gt; 扫帚</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_rB8AKJAuOtzJMaVs66QFqtZ-nMYPPWFx7q4ajK8fg.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/charging-cable/charging-cable-cn-eval-004-25-type-c-vivo-2.jpg" alt="charging-cable-cn-eval-004" />
+          <span class="box gt" style="left:11.375%;top:5.375%;width:86.25%;height:94.5%;">GT</span>
+<span class="box pred" style="left:11.375%;top:5.375%;width:86.25%;height:94.5%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span>Lightning线 · lightning-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shujuxian_1728/e1fb26e96b31392db7ca115f1c17db04.html" target="_blank" rel="noreferrer">25年必买Type-C弯头数据线｜华为小米vivo快充神器，加长2米超实用!-数据线-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.857965 · margin 0.048431</div>
+          <img src="../../fixtures/vision-household/cn/lightning-cable/lightning-cable-cn-gallery-001-lightning-type-c.jpg" alt="Lightning线" />
+          <div class="match-name">Lightning线</div>
+          <div class="match-id">lightning-cable</div>
+          <div class="match-id">sample lightning-cable-cn-gallery-001</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 电源与数码配件 &gt; Lightning线</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://shuma.taobao.com/topic/shouji_19/aab7f22176e18d02cd2b38b8dd271219" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.809534</div>
+          <img src="../../fixtures/vision-household/cn/usb-power-strip/usb-power-strip-cn-gallery-003-20w-65w-usb.jpg" alt="USB插排" />
+          <div class="match-name">USB插排</div>
+          <div class="match-id">usb-power-strip</div>
+          <div class="match-id">sample usb-power-strip-cn-gallery-003</div>
+          <div class="match-path">照明与电工 &gt; 家用电工 &gt; 照明电工 &gt; USB插排</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_9ZmvbpHBtO2m2pqjqC22XTQt6-RWRNNzuVV6DOxR5Hv.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.802564</div>
+          <img src="../../fixtures/vision-household/cn/whisk/whisk-cn-gallery-001-image.jpg" alt="打蛋器" />
+          <div class="match-name">打蛋器</div>
+          <div class="match-id">whisk</div>
+          <div class="match-id">sample whisk-cn-gallery-001</div>
+          <div class="match-path">厨房器具 &gt; 厨房用品 &gt; 锅具餐具 &gt; 打蛋器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_zrkJMe0Ueta3qZ5voqhvvMfdt4-OpRwwaFZRVabg3vs2.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1200/1200;">
+          <img src="../../fixtures/vision-household/cn/charger/charger-cn-eval-004-magsafe.jpg" alt="charger-cn-eval-004" />
+          <span class="box gt" style="left:9.9167%;top:38.3333%;width:51.9167%;height:55.25%;">GT</span>
+<span class="box pred" style="left:9.9167%;top:38.3333%;width:51.9167%;height:55.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span>马桶盖 · toilet-seat</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shoujichongdianqi_4125/bd5e056cf1e0a8d89e68849eb39313c1.html" target="_blank" rel="noreferrer">MagSafe三合一无线充电器：苹果全家桶的终极充电解决方案!-手机充电器-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.799988 · margin 0.00145</div>
+          <img src="../../fixtures/vision-household/cn/toilet-seat/toilet-seat-cn-gallery-001-image.jpg" alt="马桶盖" />
+          <div class="match-name">马桶盖</div>
+          <div class="match-id">toilet-seat</div>
+          <div class="match-id">sample toilet-seat-cn-gallery-001</div>
+          <div class="match-path">卫浴用品 &gt; 浴室用品 &gt; 浴室配件 &gt; 马桶盖</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="http://www.weilijing.cn/wwh/level6.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.798538</div>
+          <img src="../../fixtures/vision-household/cn/garment-steamer/garment-steamer-cn-gallery-003-gt13cp.jpg" alt="挂烫机" />
+          <div class="match-name">挂烫机</div>
+          <div class="match-id">garment-steamer</div>
+          <div class="match-id">sample garment-steamer-cn-gallery-003</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 厨房生活电器 &gt; 挂烫机</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_qq6ojoDi2twYjyesgg3SWt0-WkRwwpuNxz2z0mQc3.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.79227</div>
+          <img src="../../fixtures/vision-household/cn/shaver/shaver-cn-gallery-002-fs373.jpg" alt="剃须刀" />
+          <div class="match-name">剃须刀</div>
+          <div class="match-id">shaver</div>
+          <div class="match-id">sample shaver-cn-gallery-002</div>
+          <div class="match-path">个人护理 &gt; 个人洗护 &gt; 美妆护肤与修剪用品 &gt; 剃须刀</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_BAYqVOzc6t8VQP20pasppoCrte-JRMPPdFMjG44Xq8H0.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/battery/battery-cn-eval-004-5-7-4-ktv-aa-1-5v.jpg" alt="battery-cn-eval-004" />
+          <span class="box gt" style="left:24.75%;top:4.875%;width:24.375%;height:38.25%;">GT</span>
+<span class="box pred" style="left:24.75%;top:4.875%;width:24.375%;height:38.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span>电池充电器 · rechargeable-battery-charger</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_600127184801.html" target="_blank" rel="noreferrer">倍量 5号7号充电电池大容量4节套装KTV套装可代替AA五1.5v锂电池_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.715592 · margin 0.001452</div>
+          <img src="../../fixtures/vision-household/cn/rechargeable-battery-charger/rechargeable-battery-charger-cn-gallery-003-csdn.jpg" alt="电池充电器" />
+          <div class="match-name">电池充电器</div>
+          <div class="match-id">rechargeable-battery-charger</div>
+          <div class="match-id">sample rechargeable-battery-charger-cn-gallery-003</div>
+          <div class="match-path">照明与电工 &gt; 家用电工 &gt; 照明插排与电工配件 &gt; 电池充电器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://blog.csdn.net/zhuoqingjoking97298/article/details/128481045" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.71414</div>
+          <img src="../../fixtures/vision-household/cn/charger/charger-cn-gallery-001-anker-737-24000mah-140w.jpg" alt="充电器" />
+          <div class="match-name">充电器</div>
+          <div class="match-id">charger</div>
+          <div class="match-id">sample charger-cn-gallery-001</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 充电器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_680459790001.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.712976</div>
+          <img src="../../fixtures/vision-household/cn/travel-adapter/travel-adapter-cn-gallery-003-usb.jpg" alt="旅行转换插头" />
+          <div class="match-name">旅行转换插头</div>
+          <div class="match-id">travel-adapter</div>
+          <div class="match-id">sample travel-adapter-cn-gallery-003</div>
+          <div class="match-path">旅行用品 &gt; 箱包旅行 &gt; 旅行箱包与配件 &gt; 旅行转换插头</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/zhuanhuanchatou_1772/8fb972fcedd224c661a585482891f0d9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/power-bank/power-bank-cn-eval-004-22-5w-10000-wepost.jpg" alt="power-bank-cn-eval-004" />
+          <span class="box gt" style="left:56.5%;top:19.25%;width:29.625%;height:69.125%;">GT</span>
+<span class="box pred" style="left:56.5%;top:19.25%;width:29.625%;height:69.125%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>power-bank-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电宝 · power-bank</span></div>
+        <div class="kv"><b>Pred</b><span>一次性手套盒 · disposable-glove-box</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://www.wepost.com.my/recommends/items/taobao-MOW2ZOfVz8adWw5IZV.html" target="_blank" rel="noreferrer">品胜22.5W充电宝10000毫安超薄小巧便携式超级快充充电宝轻薄闪充迷你移动电源适用华为小米苹果专用可上飞机 - 小编推荐 - WePost ...</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.821338 · margin 0.017779</div>
+          <img src="../../fixtures/vision-household/cn/disposable-glove-box/disposable-glove-box-cn-gallery-003-pe.png" alt="一次性手套盒" />
+          <div class="match-name">一次性手套盒</div>
+          <div class="match-id">disposable-glove-box</div>
+          <div class="match-id">sample disposable-glove-box-cn-gallery-003</div>
+          <div class="match-path">清洁与洗护 &gt; 纸品耗材 &gt; 家庭纸品 &gt; 一次性手套盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_rXz2mrBsOtVvBgMY5mI6OmHqtZ-vz2ooBsBBYm9yyzsd.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.803559</div>
+          <img src="../../fixtures/vision-household/cn/deodorant-stick/deodorant-stick-cn-gallery-003-76g-40g-pp-pe.jpg" alt="止汗棒" />
+          <div class="match-name">止汗棒</div>
+          <div class="match-id">deodorant-stick</div>
+          <div class="match-id">sample deodorant-stick-cn-gallery-003</div>
+          <div class="match-path">个人护理 &gt; 个人洗护 &gt; 洗发沐浴 &gt; 止汗棒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/844579700376.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.793337</div>
+          <img src="../../fixtures/vision-household/cn/toilet-brush/toilet-brush-cn-gallery-003-image.jpg" alt="马桶刷" />
+          <div class="match-name">马桶刷</div>
+          <div class="match-id">toilet-brush</div>
+          <div class="match-id">sample toilet-brush-cn-gallery-003</div>
+          <div class="match-path">卫浴用品 &gt; 浴室用品 &gt; 纸品皂类与浴室配件 &gt; 马桶刷</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_pOxAkJtxt6RwdpjjxTegyCptm-DokRR8IP9Bgmjaafn.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/earphones/earphones-cn-eval-004-ikf-t1.jpg" alt="earphones-cn-eval-004" />
+          <span class="box gt" style="left:27.375%;top:12.875%;width:72.625%;height:82.625%;">GT</span>
+<span class="box pred" style="left:27.375%;top:12.875%;width:72.625%;height:82.625%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>earphones-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>耳机 · earphones</span></div>
+        <div class="kv"><b>Pred</b><span>耳机 · earphones</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_668818291173.html" target="_blank" rel="noreferrer">iKF T1蓝牙耳机头戴式耳机无线新款游戏降噪耳机有线带麦超长待机_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.765427 · margin 0.015465</div>
+          <img src="../../fixtures/vision-household/cn/earphones/earphones-cn-gallery-002-w860nb-pro-5-3.jpg" alt="耳机" />
+          <div class="match-name">耳机</div>
+          <div class="match-id">earphones</div>
+          <div class="match-id">sample earphones-cn-gallery-002</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 耳机</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://www.suning.com/itemcanshu/0071077022/12403560231.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.749962</div>
+          <img src="../../fixtures/vision-household/cn/smart-speaker/smart-speaker-cn-gallery-003-x5.png" alt="智能音箱" />
+          <div class="match-name">智能音箱</div>
+          <div class="match-id">smart-speaker</div>
+          <div class="match-id">sample smart-speaker-cn-gallery-003</div>
+          <div class="match-path">家电 &gt; 家庭电器 &gt; 家用电器补充 &gt; 智能音箱</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/zhineng_1907/55422f98c99e190782bfa5290f8bc973.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.742492</div>
+          <img src="../../fixtures/vision-household/cn/door-stop/door-stop-cn-gallery-003-image.jpg" alt="门挡" />
+          <div class="match-name">门挡</div>
+          <div class="match-id">door-stop</div>
+          <div class="match-id">sample door-stop-cn-gallery-003</div>
+          <div class="match-path">工具五金 &gt; 家庭安全 &gt; 安全防护 &gt; 门挡</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_MJeKkpVcKtw3g3zcVV7HQtA-XNReeACpkg4zX0AI6.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-eval-004-u350-32g-type-c-u-u.jpg" alt="usb-flash-drive-cn-eval-004" />
+          <span class="box gt" style="left:13.5%;top:13.5%;width:77.0%;height:56.0%;">GT</span>
+<span class="box pred" style="left:13.5%;top:13.5%;width:77.0%;height:56.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>usb-flash-drive-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>U盘 · usb-flash-drive</span></div>
+        <div class="kv"><b>Pred</b><span>USB-C线 · usb-c-cable</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shoujiUpan_2532/649ba1c594dec5f741aa361cb9dfb1da.html" target="_blank" rel="noreferrer">爱国者U350-32G Type-C U盘：手机电脑双用，数据传输神器!-手机U盘-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.869171 · margin 0.0192</div>
+          <img src="../../fixtures/vision-household/cn/usb-c-cable/usb-c-cable-cn-gallery-002-usb-to-type-c-type-c-3-0.jpg" alt="USB-C线" />
+          <div class="match-name">USB-C线</div>
+          <div class="match-id">usb-c-cable</div>
+          <div class="match-id">sample usb-c-cable-cn-gallery-002</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 电源与数码配件 &gt; USB-C线</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/680443630939.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.849971</div>
+          <img src="../../fixtures/vision-household/cn/charging-cable/charging-cable-cn-gallery-001-pd27w-65w-type-c.jpg" alt="数据线" />
+          <div class="match-name">数据线</div>
+          <div class="match-id">charging-cable</div>
+          <div class="match-id">sample charging-cable-cn-gallery-001</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 线缆电源与小配件 &gt; 数据线</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/chezaishujuxian_10588/95f3e3ef8dea4c7f5daa7db1fd25086b.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.82015</div>
+          <img src="../../fixtures/vision-household/cn/hdmi-cable/hdmi-cable-cn-gallery-002-hdmi-4k60hz-hdmi-a-hdmi.jpg" alt="HDMI线" />
+          <div class="match-name">HDMI线</div>
+          <div class="match-id">hdmi-cable</div>
+          <div class="match-id">sample hdmi-cable-cn-gallery-002</div>
+          <div class="match-path">电子配件 &gt; 电子附件 &gt; 电源与数码配件 &gt; HDMI线</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/HDMIxian_6922/acc1e883dab92e02f099a0ed4b990f3c.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/memory-card-case/memory-card-case-cn-eval-004-sd-tf-usb-3-0.jpg" alt="memory-card-case-cn-eval-004" />
+          <span class="box gt" style="left:14.875%;top:48.875%;width:55.875%;height:47.75%;">GT</span>
+<span class="box pred" style="left:14.875%;top:48.875%;width:55.875%;height:47.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>memory-card-case-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>存储卡盒 · memory-card-case</span></div>
+        <div class="kv"><b>Pred</b><span>一次性盘包装 · disposable-plate-pack</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/bao_14745/377457741010f16bfc8374c46319ec75.html" target="_blank" rel="noreferrer">耐影存储卡盒卡套SD卡TF卡收纳包相机手机内存卡保护盒储存卡USB 3.0高速读卡器手机读卡器：数码摄影爱好者的必备神器!-包-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.778679 · margin 0.012618</div>
+          <img src="../../fixtures/vision-household/cn/disposable-plate-pack/disposable-plate-pack-cn-gallery-003-image.jpg" alt="一次性盘包装" />
+          <div class="match-name">一次性盘包装</div>
+          <div class="match-id">disposable-plate-pack</div>
+          <div class="match-id">sample disposable-plate-pack-cn-gallery-003</div>
+          <div class="match-path">清洁与洗护 &gt; 纸品耗材 &gt; 家庭纸品 &gt; 一次性盘包装</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_XQJeM9JiGtX2GynV9JtVVAuBtg-aAZjjVSdgP40y74T7.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.766061</div>
+          <img src="../../fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-gallery-001-image.jpg" alt="真空压缩袋" />
+          <div class="match-name">真空压缩袋</div>
+          <div class="match-id">vacuum-storage-bag</div>
+          <div class="match-id">sample vacuum-storage-bag-cn-gallery-001</div>
+          <div class="match-path">居家收纳 &gt; 收纳整理 &gt; 家庭收纳容器 &gt; 真空压缩袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/yiwuyasuodai_8928/770ccc61d8f312b0b5618b4380bdf77e.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.765364</div>
+          <img src="../../fixtures/vision-household/cn/nail-box/nail-box-cn-gallery-003-image.jpg" alt="钉子盒" />
+          <div class="match-name">钉子盒</div>
+          <div class="match-id">nail-box</div>
+          <div class="match-id">sample nail-box-cn-gallery-003</div>
+          <div class="match-path">工具五金 &gt; 五金工具 &gt; 紧固安全与小五金 &gt; 钉子盒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_XBJZyKXUGtX2pmj5z5FVYrtBtg-d8ZBBDFnBv4g7K9cd.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1200/1200;">
+          <img src="../../fixtures/vision-household/cn/remote-control/remote-control-cn-eval-004-optoma-h115-tw342-hb3201-hdf321b.jpg" alt="remote-control-cn-eval-004" />
+          <span class="box gt" style="left:62.9167%;top:19.8333%;width:22.4167%;height:60.5833%;">GT</span>
+<span class="box pred" style="left:62.9167%;top:19.8333%;width:22.4167%;height:60.5833%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_N7wR0gkC5tGBGZXqbmCxx9HRtB-wzQnnOsQa2gJARpIN.html" target="_blank" rel="noreferrer">原装全新奥图码Optoma投影仪H115 TW342 HB3201 HDF321B 遥控器_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.901833 · margin 0.066302</div>
+          <img src="../../fixtures/vision-household/cn/remote-control/remote-control-cn-gallery-003-le43e7900-le32e7900.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-cn-gallery-003</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_586782184897.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.846391</div>
+          <img src="../../fixtures/vision-household/cn/remote-control/remote-control-cn-gallery-002-arc480a4-2-3-5.jpg" alt="遥控器" />
+          <div class="match-name">遥控器</div>
+          <div class="match-id">remote-control</div>
+          <div class="match-id">sample remote-control-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 遥控器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/yaokongqi_13041/616f289138d88e40552e0bba4d2f735d.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.835531</div>
+          <img src="../../fixtures/vision-household/cn/gas-alarm/gas-alarm-cn-gallery-001-image.jpg" alt="燃气报警器" />
+          <div class="match-name">燃气报警器</div>
+          <div class="match-id">gas-alarm</div>
+          <div class="match-id">sample gas-alarm-cn-gallery-001</div>
+          <div class="match-path">工具五金 &gt; 家庭安全 &gt; 安全防护 &gt; 燃气报警器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/jiayongqitijiancebaojingqi_15965/d47892814b3878e0e62895aef2717842.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-eval-004-2l3l.jpg" alt="electric-kettle-cn-eval-004" />
+          <span class="box gt" style="left:6.0%;top:5.625%;width:91.125%;height:89.0%;">GT</span>
+<span class="box pred" style="left:6.0%;top:5.625%;width:91.125%;height:89.0%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>electric-kettle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电水壶 · electric-kettle</span></div>
+        <div class="kv"><b>Pred</b><span>电水壶 · electric-kettle</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_W7Jg6pdfotGXpQMcaresQta-XNReeAC0d5ZyQOes3.html" target="_blank" rel="noreferrer">万利达电热水壶电水壶2L3L不锈钢一体保温自动断电开水壶家用学生_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.827867 · margin 0.039002</div>
+          <img src="../../fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-gallery-001-304.jpg" alt="电水壶" />
+          <div class="match-name">电水壶</div>
+          <div class="match-id">electric-kettle</div>
+          <div class="match-id">sample electric-kettle-cn-gallery-001</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 电水壶</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_580170829947.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.788865</div>
+          <img src="../../fixtures/vision-household/cn/coffee-machine/coffee-machine-cn-gallery-002-derlla.jpg" alt="咖啡机" />
+          <div class="match-name">咖啡机</div>
+          <div class="match-id">coffee-machine</div>
+          <div class="match-id">sample coffee-machine-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 厨房生活电器 &gt; 咖啡机</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/kafeiji_149/7e3718be46c875acd1c28840c08cb296.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.786016</div>
+          <img src="../../fixtures/vision-household/cn/food-processor/food-processor-cn-gallery-003-frunuts.jpg" alt="破壁机" />
+          <div class="match-name">破壁机</div>
+          <div class="match-id">food-processor</div>
+          <div class="match-id">sample food-processor-cn-gallery-003</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 厨房生活电器 &gt; 破壁机</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/shangyongpobiji_8323/30988929432906fec1ff0d0e44d6141c.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-eval-004-20-30.jpg" alt="rice-cooker-cn-eval-004" />
+          <span class="box gt" style="left:17.5%;top:85.75%;width:24.0%;height:14.125%;">GT</span>
+<span class="box pred" style="left:17.5%;top:85.75%;width:24.0%;height:14.125%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>rice-cooker-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电饭煲 · rice-cooker</span></div>
+        <div class="kv"><b>Pred</b><span>面粉袋 · flour-bag</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shangyongdianfanbao_3790/22cceecc30bba51ad654e8307665260d.html" target="_blank" rel="noreferrer">苏电饭煲旗舰款，20-30人食堂必备神器？🔥-商用电饭煲-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.832482 · margin 0.017405</div>
+          <img src="../../fixtures/vision-household/cn/flour-bag/flour-bag-cn-gallery-002-image.jpg" alt="面粉袋" />
+          <div class="match-name">面粉袋</div>
+          <div class="match-id">flour-bag</div>
+          <div class="match-id">sample flour-bag-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 调味干货与饮品 &gt; 面粉袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://baike.baidu.com/item/面粉/1215215" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.815077</div>
+          <img src="../../fixtures/vision-household/cn/salt-container/salt-container-cn-gallery-002-image.jpg" alt="食盐罐" />
+          <div class="match-name">食盐罐</div>
+          <div class="match-id">salt-container</div>
+          <div class="match-id">sample salt-container-cn-gallery-002</div>
+          <div class="match-path">食品与囤货 &gt; 常温食品 &gt; 调味干货与饮品 &gt; 食盐罐</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/730000268444.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.810944</div>
+          <img src="../../fixtures/vision-household/cn/cat-litter-bag/cat-litter-bag-cn-gallery-002-image.jpg" alt="猫砂袋" />
+          <div class="match-name">猫砂袋</div>
+          <div class="match-id">cat-litter-bag</div>
+          <div class="match-id">sample cat-litter-bag-cn-gallery-002</div>
+          <div class="match-path">宠物用品 &gt; 宠物用品 &gt; 食品护理 &gt; 猫砂袋</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/861611627328.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/air-purifier-filter/air-purifier-filter-cn-eval-004-352-x80-x83-x83c.jpg" alt="air-purifier-filter-cn-eval-004" />
+          <span class="box gt" style="left:0.0%;top:48.125%;width:36.625%;height:50.75%;">GT</span>
+<span class="box pred" style="left:0.0%;top:48.125%;width:36.625%;height:50.75%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>air-purifier-filter-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>空气净化器滤芯 · air-purifier-filter</span></div>
+        <div class="kv"><b>Pred</b><span>电子体温计 · thermometer-digital</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/jinghua_11148/61ceb4c80f43f7af6447a283ee60d63f.html" target="_blank" rel="noreferrer">352标准滤芯套装：空气净化器滤芯X80/X83/X83C，拯救呼吸的&quot;隐形铠甲&quot;!-净化-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.763529 · margin 0.004085</div>
+          <img src="../../fixtures/vision-household/cn/thermometer-digital/thermometer-digital-cn-gallery-003-k10.png" alt="电子体温计" />
+          <div class="match-name">电子体温计</div>
+          <div class="match-id">thermometer-digital</div>
+          <div class="match-id">sample thermometer-digital-cn-gallery-003</div>
+          <div class="match-path">药品与健康 &gt; 健康护理 &gt; 药品急救 &gt; 电子体温计</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_mnjDm7DhktJKpXKgXBfzzwFot3-63XvvVcymxZnM28TY.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.759444</div>
+          <img src="../../fixtures/vision-household/cn/id-card/id-card-cn-gallery-001-image.png" alt="身份证" />
+          <div class="match-name">身份证</div>
+          <div class="match-id">id-card</div>
+          <div class="match-id">sample id-card-cn-gallery-001</div>
+          <div class="match-path">文件与办公 &gt; 文件文具 &gt; 证件与办公用品 &gt; 身份证</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://qn.taobao.com/headline/news/10674735/" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.752329</div>
+          <img src="../../fixtures/vision-household/cn/red-envelope-pack/red-envelope-pack-cn-gallery-003-image.jpg" alt="红包" />
+          <div class="match-name">红包</div>
+          <div class="match-id">red-envelope-pack</div>
+          <div class="match-id">sample red-envelope-pack-cn-gallery-003</div>
+          <div class="match-path">季节物品 &gt; 季节用品 &gt; 天气节日与季节用品 &gt; 红包</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://zhuanlan.zhihu.com/p/270013247" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/hair-dryer/hair-dryer-cn-eval-004-h101.jpg" alt="hair-dryer-cn-eval-004" />
+          <span class="box gt" style="left:14.25%;top:1.0%;width:75.625%;height:34.25%;">GT</span>
+<span class="box pred" style="left:14.25%;top:1.0%;width:75.625%;height:34.25%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>hair-dryer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>吹风机 · hair-dryer</span></div>
+        <div class="kv"><b>Pred</b><span>鞋拔 · shoehorn</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/shangpin_1930/52e3a06f14f422d4d010bd92a12dba8a.html" target="_blank" rel="noreferrer">米家吹风机H101：智能科技与高效造型的完美结合-商品-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.781606 · margin 0.005721</div>
+          <img src="../../fixtures/vision-household/cn/shoehorn/shoehorn-cn-gallery-002-image.jpg" alt="鞋拔" />
+          <div class="match-name">鞋拔</div>
+          <div class="match-id">shoehorn</div>
+          <div class="match-id">sample shoehorn-cn-gallery-002</div>
+          <div class="match-path">衣物配饰 &gt; 衣物与配件 &gt; 鞋履配件 &gt; 鞋拔</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/xieba_9405/6075fa442ba701cc964140d3ad5493bb.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.775885</div>
+          <img src="../../fixtures/vision-household/cn/dumbbell/dumbbell-cn-gallery-003-image.jpg" alt="哑铃" />
+          <div class="match-name">哑铃</div>
+          <div class="match-id">dumbbell</div>
+          <div class="match-id">sample dumbbell-cn-gallery-003</div>
+          <div class="match-path">运动户外 &gt; 健身户外 &gt; 健身器材与户外装备 &gt; 哑铃</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/yaling_2509/d14b5649c307c759cf6ea6e6b7330572.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.764527</div>
+          <img src="../../fixtures/vision-household/cn/flashlight-headlamp/flashlight-headlamp-cn-gallery-002-image.jpg" alt="头灯" />
+          <div class="match-name">头灯</div>
+          <div class="match-id">flashlight-headlamp</div>
+          <div class="match-id">sample flashlight-headlamp-cn-gallery-002</div>
+          <div class="match-path">运动户外 &gt; 健身户外 &gt; 户外运动补充 &gt; 头灯</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_QgvyQ2sQtnzXRqiXyDSatQ-YA3ppxSB6eNVobncR.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-eval-004-image.jpg" alt="vacuum-cleaner-cn-eval-004" />
+          <span class="box gt" style="left:26.0%;top:10.625%;width:53.875%;height:88.875%;">GT</span>
+<span class="box pred" style="left:26.0%;top:10.625%;width:53.875%;height:88.875%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>vacuum-cleaner-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>吸尘器 · vacuum-cleaner</span></div>
+        <div class="kv"><b>Pred</b><span>吸尘器 · vacuum-cleaner</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_58moVQTxtYvA7jF77GUMtV-nMYPPWFxV7XjRKqSzb.html" target="_blank" rel="noreferrer">德国无线吸尘器家用小型大吸力功率强力静低音手持拖地一体洗地机_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.83952 · margin 0.010027</div>
+          <img src="../../fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-gallery-002-2025-usb.jpg" alt="吸尘器" />
+          <div class="match-name">吸尘器</div>
+          <div class="match-id">vacuum-cleaner</div>
+          <div class="match-id">sample vacuum-cleaner-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 吸尘器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/USBxichenqi_9851/9db2a12e7e736dd2c65dfb0f7068b1c9.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#2 · score 0.829493</div>
+          <img src="../../fixtures/vision-household/cn/mop-head/mop-head-cn-gallery-002-image.jpg" alt="拖把头" />
+          <div class="match-name">拖把头</div>
+          <div class="match-id">mop-head</div>
+          <div class="match-id">sample mop-head-cn-gallery-002</div>
+          <div class="match-path">清洁与洗护 &gt; 清洁洗护 &gt; 清洁用品与配件 &gt; 拖把头</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/jiaomiantuobatou_7070/b453033183e15d215be24481ba12f3de.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#3 · score 0.801652</div>
+          <img src="../../fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-gallery-001-fc9735.jpg" alt="吸尘器" />
+          <div class="match-name">吸尘器</div>
+          <div class="match-id">vacuum-cleaner</div>
+          <div class="match-id">sample vacuum-cleaner-cn-gallery-001</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 吸尘器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/xichenqi_1913/f44ca0eafe65c32db5e9dcb7fb3f50cb.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1080/1080;">
+          <img src="../../fixtures/vision-household/cn/router/router-cn-eval-004-e2627-e2628-ax3000m-wifi6.jpg" alt="router-cn-eval-004" />
+          <span class="box gt" style="left:48.8889%;top:33.7963%;width:38.7037%;height:40.9259%;">GT</span>
+<span class="box pred" style="left:48.8889%;top:33.7963%;width:38.7037%;height:40.9259%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>router-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>路由器 · router</span></div>
+        <div class="kv"><b>Pred</b><span>路由器 · router</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/putongluyouqi_1489/09d7941c7e9cbfda57cba94190713466.html" target="_blank" rel="noreferrer">中兴E2627/E2628，AX3000M WIFI6路由器，联通版如何选？-普通路由器-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.843933 · margin 0.070268</div>
+          <img src="../../fixtures/vision-household/cn/router/router-cn-gallery-002-fast-1200m-11ac.jpg" alt="路由器" />
+          <div class="match-name">路由器</div>
+          <div class="match-id">router</div>
+          <div class="match-id">sample router-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 路由器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/shangpin_1930/601de37dca5ef23d59725de5de99b9fa.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.814008</div>
+          <img src="../../fixtures/vision-household/cn/router/router-cn-gallery-001-ax3000.jpg" alt="路由器" />
+          <div class="match-name">路由器</div>
+          <div class="match-id">router</div>
+          <div class="match-id">sample router-cn-gallery-001</div>
+          <div class="match-path">家电 &gt; 小家电 &gt; 家庭电器 &gt; 路由器</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/luyouqi_309/2eab65a675904659b407e671b0c7ce9e.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.773665</div>
+          <img src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-002-25-4k.png" alt="投影仪" />
+          <div class="match-name">投影仪</div>
+          <div class="match-id">projector</div>
+          <div class="match-id">sample projector-cn-gallery-002</div>
+          <div class="match-path">家电 &gt; 家庭电器 &gt; 家用电器补充 &gt; 投影仪</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/touyingyi_2027/b66a32ca64c476a3376efb1207cbc6cc.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:750/750;">
+          <img src="../../fixtures/vision-household/cn/screwdriver/screwdriver-cn-eval-004-202-30cm.jpg" alt="screwdriver-cn-eval-004" />
+          <span class="box gt" style="left:25.2%;top:29.8667%;width:69.2%;height:67.8667%;">GT</span>
+<span class="box pred" style="left:25.2%;top:29.8667%;width:69.2%;height:67.8667%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>screwdriver-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>螺丝刀 · screwdriver</span></div>
+        <div class="kv"><b>Pred</b><span>扳手 · wrench</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/luosidao_6772/9b6f82e46fd8cb6c446ea334c3a5a461.html" target="_blank" rel="noreferrer">202冲磁铬钒钢螺丝刀：解锁30CM长度的高效神器，工具控必备!-螺丝刀-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name mismatch</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card diff">
+          <div class="rank">#1 · score 0.792847 · margin 0.003389</div>
+          <img src="../../fixtures/vision-household/cn/wrench/wrench-cn-gallery-002-image.jpg" alt="扳手" />
+          <div class="match-name">扳手</div>
+          <div class="match-id">wrench</div>
+          <div class="match-id">sample wrench-cn-gallery-002</div>
+          <div class="match-path">工具五金 &gt; 手工具 &gt; 家庭工具与固定用品 &gt; 扳手</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_q3byR0AU2t0XYeJig3afWt0-Mw0WW4F4Z0WM2MyHZ.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.789458</div>
+          <img src="../../fixtures/vision-household/cn/screwdriver/screwdriver-cn-gallery-001-8.jpg" alt="螺丝刀" />
+          <div class="match-name">螺丝刀</div>
+          <div class="match-id">screwdriver</div>
+          <div class="match-id">sample screwdriver-cn-gallery-001</div>
+          <div class="match-path">工具五金 &gt; 手工具 &gt; 家庭工具与固定用品 &gt; 螺丝刀</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://tao.hooos.com/goods_632655433066.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.779205</div>
+          <img src="../../fixtures/vision-household/cn/hot-melt-glue-stick/hot-melt-glue-stick-cn-gallery-001-image.jpg" alt="热熔胶棒" />
+          <div class="match-name">热熔胶棒</div>
+          <div class="match-id">hot-melt-glue-stick</div>
+          <div class="match-id">sample hot-melt-glue-stick-cn-gallery-001</div>
+          <div class="match-path">工具五金 &gt; 手工具 &gt; 工具五金 &gt; 热熔胶棒</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/rerongjiaobang_13443/1edc7d7cab3a9e6b9e9ca9f619e48d1d.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/scissors/scissors-cn-eval-004-0603-2.jpg" alt="scissors-cn-eval-004" />
+          <span class="box gt" style="left:3.875%;top:10.0%;width:40.25%;height:83.375%;">GT</span>
+<span class="box pred" style="left:3.875%;top:10.0%;width:40.25%;height:83.375%;">PRED</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>scissors-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>GT crop + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>剪刀 · scissors</span></div>
+        <div class="kv"><b>Pred</b><span>剪刀 · scissors</span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_536393260433.html" target="_blank" rel="noreferrer">得力剪刀学生办公手工0603厨房铁皮家用园艺大美工文具剪刀2把装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge ok">IoU 1.0</span>
+          <span class="badge ok">Category</span>
+          <span class="badge ok">Name category-id</span>
+          <span class="badge ok">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          
+        <div class="match-card same">
+          <div class="rank">#1 · score 0.891624 · margin 0.027098</div>
+          <img src="../../fixtures/vision-household/cn/scissors/scissors-cn-gallery-002-image.jpg" alt="剪刀" />
+          <div class="match-name">剪刀</div>
+          <div class="match-id">scissors</div>
+          <div class="match-id">sample scissors-cn-gallery-002</div>
+          <div class="match-path">工具五金 &gt; 手工具 &gt; 家庭工具与固定用品 &gt; 剪刀</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://bk.taobao.com/k/shangpin_1930/1ac9108d448f976cfb2e44713ff1f3d0.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card same">
+          <div class="rank">#2 · score 0.865392</div>
+          <img src="../../fixtures/vision-household/cn/scissors/scissors-cn-gallery-003-hewer-hs-3108.jpg" alt="剪刀" />
+          <div class="match-name">剪刀</div>
+          <div class="match-id">scissors</div>
+          <div class="match-id">sample scissors-cn-gallery-003</div>
+          <div class="match-path">工具五金 &gt; 手工具 &gt; 家庭工具与固定用品 &gt; 剪刀</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://goods.taobao.com/t/jiandao_2080/e1031c66001067c5f806204a7a5e2295.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+
+        <div class="match-card diff">
+          <div class="rank">#3 · score 0.864526</div>
+          <img src="../../fixtures/vision-household/cn/garden-shears/garden-shears-cn-gallery-002-image.jpg" alt="园艺剪" />
+          <div class="match-name">园艺剪</div>
+          <div class="match-id">garden-shears</div>
+          <div class="match-id">sample garden-shears-cn-gallery-002</div>
+          <div class="match-path">绿植园艺 &gt; 植物园艺 &gt; 室内绿植与园艺工具 &gt; 园艺剪</div>
+          <div class="match-id">index 20260527-household-gpc-core-1000-grounding-dino-normalized-1024-clip <a href="https://detail.1688.com/offer/555622488840.html" target="_blank" rel="noreferrer">source</a></div>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+  </main>
+</body>
+</html>

@@ -1030,6 +1030,13 @@ function clampNumber(value, min, max) {
   return Math.min(max, Math.max(min, number));
 }
 
+function roundNumber(value, digits = 3) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 0;
+  const factor = 10 ** digits;
+  return Math.round(number * factor) / factor;
+}
+
 function normalizeImageMeta(meta) {
   const width = Math.round(Number(meta?.width || meta?.naturalWidth || meta?.videoWidth || 0));
   const height = Math.round(Number(meta?.height || meta?.naturalHeight || meta?.videoHeight || 0));
@@ -1209,6 +1216,8 @@ function normalizeItem(item = {}, index = 0) {
     categoryPath: Array.isArray(item.categoryPath) ? item.categoryPath : [],
     categoryScore: Number.isFinite(Number(item.categoryScore)) ? Number(item.categoryScore) : null,
     categoryMargin: Number.isFinite(Number(item.categoryMargin)) ? Number(item.categoryMargin) : null,
+    catalogCandidates: Array.isArray(item.catalogCandidates) ? item.catalogCandidates : [],
+    namingRejectionReason: item.namingRejectionReason || "",
     categoryIndexVersion: item.categoryIndexVersion || "",
     matchedSampleIds: Array.isArray(item.matchedSampleIds) ? item.matchedSampleIds : [],
   };
@@ -1258,6 +1267,8 @@ function normalizeCandidate(candidate = {}, index = 0, provider = "local-image")
     categoryPath: Array.isArray(candidate.categoryPath) ? candidate.categoryPath : [],
     categoryScore: Number.isFinite(Number(candidate.categoryScore)) ? Number(candidate.categoryScore) : null,
     categoryMargin: Number.isFinite(Number(candidate.categoryMargin)) ? Number(candidate.categoryMargin) : null,
+    catalogCandidates: Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates : [],
+    namingRejectionReason: candidate.namingRejectionReason || "",
     categoryIndexVersion: candidate.categoryIndexVersion || "",
     matchedSampleIds: Array.isArray(candidate.matchedSampleIds) ? candidate.matchedSampleIds : [],
     providerId: candidate.providerId || candidate.source || provider,
@@ -2339,18 +2350,40 @@ async function matchCatalogFromEmbeddingIndex(source, box) {
   const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
   const threshold = Number(index.threshold) || visionConfig.catalogThreshold;
   const marginThreshold = Number(index.marginThreshold) || visionConfig.catalogMarginThreshold;
-  if (!best || best.score < threshold || margin < marginThreshold) return null;
+  const catalogCandidates = rankedLeaves.slice(0, 3).map((leaf) => ({
+    categoryId: leaf.categoryId,
+    displayName: leaf.displayName,
+    appCategory: leaf.appCategory,
+    categoryPath: leaf.categoryPath,
+    score: roundNumber(leaf.score, 4),
+    bestScore: roundNumber(leaf.bestScore, 4),
+    averageScore: roundNumber(leaf.averageScore, 4),
+    hitCount: leaf.hitCount,
+    matchedSampleIds: leaf.matchedSampleIds,
+    representativeImages: leaf.representativeImages,
+  }));
+  const rejectionReason = !best
+    ? "no-catalog-candidate"
+    : best.score < threshold
+      ? "below-threshold"
+      : margin < marginThreshold
+        ? "low-margin"
+        : "";
+  const accepted = !rejectionReason;
   return {
-    name: best.displayName,
-    category: best.appCategory,
-    confidence: clampNumber(best.score, 0, 1),
-    catalogId: best.categoryId,
-    categoryId: best.categoryId,
-    categoryPath: best.categoryPath,
-    categoryScore: best.score,
+    accepted,
+    name: accepted ? best.displayName : "",
+    category: accepted ? best.appCategory : "",
+    confidence: clampNumber(best?.score || 0, 0, 1),
+    catalogId: accepted ? best.categoryId : "",
+    categoryId: accepted ? best.categoryId : "",
+    categoryPath: accepted ? best.categoryPath : [],
+    categoryScore: best?.score || 0,
     categoryMargin: margin,
+    catalogCandidates,
+    namingRejectionReason: rejectionReason,
     categoryIndexVersion: index.version || "",
-    matchedSampleIds: best.matchedSampleIds,
+    matchedSampleIds: best?.matchedSampleIds || [],
     timings: {
       catalogCropMs: cropMs,
       embeddingMs,
@@ -2366,22 +2399,52 @@ function aggregateCatalogMatchesByLeaf(entries) {
   const leaves = new Map();
   for (const entry of entries) {
     const current = leaves.get(entry.categoryId);
-    if (!current || entry.score > current.score) {
+    const sampleIds = entry.matchedSampleIds?.length ? entry.matchedSampleIds : [entry.sampleId].filter(Boolean);
+    const image = {
+      id: entry.id,
+      sampleId: entry.sampleId || "",
+      score: entry.score,
+      sourceImagePath: entry.sourceImagePath || entry.image?.path || "",
+      normalizedImagePath: entry.normalizedImagePath || entry.image?.normalizedPath || "",
+      sourceTitle: entry.sourceTitle || entry.image?.sourceTitle || "",
+    };
+    if (!current) {
       leaves.set(entry.categoryId, {
         categoryId: entry.categoryId,
         displayName: entry.displayName,
         appCategory: entry.appCategory,
         categoryPath: entry.categoryPath,
-        score: entry.score,
-        matchedSampleIds: entry.matchedSampleIds?.length ? entry.matchedSampleIds : [entry.sampleId].filter(Boolean),
+        bestScore: entry.score,
+        scores: [entry.score],
+        matchedSampleIds: [...sampleIds],
+        representativeImages: [image],
       });
-    } else if (current) {
-      for (const sampleId of entry.matchedSampleIds || [entry.sampleId]) {
+    } else {
+      current.bestScore = Math.max(current.bestScore, entry.score);
+      current.scores.push(entry.score);
+      current.representativeImages.push(image);
+      for (const sampleId of sampleIds) {
         if (sampleId && !current.matchedSampleIds.includes(sampleId)) current.matchedSampleIds.push(sampleId);
       }
     }
   }
-  return [...leaves.values()].sort((a, b) => b.score - a.score);
+  return [...leaves.values()]
+    .map((leaf) => {
+      const sortedScores = [...leaf.scores].sort((a, b) => b - a);
+      const topScores = sortedScores.slice(0, 3);
+      const averageScore = topScores.reduce((sum, score) => sum + score, 0) / Math.max(1, topScores.length);
+      const hitCount = leaf.scores.length;
+      return {
+        ...leaf,
+        averageScore,
+        hitCount,
+        score: (leaf.bestScore * 0.8) + (averageScore * 0.2) + Math.min(hitCount, 3) * 0.002,
+        representativeImages: leaf.representativeImages
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 3),
+      };
+    })
+    .sort((a, b) => b.score - a.score);
 }
 
 function detectionBoxToPercent(box, imageWidth, imageHeight) {
@@ -3116,8 +3179,7 @@ function getDetectorAttempts(assetMode) {
   if (visionConfig.preferredDetector === "yolox") {
     return [
       getYoloxDetectorAttempt(),
-      ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-      ...(assetMode.owlReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
+      ...(visionConfig.enableGroundingDinoFallback && assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
     ];
   }
 
@@ -3642,7 +3704,7 @@ async function resolveCandidateName(candidate, index, source, options = {}) {
   if (embeddingIndex.entries?.length) {
     const embeddingBox = options.box || candidate.modelBox || candidate.box;
     const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, embeddingBox).catch(() => null) : null;
-    if (catalogMatch) {
+    if (catalogMatch?.accepted) {
       return {
         ...candidate,
         name: refineNameByPosition(catalogMatch.name, candidate.box),
@@ -3653,6 +3715,8 @@ async function resolveCandidateName(candidate, index, source, options = {}) {
         categoryPath: catalogMatch.categoryPath || [],
         categoryScore: catalogMatch.categoryScore,
         categoryMargin: catalogMatch.categoryMargin,
+        catalogCandidates: catalogMatch.catalogCandidates || [],
+        namingRejectionReason: "",
         categoryIndexVersion: catalogMatch.categoryIndexVersion || "",
         matchedSampleIds: catalogMatch.matchedSampleIds || [],
         timings: {
@@ -3660,6 +3724,27 @@ async function resolveCandidateName(candidate, index, source, options = {}) {
           ...(catalogMatch.timings || {}),
         },
         source: `${candidate.source}+embedding`,
+        namingStatus: "done",
+      };
+    }
+    if (catalogMatch) {
+      return {
+        ...candidate,
+        name: candidate.name && !candidate.name.startsWith("候选区域") && !isUnknownObjectName(candidate.name)
+          ? candidate.name
+          : getUnknownObjectName(index),
+        confidence: Math.max(candidate.confidence || 0, catalogMatch.confidence || 0),
+        categoryScore: catalogMatch.categoryScore,
+        categoryMargin: catalogMatch.categoryMargin,
+        catalogCandidates: catalogMatch.catalogCandidates || [],
+        namingRejectionReason: catalogMatch.namingRejectionReason || "low-confidence",
+        categoryIndexVersion: catalogMatch.categoryIndexVersion || "",
+        matchedSampleIds: catalogMatch.matchedSampleIds || [],
+        timings: {
+          ...(candidate.timings || {}),
+          ...(catalogMatch.timings || {}),
+        },
+        source: `${candidate.source}+embedding-candidates`,
         namingStatus: "done",
       };
     }
@@ -3739,6 +3824,7 @@ function providerLabel(provider) {
 }
 
 function getRequestedRecognitionProvider() {
+  if (visionConfig.preferredDetector === "yolox") return "local-yolox-household-subject";
   if (visionConfig.preferredDetector === "owlvit") return "local-owlvit";
   if (visionConfig.preferredDetector === "grounding-dino") return "local-grounding-dino";
   return "local-small-model";
@@ -4675,6 +4761,15 @@ function renderCandidateMetaChips(candidate) {
     chips.push(`${reminder.title} ${formatReminderSchedule(reminder)}`);
   }
   if (candidate.container) chips.push(`位置 ${candidate.container}`);
+  if (candidate.namingRejectionReason && candidate.catalogCandidates?.length) {
+    const names = candidate.catalogCandidates.slice(0, 3).map((entry) => entry.displayName).filter(Boolean).join(" / ");
+    chips.push(`低置信候选 ${names}`);
+  } else if (candidate.catalogCandidates?.length) {
+    const best = candidate.catalogCandidates[0];
+    if (best?.displayName && Number.isFinite(Number(best.score))) {
+      chips.push(`命名匹配 ${best.displayName} ${Math.round(Number(best.score) * 100)}%`);
+    }
+  }
   if (!chips.length) return "";
   return `<div class="candidate-meta-chips">${chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join("")}</div>`;
 }
@@ -4895,6 +4990,45 @@ function renderCandidateCrop(candidate) {
   `;
 }
 
+function catalogCandidateImageSrc(candidate) {
+  const image = candidate?.representativeImages?.[0] || {};
+  const imagePath = image.normalizedImagePath || "";
+  if (!imagePath || !imagePath.startsWith("data/")) return "";
+  return `/${imagePath}`;
+}
+
+function renderCatalogCandidatePanel(candidate) {
+  const candidates = Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates.slice(0, 3) : [];
+  if (!candidates.length) return "";
+  const title = candidate.namingRejectionReason ? "可能是这些物品" : "相似命名候选";
+  return `
+    <div class="catalog-candidate-panel">
+      <div class="catalog-candidate-head">
+        <strong>${escapeHtml(title)}</strong>
+        ${candidate.namingRejectionReason ? `<span>低置信 · 请确认</span>` : `<span>按相似度排序</span>`}
+      </div>
+      <div class="catalog-candidate-list">
+        ${candidates.map((entry, index) => {
+          const src = catalogCandidateImageSrc(entry);
+          const score = Number(entry.score) || 0;
+          const hitCount = Number(entry.hitCount) || 1;
+          return `
+            <button class="catalog-candidate-option" type="button" data-apply-catalog-candidate="${candidate.id}" data-candidate-rank="${index}">
+              <span class="catalog-candidate-thumb">
+                ${src ? `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.displayName || "候选")}" loading="lazy" />` : `<b>${index + 1}</b>`}
+              </span>
+              <span class="catalog-candidate-copy">
+                <strong>${escapeHtml(entry.displayName || entry.categoryId || "候选物品")}</strong>
+                <small>${Math.round(score * 100)}% · ${hitCount} 个相似样本</small>
+              </span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
 function renderCandidate(candidate, activeIndex = 0, total = 1) {
   const isActive = getFallbackActiveCandidateId(state.capture.activeCandidateId) === candidate.id;
   const isNaming = candidate.namingStatus === "loading";
@@ -4952,6 +5086,7 @@ function renderCandidate(candidate, activeIndex = 0, total = 1) {
               ${icons.scan}<span>${showBox ? "收起定位" : "调整定位"}</span>
             </button>
           </div>
+          ${renderCatalogCandidatePanel(candidate)}
         </div>
       </div>
       ${showDetails ? `
@@ -5458,6 +5593,8 @@ function confirmCandidates() {
       categoryPath: candidate.categoryPath || [],
       categoryScore: candidate.categoryScore,
       categoryMargin: candidate.categoryMargin,
+      catalogCandidates: candidate.catalogCandidates || [],
+      namingRejectionReason: candidate.namingRejectionReason || "",
       categoryIndexVersion: candidate.categoryIndexVersion || "",
       matchedSampleIds: candidate.matchedSampleIds || [],
       imageRef: state.capture.imageRef || null,
@@ -5574,6 +5711,32 @@ function updateCandidate(id, field, value) {
   state.capture.activeCandidateId = id;
   persist();
   render();
+}
+
+function applyCatalogCandidate(id, rank) {
+  state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
+    if (candidate.id !== id) return candidate;
+    const option = Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates[rank] : null;
+    if (!option) return candidate;
+    return normalizeCandidate({
+      ...candidate,
+      name: option.displayName || candidate.name,
+      category: categoryLabels[option.appCategory] ? option.appCategory : candidate.category,
+      catalogId: option.categoryId || candidate.catalogId,
+      categoryId: option.categoryId || candidate.categoryId,
+      categoryPath: option.categoryPath || candidate.categoryPath || [],
+      categoryScore: Number(option.score) || candidate.categoryScore,
+      categoryMargin: null,
+      matchedSampleIds: option.matchedSampleIds || candidate.matchedSampleIds || [],
+      namingRejectionReason: "",
+      edited: true,
+      nameEdited: true,
+    }, 0, state.capture.provider || "local-image");
+  });
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
+  showToast("已应用候选命名");
 }
 
 function toggleCandidatePanel(id, panel) {
@@ -5951,6 +6114,13 @@ async function rerunCandidateNamingAfterBoxEdit(candidateId) {
       category: latest.nameEdited ? entry.category : resolved.category,
       confidence: latest.nameEdited ? entry.confidence : Math.max(entry.confidence || 0, resolved.confidence || 0),
       catalogId: latest.nameEdited ? entry.catalogId : resolved.catalogId,
+      categoryId: latest.nameEdited ? entry.categoryId : (resolved.categoryId || resolved.catalogId || ""),
+      categoryPath: latest.nameEdited ? entry.categoryPath : (resolved.categoryPath || []),
+      categoryScore: latest.nameEdited ? entry.categoryScore : resolved.categoryScore,
+      categoryMargin: latest.nameEdited ? entry.categoryMargin : resolved.categoryMargin,
+      catalogCandidates: latest.nameEdited ? entry.catalogCandidates : (resolved.catalogCandidates || []),
+      namingRejectionReason: latest.nameEdited ? entry.namingRejectionReason : (resolved.namingRejectionReason || ""),
+      matchedSampleIds: latest.nameEdited ? entry.matchedSampleIds : (resolved.matchedSampleIds || []),
       source: latest.nameEdited ? entry.source : (resolved.source || entry.source),
       namingStatus: "done",
       edited: true,
@@ -6322,6 +6492,15 @@ document.addEventListener("click", (event) => {
 
   if (event.target.closest("[data-confirm-all]")) {
     confirmCandidates();
+    return;
+  }
+
+  const catalogCandidateButton = event.target.closest("[data-apply-catalog-candidate]");
+  if (catalogCandidateButton) {
+    applyCatalogCandidate(
+      catalogCandidateButton.dataset.applyCatalogCandidate,
+      Number(catalogCandidateButton.dataset.candidateRank) || 0,
+    );
     return;
   }
 

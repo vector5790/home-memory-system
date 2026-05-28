@@ -1,0 +1,1526 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vision Model Evaluation Report</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f2ec; color: #1f2528; }
+    header { padding: 28px 36px; background: #172126; color: white; }
+    h1 { margin: 0 0 12px; font-size: 28px; }
+    .summary { display: flex; gap: 12px; flex-wrap: wrap; }
+    .metric { background: rgba(255,255,255,.12); padding: 10px 14px; border-radius: 8px; min-width: 130px; }
+    .metric b { display: block; font-size: 20px; }
+    .note { margin-top: 14px; max-width: 980px; color: #d7e2e7; line-height: 1.45; font-size: 13px; }
+    main { padding: 24px 36px 48px; display: grid; gap: 18px; }
+    .provider-panel { background:#fff; border:1px solid #ded8cd; border-radius:10px; padding:16px; overflow:auto; }
+    .provider-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .provider-table th, .provider-table td { border-bottom:1px solid #ebe6dc; padding:7px 8px; text-align:left; white-space:nowrap; }
+    .provider-table th { color:#415055; }
+    .provider-cases { display: grid; gap: 14px; }
+    .provider-heading { position: sticky; top: 0; z-index: 2; background: #243137; color: #fff; border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+    .provider-heading h2 { margin: 0 0 4px; font-size: 18px; }
+    .provider-heading div { color: #d7e2e7; font-size: 12px; line-height: 1.35; }
+    .case { display: grid; grid-template-columns: minmax(280px, 360px) minmax(220px, 320px) 1fr; gap: 18px; background: #fff; border: 1px solid #ded8cd; border-radius: 10px; padding: 16px; }
+    .image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: #ebe6dc; overflow: hidden; border-radius: 8px; }
+    .image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .box { position: absolute; border: 3px solid; box-sizing: border-box; font-size: 11px; font-weight: 700; padding: 2px 4px; }
+    .box.gt { border-color: #239a5b; color: #165c38; background: rgba(35,154,91,.12); }
+    .box.pred { border-color: #d88718; color: #7a4600; background: rgba(216,135,24,.12); transform: translate(2px, 2px); }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    .kv { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin: 8px 0; font-size: 14px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge { border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 700; }
+    .badge.ok { background: #e2f4e8; color: #17633b; }
+    .badge.fail { background: #ffe8df; color: #9a351f; }
+    .match-grid { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 10px; }
+    .match-card { border: 1px solid #ded8cd; border-radius: 8px; padding: 8px; background: #fbfaf7; }
+    .match-card.same { border-color: #70b88f; }
+    .match-card.diff { border-color: #e2a56f; }
+    .match-card img { width: 100%; aspect-ratio: 4/3; object-fit: contain; border-radius: 6px; background: #eee; display: block; }
+    .rank { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .match-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+    .match-id { font-size: 11px; color: #687174; }
+    .match-path { margin-top: 4px; font-size: 11px; color: #415055; line-height: 1.35; }
+    .empty { color: #7d8588; font-size: 13px; }
+    a { color: inherit; }
+    @media (max-width: 980px) { .case { grid-template-columns: 1fr; } .match-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>本地视觉模型评测报告</h1>
+    <div class="summary">
+      <div class="metric"><b>50</b>图片</div>
+      <div class="metric"><b>0%</b>框召回 @ IoU 0.5</div>
+      <div class="metric"><b>0%</b>类目准确</div>
+      <div class="metric"><b>0%</b>名称准确</div>
+      <div class="metric"><b>0%</b>框+名同时正确</div>
+    </div>
+    <div class="note">Model: provider-benchmark · Provider benchmark predictions. Real local providers require valid vendor assets and --run-local-models; baselines are explicitly labeled.</div>
+  </header>
+  <main>
+    
+    
+    <section class="provider-cases">
+      <div class="provider-heading">
+        <h2>Local Grounding DINO + CLIP naming</h2>
+        <div>real-local-model · Gate no-go · Models: onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</div>
+      </div>
+      
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/storage-box/storage-box-cn-eval-004-image.jpg" alt="storage-box-cn-eval-004" />
+          <span class="box gt" style="left:41.75%;top:22.625%;width:50.25%;height:71.375%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳盒 · storage-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_Jp8PXgXfRtkoBwxSXOxivta-2RmPPyFMW0eRVwRs2.html" target="_blank" rel="noreferrer">桌面透明抽屉式收纳盒手账文具置物架书桌上亚克力笔筒整理小盒子_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/1280;">
+          <img src="../../fixtures/vision-household/cn/storage-basket/storage-basket-cn-eval-004-hm-home-2025.jpg" alt="storage-basket-cn-eval-004" />
+          <span class="box gt" style="left:29.0625%;top:53.5156%;width:38.9063%;height:26.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>storage-basket-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>收纳篮 · storage-basket</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/qitashounalan_6962/088d744c1c528cf78bfef090bff820e1.html" target="_blank" rel="noreferrer">HM HOME 2025夏季新款草编收纳篮，轻松打造家居新风尚🌿-其他收纳篮-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:790/1187;">
+          <img src="../../fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-eval-004-image.jpg" alt="drawer-organizer-cn-eval-004" />
+          <span class="box gt" style="left:0.3797%;top:10.8677%;width:99.6203%;height:82.3083%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>drawer-organizer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>抽屉分隔盒 · drawer-organizer</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/890287295798.html" target="_blank" rel="noreferrer">♔可伸缩收纳盒分隔抽屉式长方形内置厨房餐具桌面化妆品分格整理-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-eval-004-image.jpg" alt="vacuum-storage-bag-cn-eval-004" />
+          <span class="box gt" style="left:14.5%;top:44.25%;width:69.0%;height:51.125%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>vacuum-storage-bag-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>真空压缩袋 · vacuum-storage-bag</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_630480458209.html" target="_blank" rel="noreferrer">免抽气真空压缩袋棉被被子家用衣服衣物行李箱整理加厚大号收纳袋_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1170/1156;">
+          <img src="../../fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-eval-004-image.jpg" alt="closet-organizer-cn-eval-004" />
+          <span class="box gt" style="left:2.6496%;top:9.6886%;width:95.2991%;height:82.9585%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>closet-organizer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>衣柜收纳格 · closet-organizer</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_pr62jQ8Cxt7b2aNheeKSptm-mOZQQNu7a79dVnvT0.html" target="_blank" rel="noreferrer">千鸟格衣服收纳盒裤子收纳家用衣柜收纳神器分格抽屉式袜子收纳盒_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-eval-004-image.jpg" alt="cable-organizer-box-cn-eval-004" />
+          <span class="box gt" style="left:25.375%;top:1.875%;width:71.375%;height:54.375%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>cable-organizer-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>线缆收纳盒 · cable-organizer-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/chaxianbanshounahe_10156/5486c95c9c78c7f07b9921b83370147e.html" target="_blank" rel="noreferrer">数据线收纳盒带盖充电器电线理线盒：告别杂乱，桌面清爽大法! -插线板收纳盒-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:750/1000;">
+          <img src="../../fixtures/vision-household/cn/shoe-box/shoe-box-cn-eval-004-aj.jpg" alt="shoe-box-cn-eval-004" />
+          <span class="box gt" style="left:20.9333%;top:5.4%;width:78.2667%;height:20.5%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>shoe-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>鞋盒 · shoe-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/xiehe_15507/266e7a508212b03c27893163e5a37546.html" target="_blank" rel="noreferrer">透明全亚克力鞋盒：AJ球鞋收纳展示神器，让你的鞋柜变身艺术品!-鞋盒-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/bowl/bowl-cn-eval-004-image.jpg" alt="bowl-cn-eval-004" />
+          <span class="box gt" style="left:30.875%;top:31.375%;width:30.75%;height:21.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>bowl-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>碗 · bowl</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_567664716671.html" target="_blank" rel="noreferrer">陶瓷碗套装创意红瓷喜庆龙凤骨瓷米饭碗带勺结婚碗筷餐具礼品套装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/plate/plate-cn-eval-004-6.jpg" alt="plate-cn-eval-004" />
+          <span class="box gt" style="left:7.125%;top:27.75%;width:40.5%;height:17.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>plate-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>盘子 · plate</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_ZQg7dm3c6tQYJxWfBBZIVt6-rkOPPMuM7OqA0oGhJ.html" target="_blank" rel="noreferrer">家用菜盘盘子套装6个菜盘方盘组合创意餐具蒸鱼盘陶瓷饭盘汤碟子_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/mug/mug-cn-eval-004-diy-diy.jpg" alt="mug-cn-eval-004" />
+          <span class="box gt" style="left:27.125%;top:21.75%;width:61.875%;height:60.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>mug-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>马克杯 · mug</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_X4PwzGDfGt9z7oyuVVruBtg-ZWRNNbuGzBJgQOKuOM.html" target="_blank" rel="noreferrer">陶瓷马克杯定制杯子diy活动礼品订做马克杯diy可印照片纪念定制图_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-eval-004-image.jpg" alt="drinking-glass-cn-eval-004" />
+          <span class="box gt" style="left:26.0%;top:10.375%;width:72.625%;height:86.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>drinking-glass-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>玻璃杯 · drinking-glass</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/bolibei_2224/50d66459543557316351e9df0b456223.html" target="_blank" rel="noreferrer">富光双层玻璃杯子，男士女士通用的高档泡茶杯-玻璃杯-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/saucepan/saucepan-cn-eval-004-image.jpg" alt="saucepan-cn-eval-004" />
+          <span class="box gt" style="left:19.75%;top:30.625%;width:79.25%;height:65.5%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>saucepan-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>奶锅 · saucepan</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/naiguo_1587/a5845341e0adb95eccdbd9abeaa57507.html" target="_blank" rel="noreferrer">👶厨神必备!炊大皇奶锅，让宝宝辅食烹饪变得如此简单💖-奶锅-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1000/1000;">
+          <img src="../../fixtures/vision-household/cn/frying-pan/frying-pan-cn-eval-004-image.jpg" alt="frying-pan-cn-eval-004" />
+          <span class="box gt" style="left:46.8%;top:26.5%;width:48.6%;height:42.2%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>frying-pan-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>煎锅 · frying-pan</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/jianguo_13506/1a1a1edec8bf7d912d756bfea09bf376.html" target="_blank" rel="noreferrer">老式铸铁煎锅：复古魅力，烹饪新体验🔥-煎锅-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/cutting-board/cutting-board-cn-eval-004-image.jpg" alt="cutting-board-cn-eval-004" />
+          <span class="box gt" style="left:0.75%;top:28.125%;width:98.375%;height:53.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>cutting-board-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>菜板 · cutting-board</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/zhenban_4264/27701a9e6eaa2f720001aa8a752a1e29.html" target="_blank" rel="noreferrer">抗菌防霉塑料菜板，厨房必备神器! -砧板-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/rice-bag/rice-bag-cn-eval-004-2-5kg10.jpg" alt="rice-bag-cn-eval-004" />
+          <span class="box gt" style="left:0.25%;top:1.75%;width:34.375%;height:55.625%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>rice-bag-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>米袋 · rice-bag</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_557623835514.html" target="_blank" rel="noreferrer">五常稻花香米袋小米大米包装袋子牛皮纸定制手提2.5kg10斤装防水_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/noodle-pack/noodle-pack-cn-eval-004-8.jpg" alt="noodle-pack-cn-eval-004" />
+          <span class="box gt" style="left:12.75%;top:7.5%;width:72.75%;height:54.375%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>noodle-pack-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>面条包装 · noodle-pack</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_634161618276.html" target="_blank" rel="noreferrer">福州礼盒线面8包装盈乐长寿面福建特产手工面线糊细挂面生日面条_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/canned-food/canned-food-cn-eval-004-312gx6.jpg" alt="canned-food-cn-eval-004" />
+          <span class="box gt" style="left:69.875%;top:7.875%;width:28.5%;height:41.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>canned-food-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>罐头 · canned-food</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_624066826188.html" target="_blank" rel="noreferrer">水果罐头混合装312gx6罐新鲜整箱糖水果橘子黄桃菠萝椰果什锦罐头_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/snack-bag/snack-bag-cn-eval-004-100.jpg" alt="snack-bag-cn-eval-004" />
+          <span class="box gt" style="left:45.5%;top:21.375%;width:46.125%;height:66.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>snack-bag-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>零食袋 · snack-bag</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_624794102528.html" target="_blank" rel="noreferrer">休闲食品自封袋坚果自立袋糖果零食袋子批发 100个零食物语包装袋_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-eval-004-33-2500ml-2-5-pet-5.jpg" alt="beverage-bottle-cn-eval-004" />
+          <span class="box gt" style="left:31.125%;top:7.25%;width:33.25%;height:82.0%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>beverage-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>饮料瓶 · beverage-bottle</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_MqVZarDtKtJ9xmWuVVmUQtA-PNzeejCnBOOW0pMhY.html" target="_blank" rel="noreferrer">33号2500ml/2.5升一次性透明塑料瓶空瓶果汁瓶pet饮料瓶子5斤带盖_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1500/1500;">
+          <img src="../../fixtures/vision-household/cn/spice-jar/spice-jar-cn-eval-004-image.jpg" alt="spice-jar-cn-eval-004" />
+          <span class="box gt" style="left:35.7333%;top:27.4%;width:31.0%;height:62.0667%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>spice-jar-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>调料瓶 · spice-jar</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_jGjKVjmyc0tJAPg2mDYtBKeUJte-wzQnnOsQO4naORwsN.html" target="_blank" rel="noreferrer">定量控盐瓶调料罐密封罐防潮控盐调料瓶家用厨房调味料瓶组合套装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/medicine-box/medicine-box-cn-eval-004-image.jpg" alt="medicine-box-cn-eval-004" />
+          <span class="box gt" style="left:7.25%;top:34.25%;width:58.25%;height:42.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>medicine-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药盒 · medicine-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/yaohe_5655/7715f52b55552fd1ce4c7716c65f1a9d.html" target="_blank" rel="noreferrer">日本药盒便携一周分装盒，吃药再也不手忙脚乱!💊-药盒-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/pill-bottle/pill-bottle-cn-eval-004-image.jpg" alt="pill-bottle-cn-eval-004" />
+          <span class="box gt" style="left:21.625%;top:34.5%;width:18.75%;height:58.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>pill-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>药瓶 · pill-bottle</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_601296008600.html" target="_blank" rel="noreferrer">便携塑料小药瓶白色避光小空瓶固体胶囊分装瓶药用片剂包装瓶带盖_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/thermometer/thermometer-cn-eval-004-image.jpg" alt="thermometer-cn-eval-004" />
+          <span class="box gt" style="left:62.75%;top:9.875%;width:19.25%;height:77.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>thermometer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>体温计 · thermometer</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/tiwenji_6546/6b020ce5a7bd6812a8998595ed429e9c.html" target="_blank" rel="noreferrer">电子体温计欧德宝：精准测量，守护家人的健康温度!-体温计-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:900/900;">
+          <img src="../../fixtures/vision-household/cn/bandage-box/bandage-box-cn-eval-004-5.jpg" alt="bandage-box-cn-eval-004" />
+          <span class="box gt" style="left:2.3333%;top:23.6667%;width:32.2222%;height:39.7778%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>bandage-box-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>创可贴盒 · bandage-box</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/41419373508.html" target="_blank" rel="noreferrer">医疗促销礼品 可贴牌便携塑料创可贴盒含5片止血贴 创口贴邦迪盒-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1440/1440;">
+          <img src="../../fixtures/vision-household/cn/first-aid-kit/first-aid-kit-cn-eval-004-image.jpg" alt="first-aid-kit-cn-eval-004" />
+          <span class="box gt" style="left:33.2639%;top:6.1806%;width:64.6528%;height:9.8611%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>first-aid-kit-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>急救包 · first-aid-kit</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/yingjibao_3523/5a38e2227090da1cd5bb3c437ef9c4bf.html" target="_blank" rel="noreferrer">户外急救包全攻略：红十字会推荐便携医用箱，地震应急必备!-应急包-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1280/720;">
+          <img src="../../fixtures/vision-household/cn/face-mask-pack/face-mask-pack-cn-eval-004-954vkn95-3m9041.jpg" alt="face-mask-pack-cn-eval-004" />
+          <span class="box gt" style="left:48.125%;top:34.1667%;width:14.6094%;height:17.9167%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>face-mask-pack-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>口罩包 · face-mask-pack</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/690036462534.html" target="_blank" rel="noreferrer">口罩954VKN95口罩防装修甲醛粉尘异味3M9041有机气体防护口罩包邮-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/disinfectant-wipes/disinfectant-wipes-cn-eval-004-60.jpg" alt="disinfectant-wipes-cn-eval-004" />
+          <span class="box gt" style="left:0.0%;top:30.75%;width:99.375%;height:69.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>disinfectant-wipes-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>消毒湿巾 · disinfectant-wipes</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/xiaodumianpian_13445/30444cedfcd79975b148f40eaeaa12bc.html" target="_blank" rel="noreferrer">一次性医用消毒湿巾60片装：大包消毒湿巾，随时随地杀菌消毒!-消毒棉片-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-eval-004-3kg-4-24.jpg" alt="laundry-detergent-cn-eval-004" />
+          <span class="box gt" style="left:15.125%;top:25.25%;width:44.625%;height:67.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>laundry-detergent-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>洗衣液 · laundry-detergent</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_2nXMbGbUotwqnynFaaptDtD-xzQZZ4sO6Yp7k0etA.html" target="_blank" rel="noreferrer">蓝月亮洗衣液3Kg*4瓶薰衣草香深层洁净衣物清洁整箱家用24斤大桶_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/dish-soap/dish-soap-cn-eval-004-500g.jpg" alt="dish-soap-cn-eval-004" />
+          <span class="box gt" style="left:38.375%;top:29.375%;width:23.5%;height:61.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>dish-soap-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>洗洁精 · dish-soap</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_624853574427.html" target="_blank" rel="noreferrer">雕牌洗洁精小瓶500g全效丝瓜清爽去油餐洗净洗碟精宿舍家用洗涤精_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-eval-004-500ml.jpg" alt="cleaning-spray-bottle-cn-eval-004" />
+          <span class="box gt" style="left:28.0%;top:22.125%;width:19.125%;height:60.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>cleaning-spray-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>清洁喷瓶 · cleaning-spray-bottle</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://detail.1688.com/offer/611229856143.html" target="_blank" rel="noreferrer">家居护理家政清洁配比瓶安利产品稀释喷瓶喷雾瓶500ml喷头大喷壶-阿里巴巴</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1000/1000;">
+          <img src="../../fixtures/vision-household/cn/sponge/sponge-cn-eval-004-image.jpg" alt="sponge-cn-eval-004" />
+          <span class="box gt" style="left:51.2%;top:72.5%;width:25.4%;height:12.7%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>sponge-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>海绵 · sponge</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/haimian_2272/5a020e31cf634481f51b9f34c3621b3b.html" target="_blank" rel="noreferrer">高密度海绵垫子：拯救腰背的神器!可裁剪海棉沙发垫实测太香了!-海绵-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-eval-004-image.jpg" alt="trash-bag-roll-cn-eval-004" />
+          <span class="box gt" style="left:4.125%;top:56.125%;width:54.25%;height:36.625%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>trash-bag-roll-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>垃圾袋卷 · trash-bag-roll</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_571439119485.html" target="_blank" rel="noreferrer">白色加厚垃圾袋家用一次性点断式塑料袋透明平口大号垃圾桶袋卷装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-eval-004-image.jpg" alt="toilet-cleaner-bottle-cn-eval-004" />
+          <span class="box gt" style="left:25.0%;top:11.125%;width:26.0%;height:88.125%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>toilet-cleaner-bottle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>洁厕剂 · toilet-cleaner-bottle</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_604396009583.html" target="_blank" rel="noreferrer">大瓶洁厕剂洁厕灵马桶便槽除臭去污护釉清洁剂清香不刺鼻洁厕液_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/mop-head/mop-head-cn-eval-004-image.png" alt="mop-head-cn-eval-004" />
+          <span class="box gt" style="left:44.875%;top:0.25%;width:38.0%;height:60.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>mop-head-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>拖把头 · mop-head</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/xuanzhuantuoba_7060/f5eb890109848dc64d5ccc5734643968.html" target="_blank" rel="noreferrer">加厚吸水旋转拖把头：清洁神器，让你的家务事半功倍!💪-旋转拖把-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/charging-cable/charging-cable-cn-eval-004-25-type-c-vivo-2.jpg" alt="charging-cable-cn-eval-004" />
+          <span class="box gt" style="left:11.375%;top:5.375%;width:86.25%;height:94.5%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charging-cable-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>数据线 · charging-cable</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shujuxian_1728/e1fb26e96b31392db7ca115f1c17db04.html" target="_blank" rel="noreferrer">25年必买Type-C弯头数据线｜华为小米vivo快充神器，加长2米超实用!-数据线-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1200/1200;">
+          <img src="../../fixtures/vision-household/cn/charger/charger-cn-eval-004-magsafe.jpg" alt="charger-cn-eval-004" />
+          <span class="box gt" style="left:9.9167%;top:38.3333%;width:51.9167%;height:55.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>charger-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电器 · charger</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shoujichongdianqi_4125/bd5e056cf1e0a8d89e68849eb39313c1.html" target="_blank" rel="noreferrer">MagSafe三合一无线充电器：苹果全家桶的终极充电解决方案!-手机充电器-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/battery/battery-cn-eval-004-5-7-4-ktv-aa-1-5v.jpg" alt="battery-cn-eval-004" />
+          <span class="box gt" style="left:24.75%;top:4.875%;width:24.375%;height:38.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>battery-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电池 · battery</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_600127184801.html" target="_blank" rel="noreferrer">倍量 5号7号充电电池大容量4节套装KTV套装可代替AA五1.5v锂电池_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/power-bank/power-bank-cn-eval-004-22-5w-10000-wepost.jpg" alt="power-bank-cn-eval-004" />
+          <span class="box gt" style="left:56.5%;top:19.25%;width:29.625%;height:69.125%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>power-bank-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>充电宝 · power-bank</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://www.wepost.com.my/recommends/items/taobao-MOW2ZOfVz8adWw5IZV.html" target="_blank" rel="noreferrer">品胜22.5W充电宝10000毫安超薄小巧便携式超级快充充电宝轻薄闪充迷你移动电源适用华为小米苹果专用可上飞机 - 小编推荐 - WePost ...</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/earphones/earphones-cn-eval-004-ikf-t1.jpg" alt="earphones-cn-eval-004" />
+          <span class="box gt" style="left:27.375%;top:12.875%;width:72.625%;height:82.625%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>earphones-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>耳机 · earphones</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_668818291173.html" target="_blank" rel="noreferrer">iKF T1蓝牙耳机头戴式耳机无线新款游戏降噪耳机有线带麦超长待机_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-eval-004-u350-32g-type-c-u-u.jpg" alt="usb-flash-drive-cn-eval-004" />
+          <span class="box gt" style="left:13.5%;top:13.5%;width:77.0%;height:56.0%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>usb-flash-drive-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>U盘 · usb-flash-drive</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shoujiUpan_2532/649ba1c594dec5f741aa361cb9dfb1da.html" target="_blank" rel="noreferrer">爱国者U350-32G Type-C U盘：手机电脑双用，数据传输神器!-手机U盘-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/memory-card-case/memory-card-case-cn-eval-004-sd-tf-usb-3-0.jpg" alt="memory-card-case-cn-eval-004" />
+          <span class="box gt" style="left:14.875%;top:48.875%;width:55.875%;height:47.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>memory-card-case-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>存储卡盒 · memory-card-case</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/bao_14745/377457741010f16bfc8374c46319ec75.html" target="_blank" rel="noreferrer">耐影存储卡盒卡套SD卡TF卡收纳包相机手机内存卡保护盒储存卡USB 3.0高速读卡器手机读卡器：数码摄影爱好者的必备神器!-包-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1200/1200;">
+          <img src="../../fixtures/vision-household/cn/remote-control/remote-control-cn-eval-004-optoma-h115-tw342-hb3201-hdf321b.jpg" alt="remote-control-cn-eval-004" />
+          <span class="box gt" style="left:62.9167%;top:19.8333%;width:22.4167%;height:60.5833%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>remote-control-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>遥控器 · remote-control</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_N7wR0gkC5tGBGZXqbmCxx9HRtB-wzQnnOsQa2gJARpIN.html" target="_blank" rel="noreferrer">原装全新奥图码Optoma投影仪H115 TW342 HB3201 HDF321B 遥控器_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-eval-004-2l3l.jpg" alt="electric-kettle-cn-eval-004" />
+          <span class="box gt" style="left:6.0%;top:5.625%;width:91.125%;height:89.0%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>electric-kettle-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电水壶 · electric-kettle</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_W7Jg6pdfotGXpQMcaresQta-XNReeAC0d5ZyQOes3.html" target="_blank" rel="noreferrer">万利达电热水壶电水壶2L3L不锈钢一体保温自动断电开水壶家用学生_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-eval-004-20-30.jpg" alt="rice-cooker-cn-eval-004" />
+          <span class="box gt" style="left:17.5%;top:85.75%;width:24.0%;height:14.125%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>rice-cooker-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>电饭煲 · rice-cooker</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/shangyongdianfanbao_3790/22cceecc30bba51ad654e8307665260d.html" target="_blank" rel="noreferrer">苏电饭煲旗舰款，20-30人食堂必备神器？🔥-商用电饭煲-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/air-purifier-filter/air-purifier-filter-cn-eval-004-352-x80-x83-x83c.jpg" alt="air-purifier-filter-cn-eval-004" />
+          <span class="box gt" style="left:0.0%;top:48.125%;width:36.625%;height:50.75%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>air-purifier-filter-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>空气净化器滤芯 · air-purifier-filter</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/jinghua_11148/61ceb4c80f43f7af6447a283ee60d63f.html" target="_blank" rel="noreferrer">352标准滤芯套装：空气净化器滤芯X80/X83/X83C，拯救呼吸的&quot;隐形铠甲&quot;!-净化-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/hair-dryer/hair-dryer-cn-eval-004-h101.jpg" alt="hair-dryer-cn-eval-004" />
+          <span class="box gt" style="left:14.25%;top:1.0%;width:75.625%;height:34.25%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>hair-dryer-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>吹风机 · hair-dryer</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/shangpin_1930/52e3a06f14f422d4d010bd92a12dba8a.html" target="_blank" rel="noreferrer">米家吹风机H101：智能科技与高效造型的完美结合-商品-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-eval-004-image.jpg" alt="vacuum-cleaner-cn-eval-004" />
+          <span class="box gt" style="left:26.0%;top:10.625%;width:53.875%;height:88.875%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>vacuum-cleaner-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>吸尘器 · vacuum-cleaner</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_58moVQTxtYvA7jF77GUMtV-nMYPPWFxV7XjRKqSzb.html" target="_blank" rel="noreferrer">德国无线吸尘器家用小型大吸力功率强力静低音手持拖地一体洗地机_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:1080/1080;">
+          <img src="../../fixtures/vision-household/cn/router/router-cn-eval-004-e2627-e2628-ax3000m-wifi6.jpg" alt="router-cn-eval-004" />
+          <span class="box gt" style="left:48.8889%;top:33.7963%;width:38.7037%;height:40.9259%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>router-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>路由器 · router</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://goods.taobao.com/t/putongluyouqi_1489/09d7941c7e9cbfda57cba94190713466.html" target="_blank" rel="noreferrer">中兴E2627/E2628，AX3000M WIFI6路由器，联通版如何选？-普通路由器-淘宝好物网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:750/750;">
+          <img src="../../fixtures/vision-household/cn/screwdriver/screwdriver-cn-eval-004-202-30cm.jpg" alt="screwdriver-cn-eval-004" />
+          <span class="box gt" style="left:25.2%;top:29.8667%;width:69.2%;height:67.8667%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>screwdriver-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>螺丝刀 · screwdriver</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://bk.taobao.com/k/luosidao_6772/9b6f82e46fd8cb6c446ea334c3a5a461.html" target="_blank" rel="noreferrer">202冲磁铬钒钢螺丝刀：解锁30CM长度的高效神器，工具控必备!-螺丝刀-淘宝百科网</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="case">
+      <div class="input-card">
+        <div class="image-wrap" style="aspect-ratio:800/800;">
+          <img src="../../fixtures/vision-household/cn/scissors/scissors-cn-eval-004-0603-2.jpg" alt="scissors-cn-eval-004" />
+          <span class="box gt" style="left:3.875%;top:10.0%;width:40.25%;height:83.375%;">GT</span>
+        </div>
+      </div>
+      <div class="details">
+        <h2>scissors-cn-eval-004</h2>
+        <div class="kv"><b>Provider</b><span>Local Grounding DINO + CLIP naming · real-local-model · ok</span></div>
+        <div class="kv"><b>Models</b><span>onnx-community/grounding-dino-tiny-ONNX, Xenova/clip-vit-base-patch32</span></div>
+        <div class="kv"><b>GT</b><span>剪刀 · scissors</span></div>
+        <div class="kv"><b>Pred</b><span> · </span></div>
+        <div class="kv"><b>Source</b><span><a href="https://tao.hooos.com/goods_536393260433.html" target="_blank" rel="noreferrer">得力剪刀学生办公手工0603厨房铁皮家用园艺大美工文具剪刀2把装_虎窝淘</a></span></div>
+        <div class="badges">
+          <span class="badge fail">IoU 0.0</span>
+          <span class="badge fail">Category</span>
+          <span class="badge fail">Name missing</span>
+          <span class="badge fail">Combined</span>
+        </div>
+      </div>
+      <div class="matches">
+        <h3>Top 3 本地索引相似图片</h3>
+        <div class="match-grid">
+          <div class="empty">无 Top3 索引匹配</div>
+        </div>
+      </div>
+    </section>
+    
+    </section>
+    
+  </main>
+</body>
+</html>

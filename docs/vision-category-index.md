@@ -49,10 +49,11 @@ python3 scripts/vision-category-index.py import-taxonomy \
 当前 expanded artifact 输出：
 
 - `data/vision-categories.household.json`
-- 345 个 leaf categories，其中 344 个 active
+- 1013 个 leaf categories，其中 1012 个 active
 - 22 个家庭 display domains
 - 6 个 seed leaf categories 继续保留
-- coverage tier 分布：6 个 seed、335 个 mvp、3 个 common、1 个 long-tail
+- coverage tier 分布：6 个 seed、1003 个 mvp、3 个 common、1 个 long-tail
+- 本轮扩充遵循 GS1 GPC-style 四级骨架：新增项都是 Brick 级视觉叶子类目，不按平台 SPU、品牌或规格拆分。
 
 如果只想生成第一阶段 MVP 子集，可以额外传 `--max-coverage-tier mvp`。
 
@@ -74,7 +75,7 @@ python3 scripts/vision-category-index.py coverage-report \
 - detector prompt 质量问题，例如泛化标签、重复 prompt、缺 search query 和 singleton sibling group。
 - 哪些 active leaves 还没有足够 reviewed gallery/eval samples，因此不能用于 production index。
 
-一个 taxonomy leaf 可以是有效类目，但不一定 index-ready。默认 production index builder 应只使用 index-ready leaves；缺图片的扩展 leaf 只能进入 taxonomy/report，不能假装已有可靠 embedding 索引。
+一个 taxonomy leaf 可以是有效类目，但不一定 index-ready。默认 production index builder 应只使用 index-ready leaves；缺图片的扩展 leaf 只能进入 taxonomy/report，不能假装已有可靠 embedding 索引。扩充到约 1000 个 active leaves 后，新增类目的 `includeForEmbedding` 默认仍是 `pending`，需要人工标注后再采图和建索引。
 
 ## Embedding 类目标注
 

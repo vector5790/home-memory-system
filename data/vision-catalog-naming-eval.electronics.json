@@ -1,0 +1,225 @@
+{
+  "kind": "vision-catalog-naming-eval-dataset",
+  "version": "20260528-electronics-hard-negative-v1",
+  "description": "电子影音 hard-negative 命名评测。包含用户客厅图审核框，以及相似电子类淘宝 gallery holdout（检索时排除自身 sample）。",
+  "samples": [
+    {
+      "displayName": "电视机",
+      "id": "living-room-television",
+      "imagePath": "fixtures/vision-household/eval/living-room-query.jpg",
+      "categoryId": "television",
+      "box": {
+        "x": 33,
+        "y": 24,
+        "w": 41.5,
+        "h": 36.5
+      },
+      "source": "user-living-room"
+    },
+    {
+      "displayName": "功放",
+      "id": "living-room-stereo-amplifier",
+      "imagePath": "fixtures/vision-household/eval/living-room-query.jpg",
+      "categoryId": "stereo-amplifier",
+      "box": {
+        "x": 24.5,
+        "y": 75,
+        "w": 23.5,
+        "h": 10.5
+      },
+      "source": "user-living-room"
+    },
+    {
+      "displayName": "唱片机",
+      "id": "living-room-turntable",
+      "imagePath": "fixtures/vision-household/eval/living-room-query.jpg",
+      "categoryId": "turntable",
+      "box": {
+        "x": 49,
+        "y": 74,
+        "w": 20,
+        "h": 12
+      },
+      "source": "user-living-room"
+    },
+    {
+      "displayName": "书架音箱",
+      "id": "living-room-left-bookshelf-speaker",
+      "imagePath": "fixtures/vision-household/eval/living-room-query.jpg",
+      "categoryId": "bookshelf-speaker",
+      "box": {
+        "x": 0.2,
+        "y": 37,
+        "w": 16.5,
+        "h": 44
+      },
+      "source": "user-living-room"
+    },
+    {
+      "displayName": "书架音箱",
+      "id": "living-room-right-bookshelf-speaker",
+      "imagePath": "fixtures/vision-household/eval/living-room-query.jpg",
+      "categoryId": "bookshelf-speaker",
+      "box": {
+        "x": 77.5,
+        "y": 42,
+        "w": 11.5,
+        "h": 37
+      },
+      "source": "user-living-room"
+    },
+    {
+      "displayName": "柜机空调",
+      "id": "living-room-floor-standing-air-conditioner",
+      "imagePath": "fixtures/vision-household/eval/living-room-query.jpg",
+      "categoryId": "floor-standing-air-conditioner",
+      "box": {
+        "x": 80.3,
+        "y": 2,
+        "w": 19.3,
+        "h": 62
+      },
+      "source": "user-living-room"
+    },
+    {
+      "displayName": "投影仪",
+      "id": "gallery-holdout-projector",
+      "imagePath": "fixtures/vision-household/cn/projector/projector-cn-gallery-001-image.jpg",
+      "categoryId": "projector",
+      "box": {
+        "x": 8.7357,
+        "y": 49.207,
+        "w": 36.7661,
+        "h": 29.21
+      },
+      "excludeSampleId": "projector-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "机顶盒",
+      "id": "gallery-holdout-set-top-box",
+      "imagePath": "fixtures/vision-household/cn/set-top-box/set-top-box-cn-gallery-001-4k.jpg",
+      "categoryId": "set-top-box",
+      "box": {
+        "x": 40.3287,
+        "y": 0.6174,
+        "w": 58.8966,
+        "h": 55.7842
+      },
+      "excludeSampleId": "set-top-box-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "电视盒子",
+      "id": "gallery-holdout-tv-box",
+      "imagePath": "fixtures/vision-household/cn/tv-box/tv-box-cn-gallery-001-4k.jpg",
+      "categoryId": "tv-box",
+      "box": {
+        "x": 30.4568,
+        "y": 33.7876,
+        "w": 66.5296,
+        "h": 50.8096
+      },
+      "excludeSampleId": "tv-box-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "媒体播放器",
+      "id": "gallery-holdout-media-player",
+      "imagePath": "fixtures/vision-household/cn/media-player/media-player-cn-gallery-001-zidoo-z20-pro-4k-rtd1619bpd-4g-32g-hdr10.jpg",
+      "categoryId": "media-player",
+      "box": {
+        "x": 8.0637,
+        "y": 18.9328,
+        "w": 80.2248,
+        "h": 59.4218
+      },
+      "excludeSampleId": "media-player-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "CD播放器",
+      "id": "gallery-holdout-cd-player",
+      "imagePath": "data/generated/vision-household-index-normalized/cd-player/cd-player-cn-gallery-001-normalized-1024.png",
+      "categoryId": "cd-player",
+      "box": {
+        "x": 46.8522,
+        "y": 7.9351,
+        "w": 50.3203,
+        "h": 61.2072
+      },
+      "excludeSampleId": "cd-player-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "DVD蓝光播放器",
+      "id": "gallery-holdout-dvd-blu-ray-player",
+      "imagePath": "fixtures/vision-household/cn/dvd-blu-ray-player/dvd-blu-ray-player-cn-gallery-001-dvd.jpg",
+      "categoryId": "dvd-blu-ray-player",
+      "box": {
+        "x": 9.1958,
+        "y": 48.0443,
+        "w": 76.2961,
+        "h": 51.5668
+      },
+      "excludeSampleId": "dvd-blu-ray-player-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "AV接收机",
+      "id": "gallery-holdout-av-receiver",
+      "imagePath": "fixtures/vision-household/cn/av-receiver/av-receiver-cn-gallery-001-marantz-stereo-70s-hifi-av.jpg",
+      "categoryId": "av-receiver",
+      "box": {
+        "x": 12.575,
+        "y": 48.7747,
+        "w": 77.1969,
+        "h": 16.9479
+      },
+      "excludeSampleId": "av-receiver-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "回音壁",
+      "id": "gallery-holdout-soundbar",
+      "imagePath": "fixtures/vision-household/cn/soundbar/soundbar-cn-gallery-001-image.jpg",
+      "categoryId": "soundbar",
+      "box": {
+        "x": 26.2494,
+        "y": 85.3559,
+        "w": 9.5898,
+        "h": 11.0584
+      },
+      "excludeSampleId": "soundbar-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "有源音箱",
+      "id": "gallery-holdout-powered-speaker",
+      "imagePath": "fixtures/vision-household/cn/powered-speaker/powered-speaker-cn-gallery-001-mbquart-f8-8-hifi-hifi.jpg",
+      "categoryId": "powered-speaker",
+      "box": {
+        "x": 4.6715,
+        "y": 15.1068,
+        "w": 37.1058,
+        "h": 68.9088
+      },
+      "excludeSampleId": "powered-speaker-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    },
+    {
+      "displayName": "落地音箱",
+      "id": "gallery-holdout-floorstanding-speaker",
+      "imagePath": "fixtures/vision-household/cn/floorstanding-speaker/floorstanding-speaker-cn-gallery-001-sonus-faber-lumina-5-hi-fi-hifi.jpg",
+      "categoryId": "floorstanding-speaker",
+      "box": {
+        "x": 68.38,
+        "y": 9.6418,
+        "w": 26.0911,
+        "h": 82.1189
+      },
+      "excludeSampleId": "floorstanding-speaker-cn-gallery-001",
+      "source": "gallery-holdout-excluding-self"
+    }
+  ]
+}

@@ -1,0 +1,1685 @@
+{
+  "kind": "vision-model-benchmark-raw",
+  "version": "20260523-real-photo-provider-benchmark",
+  "preflight": {
+    "ok": true,
+    "manifestPath": "vendor/vision-manifest.json",
+    "runtimeFiles": [
+      {
+        "path": "transformers/transformers.min.js",
+        "ok": true,
+        "bytes": 871803
+      },
+      {
+        "path": "transformers/ort-wasm-simd-threaded.jsep.mjs",
+        "ok": true,
+        "bytes": 44484
+      },
+      {
+        "path": "transformers/ort-wasm-simd-threaded.jsep.wasm",
+        "ok": true,
+        "bytes": 21596019
+      }
+    ],
+    "models": {
+      "Xenova/clip-vit-base-patch32": {
+        "modelId": "Xenova/clip-vit-base-patch32",
+        "listedInManifest": true,
+        "ok": true,
+        "missingFiles": [],
+        "fileCount": 10
+      },
+      "onnx-community/grounding-dino-tiny-ONNX": {
+        "modelId": "onnx-community/grounding-dino-tiny-ONNX",
+        "listedInManifest": true,
+        "ok": true,
+        "missingFiles": [],
+        "fileCount": 7
+      }
+    },
+    "providers": {
+      "grounding-dino": {
+        "id": "grounding-dino",
+        "displayName": "Local Grounding DINO + CLIP naming",
+        "providerClass": "real-local-model",
+        "requiredModels": [
+          "onnx-community/grounding-dino-tiny-ONNX",
+          "Xenova/clip-vit-base-patch32"
+        ],
+        "ok": true,
+        "skipReason": ""
+      }
+    },
+    "messages": [],
+    "version": "20260519-grounded-sam",
+    "transformers": "3.7.2"
+  },
+  "providers": [
+    {
+      "id": "grounding-dino",
+      "displayName": "Local Grounding DINO + CLIP naming",
+      "providerClass": "real-local-model",
+      "requiredModels": [
+        "onnx-community/grounding-dino-tiny-ONNX",
+        "Xenova/clip-vit-base-patch32"
+      ],
+      "modelIds": [
+        "onnx-community/grounding-dino-tiny-ONNX",
+        "Xenova/clip-vit-base-patch32"
+      ],
+      "assetVersion": "20260519-grounded-sam",
+      "status": "ok",
+      "skipReason": "",
+      "timings": {
+        "detectorModelLoadMs": 727.741,
+        "clipModelLoadMs": 95.051,
+        "samModelLoadMs": null,
+        "galleryEmbeddingMs": 66.641,
+        "galleryCacheHit": false,
+        "modelLoadMs": 822.792
+      }
+    }
+  ],
+  "images": [
+    {
+      "imageId": "storage-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/storage-box/storage-box-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-storage-box-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2513.878
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "storage-basket-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/storage-basket/storage-basket-cn-eval-004-hm-home-2025.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-storage-basket-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2363.129
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "drawer-organizer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/drawer-organizer/drawer-organizer-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-drawer-organizer-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2383.206
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "vacuum-storage-bag-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/vacuum-storage-bag/vacuum-storage-bag-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-vacuum-storage-bag-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2408.995
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "closet-organizer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/closet-organizer/closet-organizer-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-closet-organizer-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2430.291
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "cable-organizer-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/cable-organizer-box/cable-organizer-box-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-cable-organizer-box-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2378.322
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "shoe-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/shoe-box/shoe-box-cn-eval-004-aj.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-shoe-box-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2384.335
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "bowl-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/bowl/bowl-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-bowl-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2392.368
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "plate-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/plate/plate-cn-eval-004-6.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-plate-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2404.335
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "mug-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/mug/mug-cn-eval-004-diy-diy.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-mug-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2354.419
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "drinking-glass-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/drinking-glass/drinking-glass-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-drinking-glass-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2368.389
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "saucepan-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/saucepan/saucepan-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-saucepan-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2380.804
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "frying-pan-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/frying-pan/frying-pan-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-frying-pan-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2419.644
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "cutting-board-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/cutting-board/cutting-board-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-cutting-board-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2404.156
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "rice-bag-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/rice-bag/rice-bag-cn-eval-004-2-5kg10.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-rice-bag-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2378.313
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "noodle-pack-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/noodle-pack/noodle-pack-cn-eval-004-8.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-noodle-pack-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2397.857
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "canned-food-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/canned-food/canned-food-cn-eval-004-312gx6.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-canned-food-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2408.195
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "snack-bag-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/snack-bag/snack-bag-cn-eval-004-100.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-snack-bag-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2389.164
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "beverage-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/beverage-bottle/beverage-bottle-cn-eval-004-33-2500ml-2-5-pet-5.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-beverage-bottle-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2372.162
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "spice-jar-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/spice-jar/spice-jar-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-spice-jar-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2395.205
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "medicine-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/medicine-box/medicine-box-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-medicine-box-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2371.529
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "pill-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/pill-bottle/pill-bottle-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-pill-bottle-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2363.992
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "thermometer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/thermometer/thermometer-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-thermometer-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2360.171
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "bandage-box-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/bandage-box/bandage-box-cn-eval-004-5.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-bandage-box-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2358.633
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "first-aid-kit-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/first-aid-kit/first-aid-kit-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-first-aid-kit-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2389.475
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "face-mask-pack-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/face-mask-pack/face-mask-pack-cn-eval-004-954vkn95-3m9041.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-face-mask-pack-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2375.434
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "disinfectant-wipes-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/disinfectant-wipes/disinfectant-wipes-cn-eval-004-60.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-disinfectant-wipes-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2373.345
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "laundry-detergent-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/laundry-detergent/laundry-detergent-cn-eval-004-3kg-4-24.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-laundry-detergent-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2368.219
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "dish-soap-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/dish-soap/dish-soap-cn-eval-004-500g.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-dish-soap-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2354.975
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "cleaning-spray-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/cleaning-spray-bottle/cleaning-spray-bottle-cn-eval-004-500ml.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-cleaning-spray-bottle-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2372.88
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "sponge-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/sponge/sponge-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-sponge-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2368.235
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "trash-bag-roll-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/trash-bag-roll/trash-bag-roll-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-trash-bag-roll-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2355.881
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "toilet-cleaner-bottle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/toilet-cleaner-bottle/toilet-cleaner-bottle-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-toilet-cleaner-bottle-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2370.096
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "mop-head-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/mop-head/mop-head-cn-eval-004-image.png",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-mop-head-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2391.1
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "charging-cable-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/charging-cable/charging-cable-cn-eval-004-25-type-c-vivo-2.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-charging-cable-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2384.66
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "charger-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/charger/charger-cn-eval-004-magsafe.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-charger-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2369.728
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "battery-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/battery/battery-cn-eval-004-5-7-4-ktv-aa-1-5v.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-battery-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2358.042
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "power-bank-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/power-bank/power-bank-cn-eval-004-22-5w-10000-wepost.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-power-bank-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2388.21
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "earphones-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/earphones/earphones-cn-eval-004-ikf-t1.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-earphones-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2409.392
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "usb-flash-drive-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/usb-flash-drive/usb-flash-drive-cn-eval-004-u350-32g-type-c-u-u.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-usb-flash-drive-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2370.408
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "memory-card-case-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/memory-card-case/memory-card-case-cn-eval-004-sd-tf-usb-3-0.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-memory-card-case-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2373.838
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "remote-control-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/remote-control/remote-control-cn-eval-004-optoma-h115-tw342-hb3201-hdf321b.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-remote-control-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2396.326
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "electric-kettle-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/electric-kettle/electric-kettle-cn-eval-004-2l3l.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-electric-kettle-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2397.921
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "rice-cooker-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/rice-cooker/rice-cooker-cn-eval-004-20-30.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-rice-cooker-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2389.291
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "air-purifier-filter-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/air-purifier-filter/air-purifier-filter-cn-eval-004-352-x80-x83-x83c.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-air-purifier-filter-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2365.302
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "hair-dryer-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/hair-dryer/hair-dryer-cn-eval-004-h101.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-hair-dryer-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2373.094
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "vacuum-cleaner-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/vacuum-cleaner/vacuum-cleaner-cn-eval-004-image.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-vacuum-cleaner-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2399.326
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "router-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/router/router-cn-eval-004-e2627-e2628-ax3000m-wifi6.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-router-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2394.158
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "screwdriver-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/screwdriver/screwdriver-cn-eval-004-202-30cm.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-screwdriver-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2372.428
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    },
+    {
+      "imageId": "scissors-cn-eval-004",
+      "imagePath": "fixtures/vision-household/cn/scissors/scissors-cn-eval-004-0603-2.jpg",
+      "predictions": [
+        {
+          "id": "grounding-dino-failed-scissors-cn-eval-004",
+          "providerId": "grounding-dino",
+          "providerClass": "real-local-model",
+          "name": "",
+          "categoryId": "",
+          "box": null,
+          "confidence": 0,
+          "matches": [],
+          "source": "grounding-dino",
+          "failureReason": "Non-zero status code returned while running Expand node. Name:'/model/encoder_output_class_embed/Expand' Status Message: invalid expand shape",
+          "timings": {
+            "detectionMs": null,
+            "segmentationMs": null,
+            "cropMs": null,
+            "embeddingMs": null,
+            "retrievalMs": null,
+            "namingMs": null,
+            "modelLoadMs": 822.792,
+            "endToEndMs": 2368.752
+          },
+          "modelIds": [
+            "onnx-community/grounding-dino-tiny-ONNX",
+            "Xenova/clip-vit-base-patch32"
+          ]
+        }
+      ]
+    }
+  ]
+}

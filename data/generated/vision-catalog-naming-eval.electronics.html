@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>电子影音命名检索评测</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 24px; color: #1f2933; background: #f7f5ef; }
+    h1 { margin-bottom: 8px; }
+    .summary { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 24px; }
+    .summary span { background: white; border: 1px solid #ddd6c8; padding: 8px 10px; border-radius: 8px; }
+    .case { background: white; border: 1px solid #ddd6c8; border-radius: 8px; padding: 14px; margin: 14px 0; }
+    .case-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .ok { color: #16794c; } .bad { color: #b42318; } .muted { color: #667085; }
+    .media { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 14px; margin-top: 10px; }
+    img.query { width: 100%; max-height: 260px; object-fit: contain; background: #eee; }
+    .matches { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 10px; }
+    .match { border: 1px solid #e5dfd1; border-radius: 6px; padding: 8px; }
+    .match img { width: 100%; height: 130px; object-fit: contain; background: #f2f1ee; }
+    .small { font-size: 12px; color: #667085; }
+    @media (max-width: 760px) { .media { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>电子影音命名检索评测</h1>
+  <p class="muted">电子影音 hard-negative 命名评测。包含用户客厅图审核框，以及相似电子类淘宝 gallery holdout（检索时排除自身 sample）。</p>
+  <div class="summary">
+    <span>样本 16</span>
+    <span>Top1 25%</span>
+    <span>Top3 31%</span>
+    <span>接受后准确率 0%</span>
+    <span>拒识率 100%</span>
+  </div>
+  <section class="case">
+      <div class="case-head">
+        <strong>living-room-television · 期望 电视机</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 削皮器 (0.8628) · margin 0.0001 · embedding 30.447ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/eval/living-room-query.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/peeler/peeler-cn-gallery-001-normalized-1024.png" />
+              <strong>削皮器</strong>
+              <div class="small">peeler · 0.8628</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/pet-toothbrush/pet-toothbrush-cn-gallery-002-normalized-1024.png" />
+              <strong>宠物牙刷</strong>
+              <div class="small">pet-toothbrush · 0.8628</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/trash-can-liner/trash-can-liner-cn-gallery-003-image.jpg" />
+              <strong>垃圾桶内胆</strong>
+              <div class="small">trash-can-liner · 0.8532</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>living-room-stereo-amplifier · 期望 功放</strong>
+        <span class="ok">Top1 命中</span>
+      </div>
+      <div class="small">Top1: 功放 (0.8428) · margin 0.0047 · embedding 30.317ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/eval/living-room-query.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/stereo-amplifier/stereo-amplifier-cn-gallery-001-kax.png" />
+              <strong>功放</strong>
+              <div class="small">stereo-amplifier · 0.8428</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-002-25-4k.png" />
+              <strong>投影仪</strong>
+              <div class="small">projector · 0.8381</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/dvd-blu-ray-player/dvd-blu-ray-player-cn-gallery-002-giec-bdp-g3606-3d-dvd.jpg" />
+              <strong>DVD蓝光播放器</strong>
+              <div class="small">dvd-blu-ray-player · 0.8284</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>living-room-turntable · 期望 唱片机</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: DVD蓝光播放器 (0.846) · margin 0.0146 · embedding 41.763ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/eval/living-room-query.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/dvd-blu-ray-player/dvd-blu-ray-player-cn-gallery-002-giec-bdp-g3606-3d-dvd.jpg" />
+              <strong>DVD蓝光播放器</strong>
+              <div class="small">dvd-blu-ray-player · 0.846</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-002-25-4k.png" />
+              <strong>投影仪</strong>
+              <div class="small">projector · 0.8314</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/turntable/turntable-cn-gallery-003-at-lp60x-lp60xbta.jpg" />
+              <strong>唱片机</strong>
+              <div class="small">turntable · 0.8222</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>living-room-left-bookshelf-speaker · 期望 书架音箱</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 止汗棒 (0.8069) · margin 0.0149 · embedding 42.836ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/eval/living-room-query.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/deodorant-stick/deodorant-stick-cn-gallery-003-76g-40g-pp-pe.jpg" />
+              <strong>止汗棒</strong>
+              <div class="small">deodorant-stick · 0.8069</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/doormat/doormat-cn-gallery-002-normalized-1024.png" />
+              <strong>门垫</strong>
+              <div class="small">doormat · 0.7919</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/cooling-mat/cooling-mat-cn-gallery-001-image.jpg" />
+              <strong>凉席</strong>
+              <div class="small">cooling-mat · 0.7861</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>living-room-right-bookshelf-speaker · 期望 书架音箱</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 胶囊瓶 (0.8304) · margin 0.0183 · embedding 40.339ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/eval/living-room-query.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/capsule-bottle/capsule-bottle-cn-gallery-002-30.jpg" />
+              <strong>胶囊瓶</strong>
+              <div class="small">capsule-bottle · 0.8304</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/foam-roller/foam-roller-cn-gallery-001-image.jpg" />
+              <strong>泡沫轴</strong>
+              <div class="small">foam-roller · 0.8121</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/doormat/doormat-cn-gallery-002-normalized-1024.png" />
+              <strong>门垫</strong>
+              <div class="small">doormat · 0.8103</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>living-room-floor-standing-air-conditioner · 期望 柜机空调</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 厨房纸卷 (0.7416) · margin 0.0034 · embedding 49.33ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/eval/living-room-query.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/kitchen-paper-roll/kitchen-paper-roll-cn-gallery-002-bounty-108-12.jpg" />
+              <strong>厨房纸卷</strong>
+              <div class="small">kitchen-paper-roll · 0.7416</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/quilt/quilt-cn-gallery-003-40.jpg" />
+              <strong>被子</strong>
+              <div class="small">quilt · 0.7382</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/kitchen-scale/kitchen-scale-cn-gallery-003-normalized-1024.png" />
+              <strong>厨房秤</strong>
+              <div class="small">kitchen-scale · 0.7342</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-projector · 期望 投影仪</strong>
+        <span class="ok">Top1 命中</span>
+      </div>
+      <div class="small">Top1: 投影仪 (0.8645) · margin 0.011 · embedding 47.891ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-001-image.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-003-c2pro-4k.jpg" />
+              <strong>投影仪</strong>
+              <div class="small">projector · 0.8645</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/security-camera/security-camera-cn-gallery-001-wifi.png" />
+              <strong>监控摄像头</strong>
+              <div class="small">security-camera · 0.8535</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/hanging-storage-bag/hanging-storage-bag-cn-gallery-002-polycom-realpresence-group-550-polycom.jpg" />
+              <strong>挂式收纳袋</strong>
+              <div class="small">hanging-storage-bag · 0.8194</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-set-top-box · 期望 机顶盒</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 除垢剂瓶 (0.7546) · margin 0.0244 · embedding 35.308ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/set-top-box/set-top-box-cn-gallery-001-4k.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/descaling-agent-bottle/descaling-agent-bottle-cn-gallery-002-normalized-1024.png" />
+              <strong>除垢剂瓶</strong>
+              <div class="small">descaling-agent-bottle · 0.7546</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/century-egg-pack/century-egg-pack-cn-gallery-001-normalized-1024.png" />
+              <strong>皮蛋盒</strong>
+              <div class="small">century-egg-pack · 0.7301</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/water-filter-cartridge/water-filter-cartridge-cn-gallery-001-75gro-10-pp.jpg" />
+              <strong>净水滤芯</strong>
+              <div class="small">water-filter-cartridge · 0.7239</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-tv-box · 期望 电视盒子</strong>
+        <span class="ok">Top1 命中</span>
+      </div>
+      <div class="small">Top1: 电视盒子 (0.7517) · margin 0.0086 · embedding 22.237ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/tv-box/tv-box-cn-gallery-001-4k.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/tv-box/tv-box-cn-gallery-002-ec6110-4k-wifi-5g.jpg" />
+              <strong>电视盒子</strong>
+              <div class="small">tv-box · 0.7517</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/media-player/media-player-cn-gallery-001-zidoo-z20-pro-4k-rtd1619bpd-4g-32g-hdr10.jpg" />
+              <strong>媒体播放器</strong>
+              <div class="small">media-player · 0.743</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/router/router-cn-gallery-002-fast-1200m-11ac.jpg" />
+              <strong>路由器</strong>
+              <div class="small">router · 0.7377</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-media-player · 期望 媒体播放器</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 相机电池 (0.8246) · margin 0.0113 · embedding 31.673ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/media-player/media-player-cn-gallery-001-zidoo-z20-pro-4k-rtd1619bpd-4g-32g-hdr10.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/camera-battery/camera-battery-cn-gallery-002-np-fw50-sony-a6400-a6000-zve10-a6300-a7m2-a7r2-a6100-a5100.jpg" />
+              <strong>相机电池</strong>
+              <div class="small">camera-battery · 0.8246</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/dvd-blu-ray-player/dvd-blu-ray-player-cn-gallery-002-giec-bdp-g3606-3d-dvd.jpg" />
+              <strong>DVD蓝光播放器</strong>
+              <div class="small">dvd-blu-ray-player · 0.8133</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-002-25-4k.png" />
+              <strong>投影仪</strong>
+              <div class="small">projector · 0.8043</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-cd-player · 期望 CD播放器</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 监控摄像头 (0.7348) · margin 0.0008 · embedding 38.959ms</div>
+      <div class="media">
+        <img class="query" src="../../data/generated/vision-household-index-normalized/cd-player/cd-player-cn-gallery-001-normalized-1024.png" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/security-camera/security-camera-cn-gallery-001-wifi.png" />
+              <strong>监控摄像头</strong>
+              <div class="small">security-camera · 0.7348</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/robot-vacuum/robot-vacuum-cn-gallery-001-normalized-1024.png" />
+              <strong>扫地机器人</strong>
+              <div class="small">robot-vacuum · 0.734</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/smoke-alarm/smoke-alarm-cn-gallery-001-image.jpg" />
+              <strong>烟雾报警器</strong>
+              <div class="small">smoke-alarm · 0.7331</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-dvd-blu-ray-player · 期望 DVD蓝光播放器</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 卡牌盒 (0.7475) · margin 0.0051 · embedding 29.168ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/dvd-blu-ray-player/dvd-blu-ray-player-cn-gallery-001-dvd.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/card-game-box/card-game-box-cn-gallery-002-image.jpg" />
+              <strong>卡牌盒</strong>
+              <div class="small">card-game-box · 0.7475</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/turntable/turntable-cn-gallery-003-at-lp60x-lp60xbta.jpg" />
+              <strong>唱片机</strong>
+              <div class="small">turntable · 0.7423</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/serving-tray/serving-tray-cn-gallery-003-image.jpg" />
+              <strong>托盘</strong>
+              <div class="small">serving-tray · 0.7311</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-av-receiver · 期望 AV接收机</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 功放 (0.8038) · margin 0.0176 · embedding 38.678ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/av-receiver/av-receiver-cn-gallery-001-marantz-stereo-70s-hifi-av.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/stereo-amplifier/stereo-amplifier-cn-gallery-002-normalized-1024.png" />
+              <strong>功放</strong>
+              <div class="small">stereo-amplifier · 0.8038</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/projector/projector-cn-gallery-002-25-4k.png" />
+              <strong>投影仪</strong>
+              <div class="small">projector · 0.7863</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/floorstanding-speaker/floorstanding-speaker-cn-gallery-001-sonus-faber-lumina-5-hi-fi-hifi.jpg" />
+              <strong>落地音箱</strong>
+              <div class="small">floorstanding-speaker · 0.7794</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-soundbar · 期望 回音壁</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 美工刀 (0.8293) · margin 0.008 · embedding 33.414ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/soundbar/soundbar-cn-gallery-001-image.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/utility-knife/utility-knife-cn-gallery-003-normalized-1024.png" />
+              <strong>美工刀</strong>
+              <div class="small">utility-knife · 0.8293</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/essential-oil-bottle/essential-oil-bottle-cn-gallery-001-24.jpg" />
+              <strong>精油瓶</strong>
+              <div class="small">essential-oil-bottle · 0.8213</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/wall-switch-panel/wall-switch-panel-cn-gallery-003-csdn.webp" />
+              <strong>开关面板</strong>
+              <div class="small">wall-switch-panel · 0.808</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-powered-speaker · 期望 有源音箱</strong>
+        <span class="ok">Top1 命中</span>
+      </div>
+      <div class="small">Top1: 有源音箱 (0.9168) · margin 0.0133 · embedding 29.853ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/powered-speaker/powered-speaker-cn-gallery-001-mbquart-f8-8-hifi-hifi.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/powered-speaker/powered-speaker-cn-gallery-003-edifier-s2000mkiii-2-0hifi.jpg" />
+              <strong>有源音箱</strong>
+              <div class="small">powered-speaker · 0.9168</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/bookshelf-speaker/bookshelf-speaker-cn-gallery-003-brzhifi-ds8-hifi-8-hifi.jpg" />
+              <strong>书架音箱</strong>
+              <div class="small">bookshelf-speaker · 0.9034</div>
+            </div><div class="match">
+              <img src="../../fixtures/vision-household/cn/floorstanding-speaker/floorstanding-speaker-cn-gallery-001-sonus-faber-lumina-5-hi-fi-hifi.jpg" />
+              <strong>落地音箱</strong>
+              <div class="small">floorstanding-speaker · 0.8994</div>
+            </div>
+        </div>
+      </div>
+    </section><section class="case">
+      <div class="case-head">
+        <strong>gallery-holdout-floorstanding-speaker · 期望 落地音箱</strong>
+        <span class="bad">拒识 low-margin</span>
+      </div>
+      <div class="small">Top1: 书架音箱 (0.9253) · margin 0.0022 · embedding 36.151ms</div>
+      <div class="media">
+        <img class="query" src="../../fixtures/vision-household/cn/floorstanding-speaker/floorstanding-speaker-cn-gallery-001-sonus-faber-lumina-5-hi-fi-hifi.jpg" />
+        <div class="matches">
+          <div class="match">
+              <img src="../../fixtures/vision-household/cn/bookshelf-speaker/bookshelf-speaker-cn-gallery-003-brzhifi-ds8-hifi-8-hifi.jpg" />
+              <strong>书架音箱</strong>
+              <div class="small">bookshelf-speaker · 0.9253</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/powered-speaker/powered-speaker-cn-gallery-002-normalized-1024.png" />
+              <strong>有源音箱</strong>
+              <div class="small">powered-speaker · 0.9232</div>
+            </div><div class="match">
+              <img src="../../data/generated/vision-household-index-normalized/stereo-amplifier/stereo-amplifier-cn-gallery-002-normalized-1024.png" />
+              <strong>功放</strong>
+              <div class="small">stereo-amplifier · 0.7938</div>
+            </div>
+        </div>
+      </div>
+    </section>
+</body>
+</html>
