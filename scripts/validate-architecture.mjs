@@ -8,11 +8,13 @@ const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const sourceDir = path.join(root, "src");
 const fileSizeLimits = new Map([
   ["src/main.js", 80],
-  ["src/ui/app.js", 3800],
+  ["src/ui/app.js", 3300],
+  ["src/ui/capture-rendering.js", 650],
   ["src/config/app-config.js", 500],
   ["src/vision/catalog.js", 650],
+  ["src/vision/catalog-matcher.js", 400],
   ["src/vision/image-processing.js", 450],
-  ["src/vision/recognition-pipeline.js", 1700],
+  ["src/vision/recognition-pipeline.js", 1400],
   ["src/styles/base.css", 700],
   ["src/styles/capture.css", 1700],
   ["src/styles/surface.css", 600],
