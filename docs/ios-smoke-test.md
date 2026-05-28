@@ -7,9 +7,11 @@ Use this checklist before calling the iOS app reliable enough for household test
 - [x] Full Xcode is installed.
 - [x] `xcode-select -p` points to `/Applications/Xcode.app/Contents/Developer`.
 - [x] Node.js 20+ and npm are available.
-- [x] Local model assets exist under `vendor/`.
+- [x] Local model assets exist under `vendor/`; run `npm run assets:vision` if `vendor/vision-manifest.json` is missing.
 
 Current local note: Xcode 26.5 and the iOS 26.5 simulator runtime are installed. Simulator launch verification was run on iPhone 17 simulator `7AC1093D-549E-4E79-8530-2EF9CB6C7241`.
+
+Local model asset note on 2026-05-23: `npm run assets:vision` refreshed the packaged local model set after one transient TLS retry; `vendor/` is approximately `680M`.
 
 Environment and launch commands run on 2026-05-20:
 
@@ -37,18 +39,39 @@ Results:
 - `simctl launch` returned process id `49505`.
 - Screenshot captured at `/tmp/home-memory-ios/launch-mobile-nav-final.png`.
 
+Architecture refactor launch check on 2026-05-24:
+
+```bash
+npm run ios:sync
+xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -destination 'platform=iOS Simulator,id=7AC1093D-549E-4E79-8530-2EF9CB6C7241' CODE_SIGNING_ALLOWED=NO build
+xcrun simctl install 7AC1093D-549E-4E79-8530-2EF9CB6C7241 ~/Library/Developer/Xcode/DerivedData/App-*/Build/Products/Debug-iphonesimulator/App.app
+xcrun simctl launch 7AC1093D-549E-4E79-8530-2EF9CB6C7241 com.guzeyu.homememory
+xcrun simctl io 7AC1093D-549E-4E79-8530-2EF9CB6C7241 screenshot /tmp/home-memory-ios/modular-architecture-loaded.png
+```
+
+Results:
+
+- `npm run ios:sync` succeeded and copied the modular `www/src` tree.
+- `xcodebuild ... build` returned `BUILD SUCCEEDED`.
+- `simctl launch` returned process id `98754`.
+- Screenshot captured at `/tmp/home-memory-ios/modular-architecture-loaded.png`; the Home Memory UI loaded from the packaged app.
+
 ## Build
 
 - [x] Run `npm install`.
+- [x] Run `npm run assets:vision` when local model assets are absent.
 - [x] Run `npm run check:web`.
+- [x] Run `npm run check:architecture`.
 - [x] Run `npm run build:web`.
+- [x] Run `npm run check:mobile-package`.
 - [x] Run `npm run ios:sync`.
 - [ ] Open `ios/App/App.xcodeproj` with Xcode or run `npm run ios:open`.
 
 ## Packaged Assets
 
-- [x] Confirm `App.app/public/app.js` exists.
-- [x] Confirm `App.app/public/platform.js` exists.
+- [x] Confirm `App.app/public/src/main.js` exists.
+- [x] Confirm `App.app/public/src/platform/index.js` exists.
+- [x] Confirm `App.app/public/src/ui/app.js` exists.
 - [x] Confirm `App.app/public/vendor/vision-manifest.json` exists.
 - [x] Confirm `App.app/public/vendor/transformers/ort-wasm-simd-threaded.jsep.wasm` exists.
 - [x] Confirm the installed simulator app bundle is served from the app container, not a localhost dev server.

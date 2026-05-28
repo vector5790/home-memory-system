@@ -1,6 +1,7 @@
 node_modules/
 dist/
 www/
+ios/DerivedData/
 vendor/*
 !vendor/heic2any/
 !vendor/heic2any/heic2any.min.js

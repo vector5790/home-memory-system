@@ -11,16 +11,34 @@ function getPlugin(name) {
 function detectRuntime() {
   const capacitor = getCapacitor();
   const platform = capacitor?.getPlatform?.() || "web";
-  const isNative = Boolean(capacitor?.isNativePlatform?.()) || platform === "ios";
+  const isIOS = platform === "ios";
+  const isAndroid = platform === "android";
+  const isNative = Boolean(capacitor?.isNativePlatform?.()) || isIOS || isAndroid;
   return {
     platform,
     isNative,
-    isIOS: platform === "ios",
+    isIOS,
+    isAndroid,
     hasCapacitor: Boolean(capacitor),
   };
 }
 
-function makeStorageAdapter({ storageKey, schemaVersion }) {
+function makeStorageAdapter({ storageKey, schemaVersion, onWriteError } = {}) {
+  let pendingNativeWrite = Promise.resolve();
+  let lastWriteError = null;
+
+  function reportWriteError(error) {
+    lastWriteError = error;
+    console.warn("Native storage write failed.", error);
+    if (typeof onWriteError === "function") {
+      try {
+        onWriteError(error);
+      } catch (callbackError) {
+        console.warn("Native storage write error callback failed.", callbackError);
+      }
+    }
+  }
+
   function unwrapSnapshot(value) {
     if (!value) return null;
     try {
@@ -68,14 +86,25 @@ function makeStorageAdapter({ storageKey, schemaVersion }) {
 
       const Preferences = getPlugin("Preferences");
       if (Preferences?.set) {
-        Preferences.set({
+        const payload = {
           key: storageKey,
           value: JSON.stringify({
             schemaVersion,
             savedAt: new Date().toISOString(),
             value,
           }),
-        }).catch((error) => console.warn("Native storage write failed.", error));
+        };
+        const writePromise = pendingNativeWrite
+          .catch(() => null)
+          .then(() => Preferences.set(payload))
+          .then(() => {
+            lastWriteError = null;
+          })
+          .catch((error) => {
+            reportWriteError(error);
+            return null;
+          });
+        pendingNativeWrite = writePromise;
         return true;
       }
 
@@ -90,8 +119,27 @@ function makeStorageAdapter({ storageKey, schemaVersion }) {
       }
       const Preferences = getPlugin("Preferences");
       if (Preferences?.remove) {
-        Preferences.remove({ key: storageKey }).catch((error) => console.warn("Native storage clear failed.", error));
+        const removePromise = pendingNativeWrite
+          .catch(() => null)
+          .then(() => Preferences.remove({ key: storageKey }))
+          .then(() => {
+            lastWriteError = null;
+          })
+          .catch((error) => {
+            reportWriteError(error);
+            return null;
+          });
+        pendingNativeWrite = removePromise;
       }
+    },
+
+    async flushPendingWrites() {
+      await pendingNativeWrite;
+      if (lastWriteError) throw lastWriteError;
+    },
+
+    getLastWriteError() {
+      return lastWriteError;
     },
   };
 }
@@ -186,7 +234,7 @@ function makePhotoAdapter(runtime) {
 
   async function getNativePhoto(source) {
     const Camera = getPlugin("Camera");
-    if (!runtime.isIOS || !Camera?.getPhoto) {
+    if (!runtime.isNative || !Camera?.getPhoto) {
       throw new Error("当前环境暂不支持原生相机/相册。");
     }
     const photo = await Camera.getPhoto({
@@ -205,8 +253,8 @@ function makePhotoAdapter(runtime) {
   }
 
   return {
-    canUseNativeCamera: () => Boolean(runtime.isIOS && getPlugin("Camera")?.getPhoto),
-    canUseNativePhotoLibrary: () => Boolean(runtime.isIOS && getPlugin("Camera")?.getPhoto),
+    canUseNativeCamera: () => Boolean(runtime.isNative && getPlugin("Camera")?.getPhoto),
+    canUseNativePhotoLibrary: () => Boolean(runtime.isNative && getPlugin("Camera")?.getPhoto),
     captureFromCamera: () => getNativePhoto("CAMERA"),
     pickFromLibrary: () => getNativePhoto("PHOTOS"),
   };
@@ -260,7 +308,9 @@ export function createHomeMemoryPlatform(options = {}) {
       return getCapacitor()?.convertFileSrc?.(url) || url;
     },
     describe() {
-      return runtime.isIOS ? "iOS App" : "Web Browser";
+      if (runtime.isIOS) return "iOS App";
+      if (runtime.isAndroid) return "Android App";
+      return runtime.isNative ? "Native App" : "Web Browser";
     },
   };
 }

@@ -1,0 +1,372 @@
+/* Claude-inspired product surface overrides. */
+.topbar {
+  border-bottom-color: var(--line);
+  background: rgba(250, 249, 245, 0.92);
+  box-shadow: none;
+}
+
+.brand-mark {
+  border-color: var(--line);
+  background: var(--surface-card);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+.brand h1,
+.view-title-row h2,
+.answer-head h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.brand h1 {
+  font-size: 22px;
+}
+
+.nav-tabs {
+  border-color: var(--line);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.tab-btn {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.tab-btn.active {
+  color: #ffffff;
+  background: var(--green);
+  box-shadow: none;
+}
+
+.app-grid {
+  background: linear-gradient(180deg, var(--bg), var(--surface-2));
+}
+
+.panel,
+.item-row,
+.reminder-row,
+.advice-row,
+.candidate-row,
+.candidate-card,
+.candidate-trash,
+.trash-candidate,
+.reminder-task-row,
+.result-row,
+.room-btn,
+.place-chip,
+.subplace-chip,
+.chip,
+.path-steps li,
+.capture-message {
+  border-color: var(--line);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.panel {
+  border-radius: var(--radius-lg);
+}
+
+.panel-head {
+  border-bottom-color: var(--line);
+  background: transparent;
+}
+
+.panel-title,
+.room-meta strong,
+.item-row strong,
+.reminder-row strong,
+.advice-row strong,
+.candidate-head strong {
+  font-weight: 560;
+}
+
+.room-btn:hover,
+.secondary-btn:hover,
+.ghost-btn:hover,
+.icon-btn:hover,
+.chip:hover,
+.subplace-chip:hover {
+  border-color: rgba(204, 120, 92, 0.48);
+  background: var(--surface-card);
+  color: var(--green);
+  box-shadow: none;
+}
+
+.room-btn.active,
+.place-chip.active {
+  border-color: rgba(204, 120, 92, 0.62);
+  background: var(--surface-card);
+  box-shadow: inset 3px 0 0 var(--green);
+}
+
+.room-thumb,
+.room-thumb.kitchen,
+.room-thumb.living,
+.room-thumb.balcony,
+.room-thumb.bedroom {
+  border-color: rgba(20, 20, 19, 0.08);
+  background:
+    linear-gradient(145deg, rgba(204, 120, 92, 0.18), rgba(232, 224, 210, 0.92)),
+    var(--surface-card);
+}
+
+.count-pill,
+.status-pill,
+.due-pill,
+.badge {
+  border-color: var(--line);
+  background: var(--surface-card);
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.status-pill.good {
+  border-color: rgba(93, 184, 114, 0.48);
+  color: #3f8f56;
+  background: rgba(93, 184, 114, 0.12);
+}
+
+.status-pill.warn,
+.due-pill.warn {
+  border-color: rgba(232, 165, 90, 0.52);
+  color: #9b641f;
+  background: rgba(232, 165, 90, 0.16);
+}
+
+.status-pill.danger,
+.due-pill.danger {
+  border-color: rgba(198, 69, 69, 0.42);
+  color: var(--red);
+  background: rgba(198, 69, 69, 0.1);
+}
+
+.field,
+.search-field,
+.select-field {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+.field:focus,
+.search-field:focus,
+.select-field:focus,
+textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--focus);
+}
+
+.primary-btn {
+  border-color: var(--green);
+  background: var(--green);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.primary-btn:hover {
+  background: #a9583e;
+}
+
+.secondary-btn {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+.capture-grid > .panel {
+  border-color: var(--surface-dark);
+  background: var(--surface-dark);
+  color: #faf9f5;
+}
+
+.capture-grid > .panel .panel-head {
+  border-bottom-color: rgba(250, 249, 245, 0.12);
+}
+
+.capture-grid > .panel .panel-subtitle,
+.capture-grid > .panel .diagnostic-line,
+.capture-grid > .panel .checkbox,
+.capture-grid > .panel .box-control-grid span,
+.capture-grid > .panel .candidate-field > span,
+.capture-grid > .panel .candidate-field small,
+.capture-grid > .panel .date-picker-block > span {
+  color: #a09d96;
+}
+
+.capture-grid > .panel .count-pill,
+.capture-grid > .panel .candidate-row,
+.capture-grid > .panel .candidate-card,
+.capture-grid > .panel .candidate-trash,
+.capture-grid > .panel .trash-candidate,
+.capture-grid > .panel .reminder-task-row,
+.capture-grid > .panel .candidate-extra-panel,
+.capture-grid > .panel .catalog-candidate-panel,
+.capture-grid > .panel .candidate-crop {
+  border-color: rgba(250, 249, 245, 0.1);
+  background: var(--surface-dark-2);
+  color: #faf9f5;
+}
+
+.capture-grid > .panel .field,
+.capture-grid > .panel .select-field,
+.capture-grid > .panel .candidate-meta-chips span,
+.capture-grid > .panel .catalog-candidate-option {
+  border-color: rgba(250, 249, 245, 0.12);
+  background: var(--surface-dark-3);
+  color: #faf9f5;
+}
+
+.capture-grid > .panel .catalog-candidate-head span,
+.capture-grid > .panel .catalog-candidate-copy small {
+  color: #a09d96;
+}
+
+.capture-grid > .panel .secondary-btn {
+  border-color: rgba(250, 249, 245, 0.12);
+  background: var(--surface-dark-3);
+  color: #faf9f5;
+}
+
+.capture-grid > .panel .ghost-btn {
+  color: #a09d96;
+}
+
+.capture-grid > .panel .secondary-btn:hover,
+.capture-grid > .panel .ghost-btn:hover {
+  border-color: rgba(204, 120, 92, 0.48);
+  background: rgba(204, 120, 92, 0.12);
+  color: #faf9f5;
+}
+
+.capture-grid > .panel .field:focus,
+.capture-grid > .panel .select-field:focus {
+  border-color: rgba(204, 120, 92, 0.92);
+  box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.22);
+}
+
+.capture-grid > .panel .candidate-row.active {
+  border-color: rgba(204, 120, 92, 0.78);
+  box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.18);
+}
+
+.capture-grid > .panel .candidate-card.active {
+  border-color: rgba(204, 120, 92, 0.78);
+  box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.18);
+}
+
+.capture-grid > .panel .candidate-row.muted {
+  background: rgba(250, 249, 245, 0.06);
+}
+
+.capture-grid > .panel .candidate-card.muted {
+  background: rgba(250, 249, 245, 0.06);
+}
+
+.capture-grid > .panel .empty-state {
+  color: #a09d96;
+}
+
+.capture-stage,
+.photo-stage,
+.storage-stage {
+  border-color: var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(250, 249, 245, 0.42), rgba(250, 249, 245, 0.08)),
+    var(--surface-card);
+  box-shadow: none;
+}
+
+.capture-stage img,
+.storage-photo,
+.storage-stage.has-photo {
+  background: var(--surface-dark);
+}
+
+.placeholder-panel,
+.stage-caption {
+  border-color: var(--line);
+  background: rgba(250, 249, 245, 0.9);
+  box-shadow: none;
+}
+
+.candidate-pin::before {
+  content: none;
+}
+
+.pin-dot {
+  border-color: #faf9f5;
+  background: #faf9f5;
+  box-shadow:
+    0 0 0 1px rgba(24, 23, 21, 0.72),
+    0 5px 12px rgba(0, 0, 0, 0.22);
+}
+
+.candidate-box span {
+  border-color: rgba(250, 249, 245, 0.86);
+  background: rgba(250, 249, 245, 0.92);
+  color: var(--ink);
+  box-shadow: 0 8px 18px rgba(250, 249, 245, 0.16);
+}
+
+.candidate-pin.active .pin-dot {
+  background: #faf9f5;
+}
+
+.candidate-box.active span {
+  border-color: rgba(250, 249, 245, 0.96);
+}
+
+.candidate-row.naming strong {
+  background-image: linear-gradient(90deg, #a09d96 0%, #cc785c 45%, #a09d96 90%);
+}
+
+.candidate-card.naming strong {
+  background-image: linear-gradient(90deg, #a09d96 0%, #cc785c 45%, #a09d96 90%);
+}
+
+.candidate-row.naming::before {
+  background: var(--green);
+}
+
+.candidate-card.naming::before {
+  background: var(--green);
+}
+
+.badge.food {
+  background: rgba(232, 165, 90, 0.18);
+  color: #9b641f;
+}
+
+.badge.medicine {
+  background: rgba(204, 120, 92, 0.14);
+  color: #a9583e;
+}
+
+.badge.pet {
+  background: rgba(93, 184, 166, 0.16);
+  color: #327c70;
+}
+
+.badge.document {
+  background: var(--surface-card);
+  color: var(--muted);
+}
+
+.badge.tool {
+  background: rgba(93, 184, 166, 0.16);
+  color: #327c70;
+}
+
+.toast {
+  border-color: rgba(204, 120, 92, 0.42);
+  background: var(--surface-dark);
+  color: #faf9f5;
+  box-shadow: var(--shadow);
+}

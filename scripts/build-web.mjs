@@ -8,8 +8,9 @@ const outDir = path.join(root, "www");
 
 const requiredFiles = [
   "index.html",
-  "app.js",
-  "platform.js",
+  "src/main.js",
+  "src/ui/app.js",
+  "src/platform/index.js",
   "styles.css",
   "data/vision-categories.household.json",
   "data/vision-catalog.seed.json",
@@ -34,7 +35,10 @@ async function assertFile(relativePath) {
   const fullPath = path.join(root, relativePath);
   const info = await stat(fullPath).catch(() => null);
   if (!info?.isFile()) {
-    throw new Error(`Missing required asset: ${relativePath}`);
+    const assetHint = relativePath.startsWith("vendor/")
+      ? "\nRun `npm run assets:vision` before packaging the iOS MVP, then retry `npm run build:web`."
+      : "";
+    throw new Error(`Missing required asset: ${relativePath}${assetHint}`);
   }
 }
 
@@ -71,7 +75,7 @@ async function main() {
   await rm(outDir, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
 
-  for (const relativePath of ["index.html", "app.js", "platform.js", "styles.css", "data", "vendor"]) {
+  for (const relativePath of ["index.html", "src", "styles.css", "data", "vendor"]) {
     await copyPath(relativePath);
   }
 
