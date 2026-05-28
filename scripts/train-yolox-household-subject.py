@@ -7,16 +7,30 @@ import sys
 import time
 from pathlib import Path
 
-import cv2
-import numpy as np
-import torch
-from torch.utils.data import DataLoader
-
 
 DEFAULT_DATA_DIR = Path("/tmp/home-memory-yolox-household-dataset/COCO")
 DEFAULT_YOLOX_ROOT = Path("/tmp/YOLOX-home-memory")
 DEFAULT_OUT_DIR = Path("/tmp/home-memory-yolox-runs/household-subject-v1")
 DEFAULT_FIXED_EVAL_DIR = Path("/tmp/home-memory-yolox-fixed-eval-gold-v1/COCO")
+YOLOX_MODEL_SIZES = {"nano", "tiny", "s", "m", "l", "x"}
+cv2 = None
+np = None
+torch = None
+DataLoader = None
+
+
+def import_training_deps():
+    global cv2, np, torch, DataLoader
+    if torch is not None:
+        return
+    import cv2 as cv2_module
+    import numpy as np_module
+    import torch as torch_module
+    from torch.utils.data import DataLoader as data_loader_class
+    cv2 = cv2_module
+    np = np_module
+    torch = torch_module
+    DataLoader = data_loader_class
 
 
 def patch_cuda_for_apple_cpu():
@@ -90,8 +104,21 @@ def assert_no_fixed_eval_leak(train_data_dir, fixed_eval_dir):
         )
 
 
-def make_model(get_exp, yolox_root, input_size):
-    exp = get_exp(str(yolox_root / "exps/default/yolox_nano.py"), None)
+def resolve_yolox_exp_path(yolox_root, model_size, yolox_exp):
+    if yolox_exp:
+        exp_path = yolox_exp if yolox_exp.is_absolute() else yolox_root / yolox_exp
+    else:
+        if model_size not in YOLOX_MODEL_SIZES:
+            raise ValueError(f"unsupported YOLOX model size: {model_size}")
+        exp_path = yolox_root / f"exps/default/yolox_{model_size}.py"
+    if not exp_path.exists():
+        raise FileNotFoundError(f"YOLOX exp file not found: {exp_path}")
+    return exp_path
+
+
+def make_model(get_exp, yolox_root, input_size, model_size, yolox_exp):
+    exp_path = resolve_yolox_exp_path(yolox_root, model_size, yolox_exp)
+    exp = get_exp(str(exp_path), None)
     exp.num_classes = 1
     exp.input_size = (input_size, input_size)
     exp.test_size = (input_size, input_size)
@@ -99,7 +126,7 @@ def make_model(get_exp, yolox_root, input_size):
     exp.mixup_prob = 0.0
     model = exp.get_model()
     model.train()
-    return model
+    return model, exp_path
 
 
 def load_matching_checkpoint(model, checkpoint_path):
@@ -134,6 +161,7 @@ def make_loader(COCODataset, TrainTransform, data_dir, split, input_size, batch_
 
 
 def train(args):
+    import_training_deps()
     patch_cuda_for_apple_cpu()
     COCODataset, TrainTransform, ValTransform, get_exp, postprocess = import_yolox(args.yolox_root)
     random.seed(args.seed)
@@ -151,7 +179,7 @@ def train(args):
         args.batch_size,
         True,
     )
-    model = make_model(get_exp, args.yolox_root, args.input_size)
+    model, exp_path = make_model(get_exp, args.yolox_root, args.input_size, args.model_size, args.yolox_exp)
     pretrained = load_matching_checkpoint(model, args.pretrained)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=5e-4)
     logs = []
@@ -181,9 +209,11 @@ def train(args):
             if step >= args.steps:
                 break
 
-    ckpt = args.out_dir / "yolox_nano_household_subject_v1.pt"
+    ckpt = args.out_dir / f"yolox_{args.model_size}_household_subject_v1.pt"
     torch.save({"model": model.state_dict(), "logs": logs}, ckpt)
     summary = {
+        "modelSize": args.model_size,
+        "yoloxExp": str(exp_path),
         "trainImages": len(train_dataset),
         "steps": args.steps,
         "seconds": round(time.time() - started, 3),
@@ -204,9 +234,10 @@ def train(args):
 
 
 def eval_only(args):
+    import_training_deps()
     patch_cuda_for_apple_cpu()
     COCODataset, TrainTransform, ValTransform, get_exp, postprocess = import_yolox(args.yolox_root)
-    model = make_model(get_exp, args.yolox_root, args.input_size)
+    model, exp_path = make_model(get_exp, args.yolox_root, args.input_size, args.model_size, args.yolox_exp)
     checkpoint = torch.load(args.checkpoint, map_location="cpu")
     model.load_state_dict(checkpoint["model"])
     args.out_dir.mkdir(parents=True, exist_ok=True)
@@ -215,13 +246,14 @@ def eval_only(args):
     if args.fixed_eval_dir:
         fixed_eval_summary = quick_val(model, COCODataset, ValTransform, postprocess, args, args.fixed_eval_dir, "fixed_eval", "fixed-eval-preview")
     return {
+        "modelSize": args.model_size,
+        "yoloxExp": str(exp_path),
         "checkpoint": str(args.checkpoint),
         "quickVal": str(args.out_dir / "quick_val.json"),
         "fixedEval": fixed_eval_summary,
     }
 
 
-@torch.no_grad()
 def quick_val(model, COCODataset, ValTransform, postprocess, args, eval_data_dir, output_stem, preview_dir_name):
     val_data = load_coco_annotations(eval_data_dir, "val")
     anns_by_image = {}
@@ -246,8 +278,9 @@ def quick_val(model, COCODataset, ValTransform, postprocess, args, eval_data_dir
         image_id = int(img_id[0]) if hasattr(img_id, "__len__") else int(img_id)
         tensor = torch.from_numpy(image).unsqueeze(0).float()
         started = time.time()
-        raw = model(tensor)
-        preds = postprocess(raw, 1, conf_thre=args.conf, nms_thre=0.45)[0]
+        with torch.no_grad():
+            raw = model(tensor)
+            preds = postprocess(raw, 1, conf_thre=args.conf, nms_thre=0.45)[0]
         annotations = anns_by_image.get(image_id, [])
         metrics = match_detection_metrics(annotations, preds, info, args.input_size)
         totals["gt"] += metrics["gtCount"]
@@ -378,6 +411,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
     parser.add_argument("--yolox-root", type=Path, default=DEFAULT_YOLOX_ROOT)
+    parser.add_argument("--model-size", choices=sorted(YOLOX_MODEL_SIZES), default="nano")
+    parser.add_argument("--yolox-exp", type=Path, default=None, help="Optional YOLOX exp file. Relative paths are resolved from --yolox-root.")
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--steps", type=int, default=500)
     parser.add_argument("--batch-size", type=int, default=4)
