@@ -9,3 +9,21 @@ Thumbs.db
 *.log
 .env
 .env.*
+
+# Generated/downloaded vision image assets stay local; manifests and embeddings
+# record their metadata and can be regenerated when needed.
+data/generated/**/*.jpg
+data/generated/**/*.jpeg
+data/generated/**/*.png
+data/generated/**/*.webp
+data/generated/**/*.gif
+fixtures/**/*.jpg
+fixtures/**/*.jpeg
+fixtures/**/*.png
+fixtures/**/*.webp
+fixtures/**/*.gif
+fixtures/vision-household/**/*.jpg
+fixtures/vision-household/**/*.jpeg
+fixtures/vision-household/**/*.png
+fixtures/vision-household/**/*.webp
+fixtures/vision-household/**/*.gif
