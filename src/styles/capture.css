@@ -1080,6 +1080,13 @@
   font-size: 11px;
 }
 
+.catalog-candidate-ocr {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .catalog-candidate-list {
   display: grid;
   gap: 7px;

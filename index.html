@@ -4,10 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
     <title>家忆 Home Memory</title>
-    <link rel="stylesheet" href="./styles.css?v=20260523-owlvit-first" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="./src/main.js?v=20260523-architecture"></script>
+    <div id="app">
+      <div style="padding:24px;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;color:#141413;">正在启动家忆...</div>
+    </div>
+    <script>
+      document.querySelector("#app").firstElementChild.textContent = "正在加载家忆应用...";
+      import("./src/main.js").catch((error) => {
+        document.querySelector("#app").innerHTML = `<pre style="white-space:pre-wrap;padding:24px;color:#b00020;font:14px -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;">应用启动失败\n${error?.stack || error?.message || error}</pre>`;
+      });
+    </script>
   </body>
 </html>

@@ -1,3 +1,5 @@
+import { clampNumber } from "../domain/geometry.js";
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")

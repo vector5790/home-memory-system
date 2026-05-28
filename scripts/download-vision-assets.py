@@ -28,7 +28,11 @@ MODELS = [
     "Xenova/owlvit-base-patch32",
     "Xenova/slimsam-77-uniform",
     "Xenova/clip-vit-base-patch32",
+    "Xenova/siglip-base-patch16-224",
 ]
+OPTIONAL_MODELS = {
+    "siglip2": "onnx-community/siglip2-base-patch16-224-ONNX",
+}
 RETRY_COUNT = 3
 RETRY_DELAY_SECONDS = 2
 
@@ -99,13 +103,32 @@ def download_model(repo_id: str) -> list[str]:
 
 def main() -> int:
     try:
+        requested_optional = {
+            item.strip().lower()
+            for item in (sys.argv[1:] or [])
+            if item.strip()
+        }
+        # Keep the default package small. Optional A/B models are downloaded only
+        # when requested, e.g. `VISION_OPTIONAL_MODELS=siglip python3 scripts/download-vision-assets.py`.
+        import os
+        env_optional = {
+            item.strip().lower()
+            for item in os.environ.get("VISION_OPTIONAL_MODELS", "").split(",")
+            if item.strip()
+        }
+        optional_models = [
+            model
+            for key, model in OPTIONAL_MODELS.items()
+            if key in requested_optional or key in env_optional or model.lower() in requested_optional or model.lower() in env_optional
+        ]
+        model_ids = MODELS + [model for model in optional_models if model not in MODELS]
         download(TRANSFORMERS_URL, VENDOR / "transformers" / "transformers.min.js")
         for filename in RUNTIME_ASSETS:
             download(
                 f"https://cdn.jsdelivr.net/npm/@huggingface/transformers@{TRANSFORMERS_VERSION}/dist/{filename}",
                 VENDOR / "transformers" / filename,
             )
-        files_by_model = {model: download_model(model) for model in MODELS}
+        files_by_model = {model: download_model(model) for model in model_ids}
     except Exception as error:
         print(f"download failed: {error}", file=sys.stderr)
         return 1
@@ -114,7 +137,7 @@ def main() -> int:
       "version": VERSION,
       "transformers": TRANSFORMERS_VERSION,
       "runtimeAssets": RUNTIME_ASSETS,
-      "models": MODELS,
+      "models": model_ids,
       "files": files_by_model,
     }
     manifest_path = VENDOR / "vision-manifest.json"

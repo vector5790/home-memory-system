@@ -1,0 +1,2300 @@
+{
+  "kind": "vision-naming-strategy-eval",
+  "version": "20260528-vision-naming-strategy-eval",
+  "generatedAt": "2026-05-28T10:33:08.945Z",
+  "inputCount": 2,
+  "strategies": [
+    {
+      "strategy": "embedding-only",
+      "summary": {
+        "sampleCount": 66,
+        "acceptedCount": 66,
+        "coverage": 1,
+        "acceptedPrecision": 0.2879,
+        "top1Accuracy": 0.2879
+      },
+      "decisions": [
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "toy-storage-bin",
+          "expectedCategoryId": "storage-box",
+          "id": "gt-storage-box-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "cooling-mat",
+          "expectedCategoryId": "storage-basket",
+          "id": "gt-storage-basket-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "drawer-organizer",
+          "expectedCategoryId": "drawer-organizer",
+          "id": "gt-drawer-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-storage-bag",
+          "expectedCategoryId": "vacuum-storage-bag",
+          "id": "gt-vacuum-storage-bag-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "medical-pill-box",
+          "expectedCategoryId": "closet-organizer",
+          "id": "gt-closet-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-cleaner",
+          "expectedCategoryId": "cable-organizer-box",
+          "id": "gt-cable-organizer-box-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "storage-label-sticker",
+          "expectedCategoryId": "shoe-box",
+          "id": "gt-shoe-box-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "mug",
+          "expectedCategoryId": "bowl",
+          "id": "gt-bowl-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "tea-cup",
+          "expectedCategoryId": "plate",
+          "id": "gt-plate-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "mug",
+          "expectedCategoryId": "mug",
+          "id": "gt-mug-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "drinking-glass",
+          "expectedCategoryId": "drinking-glass",
+          "id": "gt-drinking-glass-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "saucepan",
+          "expectedCategoryId": "saucepan",
+          "id": "gt-saucepan-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "dinner-plate",
+          "expectedCategoryId": "frying-pan",
+          "id": "gt-frying-pan-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "electric-pressure-cooker",
+          "expectedCategoryId": "cutting-board",
+          "id": "gt-cutting-board-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "clam-pack",
+          "expectedCategoryId": "rice-bag",
+          "id": "gt-rice-bag-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "sausage-pack",
+          "expectedCategoryId": "noodle-pack",
+          "id": "gt-noodle-pack-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "carbonated-drink-bottle",
+          "expectedCategoryId": "canned-food",
+          "id": "gt-canned-food-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "yogurt-bottle",
+          "expectedCategoryId": "snack-bag",
+          "id": "gt-snack-bag-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "beverage-bottle",
+          "expectedCategoryId": "beverage-bottle",
+          "id": "gt-beverage-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "humidifier",
+          "expectedCategoryId": "spice-jar",
+          "id": "gt-spice-jar-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "medicine-box",
+          "expectedCategoryId": "medicine-box",
+          "id": "gt-medicine-box-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "fishing-rod",
+          "expectedCategoryId": "pill-bottle",
+          "id": "gt-pill-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "broom",
+          "expectedCategoryId": "thermometer",
+          "id": "gt-thermometer-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "toothpaste",
+          "expectedCategoryId": "bandage-box",
+          "id": "gt-bandage-box-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "storage-label-sticker",
+          "expectedCategoryId": "first-aid-kit",
+          "id": "gt-first-aid-kit-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "flower-pot",
+          "expectedCategoryId": "face-mask-pack",
+          "id": "gt-face-mask-pack-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "pen",
+          "expectedCategoryId": "disinfectant-wipes",
+          "id": "gt-disinfectant-wipes-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "laundry-detergent",
+          "expectedCategoryId": "laundry-detergent",
+          "id": "gt-laundry-detergent-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "washing-powder-bag",
+          "expectedCategoryId": "dish-soap",
+          "id": "gt-dish-soap-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "cleaning-spray-bottle",
+          "expectedCategoryId": "cleaning-spray-bottle",
+          "id": "gt-cleaning-spray-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "yoga-mat",
+          "expectedCategoryId": "sponge",
+          "id": "gt-sponge-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "pen",
+          "expectedCategoryId": "trash-bag-roll",
+          "id": "gt-trash-bag-roll-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "collar-cleaner-bottle",
+          "expectedCategoryId": "toilet-cleaner-bottle",
+          "id": "gt-toilet-cleaner-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "sofa",
+          "expectedCategoryId": "mop-head",
+          "id": "gt-mop-head-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "lightning-cable",
+          "expectedCategoryId": "charging-cable",
+          "id": "gt-charging-cable-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "toilet-seat",
+          "expectedCategoryId": "charger",
+          "id": "gt-charger-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "rechargeable-battery-charger",
+          "expectedCategoryId": "battery",
+          "id": "gt-battery-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "disposable-glove-box",
+          "expectedCategoryId": "power-bank",
+          "id": "gt-power-bank-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "earphones",
+          "expectedCategoryId": "earphones",
+          "id": "gt-earphones-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "usb-c-cable",
+          "expectedCategoryId": "usb-flash-drive",
+          "id": "gt-usb-flash-drive-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "disposable-plate-pack",
+          "expectedCategoryId": "memory-card-case",
+          "id": "gt-memory-card-case-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "remote-control",
+          "expectedCategoryId": "remote-control",
+          "id": "gt-remote-control-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "electric-kettle",
+          "expectedCategoryId": "electric-kettle",
+          "id": "gt-electric-kettle-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "flour-bag",
+          "expectedCategoryId": "rice-cooker",
+          "id": "gt-rice-cooker-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "thermometer-digital",
+          "expectedCategoryId": "air-purifier-filter",
+          "id": "gt-air-purifier-filter-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "shoehorn",
+          "expectedCategoryId": "hair-dryer",
+          "id": "gt-hair-dryer-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-cleaner",
+          "expectedCategoryId": "vacuum-cleaner",
+          "id": "gt-vacuum-cleaner-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "router",
+          "expectedCategoryId": "router",
+          "id": "gt-router-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "wrench",
+          "expectedCategoryId": "screwdriver",
+          "id": "gt-screwdriver-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "scissors",
+          "expectedCategoryId": "scissors",
+          "id": "gt-scissors-cn-eval-004"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "peeler",
+          "expectedCategoryId": "television",
+          "id": "living-room-television"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "stereo-amplifier",
+          "expectedCategoryId": "stereo-amplifier",
+          "id": "living-room-stereo-amplifier"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "dvd-blu-ray-player",
+          "expectedCategoryId": "turntable",
+          "id": "living-room-turntable"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "deodorant-stick",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-left-bookshelf-speaker"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "capsule-bottle",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-right-bookshelf-speaker"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "kitchen-paper-roll",
+          "expectedCategoryId": "floor-standing-air-conditioner",
+          "id": "living-room-floor-standing-air-conditioner"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "projector",
+          "expectedCategoryId": "projector",
+          "id": "gallery-holdout-projector"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "descaling-agent-bottle",
+          "expectedCategoryId": "set-top-box",
+          "id": "gallery-holdout-set-top-box"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "tv-box",
+          "expectedCategoryId": "tv-box",
+          "id": "gallery-holdout-tv-box"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "camera-battery",
+          "expectedCategoryId": "media-player",
+          "id": "gallery-holdout-media-player"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "security-camera",
+          "expectedCategoryId": "cd-player",
+          "id": "gallery-holdout-cd-player"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "card-game-box",
+          "expectedCategoryId": "dvd-blu-ray-player",
+          "id": "gallery-holdout-dvd-blu-ray-player"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "stereo-amplifier",
+          "expectedCategoryId": "av-receiver",
+          "id": "gallery-holdout-av-receiver"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "utility-knife",
+          "expectedCategoryId": "soundbar",
+          "id": "gallery-holdout-soundbar"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "powered-speaker",
+          "expectedCategoryId": "powered-speaker",
+          "id": "gallery-holdout-powered-speaker"
+        },
+        {
+          "strategy": "embedding-only",
+          "accepted": true,
+          "predictedCategoryId": "bookshelf-speaker",
+          "expectedCategoryId": "floorstanding-speaker",
+          "id": "gallery-holdout-floorstanding-speaker"
+        }
+      ]
+    },
+    {
+      "strategy": "global-threshold",
+      "summary": {
+        "sampleCount": 66,
+        "acceptedCount": 9,
+        "coverage": 0.1364,
+        "acceptedPrecision": 0.7778,
+        "top1Accuracy": 0.1061
+      },
+      "decisions": [
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "storage-box",
+          "id": "gt-storage-box-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "storage-basket",
+          "id": "gt-storage-basket-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "drawer-organizer",
+          "id": "gt-drawer-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-storage-bag",
+          "rejectionReason": "",
+          "expectedCategoryId": "vacuum-storage-bag",
+          "id": "gt-vacuum-storage-bag-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "closet-organizer",
+          "id": "gt-closet-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cable-organizer-box",
+          "id": "gt-cable-organizer-box-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "shoe-box",
+          "id": "gt-shoe-box-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bowl",
+          "id": "gt-bowl-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "plate",
+          "id": "gt-plate-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "mug",
+          "rejectionReason": "",
+          "expectedCategoryId": "mug",
+          "id": "gt-mug-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "drinking-glass",
+          "rejectionReason": "",
+          "expectedCategoryId": "drinking-glass",
+          "id": "gt-drinking-glass-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "saucepan",
+          "rejectionReason": "",
+          "expectedCategoryId": "saucepan",
+          "id": "gt-saucepan-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "frying-pan",
+          "id": "gt-frying-pan-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cutting-board",
+          "id": "gt-cutting-board-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "rice-bag",
+          "id": "gt-rice-bag-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "noodle-pack",
+          "id": "gt-noodle-pack-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "canned-food",
+          "id": "gt-canned-food-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "snack-bag",
+          "id": "gt-snack-bag-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "beverage-bottle",
+          "id": "gt-beverage-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "spice-jar",
+          "id": "gt-spice-jar-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "medicine-box",
+          "id": "gt-medicine-box-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "pill-bottle",
+          "id": "gt-pill-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "thermometer",
+          "id": "gt-thermometer-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bandage-box",
+          "id": "gt-bandage-box-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "storage-label-sticker",
+          "rejectionReason": "",
+          "expectedCategoryId": "first-aid-kit",
+          "id": "gt-first-aid-kit-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "face-mask-pack",
+          "id": "gt-face-mask-pack-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "disinfectant-wipes",
+          "id": "gt-disinfectant-wipes-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "laundry-detergent",
+          "id": "gt-laundry-detergent-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "dish-soap",
+          "id": "gt-dish-soap-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cleaning-spray-bottle",
+          "id": "gt-cleaning-spray-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "sponge",
+          "id": "gt-sponge-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "trash-bag-roll",
+          "id": "gt-trash-bag-roll-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "toilet-cleaner-bottle",
+          "id": "gt-toilet-cleaner-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "mop-head",
+          "id": "gt-mop-head-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "lightning-cable",
+          "rejectionReason": "",
+          "expectedCategoryId": "charging-cable",
+          "id": "gt-charging-cable-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "charger",
+          "id": "gt-charger-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "battery",
+          "id": "gt-battery-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "power-bank",
+          "id": "gt-power-bank-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "earphones",
+          "id": "gt-earphones-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "usb-flash-drive",
+          "id": "gt-usb-flash-drive-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "memory-card-case",
+          "id": "gt-memory-card-case-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "remote-control",
+          "rejectionReason": "",
+          "expectedCategoryId": "remote-control",
+          "id": "gt-remote-control-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "electric-kettle",
+          "rejectionReason": "",
+          "expectedCategoryId": "electric-kettle",
+          "id": "gt-electric-kettle-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "rice-cooker",
+          "id": "gt-rice-cooker-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "air-purifier-filter",
+          "id": "gt-air-purifier-filter-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "hair-dryer",
+          "id": "gt-hair-dryer-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "vacuum-cleaner",
+          "id": "gt-vacuum-cleaner-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": true,
+          "predictedCategoryId": "router",
+          "rejectionReason": "",
+          "expectedCategoryId": "router",
+          "id": "gt-router-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "screwdriver",
+          "id": "gt-screwdriver-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "scissors",
+          "id": "gt-scissors-cn-eval-004"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "television",
+          "id": "living-room-television"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "stereo-amplifier",
+          "id": "living-room-stereo-amplifier"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "turntable",
+          "id": "living-room-turntable"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-left-bookshelf-speaker"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-right-bookshelf-speaker"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "floor-standing-air-conditioner",
+          "id": "living-room-floor-standing-air-conditioner"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "projector",
+          "id": "gallery-holdout-projector"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "set-top-box",
+          "id": "gallery-holdout-set-top-box"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "tv-box",
+          "id": "gallery-holdout-tv-box"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "media-player",
+          "id": "gallery-holdout-media-player"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cd-player",
+          "id": "gallery-holdout-cd-player"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "dvd-blu-ray-player",
+          "id": "gallery-holdout-dvd-blu-ray-player"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "av-receiver",
+          "id": "gallery-holdout-av-receiver"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "soundbar",
+          "id": "gallery-holdout-soundbar"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "powered-speaker",
+          "id": "gallery-holdout-powered-speaker"
+        },
+        {
+          "strategy": "global-threshold-0.74-0.03",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "floorstanding-speaker",
+          "id": "gallery-holdout-floorstanding-speaker"
+        }
+      ]
+    },
+    {
+      "strategy": "cluster-threshold",
+      "summary": {
+        "sampleCount": 66,
+        "acceptedCount": 9,
+        "coverage": 0.1364,
+        "acceptedPrecision": 0.7778,
+        "top1Accuracy": 0.1061
+      },
+      "decisions": [
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "storage-containers",
+          "expectedCategoryId": "storage-box",
+          "id": "gt-storage-box-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "storage-basket",
+          "id": "gt-storage-basket-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "drawer-organizer",
+          "id": "gt-drawer-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-storage-bag",
+          "rejectionReason": "",
+          "expectedCategoryId": "vacuum-storage-bag",
+          "id": "gt-vacuum-storage-bag-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "medicine-packaging",
+          "expectedCategoryId": "closet-organizer",
+          "id": "gt-closet-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cable-organizer-box",
+          "id": "gt-cable-organizer-box-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "shoe-box",
+          "id": "gt-shoe-box-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bowl",
+          "id": "gt-bowl-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "plate",
+          "id": "gt-plate-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "mug",
+          "rejectionReason": "",
+          "expectedCategoryId": "mug",
+          "id": "gt-mug-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "drinking-glass",
+          "rejectionReason": "",
+          "expectedCategoryId": "drinking-glass",
+          "id": "gt-drinking-glass-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "saucepan",
+          "rejectionReason": "",
+          "expectedCategoryId": "saucepan",
+          "id": "gt-saucepan-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "frying-pan",
+          "id": "gt-frying-pan-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "kitchen-small-appliances",
+          "expectedCategoryId": "cutting-board",
+          "id": "gt-cutting-board-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "rice-bag",
+          "id": "gt-rice-bag-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "noodle-pack",
+          "id": "gt-noodle-pack-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "canned-food",
+          "id": "gt-canned-food-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "snack-bag",
+          "id": "gt-snack-bag-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "beverage-bottle",
+          "id": "gt-beverage-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "spice-jar",
+          "id": "gt-spice-jar-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "medicine-box",
+          "id": "gt-medicine-box-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "pill-bottle",
+          "id": "gt-pill-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "thermometer",
+          "id": "gt-thermometer-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bandage-box",
+          "id": "gt-bandage-box-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "storage-label-sticker",
+          "rejectionReason": "",
+          "expectedCategoryId": "first-aid-kit",
+          "id": "gt-first-aid-kit-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "face-mask-pack",
+          "id": "gt-face-mask-pack-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "disinfectant-wipes",
+          "id": "gt-disinfectant-wipes-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "laundry-detergent",
+          "id": "gt-laundry-detergent-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "dish-soap",
+          "id": "gt-dish-soap-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cleaning-spray-bottle",
+          "id": "gt-cleaning-spray-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "sponge",
+          "id": "gt-sponge-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "trash-bag-roll",
+          "id": "gt-trash-bag-roll-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "toilet-cleaner-bottle",
+          "id": "gt-toilet-cleaner-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "mop-head",
+          "id": "gt-mop-head-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "lightning-cable",
+          "rejectionReason": "",
+          "expectedCategoryId": "charging-cable",
+          "id": "gt-charging-cable-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "charger",
+          "id": "gt-charger-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "battery",
+          "id": "gt-battery-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "power-bank",
+          "id": "gt-power-bank-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "earphones",
+          "id": "gt-earphones-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "cables-power-accessories",
+          "expectedCategoryId": "usb-flash-drive",
+          "id": "gt-usb-flash-drive-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "memory-card-case",
+          "id": "gt-memory-card-case-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "remote-control",
+          "rejectionReason": "",
+          "expectedCategoryId": "remote-control",
+          "id": "gt-remote-control-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "electric-kettle",
+          "rejectionReason": "",
+          "expectedCategoryId": "electric-kettle",
+          "id": "gt-electric-kettle-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "rice-cooker",
+          "id": "gt-rice-cooker-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "air-purifier-filter",
+          "id": "gt-air-purifier-filter-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "hair-dryer",
+          "id": "gt-hair-dryer-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "vacuum-cleaner",
+          "id": "gt-vacuum-cleaner-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": true,
+          "predictedCategoryId": "router",
+          "rejectionReason": "",
+          "expectedCategoryId": "router",
+          "id": "gt-router-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "screwdriver",
+          "id": "gt-screwdriver-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "scissors",
+          "id": "gt-scissors-cn-eval-004"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "television",
+          "id": "living-room-television"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "stereo-amplifier",
+          "id": "living-room-stereo-amplifier"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "turntable",
+          "id": "living-room-turntable"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-left-bookshelf-speaker"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "medicine-packaging",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-right-bookshelf-speaker"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "floor-standing-air-conditioner",
+          "id": "living-room-floor-standing-air-conditioner"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "projector",
+          "id": "gallery-holdout-projector"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "set-top-box",
+          "id": "gallery-holdout-set-top-box"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "tv-box",
+          "id": "gallery-holdout-tv-box"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "media-player",
+          "id": "gallery-holdout-media-player"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cd-player",
+          "id": "gallery-holdout-cd-player"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "dvd-blu-ray-player",
+          "id": "gallery-holdout-dvd-blu-ray-player"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "av-receiver",
+          "id": "gallery-holdout-av-receiver"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "soundbar",
+          "id": "gallery-holdout-soundbar"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "powered-speaker",
+          "id": "gallery-holdout-powered-speaker"
+        },
+        {
+          "strategy": "cluster-threshold",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "rejectionReason": "home-audio-video",
+          "expectedCategoryId": "floorstanding-speaker",
+          "id": "gallery-holdout-floorstanding-speaker"
+        }
+      ]
+    },
+    {
+      "strategy": "metadata-ocr-rerank",
+      "summary": {
+        "sampleCount": 66,
+        "acceptedCount": 29,
+        "coverage": 0.4394,
+        "acceptedPrecision": 0.7586,
+        "top1Accuracy": 0.4242
+      },
+      "decisions": [
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "drawer-storage-box",
+          "top1Score": 0.6619,
+          "textScore": 0.3333,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "storage-box",
+          "id": "gt-storage-box-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "cooling-mat",
+          "top1Score": 0.6565,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "storage-basket",
+          "id": "gt-storage-basket-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "drawer-organizer",
+          "top1CategoryId": "drawer-organizer",
+          "top1Score": 0.7126,
+          "textScore": 0.3333,
+          "rejectionReason": "",
+          "expectedCategoryId": "drawer-organizer",
+          "id": "gt-drawer-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-storage-bag",
+          "top1CategoryId": "vacuum-storage-bag",
+          "top1Score": 0.8312,
+          "textScore": 0.6667,
+          "rejectionReason": "",
+          "expectedCategoryId": "vacuum-storage-bag",
+          "id": "gt-vacuum-storage-bag-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "nail-box",
+          "top1CategoryId": "nail-box",
+          "top1Score": 0.716,
+          "textScore": 0.3333,
+          "rejectionReason": "",
+          "expectedCategoryId": "closet-organizer",
+          "id": "gt-closet-organizer-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "vacuum-cleaner",
+          "top1Score": 0.666,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cable-organizer-box",
+          "id": "gt-cable-organizer-box-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "storage-label-sticker",
+          "top1Score": 0.6855,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "shoe-box",
+          "id": "gt-shoe-box-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "glasses-case",
+          "top1CategoryId": "glasses-case",
+          "top1Score": 0.7279,
+          "textScore": 0.5,
+          "rejectionReason": "",
+          "expectedCategoryId": "bowl",
+          "id": "gt-bowl-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "plate",
+          "top1Score": 0.7132,
+          "textScore": 0.4,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "plate",
+          "id": "gt-plate-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "mug",
+          "top1CategoryId": "mug",
+          "top1Score": 0.7447,
+          "textScore": 0.1667,
+          "rejectionReason": "",
+          "expectedCategoryId": "mug",
+          "id": "gt-mug-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "drinking-glass",
+          "top1CategoryId": "drinking-glass",
+          "top1Score": 0.8135,
+          "textScore": 0.5,
+          "rejectionReason": "",
+          "expectedCategoryId": "drinking-glass",
+          "id": "gt-drinking-glass-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "saucepan",
+          "top1CategoryId": "saucepan",
+          "top1Score": 0.7617,
+          "textScore": 0.2,
+          "rejectionReason": "",
+          "expectedCategoryId": "saucepan",
+          "id": "gt-saucepan-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "frying-pan",
+          "top1CategoryId": "frying-pan",
+          "top1Score": 0.7406,
+          "textScore": 0.4,
+          "rejectionReason": "",
+          "expectedCategoryId": "frying-pan",
+          "id": "gt-frying-pan-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "cutting-board",
+          "top1CategoryId": "cutting-board",
+          "top1Score": 0.6883,
+          "textScore": 0.4,
+          "rejectionReason": "",
+          "expectedCategoryId": "cutting-board",
+          "id": "gt-cutting-board-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "bean-curd-stick-pack",
+          "top1Score": 0.7311,
+          "textScore": 0.1667,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "rice-bag",
+          "id": "gt-rice-bag-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "sausage-pack",
+          "top1Score": 0.7177,
+          "textScore": 0.2,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "noodle-pack",
+          "id": "gt-noodle-pack-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "carbonated-drink-bottle",
+          "top1CategoryId": "carbonated-drink-bottle",
+          "top1Score": 0.7119,
+          "textScore": 0.2,
+          "rejectionReason": "",
+          "expectedCategoryId": "canned-food",
+          "id": "gt-canned-food-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "yogurt-bottle",
+          "top1CategoryId": "yogurt-bottle",
+          "top1Score": 0.7381,
+          "textScore": 0.2,
+          "rejectionReason": "",
+          "expectedCategoryId": "snack-bag",
+          "id": "gt-snack-bag-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "beverage-bottle",
+          "top1CategoryId": "beverage-bottle",
+          "top1Score": 0.7772,
+          "textScore": 0.2857,
+          "rejectionReason": "",
+          "expectedCategoryId": "beverage-bottle",
+          "id": "gt-beverage-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "fishing-rod",
+          "top1Score": 0.7227,
+          "textScore": 0.3333,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "spice-jar",
+          "id": "gt-spice-jar-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "medicine-box",
+          "top1CategoryId": "medicine-box",
+          "top1Score": 0.6964,
+          "textScore": 0.25,
+          "rejectionReason": "",
+          "expectedCategoryId": "medicine-box",
+          "id": "gt-medicine-box-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "fishing-rod",
+          "top1Score": 0.806,
+          "textScore": 0.3333,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "pill-bottle",
+          "id": "gt-pill-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "broom",
+          "top1Score": 0.7051,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "thermometer",
+          "id": "gt-thermometer-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "ottoman",
+          "top1Score": 0.6436,
+          "textScore": 0.1429,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bandage-box",
+          "id": "gt-bandage-box-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "storage-label-sticker",
+          "top1CategoryId": "storage-label-sticker",
+          "top1Score": 0.7144,
+          "textScore": 0,
+          "rejectionReason": "",
+          "expectedCategoryId": "first-aid-kit",
+          "id": "gt-first-aid-kit-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "flower-pot",
+          "top1Score": 0.6633,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "face-mask-pack",
+          "id": "gt-face-mask-pack-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "pen",
+          "top1Score": 0.6912,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "disinfectant-wipes",
+          "id": "gt-disinfectant-wipes-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "laundry-detergent",
+          "top1CategoryId": "laundry-detergent",
+          "top1Score": 0.8497,
+          "textScore": 0.4286,
+          "rejectionReason": "",
+          "expectedCategoryId": "laundry-detergent",
+          "id": "gt-laundry-detergent-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "dish-soap",
+          "top1CategoryId": "dish-soap",
+          "top1Score": 0.7698,
+          "textScore": 0.2,
+          "rejectionReason": "",
+          "expectedCategoryId": "dish-soap",
+          "id": "gt-dish-soap-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "cleaning-spray-bottle",
+          "top1CategoryId": "cleaning-spray-bottle",
+          "top1Score": 0.7359,
+          "textScore": 0.2,
+          "rejectionReason": "",
+          "expectedCategoryId": "cleaning-spray-bottle",
+          "id": "gt-cleaning-spray-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "yoga-mat",
+          "top1CategoryId": "yoga-mat",
+          "top1Score": 0.7682,
+          "textScore": 0.2,
+          "rejectionReason": "",
+          "expectedCategoryId": "sponge",
+          "id": "gt-sponge-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "pen",
+          "top1Score": 0.7531,
+          "textScore": 0.3333,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "trash-bag-roll",
+          "id": "gt-trash-bag-roll-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "toilet-cleaner-bottle",
+          "top1CategoryId": "toilet-cleaner-bottle",
+          "top1Score": 0.8498,
+          "textScore": 0.6667,
+          "rejectionReason": "",
+          "expectedCategoryId": "toilet-cleaner-bottle",
+          "id": "gt-toilet-cleaner-bottle-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "towel-rack",
+          "top1Score": 0.71,
+          "textScore": 0.1667,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "mop-head",
+          "id": "gt-mop-head-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "lightning-cable",
+          "top1Score": 0.7035,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "charging-cable",
+          "id": "gt-charging-cable-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "toilet-seat",
+          "top1Score": 0.656,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "charger",
+          "id": "gt-charger-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "charger",
+          "top1Score": 0.6056,
+          "textScore": 0.1111,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "battery",
+          "id": "gt-battery-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "disposable-glove-box",
+          "top1Score": 0.6735,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "power-bank",
+          "id": "gt-power-bank-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "earphones",
+          "top1Score": 0.6637,
+          "textScore": 0.2,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "earphones",
+          "id": "gt-earphones-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "usb-c-cable",
+          "top1Score": 0.7307,
+          "textScore": 0.1,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "usb-flash-drive",
+          "id": "gt-usb-flash-drive-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "vacuum-storage-bag",
+          "top1Score": 0.6507,
+          "textScore": 0.125,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "memory-card-case",
+          "id": "gt-memory-card-case-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "remote-control",
+          "top1CategoryId": "remote-control",
+          "top1Score": 0.7845,
+          "textScore": 0.25,
+          "rejectionReason": "",
+          "expectedCategoryId": "remote-control",
+          "id": "gt-remote-control-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "electric-kettle",
+          "top1CategoryId": "electric-kettle",
+          "top1Score": 0.7509,
+          "textScore": 0.4,
+          "rejectionReason": "",
+          "expectedCategoryId": "electric-kettle",
+          "id": "gt-electric-kettle-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "flour-bag",
+          "top1Score": 0.6826,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "rice-cooker",
+          "id": "gt-rice-cooker-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "thermometer-digital",
+          "top1Score": 0.6261,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "air-purifier-filter",
+          "id": "gt-air-purifier-filter-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "shoehorn",
+          "top1CategoryId": "shoehorn",
+          "top1Score": 0.6709,
+          "textScore": 0.1667,
+          "rejectionReason": "",
+          "expectedCategoryId": "hair-dryer",
+          "id": "gt-hair-dryer-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "vacuum-cleaner",
+          "top1CategoryId": "vacuum-cleaner",
+          "top1Score": 0.7484,
+          "textScore": 0.3333,
+          "rejectionReason": "",
+          "expectedCategoryId": "vacuum-cleaner",
+          "id": "gt-vacuum-cleaner-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "router",
+          "top1CategoryId": "router",
+          "top1Score": 0.712,
+          "textScore": 0.1111,
+          "rejectionReason": "",
+          "expectedCategoryId": "router",
+          "id": "gt-router-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "screwdriver",
+          "top1Score": 0.6699,
+          "textScore": 0.125,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "screwdriver",
+          "id": "gt-screwdriver-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "scissors",
+          "top1CategoryId": "scissors",
+          "top1Score": 0.7611,
+          "textScore": 0.1667,
+          "rejectionReason": "",
+          "expectedCategoryId": "scissors",
+          "id": "gt-scissors-cn-eval-004"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "peeler",
+          "top1Score": 0.7075,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "television",
+          "id": "living-room-television"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "stereo-amplifier",
+          "top1CategoryId": "stereo-amplifier",
+          "top1Score": 0.8711,
+          "textScore": 1,
+          "rejectionReason": "",
+          "expectedCategoryId": "stereo-amplifier",
+          "id": "living-room-stereo-amplifier"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "turntable",
+          "top1CategoryId": "turntable",
+          "top1Score": 0.8542,
+          "textScore": 1,
+          "rejectionReason": "",
+          "expectedCategoryId": "turntable",
+          "id": "living-room-turntable"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "deodorant-stick",
+          "top1Score": 0.6617,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-left-bookshelf-speaker"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "capsule-bottle",
+          "top1Score": 0.6809,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "bookshelf-speaker",
+          "id": "living-room-right-bookshelf-speaker"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "kitchen-paper-roll",
+          "top1Score": 0.6081,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "floor-standing-air-conditioner",
+          "id": "living-room-floor-standing-air-conditioner"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "projector",
+          "top1CategoryId": "projector",
+          "top1Score": 0.8889,
+          "textScore": 1,
+          "rejectionReason": "",
+          "expectedCategoryId": "projector",
+          "id": "gallery-holdout-projector"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "set-top-box",
+          "top1Score": 0.773,
+          "textScore": 1,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "set-top-box",
+          "id": "gallery-holdout-set-top-box"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "tv-box",
+          "top1Score": 0.7964,
+          "textScore": 1,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "tv-box",
+          "id": "gallery-holdout-tv-box"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "camera-battery",
+          "top1Score": 0.6762,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "media-player",
+          "id": "gallery-holdout-media-player"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "security-camera",
+          "top1Score": 0.6025,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "cd-player",
+          "id": "gallery-holdout-cd-player"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "card-game-box",
+          "top1Score": 0.613,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "dvd-blu-ray-player",
+          "id": "gallery-holdout-dvd-blu-ray-player"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "av-receiver",
+          "top1Score": 0.809,
+          "textScore": 1,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "av-receiver",
+          "id": "gallery-holdout-av-receiver"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "utility-knife",
+          "top1Score": 0.68,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "soundbar",
+          "id": "gallery-holdout-soundbar"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": true,
+          "predictedCategoryId": "powered-speaker",
+          "top1CategoryId": "powered-speaker",
+          "top1Score": 0.9318,
+          "textScore": 1,
+          "rejectionReason": "",
+          "expectedCategoryId": "powered-speaker",
+          "id": "gallery-holdout-powered-speaker"
+        },
+        {
+          "strategy": "metadata-ocr-rerank",
+          "accepted": false,
+          "predictedCategoryId": "",
+          "top1CategoryId": "bookshelf-speaker",
+          "top1Score": 0.7587,
+          "textScore": 0,
+          "rejectionReason": "candidate",
+          "expectedCategoryId": "floorstanding-speaker",
+          "id": "gallery-holdout-floorstanding-speaker"
+        }
+      ]
+    }
+  ]
+}

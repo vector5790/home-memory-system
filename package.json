@@ -9,6 +9,7 @@
     "assets:vision": "python3 scripts/download-vision-assets.py",
     "build:web": "node scripts/build-web.mjs",
     "check:web": "node scripts/check-js-syntax.mjs",
+    "check:capture-runtime": "node scripts/smoke-capture-runtime.mjs",
     "check:architecture": "node scripts/validate-architecture.mjs",
     "check:mobile-package": "node scripts/validate-mobile-package.mjs",
     "ios:sync": "npm run build:web && cap sync ios",

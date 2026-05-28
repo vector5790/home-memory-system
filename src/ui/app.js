@@ -113,7 +113,7 @@ const {
   readBlobAsDataUrl,
   resizeImageSourceToDataUrl,
   withTimeout,
-} = createImageProcessing({ visionConfig });
+} = createImageProcessing({ visionConfig, clampBox });
 const { recognizeWithHeuristicRegions } = createHeuristicRegionRecognizer({ loadImage });
 const seedState = {
   activeTab: "capture",
@@ -269,12 +269,15 @@ const {
   formatDate,
   formatReminderOffset,
   formatReminderRepeat,
+  formatReminderSchedule,
+  getCandidateIndex,
   getActiveCandidates,
   getAdjacentCandidateId,
   getCapturePlace,
   getCaptureRoom,
   getDeletedCandidates,
   getFallbackActiveCandidateId,
+  makeVirtualPlace,
   getReminderOffsetLabels,
   getRequestedRecognitionProvider,
   getSelectedCandidateCount,
@@ -285,6 +288,7 @@ const {
   normalizeReminder,
   normalizeReminderList,
   nextMondayIso,
+  platform,
   providerLabel,
   repeatLabels,
   stateRef,
@@ -860,8 +864,25 @@ function queueCaptureAnalysis() {
   window.setTimeout(() => {
     scanCurrentPlace().catch((error) => {
       console.info("Queued capture analysis failed.", error);
+      state.capture = {
+        ...state.capture,
+        recognitionStatus: "error",
+        recognitionError: error?.message || "分析任务启动失败",
+      };
+      persist();
+      render();
     });
   }, 0);
+}
+
+function yieldToUi() {
+  return new Promise((resolve) => requestAnimationFrame(() => window.setTimeout(resolve, 0)));
+}
+
+async function startCaptureAnalysisNow() {
+  if (!state.capture.image) return;
+  await yieldToUi();
+  await scanCurrentPlace();
 }
 
 function normalizeCropMeta(meta) {
@@ -1743,7 +1764,7 @@ function performSearch() {
 }
 
 async function scanCurrentPlace() {
-  if (["loading", "detecting", "naming"].includes(state.capture.recognitionStatus)) return;
+  if (["detecting", "naming"].includes(state.capture.recognitionStatus)) return;
 
   const room = getCaptureRoom();
   const virtualPlace = getCapturePlace() || makeVirtualPlace(room);
@@ -1762,7 +1783,7 @@ async function scanCurrentPlace() {
     return;
   }
 
-  const requestedProvider = getRequestedRecognitionProvider();
+  const requestedProvider = getRequestedRecognitionProvider(visionConfig);
   const runId = recognitionRunId + 1;
   recognitionRunId = runId;
   const scanImage = state.capture.image;
@@ -1780,12 +1801,29 @@ async function scanCurrentPlace() {
   };
   persist();
   render();
+  await yieldToUi();
 
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   let modelPrepMs = 0;
   let detectorTiming = {};
   try {
     const modelPrepStartedAt = performance.now();
+    state.capture = {
+      ...state.capture,
+      recognitionDiagnostics: {
+        stage: "准备检测图片",
+        provider: requestedProvider,
+        imageDimensions: await imageDimensionsPromise,
+        preprocessingMs: state.capture.preprocessingMs || null,
+        modelPrepMs: 0,
+        detectionMs: 0,
+        namingMs: 0,
+        resultCount: 0,
+        wasmThreads: getVisionWasmThreadCount(),
+      },
+    };
+    render();
+    await yieldToUi();
     const modelContext = await prepareModelImageContext(scanImage).catch(async (error) => {
       console.info("Detection resize skipped.", error);
       const originalSource = await loadImage(scanImage);
@@ -1805,9 +1843,19 @@ async function scanCurrentPlace() {
     if (!stillCurrent()) return;
 
     const detectionStartedAt = performance.now();
+    state.capture = {
+      ...state.capture,
+      recognitionDiagnostics: {
+        ...(state.capture.recognitionDiagnostics || {}),
+        stage: "主体检测中",
+        modelPrepMs,
+      },
+    };
+    render();
+    await yieldToUi();
     const smallRecognition = await recognizeWithSmallModelUncached(detectionImage, { roomType: promptRoomType })
       .catch((error) => {
-        console.info("Small model unavailable, falling back to local image proposals.", error);
+        console.info("Configured subject detector unavailable.", error);
         return null;
       });
     if (!stillCurrent()) return;
@@ -1819,17 +1867,6 @@ async function scanCurrentPlace() {
       : [];
     detected = attachModelCoordinateContext(detected, modelContext);
 
-    if (!detected.length) {
-      const fallbackRecognition = await recognizeWithHeuristicRegions(detectionImage)
-        .catch((error) => {
-          console.info("Local proposal fallback failed.", error);
-          return { provider: "local-image", candidates: [] };
-        });
-      if (!stillCurrent()) return;
-      provider = `${fallbackRecognition.provider || "local-image"}-fallback`;
-      detected = normalizeRecognitionResults(fallbackRecognition.candidates, provider);
-      detected = attachModelCoordinateContext(detected, modelContext);
-    }
     const detectionMs = Number(detectorTiming.detectionMs) || (performance.now() - detectionStartedAt);
 
     if (!detected.length) {
@@ -1880,6 +1917,7 @@ async function scanCurrentPlace() {
     };
     persist();
     render();
+    await yieldToUi();
     showToast(`已生成 ${detected.length} 个主体框，正在命名`);
 
     const namingStartedAt = performance.now();
@@ -2138,8 +2176,12 @@ function applyCatalogCandidate(id, rank) {
       categoryPath: option.categoryPath || candidate.categoryPath || [],
       categoryScore: Number(option.score) || candidate.categoryScore,
       categoryMargin: null,
+      categoryCluster: option.categoryCluster || candidate.categoryCluster || null,
+      categoryClusterId: option.categoryCluster?.id || candidate.categoryClusterId || "",
+      categoryClusterLabel: option.categoryCluster?.label || candidate.categoryClusterLabel || "",
       matchedSampleIds: option.matchedSampleIds || candidate.matchedSampleIds || [],
       namingRejectionReason: "",
+      ocrText: candidate.ocrText || "",
       edited: true,
       nameEdited: true,
     }, 0, state.capture.provider || "local-image");
@@ -2581,7 +2623,8 @@ async function importNativePhoto(source) {
   try {
     const preprocessStartedAt = performance.now();
     const photo = isCamera ? await platform.photos.captureFromCamera() : await platform.photos.pickFromLibrary();
-    const image = photo.dataUrl;
+    const image = photo?.dataUrl || await platform.photos.photoToDataUrl?.(photo);
+    if (!image) throw new Error("没有拿到可用照片，请重试。");
     const loaded = await loadImage(image);
     const imageMeta = normalizeImageMeta(loaded) || await imageMetaFromDataUrl(image);
     const imageRef = await persistPhotoDataUrl(image, isCamera ? "ios-camera" : "ios-photo-library");
@@ -2592,23 +2635,22 @@ async function importNativePhoto(source) {
       preprocessingMs: performance.now() - preprocessStartedAt,
       provider: isCamera ? "ios-camera" : "ios-photo-library",
     });
-    warmCaptureDetectionModel();
     persist();
     render();
     showToast(isCamera ? "照片已拍摄，正在分析" : "照片已导入，正在分析");
-    queueCaptureAnalysis();
+    await startCaptureAnalysisNow();
   } catch (error) {
     state.capture = {
       ...state.capture,
       candidates: [],
       activeCandidateId: null,
       recognitionStatus: "error",
-      recognitionError: error.message || "照片导入失败",
+      recognitionError: error?.stack || error?.message || "照片导入失败",
       provider: isCamera ? "ios-camera" : "ios-photo-library",
     };
     persist();
     render();
-    showToast(error.message || "照片导入失败");
+    showToast(error?.message || "照片导入失败");
   }
 }
 
@@ -2667,12 +2709,11 @@ async function captureCameraFrame() {
     const imageMeta = normalizeImageMeta(canvas) || await imageMetaFromDataUrl(image);
     const imageRef = await persistPhotoDataUrl(image, "browser-camera");
     resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
-    warmCaptureDetectionModel();
     state.cameraOn = false;
     persist();
     render();
     showToast("照片已拍摄，正在分析");
-    queueCaptureAnalysis();
+    await startCaptureAnalysisNow();
   } catch (error) {
     state.cameraOn = false;
     persist();
@@ -3087,11 +3128,10 @@ document.addEventListener("change", async (event) => {
       const imageMeta = await imageMetaFromDataUrl(image);
       const imageRef = await persistPhotoDataUrl(image, "file-input");
       resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
-      warmCaptureDetectionModel();
       persist();
       render();
       showToast("照片已载入，正在分析");
-      queueCaptureAnalysis();
+      await startCaptureAnalysisNow();
     } catch (error) {
       state.capture = {
         ...state.capture,

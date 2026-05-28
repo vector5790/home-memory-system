@@ -1,6 +1,7 @@
 # Agent Rules
 
 - The project is currently in testing. Do not use recognition-result caching for image detection or naming tests; every scan must run the real current model and embedding pipeline.
+- Subject detection must use exactly one explicitly configured model per run. Do not silently add detector fallbacks, heuristic proposal fallbacks, chained detectors, or model auto-routing unless the user explicitly requests a multi-model experiment or changes the configured detector.
 - Item names must come from embedding retrieval against the category index. Do not add hardcoded Chinese name mappings or use detector labels as final item names.
 - Each detected subject must run embedding-based naming, and subject naming should execute concurrently rather than serially.
 - Storage structures are first-class detection targets: whole cabinets, storage boxes, drawers, cabinet doors, and compartments should be detected as boxes. The detector should support parent-child storage hierarchy so a large cabinet can contain individual drawers/cabinets, which can later contain detailed item photos and inventory locations such as living room -> large cabinet A -> drawer B.

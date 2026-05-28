@@ -257,6 +257,7 @@ function makePhotoAdapter(runtime) {
     canUseNativePhotoLibrary: () => Boolean(runtime.isNative && getPlugin("Camera")?.getPhoto),
     captureFromCamera: () => getNativePhoto("CAMERA"),
     pickFromLibrary: () => getNativePhoto("PHOTOS"),
+    photoToDataUrl,
   };
 }
 

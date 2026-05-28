@@ -40,18 +40,79 @@
 - 运行时命名保留主答案，但当 Top1 分数或 margin 不足时返回“未知/可能是这些物品”。
 - 在候选面板展示 Top3 类目、相似分数、命中索引数量和代表索引图。
 - 用户点击候选后写回物品名、类目 id、命中样本 id，并标记为人工确认。
+- 主类目仍保持 GPC-style 四级 leaf，用户可见物品名来自 leaf；品牌、型号、SPU、形态词只作为索引 entry 的 entity metadata 和 rerank 特征。
 
 ### 第二阶段：提升离线索引质量
 
 - 电子影音等混淆类目不应长期只保留 3 张图片；需要补充家庭场景图、正面/侧面/局部/摆放环境图。
 - 每个叶子类目至少维护：商品白底图、真实场景图、局部细节图、常见品牌/形态变体。
 - 对容易混淆的类目建立 hard-negative eval set，例如投影仪 vs 功放 vs 电视盒子 vs 蓝光播放器。
+- 图片资产不进入 Git 仓库；manifest、source URL、sha256、embedding index 和生成脚本进入仓库，图片在本地缓存或对象存储中再现。
 
 ### 第三阶段：模型与重排升级
 
 - 保留本地 CLIP 作为基础召回，但增加本地 reranker 或更适合商品检索的 embedding 模型。
 - 引入图文联合信号：类目中文名、别名、淘宝常用词、品牌/形态词，与图片 embedding 一起参与重排。
 - 对用户已确认的数据做轻量本地校准，例如每个类目的 prototype embedding、类目中心和 hard-negative margin。
+- 运行时先用 embedding TopK 召回，再用本地 CLIP zero-shot image classification 对候选类目文本做二次排序；高混淆 cluster 使用更高 score/margin 阈值，并默认候选展示。
+
+## 当前落地策略
+
+- 四级 leaf 是唯一用户可见类目层级，不新增“第五级类目”给用户。
+- 高混淆 cluster 包含家庭影音、收纳容器、线缆电源、药品包装、厨房小家电。
+- 每个 cluster 有独立 `acceptScore`、`acceptMargin` 和 rerank text score 要求。
+- 家庭影音 cluster 默认候选优先；只有 embedding 分数、margin 和图文 rerank 同时足够强时才自动命名。
+- 每个候选保留 `embeddingScore`、`rerankTextScore`、`categoryCluster`、`entity`、代表样本和命中样本，方便 UI 展示与后续人工反馈。
+- OCR 文本作为可选信号接入 rerank：浏览器支持 `TextDetector` 时使用 crop OCR；不支持时自动跳过，不影响本地离线链路。
+- SigLIP 作为可选 A/B embedding 候选纳入资产配置，但不默认下载；需要时用 `VISION_OPTIONAL_MODELS=siglip python3 scripts/download-vision-assets.py` 拉取，再生成对应 embedding index 做评测。
+- SigLIP2 也作为可选 A/B embedding 候选纳入资产配置；需要时用 `VISION_OPTIONAL_MODELS=siglip2 python3 scripts/download-vision-assets.py` 拉取。
+
+## 当前策略评测快照
+
+离线策略评测脚本为 `scripts/vision-naming-strategy-eval.mjs`，当前基于 66 个已有命名样本得到：
+
+- 旧策略 `embedding-only`：覆盖率 100%，准确率 28.79%。
+- `global-threshold`：覆盖率 13.64%，接受后准确率 77.78%。
+- `cluster-threshold`：覆盖率 13.64%，接受后准确率 77.78%。
+- `metadata-ocr-rerank`：覆盖率 43.94%，接受后准确率 75.86%。
+
+这里的 `metadata-ocr-rerank` 使用已有 query 文本/标题词模拟文本信号，因此更接近“有 OCR/标题词时的上界”，不是当前所有设备上都能稳定达到的线上指标。
+
+## Embedding 模型 A/B 快照
+
+离线 A/B 脚本为 `scripts/vision-embedding-model-ab-eval.mjs`。当前使用 66 个 query 样本和 259 条相关/高混淆索引条目：
+
+- `Xenova/clip-vit-base-patch32`：Top1 42.42%，Top3 59.09%，query embedding 均值 16.011ms，Top1 score 均值 0.8312，margin 均值 0.0471。
+- `Xenova/siglip-base-patch16-224`：Top1 62.12%，Top3 74.24%，query embedding 均值 45.014ms，Top1 score 均值 0.8167，margin 均值 0.0873。
+- `onnx-community/siglip2-base-patch16-224-ONNX`：Top1 51.52%，Top3 57.58%，query embedding 均值 44.904ms，Top1 score 均值 0.9292，margin 均值 0.0233。
+
+初步结论：SigLIP 在这批家庭物品和高混淆类目上明显优于当前 CLIP；SigLIP2 的绝对分数更高，但 margin 更低，细粒度区分能力不如 SigLIP。当前先用 SigLIP 生成全量索引，并在模拟器/真机上测端到端耗时，再决定是否作为默认命名 embedding。
+
+## SigLIP 全量索引
+
+全量重嵌入脚本为 `scripts/vision-reembed-index.mjs`，输入为 `data/vision-index.household-cn.grounding-dino-clip.json`，输出为 `data/vision-index.household-cn.grounding-dino-siglip.json`。
+
+当前生成结果：
+
+- 输入条目 3075 条，成功写入 3075 条，失败 0 条。
+- embedding 模型为 `Xenova/siglip-base-patch16-224`。
+- embedding 维度为 768。
+- 每个 crop embedding 平均耗时 45.082ms。
+- 检索 metric 仍为 `max-inner-product`，embedding 已做 L2 normalize。
+
+## 当前检索实现
+
+当前线上命名检索位于 `src/vision/catalog-matcher.js` 的 `matchCatalogFromEmbeddingIndex()`：先筛掉不兼容条目，再对所有候选 entry 逐条计算 `vectorSimilarity()`，最后按 score 降序排序并截取 TopK。因此现在本质是 flat scan，也就是遍历所有兼容索引计算内积/余弦相似度，不是 HNSW、FAISS 或其他 ANN 索引。
+
+在 3075 条、512/768 维的本地索引规模下，这种实现足够简单可控；当索引增长到 5 万或 10 万级时，需要升级为分层检索：先按房间/场景/cluster/category centroid 做粗召回，再用 typed-array 矩阵扫描或 HNSW/FAISS/WASM 向量索引做精排。
+
+## OCR 能力探测
+
+运行时能力检测页面由 `scripts/vision-runtime-capability-check.mjs` 生成，输出为 `data/generated/vision-runtime-capability-check.html`。重点检查：
+
+- `TextDetector`：浏览器原生 OCR，若 iOS WebView 不支持，需要走 iOS Vision OCR bridge 或本地 OCR 模型。
+- `BarcodeDetector`：包装条码可作为商品识别辅助。
+- `SharedArrayBuffer` / `crossOriginIsolated`：决定 WASM 多线程能力。
 
 ## 对当前指标的解释
 

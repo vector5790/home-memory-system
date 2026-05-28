@@ -1,0 +1,59 @@
+{
+  "kind": "vision-index-image-policy",
+  "version": "20260528-household-index-image-roles-v1",
+  "description": "Defines image-role requirements for household category index entries without storing image binaries in Git.",
+  "primaryTaxonomyLevel": "GPC-style level4 leaf",
+  "userVisibleNamingLevel": "leaf",
+  "entityMetadata": [
+    "brand",
+    "series",
+    "model",
+    "formFactor",
+    "visualTags",
+    "sourceTitle",
+    "sourceUrl"
+  ],
+  "requiredRoles": [
+    {
+      "role": "product",
+      "minPerLeaf": 3,
+      "description": "Commerce/product images, preferably China mainland ecommerce sources."
+    },
+    {
+      "role": "scene",
+      "minPerLeaf": 2,
+      "description": "Real household scene images or user-confirmed in-home crops."
+    }
+  ],
+  "recommendedRoles": [
+    {
+      "role": "detail",
+      "minPerHighConfusionLeaf": 1,
+      "description": "Close-up images for fine-grained cues such as ports, knobs, labels, texture, package front text."
+    },
+    {
+      "role": "variant",
+      "minPerHighConfusionLeaf": 2,
+      "description": "Different brands, form factors, colors, old/new styles or common model families."
+    }
+  ],
+  "highConfusionClusters": [
+    "home-audio-video",
+    "storage-containers",
+    "cables-power-accessories",
+    "medicine-packaging",
+    "kitchen-small-appliances"
+  ],
+  "storagePolicy": {
+    "git": "metadata-only",
+    "imageBinaries": "local-cache-or-object-store",
+    "trackedFiles": [
+      "manifest",
+      "source URLs",
+      "sha256",
+      "regions",
+      "embeddings",
+      "coverage reports"
+    ]
+  }
+}

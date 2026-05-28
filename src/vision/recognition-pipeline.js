@@ -229,21 +229,19 @@ export function createVisionRecognitionPipeline({
   function warmVisionModels() {
     window.setTimeout(async () => {
       const assetMode = await getVisionAssetMode();
-      if (!assetMode.hasLocalRuntime) return;
-      loadTransformersRuntime().then(() => {
-        getGroundingLabelEntries();
-        warmCaptureDetectionModel();
-        window.setTimeout(() => {
-          getCatalogEmbeddingIndex().catch(() => null);
-          if (assetMode.catalogReady) {
-            getCatalogFeatureExtractor().catch((error) => {
-              console.info("Catalog naming prewarm skipped.", error);
-            });
-          }
-        }, 1000);
-      }).catch((error) => {
-        console.info("Vision runtime prewarm skipped.", error);
-      });
+      if (!assetMode.hasLocalRuntime && !assetMode.local) return;
+      getGroundingLabelEntries();
+      warmCaptureDetectionModel();
+      getCatalogEmbeddingIndex().catch(() => null);
+      if (assetMode.catalogReady) {
+        getCatalogFeatureExtractor().catch((error) => {
+          console.info("Catalog naming prewarm skipped.", error);
+        });
+      } else if (assetMode.hasLocalRuntime) {
+        loadTransformersRuntime().catch((error) => {
+          console.info("Vision runtime prewarm skipped.", error);
+        });
+      }
     }, 250);
   }
 
@@ -505,7 +503,40 @@ export function createVisionRecognitionPipeline({
       data[planeSize + pixelIndex] = pixels[offset + 1];
       data[(planeSize * 2) + pixelIndex] = pixels[offset];
     }
-    return { data, ratio, resizedWidth, resizedHeight, sourceWidth, sourceHeight };
+    return { data, ratio, resizedWidth, resizedHeight, sourceWidth, sourceHeight, inputSize };
+  }
+
+  function isDecodedYoloxOutput(values, stride) {
+    const sampleCount = Math.min(128, Math.floor(values.length / stride));
+    for (let index = 0; index < sampleCount; index += 1) {
+      const width = Number(values[(index * stride) + 2]);
+      const height = Number(values[(index * stride) + 3]);
+      if (width > 8 || height > 8) return true;
+    }
+    return false;
+  }
+
+  function decodeYoloxOutputRow(row, rowIndex, inputSize) {
+    const strides = [8, 16, 32];
+    let offset = 0;
+    for (const strideValue of strides) {
+      const gridSize = Math.floor(inputSize / strideValue);
+      const gridCount = gridSize * gridSize;
+      if (rowIndex < offset + gridCount) {
+        const localIndex = rowIndex - offset;
+        const gridX = localIndex % gridSize;
+        const gridY = Math.floor(localIndex / gridSize);
+        return [
+          (Number(row[0]) + gridX) * strideValue,
+          (Number(row[1]) + gridY) * strideValue,
+          Math.exp(Number(row[2])) * strideValue,
+          Math.exp(Number(row[3])) * strideValue,
+          ...row.slice(4),
+        ];
+      }
+      offset += gridCount;
+    }
+    return row;
   }
 
   function yoloxCenterBoxToDetection(row, ratio, sourceWidth, sourceHeight) {
@@ -533,9 +564,12 @@ export function createVisionRecognitionPipeline({
     const values = Array.from(output?.data || []);
     const dims = Array.isArray(output?.dims) ? output.dims : [];
     const stride = dims.length >= 3 ? dims[dims.length - 1] : 6;
+    const alreadyDecoded = isDecodedYoloxOutput(values, stride);
     const detections = [];
     for (let index = 0; index + stride <= values.length; index += stride) {
-      const row = values.slice(index, index + stride);
+      const rowIndex = index / stride;
+      const rawRow = values.slice(index, index + stride);
+      const row = alreadyDecoded ? rawRow : decodeYoloxOutputRow(rawRow, rowIndex, meta.inputSize);
       const detection = yoloxCenterBoxToDetection(row, meta.ratio, meta.sourceWidth, meta.sourceHeight);
       if (!detection || detection.score < threshold) continue;
       detections.push(detection);
@@ -1073,32 +1107,16 @@ export function createVisionRecognitionPipeline({
     };
   }
 
-  function shouldAttemptGroundingDino(assetMode) {
-    if (!assetMode.groundingReady) return false;
-    if (!assetMode.owlReady) return true;
-    return visionConfig.preferredDetector === "grounding-dino" || visionConfig.enableGroundingDinoFallback;
-  }
-
   function getDetectorAttempts(assetMode) {
     if (visionConfig.preferredDetector === "yolox") {
-      return [
-        getYoloxDetectorAttempt(),
-        ...(visionConfig.enableGroundingDinoFallback && assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-      ];
+      return [getYoloxDetectorAttempt()];
     }
 
-    const preferOwlVit = visionConfig.preferredDetector === "owlvit";
-    if (preferOwlVit) {
-      return [
-        ...(assetMode.owlReady || !assetMode.groundingReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
-        ...(shouldAttemptGroundingDino(assetMode) ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-      ];
+    if (visionConfig.preferredDetector === "owlvit") {
+      return [getOwlVitDetectorAttempt(assetMode)];
     }
 
-    return [
-      ...(assetMode.groundingReady ? [getGroundingDinoDetectorAttempt(assetMode)] : []),
-      ...(!assetMode.groundingReady && assetMode.owlReady ? [getOwlVitDetectorAttempt(assetMode)] : []),
-    ];
+    return [getGroundingDinoDetectorAttempt(assetMode)];
   }
 
   async function recognizeWithSmallModelUncached(image, options = {}) {
@@ -1137,22 +1155,7 @@ export function createVisionRecognitionPipeline({
   }
 
   async function recognizeWithLocalImage({ image }) {
-    let smallModelResult = null;
-    try {
-      smallModelResult = await recognizeWithSmallModel(image);
-    } catch (error) {
-      console.info("Small model unavailable, falling back to local image analysis.", error);
-    }
-
-    if (smallModelResult?.candidates.length) {
-      return smallModelResult;
-    }
-
-    const regionResult = await recognizeWithHeuristicRegions(image);
-    return {
-      ...regionResult,
-      candidates: regionResult.candidates.map((candidate) => ({ ...candidate, namingStatus: "loading" })),
-    };
+    return recognizeWithSmallModel(image);
   }
 
   function refineNameByPosition(name, box) {
@@ -1161,11 +1164,26 @@ export function createVisionRecognitionPipeline({
 
   async function resolveCandidateName(candidate, index, source, options = {}) {
     if (candidate.edited && !options.force) return { ...candidate, namingStatus: "done" };
+    if (visionConfig.catalogNamingEnabled === false) {
+      return {
+        ...candidate,
+        name: candidate.name && !candidate.name.startsWith("候选区域") && !isUnknownObjectName(candidate.name)
+          ? candidate.name
+          : getUnknownObjectName(index),
+        namingStatus: "done",
+        namingRejectionReason: "catalog-naming-disabled",
+      };
+    }
 
     const embeddingIndex = await getCatalogEmbeddingIndex();
     if (embeddingIndex.entries?.length) {
       const embeddingBox = options.box || candidate.modelBox || candidate.box;
-      const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, embeddingBox).catch(() => null) : null;
+      const catalogMatch = source ? await matchCatalogFromEmbeddingIndex(source, embeddingBox, {
+        name: candidate.name,
+        suggestedName: candidate.suggestedName,
+        detectionLabel: candidate.detectionLabel,
+        roomType: options.roomType || getCapturePromptRoomType?.(),
+      }).catch(() => null) : null;
       if (catalogMatch?.accepted) {
         return {
           ...candidate,
@@ -1177,8 +1195,13 @@ export function createVisionRecognitionPipeline({
           categoryPath: catalogMatch.categoryPath || [],
           categoryScore: catalogMatch.categoryScore,
           categoryMargin: catalogMatch.categoryMargin,
+          categoryCluster: catalogMatch.categoryCluster,
+          categoryClusterId: catalogMatch.categoryCluster?.id || "",
+          categoryClusterLabel: catalogMatch.categoryCluster?.label || "",
           catalogCandidates: catalogMatch.catalogCandidates || [],
           namingRejectionReason: "",
+          namingAcceptancePolicy: catalogMatch.namingAcceptancePolicy || null,
+          ocrText: catalogMatch.ocrText || "",
           categoryIndexVersion: catalogMatch.categoryIndexVersion || "",
           matchedSampleIds: catalogMatch.matchedSampleIds || [],
           timings: {
@@ -1198,8 +1221,13 @@ export function createVisionRecognitionPipeline({
           confidence: Math.max(candidate.confidence || 0, catalogMatch.confidence || 0),
           categoryScore: catalogMatch.categoryScore,
           categoryMargin: catalogMatch.categoryMargin,
+          categoryCluster: catalogMatch.categoryCluster,
+          categoryClusterId: catalogMatch.categoryCluster?.id || "",
+          categoryClusterLabel: catalogMatch.categoryCluster?.label || "",
           catalogCandidates: catalogMatch.catalogCandidates || [],
           namingRejectionReason: catalogMatch.namingRejectionReason || "low-confidence",
+          namingAcceptancePolicy: catalogMatch.namingAcceptancePolicy || null,
+          ocrText: catalogMatch.ocrText || "",
           categoryIndexVersion: catalogMatch.categoryIndexVersion || "",
           matchedSampleIds: catalogMatch.matchedSampleIds || [],
           timings: {
@@ -1244,7 +1272,7 @@ export function createVisionRecognitionPipeline({
       : candidates;
     const named = Array(preparedCandidates.length).fill(null);
     onProgress?.(preparedCandidates);
-    const namingTasks = preparedCandidates.map(async (candidate, index) => {
+    for (const [index, candidate] of preparedCandidates.entries()) {
       const modelBox = candidate.modelBox || (modelContext ? mapDisplayBoxToModelBox(candidate.box, modelContext) : candidate.box);
       const candidateNamingStart = performance.now();
       const resolved = await resolveCandidateName(candidate, index, modelSource || displaySource, { box: modelBox });
@@ -1258,8 +1286,8 @@ export function createVisionRecognitionPipeline({
         },
       };
       onProgress?.(preparedCandidates.map((entry, entryIndex) => named[entryIndex] || entry));
-    });
-    await Promise.all(namingTasks);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
     return named.filter(Boolean);
   }
 

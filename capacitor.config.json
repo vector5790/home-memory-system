@@ -4,7 +4,7 @@
   "webDir": "www",
   "bundledWebRuntime": false,
   "ios": {
-    "scheme": "HomeMemory",
+    "scheme": "App",
     "contentInset": "automatic"
   },
   "plugins": {

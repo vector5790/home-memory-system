@@ -11,12 +11,15 @@ export function createCaptureRenderers(deps) {
     formatDate,
     formatReminderOffset,
     formatReminderRepeat,
+    formatReminderSchedule,
+    getCandidateIndex,
     getActiveCandidates,
     getAdjacentCandidateId,
     getCapturePlace,
     getCaptureRoom,
     getDeletedCandidates,
     getFallbackActiveCandidateId,
+    makeVirtualPlace,
     getReminderOffsetLabels,
     getRequestedRecognitionProvider,
     getSelectedCandidateCount,
@@ -27,6 +30,7 @@ export function createCaptureRenderers(deps) {
     normalizeReminder,
     normalizeReminderList,
     nextMondayIso,
+    platform,
     providerLabel,
     repeatLabels,
     stateRef,
@@ -76,7 +80,8 @@ export function createCaptureRenderers(deps) {
       ? `${roomPromptText} · prompts ${diagnostics.promptCount}/${diagnostics.promptBatches || 1}批${shardText}`
       : "";
     const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding ${Math.round(diagnostics.embeddingMs)}ms` : "";
-    return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
+    const stageText = diagnostics.stage ? `${diagnostics.stage} · ` : "";
+    return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${stageText}${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount ?? 0} 个`)}</p>`;
   }
 
   function renderCaptureControls() {
@@ -432,16 +437,23 @@ export function createCaptureRenderers(deps) {
     const candidates = Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates.slice(0, 3) : [];
     if (!candidates.length) return "";
     const title = candidate.namingRejectionReason ? "可能是这些物品" : "相似命名候选";
+    const policy = candidate.namingAcceptancePolicy || {};
+    const clusterLabel = candidate.categoryClusterLabel || policy.clusterLabel || "";
     return `
       <div class="catalog-candidate-panel">
         <div class="catalog-candidate-head">
           <strong>${escapeHtml(title)}</strong>
-          ${candidate.namingRejectionReason ? `<span>低置信 · 请确认</span>` : `<span>按相似度排序</span>`}
+          ${candidate.namingRejectionReason
+            ? `<span>${escapeHtml(clusterLabel || "低置信")} · 请确认</span>`
+            : `<span>按相似度排序</span>`}
         </div>
+        ${candidate.ocrText ? `<div class="catalog-candidate-ocr">OCR: ${escapeHtml(candidate.ocrText)}</div>` : ""}
         <div class="catalog-candidate-list">
           ${candidates.map((entry, index) => {
             const src = catalogCandidateImageSrc(entry);
             const score = Number(entry.score) || 0;
+            const embeddingScore = Number(entry.embeddingScore) || 0;
+            const rerankTextScore = Number(entry.rerankTextScore) || 0;
             const hitCount = Number(entry.hitCount) || 1;
             return `
               <button class="catalog-candidate-option" type="button" data-apply-catalog-candidate="${candidate.id}" data-candidate-rank="${index}">
@@ -450,7 +462,7 @@ export function createCaptureRenderers(deps) {
                 </span>
                 <span class="catalog-candidate-copy">
                   <strong>${escapeHtml(entry.displayName || entry.categoryId || "候选物品")}</strong>
-                  <small>${Math.round(score * 100)}% · ${hitCount} 个相似样本</small>
+                  <small>${Math.round(score * 100)}% · embedding ${Math.round(embeddingScore * 100)}% · rerank ${Math.round(rerankTextScore * 100)}% · ${hitCount} 个相似样本</small>
                 </span>
               </button>
             `;

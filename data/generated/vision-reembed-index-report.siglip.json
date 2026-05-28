@@ -1,0 +1,16 @@
+{
+  "kind": "vision-reembed-index-report",
+  "modelId": "Xenova/siglip-base-patch16-224",
+  "inputPath": "data/vision-index.household-cn.grounding-dino-clip.json",
+  "outputPath": "data/vision-index.household-cn.grounding-dino-siglip.json",
+  "sourceIndexVersion": "20260528-household-cn-grounding-dino-clip-electronics-naming",
+  "outputVersion": "20260528-household-cn-grounding-dino-siglip",
+  "entryCount": 3075,
+  "failureCount": 0,
+  "dimension": 768,
+  "embeddingTiming": {
+    "meanMs": 45.082,
+    "totalMs": 138625.964
+  },
+  "failures": []
+}
