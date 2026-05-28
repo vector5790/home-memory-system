@@ -340,6 +340,7 @@ export function createImageProcessing({ visionConfig }) {
     mapPercentBoxBetweenImages,
     normalizeImageMeta,
     prepareImageForDetection,
+    prepareModelImageContext,
     prepareUploadedImage,
     readBlobAsDataUrl,
     resizeImageSourceToDataUrl,
