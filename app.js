@@ -68,7 +68,7 @@ const categoryLabels = {
 };
 
 const visionConfig = {
-  appVersion: "20260527-yolox-household-subject-v4-real50",
+  appVersion: "20260528-yolox-household-subject-v7-dynamic-postprocess",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
@@ -96,8 +96,11 @@ const visionConfig = {
   catalogThreshold: 0.26,
   catalogMarginThreshold: 0.03,
   catalogTopK: 5,
-  maxDetectedObjects: 9,
+  maxDetectedObjects: 15,
   maxModelDetections: 9,
+  yoloxSimpleMaxDetections: 5,
+  yoloxBaseMaxDetections: 10,
+  yoloxDenseMaxDetections: 15,
   groundingPromptVersion: "coarse-shards-v1",
   groundingMaxTaxonomyLabels: 60,
   groundingShortPromptTargetCount: 7,
@@ -2500,6 +2503,7 @@ function detectionToCandidate(detection, index, source, provider, threshold, lab
 
 function nmsDetections(detections, source, iouThreshold, maxItems) {
   const selected = [];
+  const limit = Number.isFinite(Number(maxItems)) ? Math.max(1, Number(maxItems)) : Infinity;
   const sorted = (Array.isArray(detections) ? detections : [])
     .filter((detection) => detection?.box)
     .sort((left, right) => Number(right.score || 0) - Number(left.score || 0));
@@ -2507,7 +2511,7 @@ function nmsDetections(detections, source, iouThreshold, maxItems) {
     const box = detectionBoxToPercent(detection.box, source.naturalWidth, source.naturalHeight);
     if (selected.some((existing) => boxIou(existing.box, box) >= iouThreshold)) continue;
     selected.push({ detection, box });
-    if (selected.length >= maxItems) break;
+    if (selected.length >= limit) break;
   }
   return selected.map((entry) => entry.detection);
 }
@@ -2554,6 +2558,82 @@ function getBoxContainment(inner, outer) {
   const intersection = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
   const innerArea = getBoxArea(inner);
   return innerArea > 0 ? intersection / innerArea : 0;
+}
+
+function getYoloxBoxShape(detection, source) {
+  const sourceWidth = source.naturalWidth || source.width || 1;
+  const sourceHeight = source.naturalHeight || source.height || 1;
+  const imageArea = sourceWidth * sourceHeight;
+  const [x1, y1, x2, y2] = detection.box;
+  const width = Math.max(1, x2 - x1);
+  const height = Math.max(1, y2 - y1);
+  return {
+    width,
+    height,
+    aspect: width / height,
+    areaRatio: getBoxArea(detection.box) / Math.max(1, imageArea),
+  };
+}
+
+function isLowValueYoloxDetection(detection, source, topScore) {
+  const score = Number(detection?.score || 0);
+  const shape = getYoloxBoxShape(detection, source);
+  if (shape.areaRatio <= 0.00035) return true;
+  if (shape.areaRatio <= 0.0008 && score < 0.32) return true;
+  if (shape.areaRatio >= 0.92) return true;
+  if ((shape.aspect >= 10 || shape.aspect <= 0.1) && score < 0.45) return true;
+  if (topScore >= 0.5 && score < Math.max(visionConfig.yoloxThreshold, topScore * 0.18)) return true;
+  return false;
+}
+
+function suppressYoloxNearDuplicates(detections) {
+  const selected = [];
+  const sorted = (Array.isArray(detections) ? detections : [])
+    .filter((detection) => detection?.box)
+    .sort((left, right) => Number(right.score || 0) - Number(left.score || 0));
+  for (const detection of sorted) {
+    const area = getBoxArea(detection.box);
+    const duplicate = selected.some((existing) => {
+      const existingArea = getBoxArea(existing.box);
+      const smaller = Math.min(area, existingArea);
+      const larger = Math.max(area, existingArea);
+      const areaSimilarity = smaller / Math.max(1, larger);
+      if (boxIou(existing.box, detection.box) >= 0.78) return true;
+      return areaSimilarity >= 0.68
+        && (getBoxContainment(detection.box, existing.box) >= 0.92 || getBoxContainment(existing.box, detection.box) >= 0.92);
+    });
+    if (!duplicate) selected.push(detection);
+  }
+  return selected;
+}
+
+function getYoloxDynamicDetectionLimit(detections, source) {
+  const simpleMax = Math.max(1, Number(visionConfig.yoloxSimpleMaxDetections) || 5);
+  const baseMax = Math.max(simpleMax, Number(visionConfig.yoloxBaseMaxDetections) || 10);
+  const denseMax = Math.max(baseMax, Number(visionConfig.yoloxDenseMaxDetections) || 15);
+  const candidates = (Array.isArray(detections) ? detections : []).filter((detection) => detection?.box);
+  const useful = candidates.filter((detection) => {
+    const shape = getYoloxBoxShape(detection, source);
+    return Number(detection.score || 0) >= 0.2 && shape.areaRatio >= 0.001 && shape.areaRatio <= 0.75;
+  });
+  const strong = useful.filter((detection) => Number(detection.score || 0) >= 0.35);
+  if (useful.length <= 6 && strong.length <= 2) return simpleMax;
+  if (useful.length >= 12 || strong.length >= 7) return denseMax;
+  return baseMax;
+}
+
+function postprocessYoloxDetections(detections, source) {
+  const nmsLimit = Math.max(Number(visionConfig.yoloxDenseMaxDetections) || 15, Number(visionConfig.maxDetectedObjects) || 15) * 2;
+  const nms = nmsDetections(detections, source, visionConfig.yoloxNmsIou, nmsLimit);
+  const topScore = Math.max(0, ...nms.map((detection) => Number(detection.score || 0)));
+  const filtered = suppressYoloxNearDuplicates(
+    nms.filter((detection) => !isLowValueYoloxDetection(detection, source, topScore)),
+  );
+  const visible = suppressDarkDisplayInnerDetections(filtered, source);
+  const limit = getYoloxDynamicDetectionLimit(visible, source);
+  return visible
+    .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))
+    .slice(0, limit);
 }
 
 function suppressDarkDisplayInnerDetections(detections, source) {
@@ -2678,7 +2758,7 @@ async function runYoloxDetector({ source, detector, threshold }) {
 async function runZeroShotDetector({ image, source, detector, provider, threshold, roomType = null }) {
   if (detector?.kind === "yolox-household-subject") {
     const detections = await runYoloxDetector({ source, detector, threshold });
-    return suppressDarkDisplayInnerDetections(nmsDetections(detections, source, visionConfig.yoloxNmsIou, visionConfig.maxModelDetections), source)
+    return postprocessYoloxDetections(detections, source)
       .map((detection, index) => detectionToCandidate(detection, index, source, provider, threshold, null));
   }
   const isGroundingDino = detector?.kind === "grounding-dino";
