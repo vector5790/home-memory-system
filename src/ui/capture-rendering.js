@@ -13,6 +13,7 @@ export function createCaptureRenderers(deps) {
     formatReminderRepeat,
     getActiveCandidates,
     getAdjacentCandidateId,
+    getCandidateIndex,
     getCapturePlace,
     getCaptureRoom,
     getDeletedCandidates,
@@ -22,11 +23,13 @@ export function createCaptureRenderers(deps) {
     getSelectedCandidateCount,
     icons,
     imageAspectStyle,
+    makeVirtualPlace,
     monthKeyFromIso,
     moveMonthKey,
     normalizeReminder,
     normalizeReminderList,
     nextMondayIso,
+    platform,
     providerLabel,
     repeatLabels,
     stateRef,
@@ -75,7 +78,7 @@ export function createCaptureRenderers(deps) {
     const promptText = diagnostics.promptCount
       ? `${roomPromptText} · prompts ${diagnostics.promptCount}/${diagnostics.promptBatches || 1}批${shardText}`
       : "";
-    const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding ${Math.round(diagnostics.embeddingMs)}ms` : "";
+    const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding累计 ${Math.round(diagnostics.embeddingMs)}ms` : "";
     return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
   }
 
@@ -224,12 +227,16 @@ export function createCaptureRenderers(deps) {
     const activeId = getFallbackActiveCandidateId(getState().capture.activeCandidateId);
     const activeCandidate = activeCandidates.find((candidate) => candidate.id === activeId);
     const activeIndex = activeCandidate ? getCandidateIndex(activeCandidates, activeCandidate.id) : -1;
+    const status = getState().capture.recognitionStatus;
+    const emptyText = status === "empty"
+      ? "没有候选区域"
+      : status === "error" ? "分析失败" : getState().capture.image ? "正在分析照片" : "等待照片";
     return `
       <div class="candidate-list candidate-card-stack">
         ${getState().capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(getState().capture.recognitionError)}</p>` : ""}
         ${activeCandidate
           ? renderCandidate(activeCandidate, activeIndex, activeCandidates.length)
-          : `<p class="empty-state">${getState().capture.recognitionStatus === "empty" ? "没有候选区域" : getState().capture.image ? "正在分析照片" : "等待照片"}</p>`}
+          : `<p class="empty-state">${emptyText}</p>`}
         ${renderCandidateTrash(deletedCandidates)}
       </div>
     `;

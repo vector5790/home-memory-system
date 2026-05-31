@@ -505,7 +505,7 @@ export function createVisionRecognitionPipeline({
       data[planeSize + pixelIndex] = pixels[offset + 1];
       data[(planeSize * 2) + pixelIndex] = pixels[offset];
     }
-    return { data, ratio, resizedWidth, resizedHeight, sourceWidth, sourceHeight };
+    return { data, ratio, resizedWidth, resizedHeight, sourceWidth, sourceHeight, inputSize };
   }
 
   function yoloxCenterBoxToDetection(row, ratio, sourceWidth, sourceHeight) {
@@ -529,10 +529,102 @@ export function createVisionRecognitionPipeline({
     };
   }
 
+  function getYoloxScore(objectness, classScore) {
+    const objectValue = Number(objectness);
+    const classValue = Number(classScore);
+    if (![objectValue, classValue].every(Number.isFinite)) return 0;
+    const normalize = (value) => (value >= 0 && value <= 1 ? value : 1 / (1 + Math.exp(-value)));
+    return normalize(objectValue) * normalize(classValue);
+  }
+
+  function getYoloxGridSpec(rowCount, inputSize) {
+    const strides = [8, 16, 32];
+    const grids = strides.map((stride) => ({
+      stride,
+      size: Math.round(inputSize / stride),
+    }));
+    const expected = grids.reduce((total, grid) => total + grid.size * grid.size, 0);
+    return expected === rowCount ? grids : null;
+  }
+
+  function isRawYoloxHead(values, stride, rowCount, inputSize) {
+    if (!getYoloxGridSpec(rowCount, inputSize)) return false;
+    const sampleRows = Math.min(rowCount, 64);
+    let maxCoordinate = 0;
+    for (let rowIndex = 0; rowIndex < sampleRows; rowIndex += 1) {
+      const offset = rowIndex * stride;
+      for (let field = 0; field < 4; field += 1) {
+        maxCoordinate = Math.max(maxCoordinate, Math.abs(Number(values[offset + field]) || 0));
+      }
+    }
+    return maxCoordinate < Math.max(16, inputSize * 0.08);
+  }
+
+  function yoloxRawHeadRowToDetection(row, gridX, gridY, stride, ratio, sourceWidth, sourceHeight) {
+    const rawX = Number(row[0]);
+    const rawY = Number(row[1]);
+    const rawWidth = Number(row[2]);
+    const rawHeight = Number(row[3]);
+    const classScores = row.slice(5).map(Number).filter(Number.isFinite);
+    const classScore = classScores.length ? Math.max(...classScores) : Number(row[5] ?? 1);
+    const score = getYoloxScore(row[4], classScore);
+    if (![rawX, rawY, rawWidth, rawHeight, score].every(Number.isFinite)) return null;
+
+    const cx = (rawX + gridX) * stride;
+    const cy = (rawY + gridY) * stride;
+    const width = Math.exp(Math.min(rawWidth, 10)) * stride;
+    const height = Math.exp(Math.min(rawHeight, 10)) * stride;
+    if (width <= 1 || height <= 1) return null;
+
+    const x1 = clampNumber((cx - width / 2) / ratio, 0, sourceWidth - 1);
+    const y1 = clampNumber((cy - height / 2) / ratio, 0, sourceHeight - 1);
+    const x2 = clampNumber((cx + width / 2) / ratio, x1 + 1, sourceWidth);
+    const y2 = clampNumber((cy + height / 2) / ratio, y1 + 1, sourceHeight);
+    return {
+      label: "household subject",
+      score,
+      box: [x1, y1, x2, y2],
+    };
+  }
+
+  function postprocessRawYoloxHead(values, stride, meta, threshold) {
+    const rowCount = Math.floor(values.length / stride);
+    const grids = getYoloxGridSpec(rowCount, meta.inputSize);
+    if (!grids) return [];
+
+    const detections = [];
+    let rowIndex = 0;
+    for (const grid of grids) {
+      for (let gridY = 0; gridY < grid.size; gridY += 1) {
+        for (let gridX = 0; gridX < grid.size; gridX += 1) {
+          const offset = rowIndex * stride;
+          rowIndex += 1;
+          const row = values.slice(offset, offset + stride);
+          const detection = yoloxRawHeadRowToDetection(
+            row,
+            gridX,
+            gridY,
+            grid.stride,
+            meta.ratio,
+            meta.sourceWidth,
+            meta.sourceHeight,
+          );
+          if (!detection || detection.score < threshold) continue;
+          detections.push(detection);
+        }
+      }
+    }
+    return detections;
+  }
+
   function postprocessYoloxOutput(output, meta, threshold) {
     const values = Array.from(output?.data || []);
     const dims = Array.isArray(output?.dims) ? output.dims : [];
     const stride = dims.length >= 3 ? dims[dims.length - 1] : 6;
+    const rowCount = Math.floor(values.length / stride);
+    if (isRawYoloxHead(values, stride, rowCount, meta.inputSize)) {
+      return postprocessRawYoloxHead(values, stride, meta, threshold);
+    }
     const detections = [];
     for (let index = 0; index + stride <= values.length; index += stride) {
       const row = values.slice(index, index + stride);

@@ -93,6 +93,7 @@ const {
   furnitureByRoom,
   genericDetectionLabels,
   getRoomContext: () => getCaptureRoom?.() || getRoom?.(state.capture?.roomId || state.activeRoomId),
+  normalizeText,
   visionCatalog,
   visionConfig,
 });
@@ -113,7 +114,7 @@ const {
   readBlobAsDataUrl,
   resizeImageSourceToDataUrl,
   withTimeout,
-} = createImageProcessing({ visionConfig });
+} = createImageProcessing({ clampBox, visionConfig });
 const { recognizeWithHeuristicRegions } = createHeuristicRegionRecognizer({ loadImage });
 const seedState = {
   activeTab: "capture",
@@ -271,6 +272,7 @@ const {
   formatReminderRepeat,
   getActiveCandidates,
   getAdjacentCandidateId,
+  getCandidateIndex,
   getCapturePlace,
   getCaptureRoom,
   getDeletedCandidates,
@@ -280,11 +282,13 @@ const {
   getSelectedCandidateCount,
   icons,
   imageAspectStyle,
+  makeVirtualPlace,
   monthKeyFromIso,
   moveMonthKey,
   normalizeReminder,
   normalizeReminderList,
   nextMondayIso,
+  platform,
   providerLabel,
   repeatLabels,
   stateRef,
@@ -1743,7 +1747,7 @@ function performSearch() {
 }
 
 async function scanCurrentPlace() {
-  if (["loading", "detecting", "naming"].includes(state.capture.recognitionStatus)) return;
+  if (["detecting", "naming"].includes(state.capture.recognitionStatus)) return;
 
   const room = getCaptureRoom();
   const virtualPlace = getCapturePlace() || makeVirtualPlace(room);
@@ -1762,7 +1766,7 @@ async function scanCurrentPlace() {
     return;
   }
 
-  const requestedProvider = getRequestedRecognitionProvider();
+  const requestedProvider = getRequestedRecognitionProvider(visionConfig);
   const runId = recognitionRunId + 1;
   recognitionRunId = runId;
   const scanImage = state.capture.image;
@@ -2628,6 +2632,16 @@ function hydrateCandidatePins() {
     const pin = pins.find((entry) => entry.dataset.candidateSelect === candidate.id);
     if (pin) pin.style.cssText = styleCandidatePin(candidate.box);
   }
+}
+
+function hashStringFast(value) {
+  const text = String(value || "");
+  let hash = 2166136261;
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(36);
 }
 
 async function hydrateCandidateCrops() {

@@ -3,6 +3,7 @@ export function createVisionCatalog({
   furnitureByRoom,
   genericDetectionLabels,
   getRoomContext,
+  normalizeText,
   visionCatalog,
   visionConfig,
 }) {

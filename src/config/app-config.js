@@ -60,7 +60,7 @@ export const categoryLabels = {
 };
 
 export const visionConfig = {
-  appVersion: "20260528-yolox-household-subject-v7-dynamic-postprocess",
+  appVersion: "20260531-yolox-household-subject-user-model",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",

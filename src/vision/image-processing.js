@@ -1,4 +1,4 @@
-export function createImageProcessing({ visionConfig }) {
+export function createImageProcessing({ clampBox, visionConfig }) {
   function normalizeImageMeta(meta) {
     const width = Math.round(Number(meta?.width || meta?.naturalWidth || meta?.videoWidth || 0));
     const height = Math.round(Number(meta?.height || meta?.naturalHeight || meta?.videoHeight || 0));

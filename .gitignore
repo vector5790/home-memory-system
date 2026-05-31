@@ -5,6 +5,13 @@ ios/DerivedData/
 vendor/*
 !vendor/heic2any/
 !vendor/heic2any/heic2any.min.js
+!vendor/models/
+vendor/models/*
+!vendor/models/home-memory/
+vendor/models/home-memory/*
+!vendor/models/home-memory/yolox-household-subject/
+vendor/models/home-memory/yolox-household-subject/*
+!vendor/models/home-memory/yolox-household-subject/model.onnx
 .DS_Store
 Thumbs.db
 *.log
