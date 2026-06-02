@@ -1,5 +1,5 @@
 {
-  "originHash" : "61c9c88aa344793309a27e7eeed9ebede3ea7302427cdc7f55bf39b68c30d309",
+  "originHash" : "319cbd4d9a240be47c7edfbd0b0467408494468c4017b0b15f591df9bca63d26",
   "pins" : [
     {
       "identity" : "capacitor-swift-pm",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "0d81e26e828ff9582807e2339112cedf2e0fab85",
         "version" : "1.1.2"
+      }
+    },
+    {
+      "identity" : "onnxruntime-swift-package-manager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/microsoft/onnxruntime-swift-package-manager",
+      "state" : {
+        "revision" : "b7fb7f7dea8a2469e6335d95a61b8f36d0dc83b2",
+        "version" : "1.24.2"
       }
     }
   ],

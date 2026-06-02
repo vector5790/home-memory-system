@@ -47,6 +47,7 @@ export function createRecordDomain({
     const primaryReminder = reminders[0] || null;
 
     return {
+      ...candidate,
       id: candidate.id || `candidate-${Date.now()}-${index}-${Math.random().toString(16).slice(2)}`,
       name,
       aliases: Array.isArray(candidate.aliases) ? candidate.aliases : [],
@@ -72,6 +73,8 @@ export function createRecordDomain({
       cropMeta: normalizeCropMeta(candidate.cropMeta),
       cropVersion: candidate.cropVersion || "",
       edited: Boolean(candidate.edited),
+      nameEdited: Boolean(candidate.nameEdited),
+      boxEdited: Boolean(candidate.boxEdited),
       detailsOpen: Boolean(candidate.detailsOpen),
       boxOpen: Boolean(candidate.boxOpen),
     };

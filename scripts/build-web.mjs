@@ -2,6 +2,7 @@ import { cp, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildNativeCatalogIndex } from "./build-native-catalog-index.mjs";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const outDir = path.join(root, "www");
@@ -71,6 +72,8 @@ async function main() {
     await assertFile(relativePath);
   }
   await validateVendorManifest();
+  await buildNativeCatalogIndex("data/vision-index.household-cn.grounding-dino-clip.json");
+  await buildNativeCatalogIndex("data/vision-index.household-cn.owlvit-clip.json");
 
   await rm(outDir, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });

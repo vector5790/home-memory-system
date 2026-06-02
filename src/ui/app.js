@@ -193,6 +193,7 @@ const {
   recognizeWithSmallModelUncached,
   recognizeWithLocalImage,
   shouldRefreshCandidateCrop,
+  warmCatalogNamingResources,
   warmCaptureDetectionModel,
   warmVisionModels,
 } = createVisionRecognitionPipeline({
@@ -231,6 +232,7 @@ let candidateDatePickerState = null;
 let recognitionRunId = 0;
 let candidateEditRecognitionToken = 0;
 let candidateCropHydrationKey = "";
+let catalogNamingWarmupPromise = null;
 let persistWarningShown = false;
 const stateRef = {
   get current() {
@@ -866,6 +868,30 @@ function queueCaptureAnalysis() {
       console.info("Queued capture analysis failed.", error);
     });
   }, 0);
+}
+
+function prewarmCatalogNamingResources() {
+  if (catalogNamingWarmupPromise) return catalogNamingWarmupPromise;
+  catalogNamingWarmupPromise = warmCatalogNamingResources().catch((error) => ({
+    skipped: true,
+    reason: error?.message || "catalog-warmup-failed",
+    warmupMs: 0,
+  }));
+  return catalogNamingWarmupPromise;
+}
+
+function scheduleCatalogNamingPrewarm() {
+  const run = () => {
+    prewarmCatalogNamingResources().catch((error) => {
+      console.info("Catalog naming prewarm skipped.", error);
+    });
+  };
+  window.setTimeout(run, 600);
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(run, { timeout: 1800 });
+  } else {
+    window.setTimeout(run, 1800);
+  }
 }
 
 function normalizeCropMeta(meta) {
@@ -1788,6 +1814,7 @@ async function scanCurrentPlace() {
   const stillCurrent = () => recognitionRunId === runId && state.capture.image === scanImage;
   let modelPrepMs = 0;
   let detectorTiming = {};
+  const namingWarmupPromise = prewarmCatalogNamingResources();
   try {
     const modelPrepStartedAt = performance.now();
     const modelContext = await prepareModelImageContext(scanImage).catch(async (error) => {
@@ -1855,6 +1882,10 @@ async function scanCurrentPlace() {
           promptShardNames: detectorTiming.promptShardNames,
           promptCount: detectorTiming.promptCount,
           promptBatches: detectorTiming.promptBatches,
+          rawDetectionCount: detectorTiming.rawDetectionCount,
+          filteredDetectionCount: detectorTiming.filteredDetectionCount,
+          topDetectionScore: detectorTiming.topDetectionScore,
+          yoloxThreshold: detectorTiming.yoloxThreshold,
           detectionMs,
           namingMs: 0,
           totalMs: performance.now() - scanStartedAt,
@@ -1887,6 +1918,7 @@ async function scanCurrentPlace() {
     showToast(`已生成 ${detected.length} 个主体框，正在命名`);
 
     const namingStartedAt = performance.now();
+    const namingWarmup = await namingWarmupPromise;
     const namedCandidates = await nameDetectedCandidates({
       displayImage: scanImage,
       modelImage: detectionImage,
@@ -1903,6 +1935,42 @@ async function scanCurrentPlace() {
     if (!stillCurrent()) return;
     const namingMs = performance.now() - namingStartedAt;
     const embeddingMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingMs) || 0), 0);
+    const embeddingModelReadyMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingModelReadyMs) || 0), 0);
+    const embeddingExtractorMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingExtractorMs) || 0), 0);
+    const embeddingPostprocessMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingPostprocessMs) || 0), 0);
+    const embeddingInputBytes = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingInputBytes) || 0), 0);
+    const embeddingBatchSize = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchSize) || 0), 0);
+    const embeddingBatchExtractorMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchExtractorMs) || 0), 0);
+    const embeddingBatchTotalMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchTotalMs) || 0), 0);
+    const embeddingBatchMode = namedCandidates.find((candidate) => candidate.timings?.embeddingBatchMode)?.timings?.embeddingBatchMode || "";
+    const embeddingExtractorMode = namedCandidates.find((candidate) => candidate.timings?.embeddingExtractorMode)?.timings?.embeddingExtractorMode || "";
+    const embeddingNativeIndexFormat = namedCandidates.find((candidate) => candidate.timings?.embeddingNativeIndexFormat)?.timings?.embeddingNativeIndexFormat || "";
+    const embeddingProcessorMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingProcessorMs) || 0), 0);
+    const embeddingModelMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingModelMs) || 0), 0);
+    const embeddingBatchProcessorMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchProcessorMs) || 0), 0);
+    const embeddingBatchModelMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchModelMs) || 0), 0);
+    const maxEmbeddingInputBytes = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingInputBytes) || 0), 0);
+    const maxEmbeddingCropLongSide = Math.max(...namedCandidates.map((candidate) => Math.max(
+      Number(candidate.timings?.embeddingCropWidth) || 0,
+      Number(candidate.timings?.embeddingCropHeight) || 0,
+    )), 0);
+    const catalogCropMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.catalogCropMs) || 0), 0);
+    const catalogSearchMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.catalogSearchMs) || 0), 0);
+    const catalogTotalMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.catalogTotalMs) || 0), 0);
+    const catalogIndexLoadMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.catalogIndexLoadMs) || 0), 0);
+    const perCandidateNamingMs = namedCandidates.reduce((max, candidate) => Math.max(max, Number(candidate.timings?.namingMs) || 0), 0);
+    const embeddingNamedCount = namedCandidates.filter((candidate) => String(candidate.source || "").includes("embedding")).length;
+    const unresolvedNamingCount = namedCandidates.filter((candidate, index) => (
+      !candidate.name || isUnknownObjectName(candidate.name) || candidate.name === getUnknownObjectName(index)
+    )).length;
+    const catalogCandidateCount = namedCandidates.reduce((total, candidate) => (
+      total + (Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates.length : 0)
+    ), 0);
+    const namingRejectionReasons = Object.entries(namedCandidates.reduce((counts, candidate) => {
+      const reason = candidate.namingRejectionReason || "";
+      if (reason) counts[reason] = (counts[reason] || 0) + 1;
+      return counts;
+    }, {})).map(([reason, count]) => `${reason}:${count}`).join(",");
     state.capture = {
       ...state.capture,
       candidates: applyCandidateProgressUpdates(state.capture.candidates || [], namedCandidates, provider),
@@ -1923,9 +1991,42 @@ async function scanCurrentPlace() {
         promptBatches: detectorTiming.promptBatches,
         rawDetectionCount: detectorTiming.rawDetectionCount,
         filteredDetectionCount: detectorTiming.filteredDetectionCount,
+        topDetectionScore: detectorTiming.topDetectionScore,
+        yoloxThreshold: detectorTiming.yoloxThreshold,
         detectionMs,
         namingMs,
         embeddingMs,
+        embeddingModelReadyMs,
+        embeddingExtractorMs,
+        embeddingPostprocessMs,
+        embeddingInputBytes,
+        embeddingBatchSize,
+        embeddingBatchExtractorMs,
+        embeddingBatchTotalMs,
+        embeddingBatchMode,
+        embeddingExtractorMode,
+        embeddingNativeIndexFormat,
+        embeddingProcessorMs,
+        embeddingModelMs,
+        embeddingBatchProcessorMs,
+        embeddingBatchModelMs,
+        maxEmbeddingInputBytes,
+        maxEmbeddingCropLongSide,
+        catalogCropMs,
+        catalogSearchMs,
+        catalogTotalMs,
+        catalogIndexLoadMs,
+        catalogWarmupMs: namingWarmup?.warmupMs,
+        catalogWarmupEntries: namingWarmup?.entries,
+        catalogWarmupExtractorReady: namingWarmup?.extractorReady,
+        embeddingWarmupMode: namingWarmup?.embeddingWarmupMode,
+        embeddingWarmupError: namingWarmup?.embeddingWarmupError,
+        embeddingNamedCount,
+        unresolvedNamingCount,
+        catalogCandidateCount,
+        namingRejectionReasons,
+        catalogNamingConcurrency: visionConfig.catalogNamingConcurrency,
+        perCandidateNamingMs,
         totalMs: performance.now() - scanStartedAt,
         resultCount: namedCandidates.length,
         wasmThreads: getVisionWasmThreadCount(),
@@ -2110,6 +2211,75 @@ function restoreCandidate(id) {
   state.capture.activeCandidateId = id;
   persist();
   render();
+}
+
+function getManualCandidateBox(index = 0) {
+  return clampBox({
+    x: 30 + ((index % 3) * 5),
+    y: 28 + ((index % 2) * 7),
+    w: 34,
+    h: 34,
+  });
+}
+
+function addManualCandidate() {
+  if (!state.capture.image) {
+    showToast("请先选择或拍摄照片");
+    return;
+  }
+  const activeCandidates = getActiveCandidates();
+  const index = activeCandidates.length;
+  const id = createId("candidate", `manual-${index + 1}`);
+  const candidate = normalizeCandidate({
+    id,
+    name: getUnknownObjectName(index),
+    category: "daily",
+    qty: 1,
+    box: getManualCandidateBox(index),
+    confidence: 1,
+    selected: true,
+    source: "manual-subject-box",
+    detectionLabel: `手动主体框 ${index + 1}`,
+    namingStatus: "done",
+    cropVersion: "",
+    edited: true,
+    boxOpen: true,
+  }, index, state.capture.provider || "manual-subject-box");
+  state.capture = {
+    ...state.capture,
+    candidates: [...(state.capture.candidates || []), candidate],
+    activeCandidateId: id,
+    recognitionStatus: ["idle", "empty", "error"].includes(state.capture.recognitionStatus) ? "done" : state.capture.recognitionStatus,
+    recognitionError: "",
+    provider: state.capture.provider || "manual-subject-box",
+  };
+  persist();
+  render();
+  hydrateCandidateCrops().catch((error) => console.info("Manual candidate crop hydration skipped.", error));
+  rerunCandidateNamingAfterBoxEdit(id).catch((error) => {
+    console.info("Manual candidate naming skipped.", error);
+    state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+      entry.id === id ? { ...entry, namingStatus: "done" } : entry
+    ));
+    persist();
+    render();
+  });
+  showToast("已添加手动主体框，正在识别名称");
+}
+
+function renameCandidateFromCurrentBox(id) {
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  if (!candidate) return;
+  if (candidate.namingStatus === "loading") return;
+  state.capture.activeCandidateId = id;
+  rerunCandidateNamingAfterBoxEdit(id).catch((error) => {
+    console.info("Candidate name re-recognition skipped.", error);
+    state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+      entry.id === id ? { ...entry, namingStatus: "done" } : entry
+    ));
+    persist();
+    render();
+  });
 }
 
 function updateCandidate(id, field, value) {
@@ -2470,6 +2640,7 @@ async function rerunCandidateNamingAfterBoxEdit(candidateId) {
   const image = state.capture.image;
   const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateId);
   if (!image || !candidate) return;
+  if (candidate.namingStatus === "loading") return;
 
   const token = ++candidateEditRecognitionToken;
   state.capture.candidates = (state.capture.candidates || []).map((entry) => (
@@ -2597,6 +2768,7 @@ async function importNativePhoto(source) {
       provider: isCamera ? "ios-camera" : "ios-photo-library",
     });
     warmCaptureDetectionModel();
+    prewarmCatalogNamingResources();
     persist();
     render();
     showToast(isCamera ? "照片已拍摄，正在分析" : "照片已导入，正在分析");
@@ -2682,6 +2854,7 @@ async function captureCameraFrame() {
     const imageRef = await persistPhotoDataUrl(image, "browser-camera");
     resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
     warmCaptureDetectionModel();
+    prewarmCatalogNamingResources();
     state.cameraOn = false;
     persist();
     render();
@@ -2788,6 +2961,17 @@ document.addEventListener("click", (event) => {
   const scanCandidateInsideButton = event.target.closest("[data-scan-candidate-inside]");
   if (scanCandidateInsideButton) {
     scanInsideCandidate(scanCandidateInsideButton.dataset.scanCandidateInside);
+    return;
+  }
+
+  const renameCandidateButton = event.target.closest("[data-rename-candidate]");
+  if (renameCandidateButton) {
+    renameCandidateFromCurrentBox(renameCandidateButton.dataset.renameCandidate);
+    return;
+  }
+
+  if (event.target.closest("[data-add-manual-candidate]")) {
+    addManualCandidate();
     return;
   }
 
@@ -3064,6 +3248,9 @@ document.addEventListener("change", async (event) => {
   const candidateBoxField = event.target.closest("[data-candidate-box-field]");
   if (candidateBoxField) {
     updateCandidateBox(candidateBoxField.dataset.candidateBoxField, candidateBoxField.dataset.field, candidateBoxField.value);
+    rerunCandidateNamingAfterBoxEdit(candidateBoxField.dataset.candidateBoxField).catch((error) => {
+      console.info("Candidate box re-recognition skipped.", error);
+    });
     return;
   }
 
@@ -3102,6 +3289,7 @@ document.addEventListener("change", async (event) => {
       const imageRef = await persistPhotoDataUrl(image, "file-input");
       resetCaptureRecognition({ image, imageRef, imageMeta, preprocessingMs: performance.now() - preprocessStartedAt, provider: "local-image" });
       warmCaptureDetectionModel();
+      prewarmCatalogNamingResources();
       persist();
       render();
       showToast("照片已载入，正在分析");
@@ -3151,3 +3339,4 @@ render();
 performSearch();
 hydratePlatformState();
 warmVisionModels();
+scheduleCatalogNamingPrewarm();

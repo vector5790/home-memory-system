@@ -296,6 +296,53 @@ function makeNotificationsAdapter() {
   };
 }
 
+function makeVisionAdapter(runtime) {
+  function getVisionPlugin() {
+    return getPlugin("HomeMemoryVision");
+  }
+
+  return {
+    canUseNativeImageEmbedding: () => Boolean(runtime.isNative && getVisionPlugin()?.embedImageDataUrls),
+
+    canUseNativeRegionEmbedding: () => Boolean(runtime.isNative && getVisionPlugin()?.embedImageRegions),
+
+    canWarmUpNativeImageEmbedding: () => Boolean(runtime.isNative && getVisionPlugin()?.warmUpImageEmbedding),
+
+    async warmUpImageEmbedding({ model, indexPath }) {
+      const Vision = getVisionPlugin();
+      if (!runtime.isNative || !Vision?.warmUpImageEmbedding) {
+        throw new Error("当前环境暂不支持原生 embedding 预热。");
+      }
+      return Vision.warmUpImageEmbedding({ model, indexPath });
+    },
+
+    async embedImageDataUrls({ model, images }) {
+      const Vision = getVisionPlugin();
+      if (!runtime.isNative || !Vision?.embedImageDataUrls) {
+        throw new Error("当前环境暂不支持原生 embedding。");
+      }
+      return Vision.embedImageDataUrls({
+        model,
+        images,
+      });
+    },
+
+    async embedImageRegions({ model, image, regions, indexPath, topK }) {
+      const Vision = getVisionPlugin();
+      if (!runtime.isNative || !Vision?.embedImageRegions) {
+        throw new Error("当前环境暂不支持原生区域 embedding。");
+      }
+      return Vision.embedImageRegions({
+        model,
+        image,
+        regions,
+        indexPath,
+        topK,
+      });
+    },
+  };
+}
+
 export function createHomeMemoryPlatform(options = {}) {
   const runtime = detectRuntime();
   return {
@@ -304,6 +351,7 @@ export function createHomeMemoryPlatform(options = {}) {
     files: makeFileAdapter(),
     photos: makePhotoAdapter(runtime),
     notifications: makeNotificationsAdapter(),
+    vision: makeVisionAdapter(runtime),
     convertFileSrc(url) {
       return getCapacitor()?.convertFileSrc?.(url) || url;
     },

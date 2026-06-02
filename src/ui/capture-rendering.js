@@ -11,19 +11,20 @@ export function createCaptureRenderers(deps) {
     formatDate,
     formatReminderOffset,
     formatReminderRepeat,
+    formatReminderSchedule,
+    getCandidateIndex,
     getActiveCandidates,
     getAdjacentCandidateId,
-    getCandidateIndex,
     getCapturePlace,
     getCaptureRoom,
     getDeletedCandidates,
     getFallbackActiveCandidateId,
+    makeVirtualPlace,
     getReminderOffsetLabels,
     getRequestedRecognitionProvider,
     getSelectedCandidateCount,
     icons,
     imageAspectStyle,
-    makeVirtualPlace,
     monthKeyFromIso,
     moveMonthKey,
     normalizeReminder,
@@ -78,8 +79,45 @@ export function createCaptureRenderers(deps) {
     const promptText = diagnostics.promptCount
       ? `${roomPromptText} · prompts ${diagnostics.promptCount}/${diagnostics.promptBatches || 1}批${shardText}`
       : "";
-    const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding累计 ${Math.round(diagnostics.embeddingMs)}ms` : "";
-    return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${detectorLoadText}${promptText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText} · 总计 ${total}ms · ${diagnostics.resultCount} 个`)}</p>`;
+    const yoloxText = Number.isFinite(diagnostics.topDetectionScore)
+      ? ` · raw ${diagnostics.rawDetectionCount ?? 0}/filtered ${diagnostics.filteredDetectionCount ?? 0} · top ${Number(diagnostics.topDetectionScore).toFixed(4)} · th ${Number(diagnostics.yoloxThreshold ?? 0).toFixed(3)}`
+      : "";
+    const embeddingText = Number.isFinite(diagnostics.embeddingMs) ? ` · embedding ${Math.round(diagnostics.embeddingMs)}ms` : "";
+    const catalogText = [
+      Number.isFinite(diagnostics.catalogWarmupEntries) ? `entries ${Math.round(diagnostics.catalogWarmupEntries)}` : "",
+      diagnostics.catalogWarmupExtractorReady === false ? "extractor no" : "",
+      diagnostics.catalogWarmupExtractorReady === true ? "extractor yes" : "",
+      diagnostics.embeddingWarmupMode ? `warmMode ${diagnostics.embeddingWarmupMode}` : "",
+      diagnostics.embeddingWarmupError ? `warmError ${diagnostics.embeddingWarmupError}` : "",
+      Number.isFinite(diagnostics.catalogWarmupMs) ? `warm ${Math.round(diagnostics.catalogWarmupMs)}ms` : "",
+      Number.isFinite(diagnostics.catalogIndexLoadMs) ? `index ${Math.round(diagnostics.catalogIndexLoadMs)}ms` : "",
+      Number.isFinite(diagnostics.catalogCropMs) ? `crop ${Math.round(diagnostics.catalogCropMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingModelReadyMs) ? `ready ${Math.round(diagnostics.embeddingModelReadyMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingExtractorMs) ? `extract ${Math.round(diagnostics.embeddingExtractorMs)}ms` : "",
+      diagnostics.embeddingExtractorMode ? `extractor ${diagnostics.embeddingExtractorMode}` : "",
+      diagnostics.embeddingBatchMode ? `mode ${diagnostics.embeddingBatchMode}` : "",
+      diagnostics.embeddingNativeIndexFormat ? `indexFmt ${diagnostics.embeddingNativeIndexFormat}` : "",
+      Number.isFinite(diagnostics.embeddingBatchSize) && diagnostics.embeddingBatchSize > 1 ? `batch ${Math.round(diagnostics.embeddingBatchSize)}` : "",
+      Number.isFinite(diagnostics.embeddingBatchExtractorMs) && diagnostics.embeddingBatchExtractorMs > 0 ? `batchExtract ${Math.round(diagnostics.embeddingBatchExtractorMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingBatchTotalMs) && diagnostics.embeddingBatchTotalMs > 0 ? `batchTotal ${Math.round(diagnostics.embeddingBatchTotalMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingProcessorMs) && diagnostics.embeddingProcessorMs > 0 ? `processor ${Math.round(diagnostics.embeddingProcessorMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingModelMs) && diagnostics.embeddingModelMs > 0 ? `model ${Math.round(diagnostics.embeddingModelMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingBatchProcessorMs) && diagnostics.embeddingBatchProcessorMs > 0 ? `batchProcessor ${Math.round(diagnostics.embeddingBatchProcessorMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingBatchModelMs) && diagnostics.embeddingBatchModelMs > 0 ? `batchModel ${Math.round(diagnostics.embeddingBatchModelMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingPostprocessMs) ? `pool ${Math.round(diagnostics.embeddingPostprocessMs)}ms` : "",
+      Number.isFinite(diagnostics.maxEmbeddingCropLongSide) ? `cropMax ${Math.round(diagnostics.maxEmbeddingCropLongSide)}px` : "",
+      Number.isFinite(diagnostics.maxEmbeddingInputBytes) ? `inputMax ${Math.round(diagnostics.maxEmbeddingInputBytes / 1024)}KB` : "",
+      Number.isFinite(diagnostics.catalogSearchMs) ? `search ${Math.round(diagnostics.catalogSearchMs)}ms` : "",
+      Number.isFinite(diagnostics.embeddingNamedCount) ? `named ${Math.round(diagnostics.embeddingNamedCount)}/${diagnostics.resultCount ?? 0}` : "",
+      Number.isFinite(diagnostics.unresolvedNamingCount) ? `未命名 ${Math.round(diagnostics.unresolvedNamingCount)}` : "",
+      Number.isFinite(diagnostics.catalogCandidateCount) ? `候选 ${Math.round(diagnostics.catalogCandidateCount)}` : "",
+      diagnostics.namingRejectionReasons ? `reject ${diagnostics.namingRejectionReasons}` : "",
+      Number.isFinite(diagnostics.catalogNamingConcurrency) ? `并发 ${Math.round(diagnostics.catalogNamingConcurrency)}` : "",
+      Number.isFinite(diagnostics.perCandidateNamingMs) ? `max ${Math.round(diagnostics.perCandidateNamingMs)}ms/个` : "",
+    ].filter(Boolean).join(" · ");
+    const catalogDebugText = catalogText ? ` · ${catalogText}` : "";
+    const stageText = diagnostics.stage ? `${diagnostics.stage} · ` : "";
+    return `<p class="panel-subtitle diagnostic-line">${escapeHtml(`${stageText}${providerLabel(diagnostics.provider)} · ${dimensions}${threadText}${detectorLoadText}${promptText}${yoloxText} · 主体 ${detection}ms · 命名 ${naming}ms${embeddingText}${catalogDebugText} · 总计 ${total}ms · ${diagnostics.resultCount ?? 0} 个`)}</p>`;
   }
 
   function renderCaptureControls() {
@@ -198,6 +236,8 @@ export function createCaptureRenderers(deps) {
     if (candidate.namingRejectionReason && candidate.catalogCandidates?.length) {
       const names = candidate.catalogCandidates.slice(0, 3).map((entry) => entry.displayName).filter(Boolean).join(" / ");
       chips.push(`低置信候选 ${names}`);
+    } else if (candidate.namingRejectionReason) {
+      chips.push(`命名未完成 ${candidate.namingRejectionReason}`);
     } else if (candidate.catalogCandidates?.length) {
       const best = candidate.catalogCandidates[0];
       if (best?.displayName && Number.isFinite(Number(best.score))) {
@@ -231,9 +271,19 @@ export function createCaptureRenderers(deps) {
     const emptyText = status === "empty"
       ? "没有候选区域"
       : status === "error" ? "分析失败" : getState().capture.image ? "正在分析照片" : "等待照片";
+    const diagnostics = getState().capture.recognitionDiagnostics || {};
+    const yoloxDebug = Number.isFinite(diagnostics.topDetectionScore)
+      ? `<p class="capture-message diagnostic-box">YOLOX 诊断：raw ${diagnostics.rawDetectionCount ?? 0} / filtered ${diagnostics.filteredDetectionCount ?? 0} · top ${Number(diagnostics.topDetectionScore).toFixed(4)} · threshold ${Number(diagnostics.yoloxThreshold ?? 0).toFixed(3)}</p>`
+      : "";
     return `
       <div class="candidate-list candidate-card-stack">
         ${getState().capture.recognitionError ? `<p class="capture-message danger">${escapeHtml(getState().capture.recognitionError)}</p>` : ""}
+        ${yoloxDebug}
+        ${getState().capture.image ? `
+          <button class="secondary-btn compact-btn add-manual-candidate-btn" type="button" data-add-manual-candidate>
+            ${icons.plus}<span>手动添加主体框</span>
+          </button>
+        ` : ""}
         ${activeCandidate
           ? renderCandidate(activeCandidate, activeIndex, activeCandidates.length)
           : `<p class="empty-state">${emptyText}</p>`}
@@ -439,16 +489,23 @@ export function createCaptureRenderers(deps) {
     const candidates = Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates.slice(0, 3) : [];
     if (!candidates.length) return "";
     const title = candidate.namingRejectionReason ? "可能是这些物品" : "相似命名候选";
+    const policy = candidate.namingAcceptancePolicy || {};
+    const clusterLabel = candidate.categoryClusterLabel || policy.clusterLabel || "";
     return `
       <div class="catalog-candidate-panel">
         <div class="catalog-candidate-head">
           <strong>${escapeHtml(title)}</strong>
-          ${candidate.namingRejectionReason ? `<span>低置信 · 请确认</span>` : `<span>按相似度排序</span>`}
+          ${candidate.namingRejectionReason
+            ? `<span>${escapeHtml(clusterLabel || candidate.namingRejectionReason || "低置信")} · 请确认</span>`
+            : `<span>按相似度排序</span>`}
         </div>
+        ${candidate.ocrText ? `<div class="catalog-candidate-ocr">OCR: ${escapeHtml(candidate.ocrText)}</div>` : ""}
         <div class="catalog-candidate-list">
           ${candidates.map((entry, index) => {
             const src = catalogCandidateImageSrc(entry);
             const score = Number(entry.score) || 0;
+            const embeddingScore = Number(entry.embeddingScore) || 0;
+            const rerankTextScore = Number(entry.rerankTextScore) || 0;
             const hitCount = Number(entry.hitCount) || 1;
             return `
               <button class="catalog-candidate-option" type="button" data-apply-catalog-candidate="${candidate.id}" data-candidate-rank="${index}">
@@ -457,7 +514,7 @@ export function createCaptureRenderers(deps) {
                 </span>
                 <span class="catalog-candidate-copy">
                   <strong>${escapeHtml(entry.displayName || entry.categoryId || "候选物品")}</strong>
-                  <small>${Math.round(score * 100)}% · ${hitCount} 个相似样本</small>
+                  <small>${Math.round(score * 100)}% · embedding ${Math.round(embeddingScore * 100)}% · rerank ${Math.round(rerankTextScore * 100)}% · ${hitCount} 个相似样本</small>
                 </span>
               </button>
             `;
@@ -517,6 +574,9 @@ export function createCaptureRenderers(deps) {
             </div>
             <div class="candidate-option-bar">
               <button class="secondary-btn compact-btn" data-scan-candidate-inside="${candidate.id}">${icons.camera}<span>拍内部</span></button>
+              <button class="ghost-btn compact-btn" type="button" data-rename-candidate="${candidate.id}" ${isNaming ? "disabled" : ""}>
+                ${icons.spark}<span>${isNaming ? "识别中" : "重新识别"}</span>
+              </button>
               <button class="ghost-btn compact-btn" type="button" data-toggle-candidate-details="${candidate.id}">
                 ${icons.bell}<span>${showDetails ? "收起提醒" : "保质期/提醒"}</span>
               </button>

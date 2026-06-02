@@ -9,10 +9,11 @@
     "assets:vision": "python3 scripts/download-vision-assets.py",
     "build:web": "node scripts/build-web.mjs",
     "check:web": "node scripts/check-js-syntax.mjs",
+    "check:vision-embedding": "node scripts/check-vision-embedding-batch.mjs",
     "check:architecture": "node scripts/validate-architecture.mjs",
     "check:model": "node scripts/validate-runtime-model.mjs",
     "check:mobile-package": "node scripts/validate-mobile-package.mjs",
-    "ios:sync": "npm run build:web && cap sync ios",
+    "ios:sync": "npm run build:web && cap sync ios && node scripts/patch-ios-native-embedding.mjs",
     "ios:open": "cap open ios",
     "ios:run": "npm run ios:sync && cap run ios",
     "test:simulator": "npm run ios:run"

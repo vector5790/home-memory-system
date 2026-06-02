@@ -876,6 +876,12 @@
   gap: 12px;
 }
 
+.add-manual-candidate-btn {
+  justify-self: stretch;
+  min-height: 38px;
+  justify-content: center;
+}
+
 .candidate-card {
   display: grid;
   gap: 12px;
@@ -1510,6 +1516,13 @@
   border-color: #efaca5;
   background: #fff0ee;
   color: var(--red);
+}
+
+.capture-message.diagnostic-box {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f2eee6;
+  line-height: 1.5;
 }
 
 .checkbox {
