@@ -1,0 +1,19 @@
+{
+  "kind": "home-memory-current-vision-index-package",
+  "packageId": "household-cn-grounding-dino-siglip",
+  "sourcePackageId": "household-cn-grounding-dino-siglip-real-gallery-v2-plus-weak-v1-v2-full",
+  "version": "household-cn-grounding-dino-siglip-real-gallery-v2-plus-weak-v1-v2-full",
+  "embeddingModel": "Xenova/siglip-base-patch16-224",
+  "entryCount": 3968,
+  "dimension": 768,
+  "metric": "max-inner-product",
+  "normalized": true,
+  "manifestPath": "data/vision-index-packages/household-cn-grounding-dino-siglip/manifest.json",
+  "sourceRepo": "/Users/guzeyu/workspace/home-memory-item-embedding",
+  "sourcePackageDir": "/Users/guzeyu/workspace/home-memory-item-embedding/data/generated/vision-index-packages/household-cn-grounding-dino-siglip-real-gallery-v2-plus-weak-v1-v2-full",
+  "syncedAt": "2026-06-06T01:47:28.236Z",
+  "checksums": {
+    "metadataSha256": "e5f2e6c572d5029e1c6dfff560dcc45cd6ac5ed404170c7bcab5ae0097db982f",
+    "vectorsSha256": "49d9e24480315ae500f9c059bcf6b3208b210ee9df304400a31ae2f169e2b03b"
+  }
+}

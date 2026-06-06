@@ -18,6 +18,10 @@ const requiredFiles = [
   "data/vision-index.seed.json",
   "data/vision-index.household-cn.owlvit-clip.json",
   "data/vision-index.household-cn.grounding-dino-clip.json",
+  "data/vision-index.household-cn.grounding-dino-siglip.json",
+  "data/vision-index-packages/household-cn-grounding-dino-siglip/manifest.json",
+  "data/vision-index-packages/household-cn-grounding-dino-siglip/metadata.json",
+  "data/vision-index-packages/household-cn-grounding-dino-siglip/vectors.f32",
 ];
 
 const requiredVendorFiles = [

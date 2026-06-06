@@ -1,0 +1,36 @@
+{
+  "kind": "vision-index-package-manifest",
+  "version": "household-cn-grounding-dino-siglip-real-gallery-v2-plus-weak-v1-v2-full",
+  "packageId": "household-cn-grounding-dino-siglip-real-gallery-v2-plus-weak-v1-v2-full",
+  "sourceIndex": "../home-memory-system/data/vision-index.household-cn.grounding-dino-siglip.real-gallery-v2-plus-weak-v1-v2-full.json",
+  "embeddingModel": "Xenova/siglip-base-patch16-224",
+  "entryCount": 3968,
+  "dimension": 768,
+  "dtype": "float32",
+  "byteOrder": "little-endian",
+  "normalized": true,
+  "metric": "max-inner-product",
+  "search": {
+    "mode": "flat",
+    "metric": "max-inner-product",
+    "topK": 15
+  },
+  "thresholds": {
+    "acceptScore": 0.2,
+    "acceptMargin": 0.04
+  },
+  "assets": {
+    "metadata": "metadata.json",
+    "vectors": "vectors.f32"
+  },
+  "checksums": {
+    "metadataSha256": "e5f2e6c572d5029e1c6dfff560dcc45cd6ac5ed404170c7bcab5ae0097db982f",
+    "vectorsSha256": "49d9e24480315ae500f9c059bcf6b3208b210ee9df304400a31ae2f169e2b03b"
+  },
+  "byteSize": {
+    "metadata": 1870798,
+    "vectors": 12189696
+  },
+  "optionalAnnAssets": [],
+  "generatedAt": "2026-06-05T17:06:54.552Z"
+}

@@ -123,6 +123,20 @@ export function createCatalogMatcher({
 
   async function loadCatalogEmbeddingIndex() {
     const startedAt = performance.now();
+    const packageIndex = await loadCatalogIndexPackage(visionConfig.catalogIndexPackage).catch((error) => {
+      if (visionConfig.catalogIndexPackage) console.info("Catalog package index unavailable, using legacy index.", error);
+      return null;
+    });
+    if (packageIndex?.entries?.length) {
+      catalogIndexTiming = {
+        source: "package",
+        packageId: packageIndex.packageId || "",
+        entries: packageIndex.entries.length,
+        loadMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
+      };
+      return packageIndex;
+    }
+
     const canUseNativeMetadata = Boolean(
       visionConfig.nativeCatalogEmbeddingEnabled
       && typeof nativeEmbedImageRegions === "function"
@@ -152,6 +166,123 @@ export function createCatalogMatcher({
       loadMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
     };
     return normalizedFallback;
+  }
+
+  function normalizeRuntimeIndexUrl(value = "") {
+    const text = String(value || "").trim();
+    if (!text) return "";
+    if (/^(?:https?:|file:|capacitor:|\/)/i.test(text)) return text;
+    return `/${text.replace(/^\.?\//, "")}`;
+  }
+
+  function normalizeCatalogPackageManifestUrl(value = "") {
+    const url = normalizeRuntimeIndexUrl(value);
+    if (!url) return "";
+    if (/\.json(?:[?#].*)?$/i.test(url)) return url;
+    return `${url.replace(/\/?$/, "/")}manifest.json`;
+  }
+
+  function resolveIndexAssetUrl(assetPath = "", baseUrl = "") {
+    const asset = String(assetPath || "").trim();
+    if (!asset) return "";
+    if (/^(?:https?:|file:|capacitor:|\/)/i.test(asset)) return asset;
+    const base = normalizeRuntimeIndexUrl(baseUrl);
+    const slashIndex = base.lastIndexOf("/");
+    const baseDir = slashIndex >= 0 ? base.slice(0, slashIndex + 1) : "/";
+    return `${baseDir}${asset}`;
+  }
+
+  async function fetchArrayBufferIndex(url) {
+    const response = await fetch(url);
+    if (!response?.ok) throw new Error(`Failed to fetch catalog package asset: ${url}`);
+    return response.arrayBuffer();
+  }
+
+  async function loadCatalogIndexPackage(packageUrl = "") {
+    const packageManifestUrl = normalizeCatalogPackageManifestUrl(packageUrl);
+    if (!packageManifestUrl) return null;
+    const pointerOrManifest = await fetchJsonIndex(packageManifestUrl);
+    const manifestUrl = pointerOrManifest?.kind === "vision-index-package-manifest"
+      ? packageManifestUrl
+      : normalizeRuntimeIndexUrl(pointerOrManifest?.manifestPath || "");
+    if (!manifestUrl) return null;
+    const manifest = pointerOrManifest?.kind === "vision-index-package-manifest"
+      ? pointerOrManifest
+      : await fetchJsonIndex(manifestUrl);
+    if (manifest?.kind !== "vision-index-package-manifest") return null;
+
+    const metadataUrl = resolveIndexAssetUrl(manifest.assets?.metadata, manifestUrl);
+    const vectorsUrl = resolveIndexAssetUrl(manifest.assets?.vectors, manifestUrl);
+    if (!metadataUrl || !vectorsUrl) return null;
+    const metadata = await fetchJsonIndex(metadataUrl);
+    const dimension = Number(manifest.dimension || metadata?.dimension || 0);
+    const rawEntries = Array.isArray(metadata?.entries) ? metadata.entries : [];
+    if (!dimension || !rawEntries.length || Number(manifest.entryCount || 0) !== rawEntries.length) {
+      throw new Error(`catalog-package-metadata-shape-mismatch:${rawEntries.length}x${dimension}/${manifest.entryCount}`);
+    }
+
+    const metric = getCatalogIndexMetric(manifest.search || manifest);
+    const index = {
+      ...manifest,
+      kind: "vision-index-package",
+      sourceUrl: manifestUrl,
+      packageUrl: normalizeRuntimeIndexUrl(packageUrl),
+      packageId: manifest.packageId || pointerOrManifest?.packageId || "",
+      version: manifest.version || pointerOrManifest?.version || "",
+      nativeIndexPath: vectorsUrl,
+      metadataOnly: false,
+      metric,
+      dimension,
+      threshold: Number(manifest.thresholds?.acceptScore ?? visionConfig.catalogThreshold),
+      marginThreshold: Number(manifest.thresholds?.acceptMargin ?? visionConfig.catalogMarginThreshold),
+      topK: Math.max(1, Math.round(Number(manifest.search?.topK || visionConfig.catalogTopK))),
+    };
+    const entries = rawEntries
+      .map((entry) => normalizeCatalogIndexEntry(entry, index))
+      .filter(Boolean);
+    if (entries.length !== rawEntries.length) {
+      throw new Error(`catalog-package-metadata-filtered:${entries.length}/${rawEntries.length}`);
+    }
+    index.entries = entries;
+    index.search = {
+      dimension,
+      entries,
+      values: null,
+      valuesPromise: null,
+      vectorsUrl,
+      metric,
+    };
+    index.entryById = new Map(entries.map((entry) => [entry.id, entry]));
+    return index;
+  }
+
+  async function ensureCatalogSearchValues(index) {
+    const search = index?.search;
+    if (!search?.vectorsUrl || search.values) return search;
+    if (!search.valuesPromise) {
+      search.valuesPromise = fetchArrayBufferIndex(search.vectorsUrl).then((vectorsBuffer) => {
+        const expectedBytes = search.entries.length * search.dimension * 4;
+        if (vectorsBuffer.byteLength !== expectedBytes) {
+          throw new Error(`catalog-package-vector-shape-mismatch:${search.entries.length}x${search.dimension}/${vectorsBuffer.byteLength}`);
+        }
+        search.values = new Float32Array(vectorsBuffer);
+        return search.values;
+      });
+    }
+    await search.valuesPromise;
+    return search;
+  }
+
+  async function preloadCatalogSearchValues() {
+    const index = await getCatalogEmbeddingIndex();
+    const startedAt = performance.now();
+    await ensureCatalogSearchValues(index);
+    return {
+      entries: index?.entries?.length || 0,
+      dimension: index?.dimension || index?.search?.dimension || 0,
+      loaded: Boolean(index?.search?.values),
+      loadMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
+    };
   }
 
   function nativeMetadataIndexPath(indexPath = "") {
@@ -204,12 +335,12 @@ export function createCatalogMatcher({
       displayName: name,
       name,
       appCategory: entry.appCategory || entry.category || legacyItem?.category || "daily",
-      categoryPath: Array.isArray(entry.categoryPath) ? entry.categoryPath : [],
+      categoryPath: Array.isArray(entry.categoryPath) ? entry.categoryPath : (Array.isArray(entry.path) ? entry.path : []),
       lineage: entry.lineage || {},
       aliases: Array.isArray(entry.aliases) ? entry.aliases : [],
       entity: normalizeCatalogEntity(entry),
       metric: entry.metric || index?.metric || getCatalogIndexMetric(index),
-      dimension: Array.isArray(entry.embedding) ? entry.embedding.length : 0,
+      dimension: Array.isArray(entry.embedding) ? entry.embedding.length : Number(index?.dimension || 0),
       sampleId: entry.sampleId || "",
       matchedSampleIds: Array.isArray(entry.matchedSampleIds)
         ? entry.matchedSampleIds
@@ -574,12 +705,16 @@ export function createCatalogMatcher({
         model: visionConfig.catalogModel,
         image: sourceImage,
         regions: inputs.map(paddedPercentRegion),
-        indexPath: index?.nativeIndexPath || index?.sourceUrl || visionConfig.catalogIndex || "",
+        indexPath: index?.packageUrl || visionConfig.catalogIndexPackage || index?.nativeIndexPath || index?.sourceUrl || visionConfig.catalogIndex || "",
         topK: Math.max(1, Math.round(Number(topK) || Number(index?.topK) || Number(visionConfig.catalogTopK) || 1)),
       });
       const vectors = Array.isArray(nativeResult?.vectors) ? nativeResult.vectors : [];
-      if (vectors.length !== inputs.length || vectors.some((vector) => !Array.isArray(vector) || !vector.length)) return null;
       const nativeMatches = Array.isArray(nativeResult?.matches) ? nativeResult.matches : [];
+      const hasNativeMatches = nativeMatches.length === inputs.length
+        && nativeMatches.every((matches) => Array.isArray(matches));
+      const hasVectors = vectors.length === inputs.length
+        && vectors.every((vector) => Array.isArray(vector) && vector.length);
+      if (!hasNativeMatches && !hasVectors) return null;
       const nativeMs = Math.round((performance.now() - nativeStartedAt) * 1000) / 1000;
       const nativeTimings = nativeResult?.timings && typeof nativeResult.timings === "object" ? nativeResult.timings : {};
       const nativeTotalMs = Number(nativeTimings.totalMs) || nativeMs;
@@ -591,32 +726,35 @@ export function createCatalogMatcher({
       const nativeSearchMs = Number(nativeTimings.searchMs) || 0;
       const nativeIndexFormat = nativeTimings.indexFormat || "";
       const sourceBytes = imageInputByteLength(sourceImage);
-      return vectors.map((vector, indexInBatch) => ({
-        vector: normalizeVector(vector),
-        nativeMatches: Array.isArray(nativeMatches[indexInBatch]) ? nativeMatches[indexInBatch] : null,
-        timings: {
-          embeddingModelReadyMs: roundNumber(nativeLoadMs / inputs.length, 3),
-          embeddingExtractorMs: roundNumber(nativeTotalMs / inputs.length, 3),
-          embeddingPostprocessMs: roundNumber(nativePostprocessMs / inputs.length, 3),
-          embeddingBatchSize: inputs.length,
-          embeddingBatchExtractorMs: nativeTotalMs,
-          embeddingBatchPostprocessMs: nativePostprocessMs,
-          embeddingBatchTotalMs: nativeTotalMs,
-          embeddingBatchMode: nativeResult?.mode || "native-regions",
-          embeddingExtractorMode: nativeResult?.mode || "native-regions",
-          embeddingBatchProcessorMs: nativePreprocessMs,
-          embeddingBatchModelMs: nativeInferenceMs,
-          embeddingBatchDecodeMs: nativeDecodeMs,
-          embeddingBatchSearchMs: nativeSearchMs,
-          embeddingProcessorMs: roundNumber(nativePreprocessMs / inputs.length, 3),
-          embeddingModelMs: roundNumber(nativeInferenceMs / inputs.length, 3),
-          embeddingDecodeMs: roundNumber(nativeDecodeMs / inputs.length, 3),
-          embeddingNativeSearchMs: roundNumber(nativeSearchMs / inputs.length, 3),
-          embeddingNativeIndexFormat: nativeIndexFormat,
-          embeddingOutputDimension: Number(nativeResult?.dimension) || vector.length,
-          embeddingInputBytes: roundNumber(sourceBytes / inputs.length, 0),
-        },
-      }));
+      return inputs.map((_, indexInBatch) => {
+        const vector = hasVectors ? vectors[indexInBatch] : null;
+        return {
+          vector: vector ? normalizeVector(vector) : null,
+          nativeMatches: Array.isArray(nativeMatches[indexInBatch]) ? nativeMatches[indexInBatch] : null,
+          timings: {
+            embeddingModelReadyMs: roundNumber(nativeLoadMs / inputs.length, 3),
+            embeddingExtractorMs: roundNumber(nativeTotalMs / inputs.length, 3),
+            embeddingPostprocessMs: roundNumber(nativePostprocessMs / inputs.length, 3),
+            embeddingBatchSize: inputs.length,
+            embeddingBatchExtractorMs: nativeTotalMs,
+            embeddingBatchPostprocessMs: nativePostprocessMs,
+            embeddingBatchTotalMs: nativeTotalMs,
+            embeddingBatchMode: nativeResult?.mode || "native-regions",
+            embeddingExtractorMode: nativeResult?.mode || "native-regions",
+            embeddingBatchProcessorMs: nativePreprocessMs,
+            embeddingBatchModelMs: nativeInferenceMs,
+            embeddingBatchDecodeMs: nativeDecodeMs,
+            embeddingBatchSearchMs: nativeSearchMs,
+            embeddingProcessorMs: roundNumber(nativePreprocessMs / inputs.length, 3),
+            embeddingModelMs: roundNumber(nativeInferenceMs / inputs.length, 3),
+            embeddingDecodeMs: roundNumber(nativeDecodeMs / inputs.length, 3),
+            embeddingNativeSearchMs: roundNumber(nativeSearchMs / inputs.length, 3),
+            embeddingNativeIndexFormat: nativeIndexFormat,
+            embeddingOutputDimension: Number(nativeResult?.dimension) || vector?.length || 0,
+            embeddingInputBytes: roundNumber(sourceBytes / inputs.length, 0),
+          },
+        };
+      });
     } catch (error) {
       console.info("Native catalog region embedding unavailable, using crop embedding.", error);
       return null;
@@ -651,6 +789,7 @@ export function createCatalogMatcher({
       category: "",
       confidence: 0,
       catalogCandidates: [],
+      catalogTopK: [],
       namingRejectionReason: reason,
       timings: {
         ...timings,
@@ -680,6 +819,26 @@ export function createCatalogMatcher({
       console.info(`Vision category index ignored ${ignoredCount} entries with mismatched dimension or metric.`);
     }
     return { compatibleEntries, expectedDimension };
+  }
+
+  function formatCatalogLeafCandidate(leaf) {
+    return {
+      categoryId: leaf.categoryId,
+      displayName: leaf.displayName,
+      appCategory: leaf.appCategory,
+      categoryPath: leaf.categoryPath,
+      categoryCluster: leaf.categoryCluster,
+      score: roundNumber(leaf.score, 4),
+      embeddingScore: roundNumber(leaf.embeddingScore ?? leaf.score, 4),
+      rerankTextScore: roundNumber(leaf.rerankTextScore || 0, 4),
+      rerankPrompt: leaf.rerankPrompt || "",
+      bestScore: roundNumber(leaf.bestScore, 4),
+      averageScore: roundNumber(leaf.averageScore, 4),
+      hitCount: leaf.hitCount,
+      entity: leaf.entity,
+      matchedSampleIds: leaf.matchedSampleIds,
+      representativeImages: leaf.representativeImages,
+    };
   }
 
   function insertTopEntry(topEntries, entry, score, limit) {
@@ -734,6 +893,7 @@ export function createCatalogMatcher({
       Number(visionConfig.catalogTopK || 0),
       1,
     );
+    await ensureCatalogSearchValues(index);
     const rankedEntries = findTopCatalogEntries(index, embedding, retrievalTopK);
     const ocrText = options.ocrText || await extractTextWithBrowserDetector(cropImage);
     const rankedLeaves = await rerankCatalogMatches({
@@ -752,23 +912,10 @@ export function createCatalogMatcher({
     const runnerUp = rankedLeaves.find((entry) => entry.categoryId !== best?.categoryId);
     const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
     const policy = getAcceptancePolicy(best, runnerUp, index);
-    const catalogCandidates = rankedLeaves.slice(0, 3).map((leaf) => ({
-      categoryId: leaf.categoryId,
-      displayName: leaf.displayName,
-      appCategory: leaf.appCategory,
-      categoryPath: leaf.categoryPath,
-      categoryCluster: leaf.categoryCluster,
-      score: roundNumber(leaf.score, 4),
-      embeddingScore: roundNumber(leaf.embeddingScore ?? leaf.score, 4),
-      rerankTextScore: roundNumber(leaf.rerankTextScore || 0, 4),
-      rerankPrompt: leaf.rerankPrompt || "",
-      bestScore: roundNumber(leaf.bestScore, 4),
-      averageScore: roundNumber(leaf.averageScore, 4),
-      hitCount: leaf.hitCount,
-      entity: leaf.entity,
-      matchedSampleIds: leaf.matchedSampleIds,
-      representativeImages: leaf.representativeImages,
-    }));
+    const catalogTopK = rankedLeaves
+      .slice(0, Math.max(3, Number(visionConfig.catalogTopK) || 10))
+      .map(formatCatalogLeafCandidate);
+    const catalogCandidates = catalogTopK.slice(0, 3);
     const rejectionReason = !best
       ? "no-catalog-candidate"
       : best.score < policy.score
@@ -793,6 +940,7 @@ export function createCatalogMatcher({
       ocrText,
       namingAcceptancePolicy: policy,
       catalogCandidates,
+      catalogTopK,
       namingRejectionReason: rejectionReason,
       categoryIndexVersion: index.version || "",
       matchedSampleIds: best?.matchedSampleIds || [],
@@ -850,23 +998,10 @@ export function createCatalogMatcher({
     const runnerUp = rankedLeaves.find((entry) => entry.categoryId !== best?.categoryId);
     const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
     const policy = getAcceptancePolicy(best, runnerUp, index);
-    const catalogCandidates = rankedLeaves.slice(0, 3).map((leaf) => ({
-      categoryId: leaf.categoryId,
-      displayName: leaf.displayName,
-      appCategory: leaf.appCategory,
-      categoryPath: leaf.categoryPath,
-      categoryCluster: leaf.categoryCluster,
-      score: roundNumber(leaf.score, 4),
-      embeddingScore: roundNumber(leaf.embeddingScore ?? leaf.score, 4),
-      rerankTextScore: roundNumber(leaf.rerankTextScore || 0, 4),
-      rerankPrompt: leaf.rerankPrompt || "",
-      bestScore: roundNumber(leaf.bestScore, 4),
-      averageScore: roundNumber(leaf.averageScore, 4),
-      hitCount: leaf.hitCount,
-      entity: leaf.entity,
-      matchedSampleIds: leaf.matchedSampleIds,
-      representativeImages: leaf.representativeImages,
-    }));
+    const catalogTopK = rankedLeaves
+      .slice(0, Math.max(3, Number(visionConfig.catalogTopK) || 10))
+      .map(formatCatalogLeafCandidate);
+    const catalogCandidates = catalogTopK.slice(0, 3);
     const rejectionReason = !best
       ? "no-catalog-candidate"
       : best.score < policy.score
@@ -891,6 +1026,7 @@ export function createCatalogMatcher({
       ocrText,
       namingAcceptancePolicy: policy,
       catalogCandidates,
+      catalogTopK,
       namingRejectionReason: rejectionReason,
       categoryIndexVersion: index.version || "",
       matchedSampleIds: best?.matchedSampleIds || [],
@@ -974,16 +1110,6 @@ export function createCatalogMatcher({
         };
         const embeddingMs = roundNumber(batchEmbeddingMs / Math.max(1, inputs.length), 3);
         const cropRect = cropRects[indexInBatch] || { width: 0, height: 0 };
-        if (!embedding) {
-          return createEmptyCatalogMatch("catalog-embedding-unavailable", startedAt, {
-            catalogCropMs: 0,
-            embeddingMs,
-            ...embeddingTimings,
-            embeddingCropWidth: cropRect.width,
-            embeddingCropHeight: cropRect.height,
-            catalogEntries: index.entries.length,
-          });
-        }
         if (Array.isArray(result.nativeMatches) && result.nativeMatches.length) {
           return rankCatalogNativeMatches({
             index,
@@ -995,6 +1121,16 @@ export function createCatalogMatcher({
             embeddingTimings,
             startedAt,
             options: optionsList[indexInBatch] || {},
+          });
+        }
+        if (!embedding) {
+          return createEmptyCatalogMatch("catalog-embedding-unavailable", startedAt, {
+            catalogCropMs: 0,
+            embeddingMs,
+            ...embeddingTimings,
+            embeddingCropWidth: cropRect.width,
+            embeddingCropHeight: cropRect.height,
+            catalogEntries: index.entries.length,
           });
         }
         return rankCatalogEmbedding({
@@ -1214,5 +1350,6 @@ export function createCatalogMatcher({
     getCatalogFeatureExtractor,
     matchCatalogBatchFromEmbeddingIndex,
     matchCatalogFromEmbeddingIndex,
+    preloadCatalogSearchValues,
   };
 }

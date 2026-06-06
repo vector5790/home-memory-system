@@ -13,13 +13,13 @@ async function patchPackageSwift() {
 
   if (!source.includes(ortDependency)) {
     source = source.replace(
-      '        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", exact: "8.3.4"),',
-      `        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", exact: "8.3.4"),\n${ortDependency}`,
+      /(\s*\.package\(url: "https:\/\/github\.com\/ionic-team\/capacitor-swift-pm\.git", exact: "8\.3\.4"\),?)/,
+      `$1\n${ortDependency}`,
     );
   }
   if (!source.includes(ortProduct)) {
     source = source.replace(
-      '                .product(name: "Cordova", package: "capacitor-swift-pm"),',
+      /(\s*\.product\(name: "Cordova", package: "capacitor-swift-pm"\),?)/,
       `                .product(name: "Cordova", package: "capacitor-swift-pm"),\n${ortProduct}`,
     );
   }

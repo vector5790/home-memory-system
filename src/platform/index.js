@@ -308,6 +308,8 @@ function makeVisionAdapter(runtime) {
 
     canWarmUpNativeImageEmbedding: () => Boolean(runtime.isNative && getVisionPlugin()?.warmUpImageEmbedding),
 
+    canBenchmarkNativeRegionEmbedding: () => Boolean(runtime.isNative && getVisionPlugin()?.benchmarkImageRegions),
+
     async warmUpImageEmbedding({ model, indexPath }) {
       const Vision = getVisionPlugin();
       if (!runtime.isNative || !Vision?.warmUpImageEmbedding) {
@@ -338,6 +340,22 @@ function makeVisionAdapter(runtime) {
         regions,
         indexPath,
         topK,
+      });
+    },
+
+    async benchmarkImageRegions({ model, image, regions, indexPath, topK, batchSizes, repeats }) {
+      const Vision = getVisionPlugin();
+      if (!runtime.isNative || !Vision?.benchmarkImageRegions) {
+        throw new Error("当前环境暂不支持原生区域 embedding benchmark。");
+      }
+      return Vision.benchmarkImageRegions({
+        model,
+        image,
+        regions,
+        indexPath,
+        topK,
+        batchSizes,
+        repeats,
       });
     },
   };

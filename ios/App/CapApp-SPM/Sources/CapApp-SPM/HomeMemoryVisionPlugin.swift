@@ -12,16 +12,17 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "warmUpImageEmbedding", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "embedImageDataUrls", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "embedImageRegions", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "embedImageRegions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "benchmarkImageRegions", returnType: CAPPluginReturnPromise)
     ]
 
-    private let modelId = "Xenova/clip-vit-base-patch32"
+    private let modelId = "Xenova/siglip-base-patch16-224"
     private let inputName = "pixel_values"
-    private let outputName = "image_embeds"
+    private let outputName = "last_hidden_state"
     private let imageSize = 224
-    private let outputDimension = 512
-    private let imageMean: [Float] = [0.48145466, 0.4578275, 0.40821073]
-    private let imageStd: [Float] = [0.26862954, 0.26130258, 0.27577711]
+    private let outputDimension = 768
+    private let imageMean: [Float] = [0.5, 0.5, 0.5]
+    private let imageStd: [Float] = [0.5, 0.5, 0.5]
     private let queue = DispatchQueue(label: "home-memory.native-vision.embedding", qos: .userInitiated)
 
     private var env: ORTEnv?
@@ -158,87 +159,173 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
         }
 
         queue.async {
-            let totalStartedAt = CFAbsoluteTimeGetCurrent()
             do {
-                let loadStartedAt = CFAbsoluteTimeGetCurrent()
-                let session = try self.getSession()
-                let loadMs = self.elapsedMs(since: loadStartedAt)
-
-                let decodeStartedAt = CFAbsoluteTimeGetCurrent()
-                let data = try self.decodeImageData(image)
-                guard let uiImage = UIImage(data: data), let cgImage = uiImage.cgImage else {
-                    throw NativeVisionError.runtime("failed to decode source image")
-                }
-                let decodeMs = self.elapsedMs(since: decodeStartedAt)
-
-                var preprocessMs = 0.0
-                var batchValues: [Float] = []
-                batchValues.reserveCapacity(regions.count * 3 * self.imageSize * self.imageSize)
-
-                for region in regions {
-                    let preprocessStartedAt = CFAbsoluteTimeGetCurrent()
-                    let rect = try self.pixelRect(from: region, imageWidth: cgImage.width, imageHeight: cgImage.height)
-                    let tensorValues = try self.pixelValues(from: cgImage, cropRect: rect)
-                    preprocessMs += self.elapsedMs(since: preprocessStartedAt)
-                    batchValues.append(contentsOf: tensorValues)
-                }
-
-                let tensorData = NSMutableData(
-                    bytes: &batchValues,
-                    length: batchValues.count * MemoryLayout<Float>.size
-                )
-                let input = try ORTValue(
-                    tensorData: tensorData,
-                    elementType: ORTTensorElementDataType.float,
-                    shape: [
-                        NSNumber(value: regions.count),
-                        NSNumber(value: 3),
-                        NSNumber(value: self.imageSize),
-                        NSNumber(value: self.imageSize)
-                    ]
-                )
-
-                let inferenceStartedAt = CFAbsoluteTimeGetCurrent()
-                let outputs = try session.run(
-                    withInputs: [self.inputName: input],
-                    outputNames: [self.outputName],
-                    runOptions: nil
-                )
-                let inferenceMs = self.elapsedMs(since: inferenceStartedAt)
-
-                let postprocessStartedAt = CFAbsoluteTimeGetCurrent()
-                guard let output = outputs[self.outputName] else {
-                    throw NativeVisionError.runtime("missing output \(self.outputName)")
-                }
-                let vectors = try self.normalizedVectors(from: output, expectedCount: regions.count)
-                let postprocessMs = self.elapsedMs(since: postprocessStartedAt)
-                let searchStartedAt = CFAbsoluteTimeGetCurrent()
                 let indexPath = call.getString("indexPath") ?? ""
                 let topK = max(1, call.getInt("topK") ?? 0)
-                let matches = indexPath.isEmpty ? [] : try self.rankCatalogVectors(vectors, indexPath: indexPath, topK: topK)
-                let searchMs = self.elapsedMs(since: searchStartedAt)
-
-                call.resolve([
-                    "model": self.modelId,
-                    "mode": "native-onnxruntime-ios-regions",
-                    "dimension": self.outputDimension,
-                    "vectors": vectors,
-                    "matches": matches,
-                    "timings": [
-                        "loadMs": self.round(loadMs),
-                        "decodeMs": self.round(decodeMs),
-                        "preprocessMs": self.round(preprocessMs),
-                        "inferenceMs": self.round(inferenceMs),
-                        "postprocessMs": self.round(postprocessMs),
-                        "searchMs": self.round(searchMs),
-                        "indexFormat": self.catalogIndexes[indexPath]?.format ?? "",
-                        "totalMs": self.round(self.elapsedMs(since: totalStartedAt))
-                    ]
-                ])
+                let result = try self.runRegionEmbedding(
+                    image: image,
+                    regions: regions,
+                    indexPath: indexPath,
+                    topK: topK,
+                    includeVectors: indexPath.isEmpty
+                )
+                call.resolve(result)
             } catch {
                 call.reject(error.localizedDescription, "NATIVE_REGION_EMBEDDING_FAILED")
             }
         }
+    }
+
+    @objc func benchmarkImageRegions(_ call: CAPPluginCall) {
+        let requestedModel = call.getString("model") ?? modelId
+        guard requestedModel == modelId else {
+            call.reject("native embedding only supports \(modelId), got \(requestedModel)", "MODEL_MISMATCH")
+            return
+        }
+        guard let image = call.getString("image"), !image.isEmpty else {
+            call.reject("image must be a non-empty data url or local file path", "INVALID_IMAGE")
+            return
+        }
+        guard let regions = call.getArray("regions", JSObject.self), !regions.isEmpty else {
+            call.reject("regions must be a non-empty array", "INVALID_REGIONS")
+            return
+        }
+        let batchSizes = (call.getArray("batchSizes", NSNumber.self) ?? [1, 2, 4, 8, 12, 16])
+            .map { max(1, $0.intValue) }
+        let repeats = max(1, call.getInt("repeats") ?? 3)
+        let indexPath = call.getString("indexPath") ?? ""
+        let topK = max(1, call.getInt("topK") ?? 5)
+
+        queue.async {
+            let benchmarkStartedAt = CFAbsoluteTimeGetCurrent()
+            do {
+                let loadStartedAt = CFAbsoluteTimeGetCurrent()
+                _ = try self.getSession()
+                if !indexPath.isEmpty {
+                    _ = try self.getCatalogIndex(indexPath)
+                }
+                let loadMs = self.elapsedMs(since: loadStartedAt)
+                var rows: [JSObject] = []
+                for batchSize in batchSizes {
+                    let batchRegions = (0..<batchSize).map { regions[$0 % regions.count] }
+                    for repeatIndex in 0..<repeats {
+                        let result = try self.runRegionEmbedding(
+                            image: image,
+                            regions: batchRegions,
+                            indexPath: indexPath,
+                            topK: topK,
+                            includeVectors: false
+                        )
+                        let timings = result["timings"] as? JSObject ?? [:]
+                        let totalMs = self.number(from: timings["totalMs"])
+                        rows.append([
+                            "batchSize": batchSize,
+                            "repeat": repeatIndex + 1,
+                            "decodeMs": timings["decodeMs"] ?? 0,
+                            "preprocessMs": timings["preprocessMs"] ?? 0,
+                            "inferenceMs": timings["inferenceMs"] ?? 0,
+                            "postprocessMs": timings["postprocessMs"] ?? 0,
+                            "searchMs": timings["searchMs"] ?? 0,
+                            "totalMs": timings["totalMs"] ?? 0,
+                            "perItemMs": self.round(totalMs / Double(max(1, batchSize))),
+                            "indexFormat": timings["indexFormat"] ?? "",
+                        ] as JSObject)
+                    }
+                }
+                call.resolve([
+                    "model": self.modelId,
+                    "mode": "native-onnxruntime-ios-regions-benchmark",
+                    "dimension": self.outputDimension,
+                    "loadMs": self.round(loadMs),
+                    "rows": rows,
+                    "timings": [
+                        "totalMs": self.round(self.elapsedMs(since: benchmarkStartedAt))
+                    ]
+                ])
+            } catch {
+                call.reject(error.localizedDescription, "NATIVE_REGION_BENCHMARK_FAILED")
+            }
+        }
+    }
+
+    private func runRegionEmbedding(image: String, regions: [JSObject], indexPath: String, topK: Int, includeVectors: Bool) throws -> JSObject {
+        let totalStartedAt = CFAbsoluteTimeGetCurrent()
+        let loadStartedAt = CFAbsoluteTimeGetCurrent()
+        let session = try getSession()
+        let loadMs = elapsedMs(since: loadStartedAt)
+
+        let decodeStartedAt = CFAbsoluteTimeGetCurrent()
+        let data = try decodeImageData(image)
+        guard let uiImage = UIImage(data: data), let cgImage = uiImage.cgImage else {
+            throw NativeVisionError.runtime("failed to decode source image")
+        }
+        let decodeMs = elapsedMs(since: decodeStartedAt)
+
+        var preprocessMs = 0.0
+        var batchValues: [Float] = []
+        batchValues.reserveCapacity(regions.count * 3 * imageSize * imageSize)
+        for region in regions {
+            let preprocessStartedAt = CFAbsoluteTimeGetCurrent()
+            let rect = try pixelRect(from: region, imageWidth: cgImage.width, imageHeight: cgImage.height)
+            let tensorValues = try pixelValues(from: cgImage, cropRect: rect)
+            preprocessMs += elapsedMs(since: preprocessStartedAt)
+            batchValues.append(contentsOf: tensorValues)
+        }
+
+        let tensorData = NSMutableData(
+            bytes: &batchValues,
+            length: batchValues.count * MemoryLayout<Float>.size
+        )
+        let input = try ORTValue(
+            tensorData: tensorData,
+            elementType: ORTTensorElementDataType.float,
+            shape: [
+                NSNumber(value: regions.count),
+                NSNumber(value: 3),
+                NSNumber(value: imageSize),
+                NSNumber(value: imageSize)
+            ]
+        )
+
+        let inferenceStartedAt = CFAbsoluteTimeGetCurrent()
+        let outputs = try session.run(
+            withInputs: [inputName: input],
+            outputNames: [outputName],
+            runOptions: nil
+        )
+        let inferenceMs = elapsedMs(since: inferenceStartedAt)
+
+        let postprocessStartedAt = CFAbsoluteTimeGetCurrent()
+        guard let output = outputs[outputName] else {
+            throw NativeVisionError.runtime("missing output \(outputName)")
+        }
+        let vectors = try normalizedVectors(from: output, expectedCount: regions.count)
+        let postprocessMs = elapsedMs(since: postprocessStartedAt)
+
+        let searchStartedAt = CFAbsoluteTimeGetCurrent()
+        let matches = indexPath.isEmpty ? [] : try rankCatalogVectors(vectors, indexPath: indexPath, topK: topK)
+        let searchMs = elapsedMs(since: searchStartedAt)
+
+        var payload: JSObject = [
+            "model": modelId,
+            "mode": "native-onnxruntime-ios-regions",
+            "dimension": outputDimension,
+            "matches": matches,
+            "timings": [
+                "loadMs": round(loadMs),
+                "decodeMs": round(decodeMs),
+                "preprocessMs": round(preprocessMs),
+                "inferenceMs": round(inferenceMs),
+                "postprocessMs": round(postprocessMs),
+                "searchMs": round(searchMs),
+                "indexFormat": catalogIndexes[indexPath]?.format ?? "",
+                "totalMs": round(elapsedMs(since: totalStartedAt))
+            ] as JSObject
+        ]
+        if includeVectors {
+            payload["vectors"] = vectors
+        }
+        return payload
     }
 
     private func getSession() throws -> ORTSession {
@@ -249,10 +336,11 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
         let env = try ORTEnv(loggingLevel: ORTLoggingLevel.warning)
         let options = try ORTSessionOptions()
         try options.setGraphOptimizationLevel(ORTGraphOptimizationLevel.all)
-        try options.setIntraOpNumThreads(2)
+        let processorCount = max(2, ProcessInfo.processInfo.processorCount)
+        try options.setIntraOpNumThreads(Int32(min(4, max(2, processorCount - 1))))
 
         guard let modelPath = findVisionModelPath() else {
-            throw NativeVisionError.runtime("missing CLIP vision model in app bundle")
+            throw NativeVisionError.runtime("missing SigLIP vision model in app bundle")
         }
         let session = try ORTSession(env: env, modelPath: modelPath, sessionOptions: options)
         self.env = env
@@ -261,7 +349,7 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     private func findVisionModelPath() -> String? {
-        let relativePath = "public/vendor/models/Xenova/clip-vit-base-patch32/onnx/vision_model_quantized.onnx"
+        let relativePath = "public/vendor/models/Xenova/siglip-base-patch16-224/onnx/vision_model_quantized.onnx"
         if let resourcePath = Bundle.main.resourcePath {
             let fullPath = (resourcePath as NSString).appendingPathComponent(relativePath)
             if FileManager.default.fileExists(atPath: fullPath) {
@@ -271,7 +359,7 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
         return Bundle.main.path(
             forResource: "vision_model_quantized",
             ofType: "onnx",
-            inDirectory: "public/vendor/models/Xenova/clip-vit-base-patch32/onnx"
+            inDirectory: "public/vendor/models/Xenova/siglip-base-patch16-224/onnx"
         )
     }
 
@@ -450,6 +538,10 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
         if let cached = catalogIndexes[indexPath] {
             return cached
         }
+        if let packageIndex = try loadPackageCatalogIndex(indexPath) {
+            catalogIndexes[indexPath] = packageIndex
+            return packageIndex
+        }
         if let binaryIndex = try loadBinaryCatalogIndex(indexPath) {
             catalogIndexes[indexPath] = binaryIndex
             return binaryIndex
@@ -489,6 +581,63 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
         let index = NativeCatalogIndex(ids: ids, values: values, dimension: dimension, format: "json")
         catalogIndexes[indexPath] = index
         return index
+    }
+
+    private func loadPackageCatalogIndex(_ indexPath: String) throws -> NativeCatalogIndex? {
+        guard let manifestPath = findPackageManifestPath(indexPath) else {
+            return nil
+        }
+        let manifestData = try Data(contentsOf: URL(fileURLWithPath: manifestPath))
+        guard
+            let manifest = try JSONSerialization.jsonObject(with: manifestData) as? [String: Any],
+            let assets = manifest["assets"] as? [String: Any],
+            let metadataName = assets["metadata"] as? String,
+            let vectorsName = assets["vectors"] as? String,
+            let dimensionNumber = manifest["dimension"] as? NSNumber,
+            let entryCountNumber = manifest["entryCount"] as? NSNumber
+        else {
+            throw NativeVisionError.runtime("invalid package catalog manifest")
+        }
+        let packageDir = (manifestPath as NSString).deletingLastPathComponent
+        let metadataPath = (packageDir as NSString).appendingPathComponent(metadataName)
+        let vectorsPath = (packageDir as NSString).appendingPathComponent(vectorsName)
+        let metadataData = try Data(contentsOf: URL(fileURLWithPath: metadataPath))
+        guard
+            let metadata = try JSONSerialization.jsonObject(with: metadataData) as? [String: Any],
+            let entries = metadata["entries"] as? [[String: Any]]
+        else {
+            throw NativeVisionError.runtime("invalid package catalog metadata")
+        }
+        let dimension = dimensionNumber.intValue
+        let entryCount = entryCountNumber.intValue
+        guard dimension > 0, entries.count == entryCount else {
+            throw NativeVisionError.runtime("invalid package catalog shape \(entries.count)x\(dimension), expected \(entryCount)")
+        }
+        let ids = entries.compactMap { $0["id"] as? String }
+        guard ids.count == entryCount else {
+            throw NativeVisionError.runtime("package catalog metadata has missing ids")
+        }
+        let valuesData = try Data(contentsOf: URL(fileURLWithPath: vectorsPath))
+        let expectedBytes = entryCount * dimension * MemoryLayout<Float>.size
+        guard valuesData.count == expectedBytes else {
+            throw NativeVisionError.runtime("invalid package catalog vectors size \(valuesData.count), expected \(expectedBytes)")
+        }
+        let values = valuesData.withUnsafeBytes { bytes in
+            Array(bytes.bindMemory(to: Float.self))
+        }
+        return NativeCatalogIndex(ids: ids, values: values, dimension: dimension, format: "package-binary")
+    }
+
+    private func findPackageManifestPath(_ indexPath: String) -> String? {
+        let trimmed = indexPath.hasPrefix("/") ? String(indexPath.dropFirst()) : indexPath
+        if trimmed.hasSuffix("manifest.json") {
+            return findBundledPath(trimmed)
+        }
+        if trimmed.hasSuffix("vectors.f32") || trimmed.hasSuffix("metadata.json") {
+            let directory = (trimmed as NSString).deletingLastPathComponent
+            return findBundledPath("\(directory)/manifest.json")
+        }
+        return findBundledPath("\(trimmed.trimmingCharacters(in: CharacterSet(charactersIn: "/")))/manifest.json")
     }
 
     private func loadBinaryCatalogIndex(_ indexPath: String) throws -> NativeCatalogIndex? {
@@ -566,14 +715,50 @@ public class HomeMemoryVisionPlugin: CAPPlugin, CAPBridgedPlugin {
         let tensorData = try value.tensorData()
         let count = tensorData.length / MemoryLayout<Float>.size
         let pointer = tensorData.bytes.bindMemory(to: Float.self, capacity: count)
-        let values = Array(UnsafeBufferPointer(start: pointer, count: count))
-        guard count == expectedCount * outputDimension else {
-            throw NativeVisionError.runtime("unexpected output element count \(count), expected \(expectedCount * outputDimension)")
+        if count == expectedCount * outputDimension {
+            return (0..<expectedCount).map { index in
+                let start = index * outputDimension
+                var vector = Array(repeating: Float(0), count: outputDimension)
+                var normSquared = Float(0)
+                for dimensionIndex in 0..<outputDimension {
+                    let value = pointer[start + dimensionIndex]
+                    vector[dimensionIndex] = value
+                    normSquared += value * value
+                }
+                return normalizeVectorInPlace(vector, normSquared: normSquared)
+            }
         }
+        guard count % (expectedCount * outputDimension) == 0 else {
+            throw NativeVisionError.runtime("unexpected output element count \(count), expected \(expectedCount * outputDimension) or pooled patch tensor")
+        }
+        let tokenCount = count / (expectedCount * outputDimension)
         return (0..<expectedCount).map { index in
-            let start = index * outputDimension
-            return normalizedVector(Array(values[start..<(start + outputDimension)]))
+            let batchStart = index * tokenCount * outputDimension
+            var pooled = Array(repeating: Float(0), count: outputDimension)
+            for token in 0..<tokenCount {
+                let tokenStart = batchStart + token * outputDimension
+                for dimensionIndex in 0..<outputDimension {
+                    pooled[dimensionIndex] += pointer[tokenStart + dimensionIndex]
+                }
+            }
+            var normSquared = Float(0)
+            for dimensionIndex in 0..<outputDimension {
+                let value = pooled[dimensionIndex] / Float(tokenCount)
+                pooled[dimensionIndex] = value
+                normSquared += value * value
+            }
+            return normalizeVectorInPlace(pooled, normSquared: normSquared)
         }
+    }
+
+    private func normalizeVectorInPlace(_ vector: [Float], normSquared: Float) -> [Float] {
+        var vector = vector
+        let norm = sqrt(normSquared)
+        guard norm.isFinite, norm > 0 else { return vector }
+        for index in vector.indices {
+            vector[index] = vector[index] / norm
+        }
+        return vector
     }
 
     private func normalizedVector(_ values: [Float]) -> [Float] {

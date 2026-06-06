@@ -98,6 +98,7 @@ export function createCaptureRenderers(deps) {
       diagnostics.embeddingBatchMode ? `mode ${diagnostics.embeddingBatchMode}` : "",
       diagnostics.embeddingNativeIndexFormat ? `indexFmt ${diagnostics.embeddingNativeIndexFormat}` : "",
       Number.isFinite(diagnostics.embeddingBatchSize) && diagnostics.embeddingBatchSize > 1 ? `batch ${Math.round(diagnostics.embeddingBatchSize)}` : "",
+      Number.isFinite(diagnostics.catalogEmbeddingForegroundCount) ? `首批 ${Math.round(diagnostics.catalogEmbeddingForegroundCount)}` : "",
       Number.isFinite(diagnostics.embeddingBatchExtractorMs) && diagnostics.embeddingBatchExtractorMs > 0 ? `batchExtract ${Math.round(diagnostics.embeddingBatchExtractorMs)}ms` : "",
       Number.isFinite(diagnostics.embeddingBatchTotalMs) && diagnostics.embeddingBatchTotalMs > 0 ? `batchTotal ${Math.round(diagnostics.embeddingBatchTotalMs)}ms` : "",
       Number.isFinite(diagnostics.embeddingProcessorMs) && diagnostics.embeddingProcessorMs > 0 ? `processor ${Math.round(diagnostics.embeddingProcessorMs)}ms` : "",
@@ -520,6 +521,35 @@ export function createCaptureRenderers(deps) {
             `;
           }).join("")}
         </div>
+        <div class="catalog-candidate-actions">
+          <button class="ghost-btn compact-btn" type="button" data-mark-catalog-candidates-wrong="${candidate.id}">都不对</button>
+          <span>也可直接修改“物品名”作为手动命名反馈</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCandidateRuntimeDiagnostics(candidate) {
+    const timings = {
+      ...(candidate.namingDiagnostics?.timings || {}),
+      ...(candidate.timings || {}),
+    };
+    const rows = [
+      ["命名模式", timings.embeddingExtractorMode || timings.embeddingBatchMode || "未知"],
+      ["索引格式", timings.embeddingNativeIndexFormat || "非 native 检索"],
+      ["命名耗时", Number.isFinite(Number(timings.namingMs)) ? `${Math.round(Number(timings.namingMs))}ms` : ""],
+      ["批次", Number.isFinite(Number(timings.embeddingBatchSize)) ? `${Math.round(Number(timings.embeddingBatchSize))}` : ""],
+      ["推理", Number.isFinite(Number(timings.embeddingModelMs)) ? `${Math.round(Number(timings.embeddingModelMs))}ms` : ""],
+      ["检索", Number.isFinite(Number(timings.embeddingNativeSearchMs || timings.catalogSearchMs)) ? `${Math.round(Number(timings.embeddingNativeSearchMs || timings.catalogSearchMs))}ms` : ""],
+      ["总批次", Number.isFinite(Number(timings.embeddingBatchTotalMs)) ? `${Math.round(Number(timings.embeddingBatchTotalMs))}ms` : ""],
+      ["状态", candidate.namingOutcome || candidate.namingRejectionReason || ""],
+    ].filter(([, value]) => value !== "" && value !== null && value !== undefined);
+    if (!rows.length) return "";
+    return `
+      <div class="candidate-runtime-diagnostics" aria-label="命名运行诊断">
+        ${rows.map(([label, value]) => `
+          <span><b>${escapeHtml(label)}</b>${escapeHtml(String(value))}</span>
+        `).join("")}
       </div>
     `;
   }
@@ -584,6 +614,7 @@ export function createCaptureRenderers(deps) {
                 ${icons.scan}<span>${showBox ? "收起定位" : "调整定位"}</span>
               </button>
             </div>
+            ${renderCandidateRuntimeDiagnostics(candidate)}
             ${renderCatalogCandidatePanel(candidate)}
           </div>
         </div>

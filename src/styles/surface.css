@@ -216,10 +216,15 @@ textarea:focus {
 .capture-grid > .panel .field,
 .capture-grid > .panel .select-field,
 .capture-grid > .panel .candidate-meta-chips span,
+.capture-grid > .panel .candidate-runtime-diagnostics span,
 .capture-grid > .panel .catalog-candidate-option {
   border-color: rgba(250, 249, 245, 0.12);
   background: var(--surface-dark-3);
   color: #faf9f5;
+}
+
+.capture-grid > .panel .candidate-runtime-diagnostics b {
+  color: rgba(250, 249, 245, 0.62);
 }
 
 .capture-grid > .panel .catalog-candidate-head span,

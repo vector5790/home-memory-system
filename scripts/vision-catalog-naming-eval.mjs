@@ -69,6 +69,69 @@ function round(value, digits = 4) {
   return Math.round(number * factor) / factor;
 }
 
+function quantiles(values) {
+  const sorted = values.map(Number).filter(Number.isFinite).sort((a, b) => a - b);
+  if (!sorted.length) return { count: 0, min: 0, p50: 0, p90: 0, p95: 0, max: 0, mean: 0 };
+  const at = (q) => sorted[Math.min(sorted.length - 1, Math.max(0, Math.floor((sorted.length - 1) * q)))];
+  return {
+    count: sorted.length,
+    min: round(sorted[0], 4),
+    p50: round(at(0.5), 4),
+    p90: round(at(0.9), 4),
+    p95: round(at(0.95), 4),
+    max: round(sorted[sorted.length - 1], 4),
+    mean: round(sorted.reduce((sum, value) => sum + value, 0) / sorted.length, 4),
+  };
+}
+
+function categoryClusterId(categoryId = "") {
+  const text = String(categoryId || "");
+  const [first, second] = text.split("-");
+  if (!second) return first || "unknown";
+  const highConfusionPrefixes = new Set([
+    "audio",
+    "speaker",
+    "projector",
+    "television",
+    "tv",
+    "storage",
+    "shoe",
+    "cable",
+    "charger",
+    "bottle",
+    "cup",
+    "plate",
+    "bowl",
+    "cleaner",
+    "toy",
+  ]);
+  if (highConfusionPrefixes.has(first)) return first;
+  return `${first}-${second}`;
+}
+
+function boxQuality(sample) {
+  const value = sample.boxQuality || sample.subjectBoxQuality || sample.boxStatus || "";
+  if (["invalid", "ambiguous", "bad", "not-nameable"].includes(String(value))) return "invalid";
+  return "valid";
+}
+
+function attributeError(result, options) {
+  if (boxQuality(result) === "invalid") return "subject-box-error";
+  if (result.rejected && result.rejectionReason === "below-threshold") return "threshold-policy-error";
+  if (result.rejected && result.rejectionReason === "low-margin") return "threshold-policy-error";
+  if (result.top1CategoryId === result.categoryId) return "correct";
+  const top3Rank = result.top3CategoryIds.indexOf(result.categoryId);
+  if (top3Rank >= 0) return "candidate-display-gap";
+  const topKRank = (result.categoryCandidates || []).findIndex((candidate) => candidate.categoryId === result.categoryId);
+  if (topKRank >= 0) return "candidate-display-gap";
+  const expectedCluster = categoryClusterId(result.categoryId);
+  const predictedCluster = categoryClusterId(result.top1CategoryId);
+  if (expectedCluster === predictedCluster && expectedCluster !== "unknown") return "fine-grained-visual-confusion";
+  if (result.top1Score >= options.threshold && result.margin >= options.margin) return "category-granularity-gap";
+  if (!result.top3CategoryIds.includes(result.categoryId)) return "index-coverage-gap";
+  return "unknown";
+}
+
 function normalizeVector(values) {
   const vector = Array.from(values || [], Number);
   const norm = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0)) || 1;
@@ -202,6 +265,11 @@ function summarize(results) {
   const accepted = results.filter((result) => !result.rejected);
   const top1 = results.filter((result) => result.top1CategoryId === result.categoryId).length;
   const top3 = results.filter((result) => result.top3CategoryIds.includes(result.categoryId)).length;
+  const candidateCorrectable = results.filter((result) => (
+    result.top1CategoryId !== result.categoryId && result.top3CategoryIds.includes(result.categoryId)
+  )).length;
+  const falseAccept = accepted.filter((result) => result.predictedCategoryId !== result.categoryId).length;
+  const unresolved = results.filter((result) => result.rejected || !result.predictedCategoryId).length;
   const acceptedCorrect = accepted.filter((result) => result.predictedCategoryId === result.categoryId).length;
   const confusions = new Map();
   for (const result of results) {
@@ -212,14 +280,148 @@ function summarize(results) {
     sampleCount: results.length,
     top1Accuracy: round(top1 / total, 4),
     top3Accuracy: round(top3 / total, 4),
+    candidateCorrectableRate: round(candidateCorrectable / total, 4),
+    falseAcceptRate: round(falseAccept / Math.max(1, accepted.length), 4),
+    unresolvedRate: round(unresolved / total, 4),
     acceptedAccuracy: round(acceptedCorrect / Math.max(1, accepted.length), 4),
     rejectionRate: round(results.filter((result) => result.rejected).length / total, 4),
     lowConfidenceRate: round(results.filter((result) => result.rejectionReason === "low-margin" || result.rejectionReason === "below-threshold").length / total, 4),
+    scoreDistribution: {
+      correctTop1: quantiles(results.filter((result) => result.top1CategoryId === result.categoryId).map((result) => result.top1Score)),
+      incorrectTop1: quantiles(results.filter((result) => result.top1CategoryId !== result.categoryId).map((result) => result.top1Score)),
+      accepted: quantiles(accepted.map((result) => result.top1Score)),
+      rejected: quantiles(results.filter((result) => result.rejected).map((result) => result.top1Score)),
+    },
+    marginDistribution: {
+      correctTop1: quantiles(results.filter((result) => result.top1CategoryId === result.categoryId).map((result) => result.margin)),
+      incorrectTop1: quantiles(results.filter((result) => result.top1CategoryId !== result.categoryId).map((result) => result.margin)),
+    },
     confusions: [...confusions.entries()].map(([key, count]) => {
       const [expectedCategoryId, predictedCategoryId] = key.split("=>");
       return { expectedCategoryId, predictedCategoryId, count };
     }).sort((a, b) => b.count - a.count),
   };
+}
+
+function summarizeAttribution(results) {
+  const counts = new Map();
+  for (const result of results) {
+    const key = result.errorAttribution || "unknown";
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return [...counts.entries()].map(([type, count]) => ({ type, count })).sort((a, b) => b.count - a.count);
+}
+
+function summarizeClusters(results, options) {
+  const clusters = new Map();
+  for (const result of results) {
+    const id = categoryClusterId(result.categoryId);
+    const cluster = clusters.get(id) || {
+      id,
+      sampleCount: 0,
+      correctCount: 0,
+      incorrectCount: 0,
+      scoresCorrect: [],
+      scoresIncorrect: [],
+      marginsCorrect: [],
+      marginsIncorrect: [],
+      confusions: new Map(),
+    };
+    const correct = result.top1CategoryId === result.categoryId;
+    cluster.sampleCount += 1;
+    if (correct) {
+      cluster.correctCount += 1;
+      cluster.scoresCorrect.push(result.top1Score);
+      cluster.marginsCorrect.push(result.margin);
+    } else {
+      cluster.incorrectCount += 1;
+      cluster.scoresIncorrect.push(result.top1Score);
+      cluster.marginsIncorrect.push(result.margin);
+      const key = `${result.categoryId}=>${result.top1CategoryId || "REJECTED"}`;
+      cluster.confusions.set(key, (cluster.confusions.get(key) || 0) + 1);
+    }
+    clusters.set(id, cluster);
+  }
+  return [...clusters.values()].map((cluster) => {
+    const enough = cluster.correctCount >= 3 && cluster.incorrectCount >= 3;
+    const scoreCorrect = quantiles(cluster.scoresCorrect);
+    const scoreIncorrect = quantiles(cluster.scoresIncorrect);
+    const marginCorrect = quantiles(cluster.marginsCorrect);
+    const marginIncorrect = quantiles(cluster.marginsIncorrect);
+    const recommendedScore = enough ? round(Math.max(options.threshold, scoreIncorrect.p95), 4) : null;
+    const recommendedMargin = enough ? round(Math.max(options.margin, marginIncorrect.p95), 4) : null;
+    return {
+      id: cluster.id,
+      sampleCount: cluster.sampleCount,
+      correctCount: cluster.correctCount,
+      incorrectCount: cluster.incorrectCount,
+      top1Accuracy: round(cluster.correctCount / Math.max(1, cluster.sampleCount), 4),
+      scoreDistribution: { correct: scoreCorrect, incorrect: scoreIncorrect },
+      marginDistribution: { correct: marginCorrect, incorrect: marginIncorrect },
+      thresholdRecommendation: enough
+        ? {
+          score: recommendedScore,
+          margin: recommendedMargin,
+          note: "样本足够，建议先作为离线候选阈值验证，暂不直接上线。",
+        }
+        : {
+          score: null,
+          margin: null,
+          note: "样本不足，只记录数据缺口，不推荐生产阈值。",
+        },
+      confusions: [...cluster.confusions.entries()].map(([key, count]) => {
+        const [expectedCategoryId, predictedCategoryId] = key.split("=>");
+        return { expectedCategoryId, predictedCategoryId, count };
+      }).sort((a, b) => b.count - a.count).slice(0, 10),
+    };
+  }).sort((a, b) => b.sampleCount - a.sampleCount);
+}
+
+function generateIndexRecommendations(results) {
+  const byCategory = new Map();
+  for (const result of results) {
+    if (result.top1CategoryId === result.categoryId) continue;
+    const category = byCategory.get(result.categoryId) || {
+      categoryId: result.categoryId,
+      displayName: result.displayName || result.categoryId,
+      sampleCount: 0,
+      failures: 0,
+      attributions: new Map(),
+      missingTopK: 0,
+      topConfusions: new Map(),
+      representativeQueryImages: [],
+    };
+    category.sampleCount += 1;
+    category.failures += 1;
+    category.attributions.set(result.errorAttribution, (category.attributions.get(result.errorAttribution) || 0) + 1);
+    if (!(result.categoryCandidates || []).some((candidate) => candidate.categoryId === result.categoryId)) category.missingTopK += 1;
+    const confusion = result.top1CategoryId || "REJECTED";
+    category.topConfusions.set(confusion, (category.topConfusions.get(confusion) || 0) + 1);
+    if (category.representativeQueryImages.length < 3) category.representativeQueryImages.push(result.imagePath);
+    byCategory.set(result.categoryId, category);
+  }
+  return [...byCategory.values()].map((category) => {
+    const dominant = [...category.attributions.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || "unknown";
+    const action = dominant === "category-granularity-gap"
+      ? "优先拆细类目，补充别名、品牌/型号/形态字段，再补代表图。"
+      : dominant === "fine-grained-visual-confusion"
+        ? "补充同类细粒度正负样本，并评估图文 reranker 或类目簇阈值。"
+        : dominant === "candidate-display-gap"
+          ? "Top3 可纠正，优先优化候选展示和用户反馈，不必立即扩大索引。"
+          : "优先补真实代表索引图，覆盖不同品牌、材质、视角、使用场景。";
+    return {
+      categoryId: category.categoryId,
+      displayName: category.displayName,
+      priorityScore: category.failures + category.missingTopK * 2,
+      failures: category.failures,
+      missingTopK: category.missingTopK,
+      dominantAttribution: dominant,
+      action,
+      attributions: Object.fromEntries(category.attributions),
+      topConfusions: [...category.topConfusions.entries()].map(([categoryId, count]) => ({ categoryId, count })).sort((a, b) => b.count - a.count),
+      representativeQueryImages: category.representativeQueryImages,
+    };
+  }).sort((a, b) => b.priorityScore - a.priorityScore);
 }
 
 function renderHtml(report) {
@@ -252,15 +454,32 @@ function renderHtml(report) {
     <span>样本 ${report.summary.sampleCount}</span>
     <span>Top1 ${Math.round(report.summary.top1Accuracy * 100)}%</span>
     <span>Top3 ${Math.round(report.summary.top3Accuracy * 100)}%</span>
+    <span>Top3 可纠正 ${Math.round(report.summary.candidateCorrectableRate * 100)}%</span>
+    <span>误接受 ${Math.round(report.summary.falseAcceptRate * 100)}%</span>
+    <span>未命名 ${Math.round(report.summary.unresolvedRate * 100)}%</span>
     <span>接受后准确率 ${Math.round(report.summary.acceptedAccuracy * 100)}%</span>
     <span>拒识率 ${Math.round(report.summary.rejectionRate * 100)}%</span>
   </div>
+  <h2>错误归因</h2>
+  <ul>
+    ${report.attributionSummary.map((item) => `<li>${escapeHtml(item.type)}: ${item.count}</li>`).join("")}
+  </ul>
+  <h2>补索引优先级</h2>
+  <ol>
+    ${report.indexRecommendations.slice(0, 20).map((item) => `
+      <li>
+        <strong>${escapeHtml(item.displayName)} (${escapeHtml(item.categoryId)})</strong>
+        <div class="small">${escapeHtml(item.dominantAttribution)} · failures ${item.failures} · missingTopK ${item.missingTopK}</div>
+        <div>${escapeHtml(item.action)}</div>
+      </li>
+    `).join("")}
+  </ol>
   ${report.results.map((result) => {
     const correct = result.top1CategoryId === result.categoryId;
     return `<section class="case">
       <div class="case-head">
         <strong>${escapeHtml(result.id)} · 期望 ${escapeHtml(result.displayName || result.categoryId)}</strong>
-        <span class="${correct ? "ok" : "bad"}">${correct ? "Top1 命中" : result.rejected ? `拒识 ${escapeHtml(result.rejectionReason)}` : `Top1 ${escapeHtml(result.top1Name)}`}</span>
+        <span class="${correct ? "ok" : "bad"}">${correct ? "Top1 命中" : result.rejected ? `拒识 ${escapeHtml(result.rejectionReason)}` : `Top1 ${escapeHtml(result.top1Name)}`} · ${escapeHtml(result.errorAttribution)}</span>
       </div>
       <div class="small">Top1: ${escapeHtml(result.top1Name)} (${result.top1Score}) · margin ${result.margin} · embedding ${result.embeddingMs}ms</div>
       <div class="media">
@@ -292,8 +511,25 @@ function renderMarkdown(report) {
     `- 样本数: ${report.summary.sampleCount}`,
     `- Top1: ${report.summary.top1Accuracy}`,
     `- Top3: ${report.summary.top3Accuracy}`,
+    `- Top3 可纠正率: ${report.summary.candidateCorrectableRate}`,
+    `- 误接受率: ${report.summary.falseAcceptRate}`,
+    `- 未命名率: ${report.summary.unresolvedRate}`,
     `- 接受后准确率: ${report.summary.acceptedAccuracy}`,
     `- 拒识率: ${report.summary.rejectionRate}`,
+    `- 正确 Top1 score: ${JSON.stringify(report.summary.scoreDistribution.correctTop1)}`,
+    `- 错误 Top1 score: ${JSON.stringify(report.summary.scoreDistribution.incorrectTop1)}`,
+    "",
+    "## 错误归因",
+    "",
+    ...report.attributionSummary.map((item) => `- ${item.type}: ${item.count}`),
+    "",
+    "## Cluster 阈值建议",
+    "",
+    ...report.clusterSummaries.map((item) => `- ${item.id}: samples=${item.sampleCount}, top1=${item.top1Accuracy}, score=${item.thresholdRecommendation.score ?? "n/a"}, margin=${item.thresholdRecommendation.margin ?? "n/a"} (${item.thresholdRecommendation.note})`),
+    "",
+    "## 补索引优先级",
+    "",
+    ...report.indexRecommendations.slice(0, 30).map((item) => `- ${item.displayName} (${item.categoryId}): ${item.dominantAttribution}, failures=${item.failures}, missingTopK=${item.missingTopK}. ${item.action}`),
     "",
     "## 混淆",
     "",
@@ -301,7 +537,7 @@ function renderMarkdown(report) {
     "",
     "## 样例",
     "",
-    ...report.results.map((result) => `- ${result.id}: expected=${result.categoryId}, top1=${result.top1CategoryId}, rejected=${result.rejected}, top3=${result.top3CategoryIds.join(",")}`),
+    ...report.results.map((result) => `- ${result.id}: expected=${result.categoryId}, top1=${result.top1CategoryId}, rejected=${result.rejected}, attribution=${result.errorAttribution}, top3=${result.top3CategoryIds.join(",")}`),
     "",
   ];
   return `${lines.join("\n")}\n`;
@@ -321,7 +557,11 @@ async function main() {
   const results = [];
   for (const sample of dataset.samples || []) {
     const embedded = await embedCrop(extractor, sample);
-    results.push(evaluateSample({ ...sample, ...embedded }, entries, options));
+    const evaluated = evaluateSample({ ...sample, ...embedded }, entries, options);
+    evaluated.errorAttribution = attributeError(evaluated, options);
+    evaluated.subjectBoxQuality = boxQuality(sample);
+    delete evaluated.embedding;
+    results.push(evaluated);
     console.log(`evaluated ${results.length}/${dataset.samples.length} ${sample.id}`);
   }
   const report = {
@@ -333,6 +573,9 @@ async function main() {
     indexVersion: index.version,
     options,
     summary: summarize(results),
+    attributionSummary: summarizeAttribution(results),
+    clusterSummaries: summarizeClusters(results, options),
+    indexRecommendations: generateIndexRecommendations(results),
     results,
   };
   await writeJson(args.outputJson, report);

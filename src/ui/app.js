@@ -1,4 +1,5 @@
 import { HOME_DATA_SCHEMA_VERSION, createHomeMemoryPlatform } from "../platform/index.js";
+import { seedState } from "../state/seed-state.js";
 import { createDateDomain } from "../domain/dates.js";
 import { boxIou, clampBox, clampNumber, dedupeCandidates } from "../domain/geometry.js";
 import { createRecordDomain } from "../domain/records.js";
@@ -13,19 +14,9 @@ import { createVisionRecognitionPipeline } from "../vision/recognition-pipeline.
 import { getRequestedRecognitionProvider, providerLabel } from "../vision/providers.js";
 import { escapeHtml, layoutCandidatePins, styleActiveCandidateLabel, styleBox, styleCandidatePin } from "./rendering.js";
 import { createCaptureRenderers } from "./capture-rendering.js";
-import {
-  allDayReminderOffsetLabels,
-  categoryLabels,
-  customOffsetUnitLabels,
-  furnitureByRoom,
-  genericDetectionLabels,
-  icons,
-  repeatLabels,
-  timedReminderOffsetLabels,
-  unknownObjectNames,
-  visionCatalog,
-  visionConfig,
-} from "../config/app-config.js";
+import { buildNamingFeedbackRecord } from "./naming-feedback.js";
+import { summarizeNamingDiagnostics } from "./recognition-diagnostics.js";
+import { allDayReminderOffsetLabels, categoryLabels, customOffsetUnitLabels, furnitureByRoom, genericDetectionLabels, icons, repeatLabels, timedReminderOffsetLabels, unknownObjectNames, visionCatalog, visionConfig } from "../config/app-config.js";
 
 const STORAGE_KEY = "home-memory-system:v3";
 const platform = createHomeMemoryPlatform({
@@ -35,16 +26,7 @@ const platform = createHomeMemoryPlatform({
 const today = new Date();
 const fetchJsonIndex = createVisionJsonFetcher(visionConfig);
 const dateDomain = createDateDomain(today);
-const {
-  addDaysIso,
-  dateToIso,
-  daysUntil,
-  formatDate,
-  getCalendarDays,
-  monthKeyFromIso,
-  moveMonthKey,
-  nextMondayIso,
-} = dateDomain;
+const { addDaysIso, dateToIso, daysUntil, formatDate, getCalendarDays, monthKeyFromIso, moveMonthKey, nextMondayIso } = dateDomain;
 const {
   createNotificationId,
   defaultReminderOffset,
@@ -116,55 +98,6 @@ const {
   withTimeout,
 } = createImageProcessing({ clampBox, visionConfig });
 const { recognizeWithHeuristicRegions } = createHeuristicRegionRecognizer({ loadImage });
-const seedState = {
-  activeTab: "capture",
-  activeRoomId: "living",
-  activePlaceId: null,
-  query: "",
-  lastAnswer: null,
-  capture: {
-    roomId: "living",
-    placeId: null,
-    image: null,
-    imageRef: null,
-    candidates: [],
-    activeCandidateId: null,
-    recognitionStatus: "idle",
-    recognitionError: "",
-    recognitionDiagnostics: null,
-    preprocessingMs: null,
-    imageMeta: null,
-    provider: "none",
-  },
-  cameraOn: false,
-  rooms: [
-    {
-      id: "living",
-      name: "客厅",
-      type: "living",
-      places: [],
-    },
-    {
-      id: "kitchen",
-      name: "厨房",
-      type: "kitchen",
-      places: [],
-    },
-    {
-      id: "balcony",
-      name: "阳台",
-      type: "balcony",
-      places: [],
-    },
-    {
-      id: "bedroom",
-      name: "卧室",
-      type: "bedroom",
-      places: [],
-    },
-  ],
-  items: [],
-};
 
 const {
   getUnknownObjectName,
@@ -343,6 +276,7 @@ function normalizeLoadedState(parsed = {}) {
   loaded.query = "";
   loaded.lastAnswer = null;
   loaded.items = normalizeItems(loaded.items);
+  loaded.namingFeedback = Array.isArray(parsed.namingFeedback) ? parsed.namingFeedback.slice(-500) : [];
   loaded.rooms = pruneUnconfirmedCapturePlaces(normalizeRooms(loaded.rooms), loaded.items);
   loaded.capture = normalizeCaptureState(
     { ...structuredClone(seedState.capture), ...(parsed.capture || {}) },
@@ -1923,6 +1857,7 @@ async function scanCurrentPlace() {
       displayImage: scanImage,
       modelImage: detectionImage,
       modelContext,
+      sourceImageId: state.capture.imageRef?.uri || state.capture.imageRef?.webPath || `capture-${hashStringFast(scanImage || "")}`,
     }, detected, (partialCandidates) => {
       if (!stillCurrent()) return;
       state.capture = {
@@ -1934,43 +1869,12 @@ async function scanCurrentPlace() {
     });
     if (!stillCurrent()) return;
     const namingMs = performance.now() - namingStartedAt;
-    const embeddingMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingMs) || 0), 0);
-    const embeddingModelReadyMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingModelReadyMs) || 0), 0);
-    const embeddingExtractorMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingExtractorMs) || 0), 0);
-    const embeddingPostprocessMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingPostprocessMs) || 0), 0);
-    const embeddingInputBytes = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingInputBytes) || 0), 0);
-    const embeddingBatchSize = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchSize) || 0), 0);
-    const embeddingBatchExtractorMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchExtractorMs) || 0), 0);
-    const embeddingBatchTotalMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchTotalMs) || 0), 0);
-    const embeddingBatchMode = namedCandidates.find((candidate) => candidate.timings?.embeddingBatchMode)?.timings?.embeddingBatchMode || "";
-    const embeddingExtractorMode = namedCandidates.find((candidate) => candidate.timings?.embeddingExtractorMode)?.timings?.embeddingExtractorMode || "";
-    const embeddingNativeIndexFormat = namedCandidates.find((candidate) => candidate.timings?.embeddingNativeIndexFormat)?.timings?.embeddingNativeIndexFormat || "";
-    const embeddingProcessorMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingProcessorMs) || 0), 0);
-    const embeddingModelMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.embeddingModelMs) || 0), 0);
-    const embeddingBatchProcessorMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchProcessorMs) || 0), 0);
-    const embeddingBatchModelMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingBatchModelMs) || 0), 0);
-    const maxEmbeddingInputBytes = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.embeddingInputBytes) || 0), 0);
-    const maxEmbeddingCropLongSide = Math.max(...namedCandidates.map((candidate) => Math.max(
-      Number(candidate.timings?.embeddingCropWidth) || 0,
-      Number(candidate.timings?.embeddingCropHeight) || 0,
-    )), 0);
-    const catalogCropMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.catalogCropMs) || 0), 0);
-    const catalogSearchMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.catalogSearchMs) || 0), 0);
-    const catalogTotalMs = namedCandidates.reduce((total, candidate) => total + (Number(candidate.timings?.catalogTotalMs) || 0), 0);
-    const catalogIndexLoadMs = Math.max(...namedCandidates.map((candidate) => Number(candidate.timings?.catalogIndexLoadMs) || 0), 0);
-    const perCandidateNamingMs = namedCandidates.reduce((max, candidate) => Math.max(max, Number(candidate.timings?.namingMs) || 0), 0);
-    const embeddingNamedCount = namedCandidates.filter((candidate) => String(candidate.source || "").includes("embedding")).length;
-    const unresolvedNamingCount = namedCandidates.filter((candidate, index) => (
-      !candidate.name || isUnknownObjectName(candidate.name) || candidate.name === getUnknownObjectName(index)
-    )).length;
-    const catalogCandidateCount = namedCandidates.reduce((total, candidate) => (
-      total + (Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates.length : 0)
-    ), 0);
-    const namingRejectionReasons = Object.entries(namedCandidates.reduce((counts, candidate) => {
-      const reason = candidate.namingRejectionReason || "";
-      if (reason) counts[reason] = (counts[reason] || 0) + 1;
-      return counts;
-    }, {})).map(([reason, count]) => `${reason}:${count}`).join(",");
+    const namingDiagnostics = summarizeNamingDiagnostics({
+      candidates: namedCandidates,
+      catalogNamingConcurrency: visionConfig.catalogNamingConcurrency,
+      getUnknownObjectName,
+      isUnknownObjectName,
+    });
     state.capture = {
       ...state.capture,
       candidates: applyCandidateProgressUpdates(state.capture.candidates || [], namedCandidates, provider),
@@ -1995,38 +1899,13 @@ async function scanCurrentPlace() {
         yoloxThreshold: detectorTiming.yoloxThreshold,
         detectionMs,
         namingMs,
-        embeddingMs,
-        embeddingModelReadyMs,
-        embeddingExtractorMs,
-        embeddingPostprocessMs,
-        embeddingInputBytes,
-        embeddingBatchSize,
-        embeddingBatchExtractorMs,
-        embeddingBatchTotalMs,
-        embeddingBatchMode,
-        embeddingExtractorMode,
-        embeddingNativeIndexFormat,
-        embeddingProcessorMs,
-        embeddingModelMs,
-        embeddingBatchProcessorMs,
-        embeddingBatchModelMs,
-        maxEmbeddingInputBytes,
-        maxEmbeddingCropLongSide,
-        catalogCropMs,
-        catalogSearchMs,
-        catalogTotalMs,
-        catalogIndexLoadMs,
+        ...namingDiagnostics,
         catalogWarmupMs: namingWarmup?.warmupMs,
         catalogWarmupEntries: namingWarmup?.entries,
+        catalogEmbeddingForegroundCount: visionConfig.catalogEmbeddingForegroundCount,
         catalogWarmupExtractorReady: namingWarmup?.extractorReady,
         embeddingWarmupMode: namingWarmup?.embeddingWarmupMode,
         embeddingWarmupError: namingWarmup?.embeddingWarmupError,
-        embeddingNamedCount,
-        unresolvedNamingCount,
-        catalogCandidateCount,
-        namingRejectionReasons,
-        catalogNamingConcurrency: visionConfig.catalogNamingConcurrency,
-        perCandidateNamingMs,
         totalMs: performance.now() - scanStartedAt,
         resultCount: namedCandidates.length,
         wasmThreads: getVisionWasmThreadCount(),
@@ -2110,7 +1989,12 @@ function confirmCandidates() {
       categoryScore: candidate.categoryScore,
       categoryMargin: candidate.categoryMargin,
       catalogCandidates: candidate.catalogCandidates || [],
+      catalogTopK: candidate.catalogTopK || [],
       namingRejectionReason: candidate.namingRejectionReason || "",
+      namingOutcome: candidate.namingOutcome || "",
+      unnameableReason: candidate.unnameableReason || "",
+      namingAcceptancePolicy: candidate.namingAcceptancePolicy || null,
+      namingDiagnostics: candidate.namingDiagnostics || null,
       categoryIndexVersion: candidate.categoryIndexVersion || "",
       matchedSampleIds: candidate.matchedSampleIds || [],
       imageRef: state.capture.imageRef || null,
@@ -2298,7 +2182,32 @@ function updateCandidate(id, field, value) {
   render();
 }
 
+function recordNamingFeedback(candidate, action, details = {}) {
+  if (!candidate) return;
+  const record = buildNamingFeedbackRecord({
+    ...details,
+    action,
+    candidate,
+    createId,
+    hashStringFast,
+    image: state.capture.image,
+    imageRef: state.capture.imageRef,
+    normalizeCropMeta,
+    provider: state.capture.provider,
+  });
+  state.namingFeedback = [...(state.namingFeedback || []), record].slice(-500);
+}
+
 function applyCatalogCandidate(id, rank) {
+  const original = (state.capture.candidates || []).find((candidate) => candidate.id === id);
+  const option = Array.isArray(original?.catalogCandidates) ? original.catalogCandidates[rank] : null;
+  if (original && option) {
+    recordNamingFeedback(original, "select-candidate", {
+      selectedCandidateId: option.categoryId || "",
+      selectedCategoryId: option.categoryId || "",
+      selectedName: option.displayName || "",
+    });
+  }
   state.capture.candidates = (state.capture.candidates || []).map((candidate) => {
     if (candidate.id !== id) return candidate;
     const option = Array.isArray(candidate.catalogCandidates) ? candidate.catalogCandidates[rank] : null;
@@ -2314,6 +2223,8 @@ function applyCatalogCandidate(id, rank) {
       categoryMargin: null,
       matchedSampleIds: option.matchedSampleIds || candidate.matchedSampleIds || [],
       namingRejectionReason: "",
+      namingOutcome: "accepted-by-user",
+      unnameableReason: "",
       edited: true,
       nameEdited: true,
     }, 0, state.capture.provider || "local-image");
@@ -2322,6 +2233,27 @@ function applyCatalogCandidate(id, rank) {
   persist();
   render();
   showToast("已应用候选命名");
+}
+
+function markCatalogCandidatesWrong(id) {
+  const candidate = (state.capture.candidates || []).find((entry) => entry.id === id);
+  if (!candidate) return;
+  recordNamingFeedback(candidate, "none-match", { noCandidateMatch: true });
+  state.capture.candidates = (state.capture.candidates || []).map((entry) => (
+    entry.id === id
+      ? {
+        ...entry,
+        namingOutcome: "unnameable",
+        namingRejectionReason: entry.namingRejectionReason || "user-marked-no-match",
+        unnameableReason: "user-marked-no-match",
+        edited: true,
+      }
+      : entry
+  ));
+  state.capture.activeCandidateId = id;
+  persist();
+  render();
+  showToast("已记录：候选都不对");
 }
 
 function toggleCandidatePanel(id, panel) {
@@ -2705,7 +2637,12 @@ async function rerunCandidateNamingAfterBoxEdit(candidateId) {
       categoryScore: latest.nameEdited ? entry.categoryScore : resolved.categoryScore,
       categoryMargin: latest.nameEdited ? entry.categoryMargin : resolved.categoryMargin,
       catalogCandidates: latest.nameEdited ? entry.catalogCandidates : (resolved.catalogCandidates || []),
+      catalogTopK: latest.nameEdited ? entry.catalogTopK : (resolved.catalogTopK || []),
       namingRejectionReason: latest.nameEdited ? entry.namingRejectionReason : (resolved.namingRejectionReason || ""),
+      namingOutcome: latest.nameEdited ? entry.namingOutcome : (resolved.namingOutcome || ""),
+      unnameableReason: latest.nameEdited ? entry.unnameableReason : (resolved.unnameableReason || ""),
+      namingAcceptancePolicy: latest.nameEdited ? entry.namingAcceptancePolicy : (resolved.namingAcceptancePolicy || null),
+      namingDiagnostics: latest.nameEdited ? entry.namingDiagnostics : (resolved.namingDiagnostics || null),
       matchedSampleIds: latest.nameEdited ? entry.matchedSampleIds : (resolved.matchedSampleIds || []),
       source: latest.nameEdited ? entry.source : (resolved.source || entry.source),
       namingStatus: "done",
@@ -3113,6 +3050,12 @@ document.addEventListener("click", (event) => {
     return;
   }
 
+  const markCatalogCandidatesWrongButton = event.target.closest("[data-mark-catalog-candidates-wrong]");
+  if (markCatalogCandidatesWrongButton) {
+    markCatalogCandidatesWrong(markCatalogCandidatesWrongButton.dataset.markCatalogCandidatesWrong);
+    return;
+  }
+
   const candidateToggle = event.target.closest("[data-candidate-toggle]");
   if (candidateToggle) {
     toggleCandidate(candidateToggle.dataset.candidateToggle);
@@ -3256,6 +3199,15 @@ document.addEventListener("change", async (event) => {
 
   const candidateField = event.target.closest("[data-candidate-field]");
   if (candidateField) {
+    if (candidateField.dataset.field === "name") {
+      const candidate = (state.capture.candidates || []).find((entry) => entry.id === candidateField.dataset.candidateField);
+      if (candidate && String(candidate.name || "").trim() !== String(candidateField.value || "").trim()) {
+        recordNamingFeedback(candidate, "manual-name", {
+          customName: String(candidateField.value || "").trim(),
+          noCandidateMatch: true,
+        });
+      }
+    }
     updateCandidate(candidateField.dataset.candidateField, candidateField.dataset.field, candidateField.value);
     return;
   }
@@ -3334,6 +3286,45 @@ document.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("beforeunload", stopCamera);
+
+window.__homeMemoryBenchmarkSiglip = async function benchmarkSiglipRuntime(options = {}) {
+  if (!platform.vision.canBenchmarkNativeRegionEmbedding?.()) {
+    throw new Error("当前环境没有可用的 native SigLIP benchmark 插件。");
+  }
+  const image = options.image || state.capture.image;
+  if (!image) throw new Error("当前没有可 benchmark 的图片。");
+  const candidates = Array.isArray(options.candidates)
+    ? options.candidates
+    : (state.capture.candidates || []);
+  const regions = Array.isArray(options.regions) && options.regions.length
+    ? options.regions
+    : candidates
+      .map((candidate) => candidate.modelBox || candidate.box)
+      .filter((box) => box && Number(box.w) > 0 && Number(box.h) > 0);
+  if (!regions.length) throw new Error("当前没有可 benchmark 的主体框。");
+  const result = await platform.vision.benchmarkImageRegions({
+    model: options.model || visionConfig.catalogModel,
+    image,
+    regions,
+    indexPath: options.indexPath || visionConfig.catalogIndexPackage,
+    topK: Number(options.topK || visionConfig.catalogTopK || 5),
+    batchSizes: options.batchSizes || [1, 2, 4, 8, 12, 16],
+    repeats: Number(options.repeats || 3),
+  });
+  console.table((result.rows || []).map((row) => ({
+    batch: row.batchSize,
+    repeat: row.repeat,
+    decode: row.decodeMs,
+    preprocess: row.preprocessMs,
+    inference: row.inferenceMs,
+    post: row.postprocessMs,
+    search: row.searchMs,
+    total: row.totalMs,
+    perItem: row.perItemMs,
+    index: row.indexFormat,
+  })));
+  return result;
+};
 
 render();
 performSearch();

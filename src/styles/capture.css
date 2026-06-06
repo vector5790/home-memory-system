@@ -1054,6 +1054,34 @@
   font-size: 12px;
 }
 
+.candidate-runtime-diagnostics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.candidate-runtime-diagnostics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  max-width: 100%;
+  border: 1px solid rgba(154, 132, 82, 0.28);
+  border-radius: 6px;
+  padding: 0 7px;
+  background: rgba(250, 247, 238, 0.82);
+  color: #5d574b;
+  font-size: 11px;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.candidate-runtime-diagnostics b {
+  color: var(--muted);
+  font-weight: 650;
+}
+
 .candidate-option-bar {
   display: flex;
   flex-wrap: wrap;
@@ -1089,6 +1117,20 @@
 .catalog-candidate-list {
   display: grid;
   gap: 7px;
+}
+
+.catalog-candidate-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.catalog-candidate-actions span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .catalog-candidate-option {
