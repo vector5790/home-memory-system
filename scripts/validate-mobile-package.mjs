@@ -13,8 +13,6 @@ const requiredPackagedFiles = [
   "www/vendor/transformers/ort-wasm-simd-threaded.jsep.mjs",
   "www/vendor/transformers/ort-wasm-simd-threaded.jsep.wasm",
 ];
-const expectedSiglipEntryCount = 3968;
-const expectedSiglipDimension = 768;
 const siglipPackageDir = "data/vision-index-packages/household-cn-grounding-dino-siglip";
 
 async function assertFile(relativePath) {
@@ -34,23 +32,22 @@ async function assertSiglipPackage(publicRoot) {
     `${prefix}/manifest.json`,
     `${prefix}/metadata.json`,
     `${prefix}/vectors.f32`,
-    `${publicRoot}/data/vision-index.household-cn.grounding-dino-siglip.json`,
   ]) {
     await assertFile(file);
   }
   const manifest = await readJson(`${prefix}/manifest.json`);
   const metadata = await readJson(`${prefix}/metadata.json`);
-  const fallback = await readJson(`${publicRoot}/data/vision-index.household-cn.grounding-dino-siglip.json`);
   const vectorInfo = await stat(path.join(root, `${prefix}/vectors.f32`));
-  const expectedVectorBytes = expectedSiglipEntryCount * expectedSiglipDimension * 4;
+  const expectedEntryCount = Number(manifest.entryCount);
+  const expectedDimension = Number(manifest.dimension);
+  const expectedVectorBytes = expectedEntryCount * expectedDimension * 4;
   if (
-    Number(manifest.entryCount) !== expectedSiglipEntryCount
-    || Number(manifest.dimension) !== expectedSiglipDimension
-    || metadata.entries?.length !== expectedSiglipEntryCount
-    || fallback.entries?.length !== expectedSiglipEntryCount
+    !Number.isFinite(expectedEntryCount)
+    || !Number.isFinite(expectedDimension)
+    || metadata.entries?.length !== expectedEntryCount
     || vectorInfo.size !== expectedVectorBytes
   ) {
-    throw new Error(`${publicRoot} SigLIP package mismatch: manifest=${manifest.entryCount}/${manifest.dimension}, metadata=${metadata.entries?.length || 0}, fallback=${fallback.entries?.length || 0}, vectors=${vectorInfo.size}`);
+    throw new Error(`${publicRoot} SigLIP package mismatch: manifest=${manifest.entryCount}/${manifest.dimension}, metadata=${metadata.entries?.length || 0}, vectors=${vectorInfo.size}`);
   }
 }
 

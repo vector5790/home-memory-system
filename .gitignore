@@ -25,6 +25,7 @@ data/generated/**/*.jpeg
 data/generated/**/*.png
 data/generated/**/*.webp
 data/generated/**/*.gif
+data/vision-index.household-cn.grounding-dino-siglip.json
 fixtures/**/*.jpg
 fixtures/**/*.jpeg
 fixtures/**/*.png
