@@ -14,6 +14,7 @@ export function createCatalogMatcher({
   let catalogClassifierPromise = null;
   let catalogFeatureExtractorPromise = null;
   let catalogIndexPromise = null;
+  let catalogCategoryDisplayPromise = null;
   let catalogIndexWarningShown = false;
   let catalogMaxSupportedBatchSize = Infinity;
   let catalogDirectExtractorUnsupported = false;
@@ -121,9 +122,35 @@ export function createCatalogMatcher({
     return catalogIndexPromise;
   }
 
+  async function getCatalogCategoryDisplayMap() {
+    if (!catalogCategoryDisplayPromise) {
+      catalogCategoryDisplayPromise = fetchJsonIndex(visionConfig.detectionTaxonomy)
+        .then((taxonomy) => {
+          const map = new Map();
+          for (const category of Array.isArray(taxonomy?.categories) ? taxonomy.categories : []) {
+            const id = String(category?.id || "");
+            if (!id) continue;
+            const displayPath = Array.isArray(category.displayPath) ? category.displayPath.filter(Boolean) : [];
+            const displayName = category.displayName || displayPath[displayPath.length - 1] || id;
+            map.set(id, {
+              displayName,
+              displayPath,
+              appCategory: category.appCategory || "",
+              lineage: category.lineage || {},
+              aliases: Array.isArray(category.aliases) ? category.aliases : [],
+            });
+          }
+          return map;
+        })
+        .catch(() => new Map());
+    }
+    return catalogCategoryDisplayPromise;
+  }
+
   async function loadCatalogEmbeddingIndex() {
     const startedAt = performance.now();
-    const packageIndex = await loadCatalogIndexPackage(visionConfig.catalogIndexPackage).catch((error) => {
+    const categoryDisplayMap = await getCatalogCategoryDisplayMap();
+    const packageIndex = await loadCatalogIndexPackage(visionConfig.catalogIndexPackage, { categoryDisplayMap }).catch((error) => {
       if (visionConfig.catalogIndexPackage) console.info("Catalog package index unavailable, using legacy index.", error);
       return null;
     });
@@ -148,6 +175,7 @@ export function createCatalogMatcher({
     const normalizedPrimary = normalizeCatalogEmbeddingIndex(primary, primaryUrl, {
       nativeIndexPath: primary?.sourceIndex || visionConfig.catalogIndex,
       metadataOnly: canUseNativeMetadata,
+      categoryDisplayMap,
     });
     if (normalizedPrimary.entries.length) {
       catalogIndexTiming = {
@@ -159,7 +187,7 @@ export function createCatalogMatcher({
     }
 
     const fallback = await fetchJsonIndex(visionConfig.catalogIndexFallback).catch(() => null);
-    const normalizedFallback = normalizeCatalogEmbeddingIndex(fallback, visionConfig.catalogIndexFallback);
+    const normalizedFallback = normalizeCatalogEmbeddingIndex(fallback, visionConfig.catalogIndexFallback, { categoryDisplayMap });
     catalogIndexTiming = {
       source: normalizedFallback.entries.length ? "fallback" : "empty",
       entries: normalizedFallback.entries.length,
@@ -198,7 +226,7 @@ export function createCatalogMatcher({
     return response.arrayBuffer();
   }
 
-  async function loadCatalogIndexPackage(packageUrl = "") {
+  async function loadCatalogIndexPackage(packageUrl = "", options = {}) {
     const packageManifestUrl = normalizeCatalogPackageManifestUrl(packageUrl);
     if (!packageManifestUrl) return null;
     const pointerOrManifest = await fetchJsonIndex(packageManifestUrl);
@@ -238,7 +266,7 @@ export function createCatalogMatcher({
       topK: Math.max(1, Math.round(Number(manifest.search?.topK || visionConfig.catalogTopK))),
     };
     const entries = rawEntries
-      .map((entry) => normalizeCatalogIndexEntry(entry, index))
+      .map((entry) => normalizeCatalogIndexEntry(entry, index, options))
       .filter(Boolean);
     if (entries.length !== rawEntries.length) {
       throw new Error(`catalog-package-metadata-filtered:${entries.length}/${rawEntries.length}`);
@@ -303,7 +331,7 @@ export function createCatalogMatcher({
     const entries = Array.isArray(index?.entries)
       ? index.entries
         .filter((entry) => options.metadataOnly || (Array.isArray(entry.embedding) && entry.embedding.length))
-        .map((entry) => normalizeCatalogIndexEntry(entry, index))
+        .map((entry) => normalizeCatalogIndexEntry(entry, index, options))
         .filter(Boolean)
       : [];
     const normalized = {
@@ -323,21 +351,27 @@ export function createCatalogMatcher({
     return normalized;
   }
 
-  function normalizeCatalogIndexEntry(entry, index) {
+  function normalizeCatalogIndexEntry(entry, index, options = {}) {
     const legacyItem = entry.itemId ? visionCatalog.find((catalogItem) => catalogItem.id === entry.itemId) : null;
     const categoryId = entry.categoryId || entry.itemId || legacyItem?.id || "";
-    const name = entry.displayName || entry.name || legacyItem?.name || "";
-    if (!categoryId || !name) return null;
+    const rawName = entry.displayName || entry.name || "";
+    const categoryDisplay = options.categoryDisplayMap?.get?.(categoryId) || null;
+    const categoryPath = Array.isArray(entry.categoryPath) ? entry.categoryPath : (Array.isArray(entry.path) ? entry.path : []);
+    const displayPath = categoryDisplay?.displayPath?.length ? categoryDisplay.displayPath : categoryPath;
+    const leafName = categoryDisplay?.displayName || legacyItem?.name || displayPath[displayPath.length - 1] || rawName || categoryId;
+    if (!categoryId || !leafName) return null;
     return {
       ...entry,
       categoryId,
       itemId: entry.itemId || categoryId,
-      displayName: name,
-      name,
-      appCategory: entry.appCategory || entry.category || legacyItem?.category || "daily",
-      categoryPath: Array.isArray(entry.categoryPath) ? entry.categoryPath : (Array.isArray(entry.path) ? entry.path : []),
-      lineage: entry.lineage || {},
-      aliases: Array.isArray(entry.aliases) ? entry.aliases : [],
+      displayName: leafName,
+      name: leafName,
+      sampleName: rawName,
+      spuName: entry.spuName || rawName,
+      appCategory: categoryDisplay?.appCategory || entry.appCategory || entry.category || legacyItem?.category || "daily",
+      categoryPath: displayPath,
+      lineage: Object.keys(entry.lineage || {}).length ? entry.lineage : (categoryDisplay?.lineage || {}),
+      aliases: Array.isArray(entry.aliases) && entry.aliases.length ? entry.aliases : (categoryDisplay?.aliases || []),
       entity: normalizeCatalogEntity(entry),
       metric: entry.metric || index?.metric || getCatalogIndexMetric(index),
       dimension: Array.isArray(entry.embedding) ? entry.embedding.length : Number(index?.dimension || 0),
@@ -1292,6 +1326,7 @@ export function createCatalogMatcher({
       const image = {
         id: entry.id,
         sampleId: entry.sampleId || "",
+        sampleName: entry.sampleName || entry.spuName || "",
         score: entry.score,
         sourceImagePath: entry.sourceImagePath || entry.image?.path || "",
         normalizedImagePath: entry.normalizedImagePath || entry.image?.normalizedPath || "",

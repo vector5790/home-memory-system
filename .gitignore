@@ -12,6 +12,9 @@ vendor/models/home-memory/*
 !vendor/models/home-memory/yolox-household-subject/
 vendor/models/home-memory/yolox-household-subject/*
 !vendor/models/home-memory/yolox-household-subject/model.onnx
+!vendor/models/home-memory/yolox-household-subject/policy/
+!vendor/models/home-memory/yolox-household-subject/policy/deploy_policy.json
+!vendor/models/home-memory/yolox-household-subject/policy/manifest.json
 .DS_Store
 Thumbs.db
 *.log

@@ -60,7 +60,7 @@ export const categoryLabels = {
 };
 
 export const visionConfig = {
-  appVersion: "20260531-yolox-household-subject-user-model",
+  appVersion: "20260607-yolox-tiny-v31-scene-policy-r90",
   assetVersion: "20260519-grounded-sam",
   remoteTransformersModule: "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2",
   localTransformersModule: "/vendor/transformers/transformers.min.js",
@@ -69,8 +69,8 @@ export const visionConfig = {
   localManifest: "/vendor/vision-manifest.json",
   localModelPath: "/vendor/models/",
   yoloxModelPath: "/vendor/models/home-memory/yolox-household-subject/model.onnx",
-  yoloxInputSize: 416,
-  yoloxThreshold: 0.12,
+  yoloxInputSize: 640,
+  yoloxThreshold: 0.02,
   yoloxNmsIou: 0.45,
   allowRemoteVisionModels: false,
   detectionTaxonomy: "/data/vision-categories.household.json",

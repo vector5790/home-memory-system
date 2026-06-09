@@ -51,7 +51,7 @@ async function copyPath(relativePath) {
   const target = path.join(outDir, relativePath);
   if (!existsSync(source)) return false;
   await mkdir(path.dirname(target), { recursive: true });
-  await cp(source, target, { recursive: true });
+  await cp(source, target, { recursive: true, dereference: true });
   return true;
 }
 

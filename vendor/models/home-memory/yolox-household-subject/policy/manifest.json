@@ -1,0 +1,21 @@
+﻿{
+    "name":  "home-memory-yolox-tiny-v31-scene-policy-r90",
+    "policy":  "deploy_policy.json",
+    "createdAt":  "2026-06-07T08:49:56.4657850+08:00",
+    "eval":  {
+                 "pred":  5595,
+                 "precision90":  0.2263,
+                 "recall50":  0.7796,
+                 "precision50":  0.5101,
+                 "recall90":  0.3458
+             },
+    "inputSize":  640,
+    "model":  "models/yolox_tiny_household_subject_v31.pt",
+    "baseline":  {
+                     "pred":  5688,
+                     "precision90":  0.2219,
+                     "recall50":  0.7796,
+                     "precision50":  0.5018,
+                     "recall90":  0.3447
+                 }
+}

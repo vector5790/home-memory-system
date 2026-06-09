@@ -1,0 +1,150 @@
+{
+  "name": "home-memory-household-subject-tiny-v31-scene-policy-r90-v1",
+  "status": "deployment_candidate_beats_hybrid_soft_on_gold_v24",
+  "createdAt": "2026-06-06T23:37:57.564328",
+  "model": {
+    "architecture": "YOLOX-tiny",
+    "inputSize": 640,
+    "checkpoint": "E:\\workspace\\yolox-train\\tmp\\home-memory-yolox-runs\\household-subject-tiny-phase3-v31-density-5000-input640-v1\\yolox_tiny_household_subject_v1.pt",
+    "trainDataset": "E:\\workspace\\yolox-train\\tmp\\home-memory-dataset-v31-density-5000-frozen\\COCO"
+  },
+  "runtimePolicy": {
+    "candidateGeneration": {
+      "conf": 0.02,
+      "nms": 0.95
+    },
+    "scenePolicies": {
+      "bathroom_storage": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "bedroom": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "collection_anime_figurine_wall": {
+        "mode": "hard",
+        "iou": 0.45,
+        "score": 0.08,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "collection_badges_pins": {
+        "mode": "hard",
+        "iou": 0.45,
+        "score": 0.08,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "collection_photo_cards": {
+        "mode": "soft",
+        "iou": 0.5,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "entry_storage_shoe_cabinet": {
+        "mode": "hard",
+        "iou": 0.5,
+        "score": 0.14,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "fresh_food_groceries": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "fridge_inside": {
+        "mode": "soft",
+        "iou": 0.55,
+        "score": 0.18,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "game_room_desk": {
+        "mode": "soft",
+        "iou": 0.55,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "kitchen": {
+        "mode": "soft",
+        "iou": 0.55,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "living_room_tv_cabinet": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "misc_household_storage": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "other": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "study_shelf": {
+        "mode": "soft",
+        "iou": 0.6,
+        "score": 0.16,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      },
+      "wardrobe_inside": {
+        "mode": "soft",
+        "iou": 0.65,
+        "score": 0.18,
+        "sigma": 0.5,
+        "inputScore": 0.02
+      }
+    }
+  },
+  "goldEval": {
+    "gold": "E:\\workspace\\yolox-train\\tmp\\home-memory-gold-v24-review-repaired-candidate-with-lowvisible\\COCO",
+    "predCount": 5595,
+    "recall30": 0.8255,
+    "precision30": 0.5401,
+    "recall50": 0.7796,
+    "precision50": 0.5101,
+    "recall90": 0.3458,
+    "precision90": 0.2263,
+    "f50": 0.616692,
+    "f90": 0.273569
+  },
+  "baselineHybridSoftGoldV24": {
+    "predCount": 5688,
+    "recall30": 0.8279,
+    "precision30": 0.5329,
+    "recall50": 0.7796,
+    "precision50": 0.5018,
+    "recall90": 0.3447,
+    "precision90": 0.2219
+  },
+  "artifacts": {
+    "predictions": "E:\\workspace\\yolox-train\\tmp\\home-memory-v31-recall-repair-v1\\scene-policy-search-v1-constrained-r90-gold-v24\\tiny-v31-scene-policy-constrained-r90-gold-v24-predictions.json",
+    "evaluation": "E:\\workspace\\yolox-train\\tmp\\home-memory-v31-recall-repair-v1\\scene-policy-search-v1-constrained-r90-gold-v24\\tiny-v31-scene-policy-constrained-r90-gold-v24-eval.json"
+  },
+  "decision": "Use as the new best tiny deployment candidate unless later training candidate beats it. It preserves R50, improves P50/R90/P90, and reduces prediction count versus hybrid-soft baseline."
+}

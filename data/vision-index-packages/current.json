@@ -1,19 +1,19 @@
 {
   "kind": "home-memory-current-vision-index-package",
   "packageId": "household-cn-grounding-dino-siglip",
-  "sourcePackageId": "household-cn-siglip-batch-006b-noregress",
-  "version": "household-cn-siglip-batch-006b-household-kitchen-tools-noregress",
+  "sourcePackageId": "household-cn-siglip-batch-006b-noregress-cabinet-gdino-v1",
+  "version": "household-cn-siglip-batch-006b-noregress-plus-cabinet-gdino-v1-noregress",
   "embeddingModel": "Xenova/siglip-base-patch16-224",
-  "entryCount": 5640,
+  "entryCount": 5738,
   "dimension": 768,
   "metric": "max-inner-product",
   "normalized": true,
   "manifestPath": "data/vision-index-packages/household-cn-grounding-dino-siglip/manifest.json",
   "sourceRepo": "/Users/guzeyu/workspace/home-memory-item-embedding",
   "sourcePackageDir": "/Users/guzeyu/workspace/home-memory-item-embedding/data/packages/household-cn-grounding-dino-siglip",
-  "syncedAt": "2026-06-07T00:50:48.405Z",
+  "syncedAt": "2026-06-09T14:50:03.918Z",
   "checksums": {
-    "metadataSha256": "d664a58a8b3510615d4841af28e38cca4ad3698caf70322a054f1ce5b6eabce6",
-    "vectorsSha256": "90d723e4f6bb740b3a1bb5dbfab693ef8efa48b5e236de43816b1c282a8f69e9"
+    "metadataSha256": "4a7b0b65fea8cbabae7774250610452b7dd1a31e8270ff1b821091f02f350d23",
+    "vectorsSha256": "ad1f32af88c85159fb1858d69cab4af9a7af3db0f37f5928174f4f5652c22019"
   }
 }

@@ -6,7 +6,11 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DEFAULT_PACKAGE_ID = "household-cn-grounding-dino-siglip";
-const DEFAULT_SOURCE_PACKAGE_PATH = path.join("data", "packages", DEFAULT_PACKAGE_ID);
+const DEFAULT_SOURCE_PACKAGE_PATH = path.join(
+  "data",
+  "packages",
+  DEFAULT_PACKAGE_ID,
+);
 const DEFAULT_REPO_CANDIDATES = [
   process.env.HOME_MEMORY_ITEM_EMBEDDING_REPO,
   "/Users/guzeyu/workspace/home-memory-item-embedding",
