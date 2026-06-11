@@ -19,6 +19,14 @@ import { summarizeNamingDiagnostics } from "./recognition-diagnostics.js";
 import { allDayReminderOffsetLabels, categoryLabels, customOffsetUnitLabels, furnitureByRoom, genericDetectionLabels, icons, repeatLabels, timedReminderOffsetLabels, unknownObjectNames, visionCatalog, visionConfig } from "../config/app-config.js";
 
 const STORAGE_KEY = "home-memory-system:v3";
+const NAMING_DEBUG_MODE_KEY = "home-memory-system:catalog-naming-debug-mode";
+const supportedNamingDebugModes = Array.isArray(visionConfig.catalogNamingDebugModes)
+  ? visionConfig.catalogNamingDebugModes
+  : ["nearest-index", "classifier", "fusion"];
+const storedNamingDebugMode = globalThis.localStorage?.getItem(NAMING_DEBUG_MODE_KEY);
+if (supportedNamingDebugModes.includes(storedNamingDebugMode)) {
+  visionConfig.catalogNamingDebugMode = storedNamingDebugMode;
+}
 const platform = createHomeMemoryPlatform({
   storageKey: STORAGE_KEY,
   schemaVersion: HOME_DATA_SCHEMA_VERSION,
@@ -3161,6 +3169,17 @@ document.addEventListener("input", (event) => {
 });
 
 document.addEventListener("change", async (event) => {
+  if (event.target.matches("[data-catalog-naming-debug-mode]")) {
+    const mode = event.target.value;
+    if (supportedNamingDebugModes.includes(mode)) {
+      visionConfig.catalogNamingDebugMode = mode;
+      globalThis.localStorage?.setItem(NAMING_DEBUG_MODE_KEY, mode);
+      showToast(`命名模式：${mode}`);
+      render();
+    }
+    return;
+  }
+
   if (event.target.matches("[data-date-time-hour], [data-date-time-minute]")) {
     const hour = document.querySelector("[data-date-time-hour]")?.value || "09";
     const minute = document.querySelector("[data-date-time-minute]")?.value || "00";
@@ -3324,6 +3343,16 @@ window.__homeMemoryBenchmarkSiglip = async function benchmarkSiglipRuntime(optio
     index: row.indexFormat,
   })));
   return result;
+};
+
+window.__homeMemorySetNamingDebugMode = function setNamingDebugMode(mode) {
+  if (!supportedNamingDebugModes.includes(mode)) {
+    throw new Error(`Unsupported naming debug mode: ${mode}`);
+  }
+  visionConfig.catalogNamingDebugMode = mode;
+  globalThis.localStorage?.setItem(NAMING_DEBUG_MODE_KEY, mode);
+  render();
+  return mode;
 };
 
 render();

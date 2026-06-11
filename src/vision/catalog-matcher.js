@@ -15,6 +15,7 @@ export function createCatalogMatcher({
   let catalogFeatureExtractorPromise = null;
   let catalogIndexPromise = null;
   let catalogCategoryDisplayPromise = null;
+  let leafClassifierPromise = null;
   let catalogIndexWarningShown = false;
   let catalogMaxSupportedBatchSize = Infinity;
   let catalogDirectExtractorUnsupported = false;
@@ -145,6 +146,60 @@ export function createCatalogMatcher({
         .catch(() => new Map());
     }
     return catalogCategoryDisplayPromise;
+  }
+
+  async function getLeafClassifier() {
+    if (!visionConfig.leafClassifierEnabled || !visionConfig.leafClassifier) return null;
+    if (!leafClassifierPromise) {
+      leafClassifierPromise = Promise.all([
+        fetchJsonIndex(visionConfig.leafClassifier),
+        getCatalogCategoryDisplayMap(),
+      ])
+        .then(([classifier, categoryDisplayMap]) => normalizeLeafClassifier(classifier, categoryDisplayMap))
+        .catch((error) => {
+          console.info("Leaf category classifier unavailable.", error);
+          return null;
+        });
+    }
+    return leafClassifierPromise;
+  }
+
+  function normalizeLeafClassifier(classifier, categoryDisplayMap = new Map()) {
+    if (classifier?.kind !== "vision-leaf-category-classifier") return null;
+    const dimension = Number(classifier.dimension || 0);
+    const prototypes = Array.isArray(classifier.prototypes) ? classifier.prototypes : [];
+    if (!dimension || !prototypes.length) return null;
+    const labels = prototypes
+      .map((prototype, index) => {
+        const vector = Array.isArray(prototype.vector) ? normalizeVector(prototype.vector) : null;
+        const categoryId = String(prototype.categoryId || "");
+        if (!categoryId || !vector?.length || vector.length !== dimension) return null;
+        const categoryDisplay = categoryDisplayMap.get(categoryId) || null;
+        const displayPath = categoryDisplay?.displayPath?.length ? categoryDisplay.displayPath : [];
+        const displayName = categoryDisplay?.displayName || prototype.zhName || prototype.displayName || displayPath[displayPath.length - 1] || categoryId;
+        return {
+          labelId: prototype.labelId ?? index,
+          categoryId,
+          displayName,
+          appCategory: categoryDisplay?.appCategory || prototype.appCategory || "daily",
+          categoryPath: displayPath,
+          lineage: categoryDisplay?.lineage || {},
+          aliases: Array.isArray(prototype.aliases) ? prototype.aliases : (categoryDisplay?.aliases || []),
+          trainSampleCount: Number(prototype.trainSampleCount || 0),
+          prototypeId: prototype.prototypeId || "",
+          vector,
+        };
+      })
+      .filter(Boolean);
+    if (!labels.length) return null;
+    return {
+      kind: classifier.kind,
+      version: classifier.version || "",
+      modelType: classifier.modelType || "",
+      embeddingModel: classifier.embeddingModel || "",
+      dimension,
+      labels,
+    };
   }
 
   async function loadCatalogEmbeddingIndex() {
@@ -864,6 +919,8 @@ export function createCatalogMatcher({
       categoryCluster: leaf.categoryCluster,
       score: roundNumber(leaf.score, 4),
       embeddingScore: roundNumber(leaf.embeddingScore ?? leaf.score, 4),
+      classifierScore: roundNumber(leaf.classifierScore || 0, 4),
+      fusionScore: roundNumber(leaf.fusionScore || 0, 4),
       rerankTextScore: roundNumber(leaf.rerankTextScore || 0, 4),
       rerankPrompt: leaf.rerankPrompt || "",
       bestScore: roundNumber(leaf.bestScore, 4),
@@ -872,6 +929,152 @@ export function createCatalogMatcher({
       entity: leaf.entity,
       matchedSampleIds: leaf.matchedSampleIds,
       representativeImages: leaf.representativeImages,
+    };
+  }
+
+  function getCatalogNamingDebugMode() {
+    const configured = String(visionConfig.catalogNamingDebugMode || "nearest-index");
+    const supported = Array.isArray(visionConfig.catalogNamingDebugModes)
+      ? visionConfig.catalogNamingDebugModes
+      : ["nearest-index", "classifier", "fusion"];
+    return supported.includes(configured) ? configured : "nearest-index";
+  }
+
+  function rankLeafClassifier(classifier, embedding) {
+    if (!classifier || classifier.dimension !== embedding.length) return [];
+    const query = embedding instanceof Float32Array ? embedding : Float32Array.from(embedding);
+    const top = [];
+    const limit = Math.max(3, Number(visionConfig.leafClassifierTopK) || Number(visionConfig.catalogTopK) || 5);
+    for (const label of classifier.labels) {
+      let score = 0;
+      const vector = label.vector;
+      for (let dim = 0; dim < classifier.dimension; dim += 1) score += query[dim] * vector[dim];
+      insertTopEntry(top, label, score, limit);
+    }
+    return top.map(({ entry, score }) => ({
+      ...entry,
+      score,
+      classifierScore: score,
+      embeddingScore: 0,
+      bestScore: score,
+      averageScore: score,
+      hitCount: Math.max(1, Number(entry.trainSampleCount || 1)),
+      matchedSampleIds: [],
+      representativeImages: [],
+      categoryCluster: getCatalogClusterForCategory(entry.categoryId, entry.categoryPath, entry.lineage),
+      entity: {},
+      promptedLabels: [],
+    }));
+  }
+
+  function combineFusionLeaves(nearestLeaves, classifierLeaves) {
+    const nearestWeight = Number(visionConfig.leafClassifierFusionIndexWeight ?? 0.42);
+    const classifierWeight = Number(visionConfig.leafClassifierFusionWeight ?? 0.58);
+    const byCategory = new Map();
+    for (const leaf of nearestLeaves || []) {
+      byCategory.set(leaf.categoryId, {
+        ...leaf,
+        embeddingScore: Number(leaf.score) || 0,
+        classifierScore: 0,
+      });
+    }
+    for (const leaf of classifierLeaves || []) {
+      const current = byCategory.get(leaf.categoryId);
+      if (current) {
+        current.classifierScore = Math.max(Number(current.classifierScore) || 0, Number(leaf.score) || 0);
+        current.trainSampleCount = leaf.trainSampleCount || current.trainSampleCount || 0;
+      } else {
+        byCategory.set(leaf.categoryId, {
+          ...leaf,
+          embeddingScore: 0,
+          classifierScore: Number(leaf.score) || 0,
+        });
+      }
+    }
+    return [...byCategory.values()]
+      .map((leaf) => {
+        const fusionScore = ((Number(leaf.embeddingScore) || 0) * nearestWeight)
+          + ((Number(leaf.classifierScore) || 0) * classifierWeight);
+        return {
+          ...leaf,
+          score: fusionScore,
+          fusionScore,
+        };
+      })
+      .sort((a, b) => b.score - a.score);
+  }
+
+  function buildCatalogMatchFromRankedLeaves({
+    rankedLeaves,
+    nearestLeaves,
+    classifierLeaves,
+    fusionLeaves,
+    mode,
+    index,
+    ocrText,
+    cropRect,
+    cropMs,
+    embeddingMs,
+    embeddingTimings,
+    startedAt,
+    searchStartedAt,
+    catalogEntries,
+  }) {
+    const best = rankedLeaves[0];
+    const runnerUp = rankedLeaves.find((entry) => entry.categoryId !== best?.categoryId);
+    const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
+    const policy = getAcceptancePolicy(best, runnerUp, index);
+    const catalogTopK = rankedLeaves
+      .slice(0, Math.max(3, Number(visionConfig.catalogTopK) || 10))
+      .map(formatCatalogLeafCandidate);
+    const catalogCandidates = catalogTopK.slice(0, 3);
+    const rejectionReason = !best
+      ? "no-catalog-candidate"
+      : best.score < policy.score
+        ? "below-threshold"
+        : margin < policy.margin
+          ? "low-margin"
+          : policy.candidateByDefault && (best.rerankTextScore || 0) < policy.rerankTextScore
+            ? policy.candidateReason
+          : "";
+    const accepted = !rejectionReason;
+    const debugAb = {
+      mode,
+      nearestIndexTopK: (nearestLeaves || []).slice(0, 5).map(formatCatalogLeafCandidate),
+      classifierTopK: (classifierLeaves || []).slice(0, 5).map(formatCatalogLeafCandidate),
+      fusionTopK: (fusionLeaves || []).slice(0, 5).map(formatCatalogLeafCandidate),
+    };
+    return {
+      accepted,
+      name: accepted ? best.displayName : "",
+      category: accepted ? best.appCategory : "",
+      confidence: clampNumber(best?.score || 0, 0, 1),
+      catalogId: accepted ? best.categoryId : "",
+      categoryId: accepted ? best.categoryId : "",
+      categoryPath: accepted ? best.categoryPath : [],
+      categoryScore: best?.score || 0,
+      categoryMargin: margin,
+      categoryCluster: best?.categoryCluster || null,
+      ocrText,
+      namingAcceptancePolicy: policy,
+      catalogCandidates,
+      catalogTopK,
+      debugAb,
+      namingRejectionReason: rejectionReason,
+      categoryIndexVersion: index.version || "",
+      matchedSampleIds: best?.matchedSampleIds || [],
+      timings: {
+        catalogCropMs: cropMs,
+        embeddingMs,
+        ...embeddingTimings,
+        embeddingCropWidth: cropRect.width,
+        embeddingCropHeight: cropRect.height,
+        catalogSearchMs: Math.round((performance.now() - searchStartedAt) * 1000) / 1000,
+        catalogTotalMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
+        catalogEntries,
+        catalogIndexLoadMs: catalogIndexTiming?.loadMs || 0,
+        catalogNamingDebugMode: mode,
+      },
     };
   }
 
@@ -930,7 +1133,7 @@ export function createCatalogMatcher({
     await ensureCatalogSearchValues(index);
     const rankedEntries = findTopCatalogEntries(index, embedding, retrievalTopK);
     const ocrText = options.ocrText || await extractTextWithBrowserDetector(cropImage);
-    const rankedLeaves = await rerankCatalogMatches({
+    const nearestLeaves = await rerankCatalogMatches({
       cropImage,
       leaves: aggregateCatalogMatchesByLeaf(rankedEntries, index),
       index,
@@ -942,57 +1145,34 @@ export function createCatalogMatcher({
         ocrText,
       ].filter(Boolean).join(" "),
     });
-    const best = rankedLeaves[0];
-    const runnerUp = rankedLeaves.find((entry) => entry.categoryId !== best?.categoryId);
-    const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
-    const policy = getAcceptancePolicy(best, runnerUp, index);
-    const catalogTopK = rankedLeaves
-      .slice(0, Math.max(3, Number(visionConfig.catalogTopK) || 10))
-      .map(formatCatalogLeafCandidate);
-    const catalogCandidates = catalogTopK.slice(0, 3);
-    const rejectionReason = !best
-      ? "no-catalog-candidate"
-      : best.score < policy.score
-        ? "below-threshold"
-        : margin < policy.margin
-          ? "low-margin"
-          : policy.candidateByDefault && (best.rerankTextScore || 0) < policy.rerankTextScore
-            ? policy.candidateReason
-          : "";
-    const accepted = !rejectionReason;
-    return {
-      accepted,
-      name: accepted ? best.displayName : "",
-      category: accepted ? best.appCategory : "",
-      confidence: clampNumber(best?.score || 0, 0, 1),
-      catalogId: accepted ? best.categoryId : "",
-      categoryId: accepted ? best.categoryId : "",
-      categoryPath: accepted ? best.categoryPath : [],
-      categoryScore: best?.score || 0,
-      categoryMargin: margin,
-      categoryCluster: best?.categoryCluster || null,
+    const classifier = await getLeafClassifier();
+    const classifierLeaves = rankLeafClassifier(classifier, embedding);
+    const fusionLeaves = combineFusionLeaves(nearestLeaves, classifierLeaves);
+    const mode = getCatalogNamingDebugMode();
+    const rankedLeaves = mode === "classifier"
+      ? classifierLeaves
+      : mode === "fusion"
+        ? fusionLeaves
+        : nearestLeaves;
+    return buildCatalogMatchFromRankedLeaves({
+      rankedLeaves,
+      nearestLeaves,
+      classifierLeaves,
+      fusionLeaves,
+      mode,
+      index,
       ocrText,
-      namingAcceptancePolicy: policy,
-      catalogCandidates,
-      catalogTopK,
-      namingRejectionReason: rejectionReason,
-      categoryIndexVersion: index.version || "",
-      matchedSampleIds: best?.matchedSampleIds || [],
-      timings: {
-        catalogCropMs: cropMs,
-        embeddingMs,
-        ...embeddingTimings,
-        embeddingCropWidth: cropRect.width,
-        embeddingCropHeight: cropRect.height,
-        catalogSearchMs: Math.round((performance.now() - searchStartedAt) * 1000) / 1000,
-        catalogTotalMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
-        catalogEntries: compatibleEntries.length,
-        catalogIndexLoadMs: catalogIndexTiming?.loadMs || 0,
-      },
-    };
+      cropRect,
+      cropMs,
+      embeddingMs,
+      embeddingTimings,
+      startedAt,
+      searchStartedAt,
+      catalogEntries: compatibleEntries.length,
+    });
   }
 
-  async function rankCatalogNativeMatches({ index, nativeMatches, cropImage, cropRect, cropMs, embeddingMs, embeddingTimings, startedAt, options = {} }) {
+  async function rankCatalogNativeMatches({ index, nativeMatches, embedding = null, cropImage, cropRect, cropMs, embeddingMs, embeddingTimings, startedAt, options = {} }) {
     const entryById = index.entryById instanceof Map
       ? index.entryById
       : new Map((index.entries || []).map((entry) => [entry.id, entry]));
@@ -1016,7 +1196,7 @@ export function createCatalogMatcher({
 
     const searchStartedAt = performance.now();
     const ocrText = options.ocrText || await extractTextWithBrowserDetector(cropImage);
-    const rankedLeaves = await rerankCatalogMatches({
+    const nearestLeaves = await rerankCatalogMatches({
       cropImage,
       leaves: aggregateCatalogMatchesByLeaf(rankedEntries, index),
       index,
@@ -1028,54 +1208,31 @@ export function createCatalogMatcher({
         ocrText,
       ].filter(Boolean).join(" "),
     });
-    const best = rankedLeaves[0];
-    const runnerUp = rankedLeaves.find((entry) => entry.categoryId !== best?.categoryId);
-    const margin = best ? best.score - (runnerUp?.score ?? 0) : 0;
-    const policy = getAcceptancePolicy(best, runnerUp, index);
-    const catalogTopK = rankedLeaves
-      .slice(0, Math.max(3, Number(visionConfig.catalogTopK) || 10))
-      .map(formatCatalogLeafCandidate);
-    const catalogCandidates = catalogTopK.slice(0, 3);
-    const rejectionReason = !best
-      ? "no-catalog-candidate"
-      : best.score < policy.score
-        ? "below-threshold"
-        : margin < policy.margin
-          ? "low-margin"
-          : policy.candidateByDefault && (best.rerankTextScore || 0) < policy.rerankTextScore
-            ? policy.candidateReason
-          : "";
-    const accepted = !rejectionReason;
-    return {
-      accepted,
-      name: accepted ? best.displayName : "",
-      category: accepted ? best.appCategory : "",
-      confidence: clampNumber(best?.score || 0, 0, 1),
-      catalogId: accepted ? best.categoryId : "",
-      categoryId: accepted ? best.categoryId : "",
-      categoryPath: accepted ? best.categoryPath : [],
-      categoryScore: best?.score || 0,
-      categoryMargin: margin,
-      categoryCluster: best?.categoryCluster || null,
+    const classifier = await getLeafClassifier();
+    const classifierLeaves = embedding ? rankLeafClassifier(classifier, embedding) : [];
+    const fusionLeaves = combineFusionLeaves(nearestLeaves, classifierLeaves);
+    const mode = getCatalogNamingDebugMode();
+    const rankedLeaves = mode === "classifier" && classifierLeaves.length
+      ? classifierLeaves
+      : mode === "fusion" && fusionLeaves.length
+        ? fusionLeaves
+        : nearestLeaves;
+    return buildCatalogMatchFromRankedLeaves({
+      rankedLeaves,
+      nearestLeaves,
+      classifierLeaves,
+      fusionLeaves,
+      mode,
+      index,
       ocrText,
-      namingAcceptancePolicy: policy,
-      catalogCandidates,
-      catalogTopK,
-      namingRejectionReason: rejectionReason,
-      categoryIndexVersion: index.version || "",
-      matchedSampleIds: best?.matchedSampleIds || [],
-      timings: {
-        catalogCropMs: cropMs,
-        embeddingMs,
-        ...embeddingTimings,
-        embeddingCropWidth: cropRect.width,
-        embeddingCropHeight: cropRect.height,
-        catalogSearchMs: Math.round((performance.now() - searchStartedAt) * 1000) / 1000,
-        catalogTotalMs: Math.round((performance.now() - startedAt) * 1000) / 1000,
-        catalogEntries: index.entries.length,
-        catalogIndexLoadMs: catalogIndexTiming?.loadMs || 0,
-      },
-    };
+      cropRect,
+      cropMs,
+      embeddingMs,
+      embeddingTimings,
+      startedAt,
+      searchStartedAt,
+      catalogEntries: index.entries.length,
+    });
   }
 
   async function matchCatalogFromEmbeddingIndex(source, box, options = {}) {
@@ -1148,6 +1305,7 @@ export function createCatalogMatcher({
           return rankCatalogNativeMatches({
             index,
             nativeMatches: result.nativeMatches,
+            embedding,
             cropImage: batchOptions.sourceImage || source,
             cropRect,
             cropMs: 0,

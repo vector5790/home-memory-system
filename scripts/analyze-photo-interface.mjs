@@ -10,6 +10,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SIGLIP_MODEL = "Xenova/siglip-base-patch16-224";
 const DEFAULT_INDEX_PACKAGE = "data/vision-index-packages/household-cn-grounding-dino-siglip/";
 const DEFAULT_INDEX = "data/vision-index.household-cn.grounding-dino-siglip.json";
+const DEFAULT_LEAF_CLASSIFIER = "data/vision-leaf-classifier.debug.json";
 const DEFAULT_YOLOX = "vendor/models/home-memory/yolox-household-subject/model.onnx";
 
 env.allowLocalModels = true;
@@ -424,6 +425,92 @@ function aggregateMatches(matches) {
   }).sort((a, b) => b.score - a.score);
 }
 
+async function loadLeafClassifier(filePath = DEFAULT_LEAF_CLASSIFIER) {
+  if (!filePath) return null;
+  const classifier = await readJson(filePath).catch(() => null);
+  if (classifier?.kind !== "vision-leaf-category-classifier") return null;
+  const dimension = Number(classifier.dimension || 0);
+  const labels = (Array.isArray(classifier.prototypes) ? classifier.prototypes : [])
+    .map((prototype, index) => {
+      const vector = Array.isArray(prototype.vector) ? normalizeVector(prototype.vector) : null;
+      const categoryId = String(prototype.categoryId || "");
+      if (!dimension || !categoryId || !vector?.length || vector.length !== dimension) return null;
+      return {
+        labelId: prototype.labelId ?? index,
+        categoryId,
+        displayName: prototype.zhName || prototype.displayName || prototype.name || categoryId,
+        appCategory: prototype.appCategory || "daily",
+        categoryPath: Array.isArray(prototype.categoryPath) ? prototype.categoryPath : [],
+        trainSampleCount: Number(prototype.trainSampleCount || 0),
+        prototypeId: prototype.prototypeId || "",
+        vector,
+      };
+    })
+    .filter(Boolean);
+  if (!labels.length) return null;
+  return {
+    kind: classifier.kind,
+    version: classifier.version || "",
+    modelType: classifier.modelType || "",
+    embeddingModel: classifier.embeddingModel || "",
+    dimension,
+    labels,
+    sourcePath: filePath,
+  };
+}
+
+function rankLeafClassifier(classifier, embedding, topK) {
+  if (!classifier || classifier.dimension !== embedding.length) return [];
+  const limit = Math.max(3, Number(topK || 5));
+  const top = [];
+  for (const label of classifier.labels) {
+    const score = dot(embedding, label.vector, 0, classifier.dimension);
+    if (top.length && score <= top[top.length - 1].score && top.length >= limit) continue;
+    let insertAt = top.length;
+    while (insertAt > 0 && score > top[insertAt - 1].score) insertAt -= 1;
+    top.splice(insertAt, 0, { label, score });
+    if (top.length > limit) top.length = limit;
+  }
+  return top.map(({ label, score }) => ({
+    categoryId: label.categoryId,
+    displayName: label.displayName,
+    appCategory: label.appCategory,
+    categoryPath: label.categoryPath,
+    score: round(score, 4),
+    classifierScore: round(score, 4),
+    embeddingScore: 0,
+    bestScore: round(score, 4),
+    averageScore: round(score, 4),
+    hitCount: Math.max(1, Number(label.trainSampleCount || 1)),
+    representativeImages: [],
+    matchedSampleIds: [],
+  }));
+}
+
+function combineFusionLeaves(nearestLeaves, classifierLeaves, options = {}) {
+  const nearestWeight = Number(options.indexWeight ?? 0.42);
+  const classifierWeight = Number(options.classifierWeight ?? 0.58);
+  const byCategory = new Map();
+  for (const leaf of nearestLeaves || []) {
+    byCategory.set(leaf.categoryId, {
+      ...leaf,
+      embeddingScore: Number(leaf.score) || 0,
+      classifierScore: 0,
+    });
+  }
+  for (const leaf of classifierLeaves || []) {
+    const current = byCategory.get(leaf.categoryId);
+    if (current) current.classifierScore = Math.max(Number(current.classifierScore) || 0, Number(leaf.score) || 0);
+    else byCategory.set(leaf.categoryId, { ...leaf, embeddingScore: 0, classifierScore: Number(leaf.score) || 0 });
+  }
+  return [...byCategory.values()]
+    .map((leaf) => {
+      const score = round(((Number(leaf.embeddingScore) || 0) * nearestWeight) + ((Number(leaf.classifierScore) || 0) * classifierWeight), 4);
+      return { ...leaf, score, fusionScore: score };
+    })
+    .sort((a, b) => b.score - a.score);
+}
+
 function rankCatalog(embedding, entries, index, topK) {
   const retrievalLimit = Math.max(Number(index.topK || 0), 80, topK);
   let ranked = [];
@@ -466,6 +553,7 @@ function rankCatalog(embedding, entries, index, topK) {
     namingRejectionReason: rejectionReason,
     catalogTopK: leaves.slice(0, topK),
     catalogCandidates: leaves.slice(0, 3),
+    nearestIndexTopK: leaves.slice(0, topK),
   };
 }
 
@@ -475,12 +563,46 @@ async function nameDetections(rawImage, detections, index, options) {
   const extractor = await pipeline("image-feature-extraction", embeddingModel, { dtype: "q8" });
   const modelLoadMs = elapsedMs(loadStartedAt);
   const entries = index.entries || [];
+  const classifier = options.classifier || null;
+  const namingMode = ["nearest-index", "classifier", "fusion"].includes(options.namingMode)
+    ? options.namingMode
+    : "nearest-index";
   const results = [];
   for (const detection of detections) {
     const subjectStartedAt = performance.now();
     const embedded = await embedCrop(extractor, rawImage, detection.box);
     const retrievalStartedAt = performance.now();
-    const match = rankCatalog(embedded.embedding, entries, index, options.topK);
+    const nearestMatch = rankCatalog(embedded.embedding, entries, index, options.topK);
+    const classifierLeaves = rankLeafClassifier(classifier, embedded.embedding, options.topK);
+    const fusionLeaves = combineFusionLeaves(nearestMatch.nearestIndexTopK, classifierLeaves, options);
+    const activeLeaves = namingMode === "classifier"
+      ? classifierLeaves
+      : namingMode === "fusion"
+        ? fusionLeaves
+        : nearestMatch.nearestIndexTopK;
+    const activeBest = activeLeaves[0] || nearestMatch.catalogTopK[0] || null;
+    const activeRunnerUp = activeLeaves.find((entry) => entry.categoryId !== activeBest?.categoryId) || null;
+    const activeMargin = activeBest ? round((activeBest.score || 0) - (activeRunnerUp?.score || 0), 4) : 0;
+    const activeAccepted = Boolean(activeBest)
+      && Number(activeBest.score || 0) >= Number(index.threshold ?? index.thresholds?.acceptScore ?? 0.26)
+      && activeMargin >= Number(index.marginThreshold ?? index.thresholds?.acceptMargin ?? 0.03);
+    const match = {
+      ...nearestMatch,
+      accepted: activeAccepted,
+      name: activeBest?.displayName || nearestMatch.name || "",
+      categoryId: activeAccepted ? (activeBest?.categoryId || "") : "",
+      categoryScore: round(activeBest?.score || 0, 4),
+      categoryMargin: activeMargin,
+      namingRejectionReason: activeAccepted ? "" : (!activeBest ? "no-catalog-candidate" : "debug-mode-low-confidence"),
+      catalogTopK: activeLeaves.slice(0, options.topK),
+      catalogCandidates: activeLeaves.slice(0, 3),
+      debugAb: {
+        mode: namingMode,
+        nearestIndexTopK: nearestMatch.nearestIndexTopK.slice(0, 5),
+        classifierTopK: classifierLeaves.slice(0, 5),
+        fusionTopK: fusionLeaves.slice(0, 5),
+      },
+    };
     const retrievalMs = elapsedMs(retrievalStartedAt);
     results.push({
       ...detection,
@@ -497,10 +619,12 @@ async function nameDetections(rawImage, detections, index, options) {
         subjectId: detection.id,
         sourceImageId: options.sourceImageId,
         detectionProvider: "local-yolox-household-subject",
-        namingProvider: index.kind === "vision-index-package" ? "node-cli-yolox-siglip-package" : "node-cli-yolox-embedding-index",
+        namingProvider: `node-cli-${namingMode}`,
         embeddingModel,
         indexVersion: index.version || "",
+        classifierVersion: classifier?.version || "",
         subjectBox: detection.box,
+        debugAb: match.debugAb,
         top3: match.catalogCandidates,
         topK: match.catalogTopK,
         score: match.categoryScore,
@@ -530,6 +654,7 @@ async function main() {
   const outputDir = path.dirname(output);
   const decodedImage = ensureDecodedImage(image, outputDir);
   const index = await loadCatalogIndex(args);
+  const classifier = await loadLeafClassifier(args.leafClassifier || DEFAULT_LEAF_CLASSIFIER);
   const startedAt = performance.now();
   const detection = await runYolox(decodedImage, {
     modelPath: resolveRoot(args.yoloxModel || DEFAULT_YOLOX),
@@ -541,6 +666,10 @@ async function main() {
   const naming = await nameDetections(detection.rawImage, detection.detections, index, {
     topK: Number(args.topK || 5),
     sourceImageId: path.basename(image),
+    classifier,
+    namingMode: args.namingMode || "nearest-index",
+    classifierWeight: Number(args.classifierWeight ?? 0.58),
+    indexWeight: Number(args.indexWeight ?? 0.42),
   });
   const payload = {
     kind: "photo-analysis-interface-result",
@@ -561,6 +690,9 @@ async function main() {
       indexVersion: index.version || "",
       indexDimension: index.dimension || 0,
       indexMetric: index.metric || "",
+      classifier: classifier?.sourcePath || "",
+      classifierVersion: classifier?.version || "",
+      namingMode: args.namingMode || "nearest-index",
     },
     diagnostics: {
       ...detection.timings,

@@ -122,12 +122,27 @@ export function createCaptureRenderers(deps) {
   }
 
   function renderCaptureControls() {
+    const debugModes = Array.isArray(visionConfig.catalogNamingDebugModes)
+      ? visionConfig.catalogNamingDebugModes
+      : ["nearest-index", "classifier", "fusion"];
+    const currentMode = visionConfig.catalogNamingDebugMode || "nearest-index";
+    const labels = {
+      "nearest-index": "nearest-index",
+      classifier: "classifier",
+      fusion: "fusion",
+    };
     return `
       <div class="capture-controls">
         ${platform.photos.canUseNativePhotoLibrary()
           ? `<button class="secondary-btn" data-native-photo-library>${icons.box}<span>上传照片</span></button>`
           : `<button class="secondary-btn file-input">${icons.box}<span>上传照片</span><input type="file" accept="image/*" data-file-input /></button>`}
         <button class="secondary-btn" data-camera-start>${icons.camera}<span>摄像头</span></button>
+        <label class="capture-debug-select">
+          <span>命名模式</span>
+          <select data-catalog-naming-debug-mode>
+            ${debugModes.map((mode) => `<option value="${escapeHtml(mode)}" ${mode === currentMode ? "selected" : ""}>${escapeHtml(labels[mode] || mode)}</option>`).join("")}
+          </select>
+        </label>
       </div>
     `;
   }
@@ -536,6 +551,7 @@ export function createCaptureRenderers(deps) {
     };
     const rows = [
       ["命名模式", timings.embeddingExtractorMode || timings.embeddingBatchMode || "未知"],
+      ["A/B", formatNamingDebugAb(candidate.namingDiagnostics?.debugAb)],
       ["索引格式", timings.embeddingNativeIndexFormat || "非 native 检索"],
       ["命名耗时", Number.isFinite(Number(timings.namingMs)) ? `${Math.round(Number(timings.namingMs))}ms` : ""],
       ["批次", Number.isFinite(Number(timings.embeddingBatchSize)) ? `${Math.round(Number(timings.embeddingBatchSize))}` : ""],
@@ -552,6 +568,14 @@ export function createCaptureRenderers(deps) {
         `).join("")}
       </div>
     `;
+  }
+
+  function formatNamingDebugAb(debugAb) {
+    if (!debugAb || typeof debugAb !== "object") return "";
+    const topName = (items) => Array.isArray(items) && items[0]
+      ? `${items[0].displayName || items[0].categoryId || "-"} ${Math.round((Number(items[0].score) || 0) * 100)}%`
+      : "-";
+    return `${debugAb.mode || "nearest-index"} · idx ${topName(debugAb.nearestIndexTopK)} · cls ${topName(debugAb.classifierTopK)} · fus ${topName(debugAb.fusionTopK)}`;
   }
 
   function renderCandidate(candidate, activeIndex = 0, total = 1) {

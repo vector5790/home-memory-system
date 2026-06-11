@@ -1350,7 +1350,9 @@ export function createVisionRecognitionPipeline({
       detectionProvider: candidate.providerId || candidate.source || "",
       detectorProvider: candidate.providerId || candidate.source || "",
       detectorModelId: candidate.modelId || "",
-      namingProvider: catalogMatch ? "catalog-embedding-index" : "generic-fallback",
+      namingProvider: catalogMatch?.debugAb?.mode
+        ? `catalog-debug-${catalogMatch.debugAb.mode}`
+        : (catalogMatch ? "catalog-embedding-index" : "generic-fallback"),
       embeddingModel: visionConfig.catalogModel,
       indexVersion: catalogMatch?.categoryIndexVersion || "",
       subjectBox: candidate.box || null,
@@ -1360,6 +1362,7 @@ export function createVisionRecognitionPipeline({
       outcome,
       finalName: catalogMatch?.accepted ? catalogMatch.name : getResolvedCandidateName(candidate, index, catalogMatch),
       finalCategoryId: catalogMatch?.accepted ? (catalogMatch.categoryId || catalogMatch.catalogId || "") : "",
+      debugAb: catalogMatch?.debugAb || null,
       topK,
       top3: candidates.slice(0, 3),
       score: Number(catalogMatch?.categoryScore ?? best?.score ?? 0) || 0,
